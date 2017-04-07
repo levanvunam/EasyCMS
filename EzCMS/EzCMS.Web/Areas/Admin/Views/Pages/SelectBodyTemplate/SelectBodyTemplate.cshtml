@@ -1,0 +1,310 @@
+﻿@model EzCMS.Core.Models.BodyTemplates.BodyTemplateSelectorModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Page_Site_Header");
+    ViewBag.Title = T("Page_Site_SelectBodyTemplateTitle");
+    ViewBag.Description = T("Page_Site_SelectBodyTemplateDescription");
+}
+
+<div class="widget-box">
+    <div class="widget-header widget-header-large">
+        <h4 class="widget-title">Select Body Template</h4>
+
+        <div class="widget-toolbar">
+            <input id="body-template-keywords" class="input-large form-control body-template-keyword" type="text" placeholder="@T("Page_SelectBodyTemplate_Text_SearchInstalledTemplatePlaceholder")" />
+            <input id="online-body-template-keywords" class="input-large form-control body-template-keyword" type="text" placeholder="@T("Page_SelectBodyTemplate_Text_SearchOnlineTemplatePlaceholder")" style="display: none" />
+        </div>
+        <div class="widget-toolbar no-border">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#installed-templates" aria-expanded="false" class="inline">
+                        @T("Page_SelectBodyTemplate_Text_InstalledTemplates")
+                    </a>
+                </li>
+
+                @if (Model.EnableOnlineTemplate)
+                {
+                    <li>
+                        <a data-toggle="tab" href="#online-templates" aria-expanded="false" class="inline">
+                            @T("Page_SelectBodyTemplate_Text_OnlineTemplates")
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-0">
+            <div id="body-templates" class="tab-content padding-4">
+                <div id="installed-templates" class="tab-pane active">
+                    @Html.Partial("SelectBodyTemplate/_InstalledBodyTemplates", Model)
+                </div>
+                @if (Model.EnableOnlineTemplate)
+                {
+                    <div id="online-templates" class="tab-pane">
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="widget-toolbox padding-8 clearfix">
+            <div class="center">
+                <button class="btn btn-sm" onclick="parent.$.fancybox.close();">
+                    <i class="fa fa-times bigger-110"></i>
+                    @T("Page_SelectBodyTemplate_Text_CloseButton")
+                </button>
+                @if (Model.Mode == BodyTemplateEnums.Mode.Edit)
+                {
+                    <button class="btn btn-primary btn-sm" onclick="overrideBodyTemplate() ">
+                        <i class="fa fa-plus bigger-110"></i>
+                        @T("Page_SelectBodyTemplate_Text_OverwriteContentButton")
+                    </button>
+                }
+                else
+                {
+                    <button class="btn btn-sm btn-primary" onclick="skipSelectBodyTemplate()">
+                        <i class="fa fa-forward bigger-110"></i>
+                        @T("Page_SelectBodyTemplate_Text_SkipButton")
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        //Tab change listener
+        var hasInitOnlineTemplate = false;
+        $(document).on('shown.bs.tab', 'a[data-toggle="tab"]', function (e) {
+            var target = $(e.target).attr("href");
+            if (target == "#online-templates") {
+                $("#online-body-template-keywords").show();
+                $("#body-template-keywords").hide();
+
+                if (!hasInitOnlineTemplate) {
+                    hasInitOnlineTemplate = true;
+                    searchOnlineBodyTemplates();
+                }
+            } else {
+                $("#online-body-template-keywords").hide();
+                $("#body-template-keywords").show();
+            }
+        });
+
+
+        /******** Online Template *********/
+
+        //Search online body template
+        function searchOnlineBodyTemplates(keyword) {
+            
+            siteHelper.httpPost({
+                url: '@Url.Action("SearchOnlineBodyTemplates")',
+                data: { keyword: keyword },
+                success: function (response) {
+                    if (response.Success) {
+                        $("#online-templates").html(response.Data);
+                        $('[data-rel=tooltip]').tooltip({ container: 'body' });
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        }
+
+        //Show online preview
+        function showOnlinePreview(id) {
+            siteHelper.showPopup({
+                type: 'iframe',
+                href: "@Url.Action("PreviewOnlineBodyTemplate")/" + id,
+                width: "95%",
+                height: "95%"
+            });
+        }
+
+        //Download online template
+        function downloadOnlineTemplate(id) {
+            siteHelper.prompt("Enter a template name to save this to your templates", function (result) {
+                if (result === null) {
+                    return;
+                } else if (result == "") {
+                    downloadOnlineTemplate(id);
+                } else{
+                    siteHelper.httpPost({
+                        url: '@Url.Action("DownloadOnlineBodyTemplate")/' + id + "?name=" + result,
+                        success: function (response) {
+                            if (response.Success) {
+                                reloadInstalledTemplates();
+
+                                var installedBodyTemplateId = response.Data;
+                                var previewIcon = $(".online-template[data-id=" + id + "] .preview-online-template");
+                                previewIcon.attr("href", "javascript:previewInstalledTemplate(" + installedBodyTemplateId + ")");
+                                
+                                var downloadIcon = $(".online-template[data-id=" + id + "] .download-online-template");
+                                downloadIcon.attr("href", "javascript:void(0)");
+                                downloadIcon.removeClass("btn-warning");
+                                downloadIcon.attr("data-original-title", "This template has been downloaded");
+
+                                var selectIcon = $(".online-template[data-id=" + id + "] .select-online-template");
+                                selectIcon.attr("href", "javascript:selectInstalledTemplate(" + installedBodyTemplateId + ")");
+                                selectIcon.attr("data-original-title", "Select This Template");
+                            }
+                            siteHelper.showMessage(response);
+                        }
+                    });
+                }
+            });
+        }
+
+        //Download and select template
+        function selectOnlineTemplate(id) {
+            siteHelper.prompt("Please enter Template name to save", function (result) {
+                if (result === null) {
+                    return;
+                } else if (result == "") {
+                    downloadOnlineTemplate(id);
+                } else {
+                    siteHelper.httpPost({
+                        url: '@Url.Action("DownloadOnlineBodyTemplate")/' + id + "?name=" + result,
+                        success: function (response) {
+                            if (response.Success) {
+                                var installedBodyTemplateId = response.Data;
+                                selectInstalledTemplate(installedBodyTemplateId);
+                                
+                                var previewIcon = $(".online-template[data-id=" + id + "] .preview-online-template");
+                                previewIcon.attr("href", "previewInstalledTemplate(" + installedBodyTemplateId + ")");
+
+                                var downloadIcon = $(".online-template[data-id=" + id + "] .download-online-template");
+                                downloadIcon.attr("href", "javascript:void(0)");
+                                downloadIcon.removeClass("btn-warning");
+                                downloadIcon.attr("data-original-title", "This template has been downloaded");
+
+                                var selectIcon = $(".online-template[data-id=" + id + "] .select-online-template");
+                                selectIcon.attr("href", "javascript:selectInstalledTemplate(" + installedBodyTemplateId + ")");
+                                selectIcon.attr("data-original-title", "Select This Template");
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        };
+
+        //Double click to select online template
+        $("body").on("dblclick", ".online-template", function () {
+            var id = $(this).data("id");
+            selectOnlineTemplate(id);
+        });
+
+        /******** Installed Template *********/
+
+        //Reload installed templates
+        function reloadInstalledTemplates() {
+            siteHelper.httpPost({
+                showLoading: false,
+                url: '@Url.Action("ReloadInstalledTemplates")',
+                success: function (response) {
+                    if (response.Success) {
+                        $("#installed-templates").html(response.Data);
+                        $('[data-rel=tooltip]').tooltip({ container: 'body' });
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        }
+
+        //Preview installed template
+        function showInstalledPreview(id) {
+            siteHelper.showPopup({
+                type: 'iframe',
+                href: "@Url.Action("Preview", "BodyTemplates")/" + id,
+                width: "95%",
+                height: "95%"
+            });
+        }
+
+        //Double click to select installed template
+        $("body").on("dblclick", ".installed-template", function () {
+            var id = $(this).data("id");
+            selectInstalledTemplate(id);
+        });
+
+        /********** Select body template **********/
+        
+        //Skip select body template
+        function skipSelectBodyTemplate() {
+            parent.siteHelper.createPage(siteHelper.getUrlParam("parentId"));
+        }
+
+        //Select installed template
+        function selectInstalledTemplate(id) {
+            var mode = "@Model.Mode";
+            if (mode == "@BodyTemplateEnums.Mode.Create") {
+                selectBodyTemplateToCreateNewPage(id);
+            } else {
+                overrideBodyTemplate(id);
+            }
+        }
+
+        //Select body template for creating page
+        function selectBodyTemplateToCreateNewPage(bodyTemplateId) {
+            if (bodyTemplateId != null) {
+                parent.siteHelper.createPage(siteHelper.getUrlParam("parentId"), bodyTemplateId);
+            } else {
+                siteHelper.alert("Please select body template.");
+            }
+        }
+
+        //Override current page content with template
+        function overrideBodyTemplate(bodyTemplateId) {
+            if (bodyTemplateId == null) {
+                siteHelper.showWarningMessage("Please select body template");
+            } else {
+                siteHelper.confirm('@T("Page_Message_SelectBodyTemplateConfirm")', function (ok) {
+                    if (ok) {
+                        if (parent.printBodyTemplate) {
+                            parent.printBodyTemplate(bodyTemplateId);
+                        }
+                        parent.$.fancybox.close();
+                    }
+                });
+            }
+        }
+
+        /********** Filter **********/
+
+        // Search filter
+        $("#body-template-keywords").on("input", function () {
+            var keywords = $(this).val().toLowerCase();
+            $(".installed-template").each(function (index, value) {
+                var name = $(this).data("name").toLowerCase();
+                var description = $(this).data("description").toLowerCase();
+
+                if (name.indexOf(keywords) >= 0 || description.indexOf(keywords) >= 0 || keywords == '') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        // Search filter
+        $("#online-body-template-keywords").on("input", function () {
+            var keywords = $(this).val().toLowerCase();
+            $(".online-template").each(function (index, value) {
+                var name = $(this).data("name").toLowerCase();
+                var description = $(this).data("description").toLowerCase();
+
+                if (name.indexOf(keywords) >= 0 || description.indexOf(keywords) >= 0 || keywords == '') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+    </script>
+}

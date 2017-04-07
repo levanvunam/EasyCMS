@@ -1,0 +1,37 @@
+﻿@model EzCMS.Core.Models.Forms.Setup.EmbeddedScriptSetupModel
+@{
+    Layout = "~/Areas/Admin/Views/Forms/_Layout.Setup.cshtml";
+    ViewBag.Title = T("Form_Site_EmbeddedScriptTitle");
+    ViewBag.Description = T("Form_Site_EmbeddedScriptDescription");
+}
+
+<div class="row">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <hr />
+        @ShowStatusMessage()
+        <p>Paste this code on your website</p>
+        <em>Copy following code and paste it into your web page to show your form.</em>
+        @Html.TextAreaFor(m => m.EmbeddedScript, new { id = "EmbeddedScript", @class = "col-xs-12", rows = 6 })
+    </div>
+    <div class="space-24 clear"></div>
+    <div class="form-actions no-margin align-right width-100p">
+        <a href="@Url.Action("BuildForm", new { id = Model.Id})" class="btn btn-success">@T("Form_EmbeddedScript_Text_EditFormButton") <i class="ace-icon fa fa-edit icon-on-right"></i></a>
+        <a href="@Url.Action("Configure", new { id = Model.Id})" class="btn">@T("Form_EmbeddedScript_Text_ConfigureFormButton") <i class="ace-icon fa fa-cogs icon-on-right"></i></a>
+        <a href="@Url.Action("Preview", new { id = Model.Id})" class="btn btn-info">@T("Form_EmbeddedScript_Text_PreviewButton") <i class="ace-icon fa fa-eye icon-on-right"></i></a>
+        <a href="@Url.Action("Index")" class="btn btn-primary">@T("Form_EmbeddedScript_Text_FinishButton") <i class="ace-icon fa fa-check icon-on-right"></i></a>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $("#EmbeddedScript").click(function() {
+            $("#EmbeddedScript").select();
+        });
+        $(function() {
+            $("#EmbeddedScript").focus();
+            $("#EmbeddedScript").select();
+        });
+    </script>
+}

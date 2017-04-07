@@ -1,0 +1,367 @@
+﻿@using Ez.Framework.Configurations
+@using EzCMS.Core.Framework.Configuration
+@model EzCMS.Core.Models.Locations.LocationManageModel
+
+@{
+    Style.Block(
+        @<style type="text/css">
+             #mapCanvas {
+                 height: 400px;
+             }
+        </style>);
+}
+
+@Html.HiddenFor(m => m.Id)
+<div class="col-sm-6 col-xs-12">
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.LocationTypeIds, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.ListBoxFor(m => m.LocationTypeIds, Model.LocationTypes, new { @class = "col-xs-10 multi-select", placeholder = T("Location_Text_SelectLocationTypes") })
+            @Html.HelpTextFor(m => m.LocationTypeIds, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.LocationTypeIds)
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-xs-12">
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.PinImage, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.MediaBrowserFor(m => m.PinImage, MediaEnums.MediaBrowserSelectMode.ComplexImageUpload, new { @class = "col-xs-9" }, FrameworkConstants.MediaPath, EzCMSContants.MediaLocationPath)
+            @Html.HelpTextFor(m => m.PinImage, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.PinImage)
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Location_Text_AddressInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-xs-12 no-padding">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="col-sm-offset-2">
+                        @Html.AceCheckBox("SyncAddressToMap", true, "Sync the address to map")
+                    </div>
+                    <div class="space-8"></div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.AddressLine1, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.AddressLine1, new { @class = "col-xs-10 address-information" })
+                            @Html.HelpTextFor(m => m.AddressLine1, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.AddressLine1)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.AddressLine2, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.AddressLine2, new { @class = "col-xs-10 address-information" })
+                            @Html.HelpTextFor(m => m.AddressLine2, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.AddressLine2)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Suburb, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Suburb, new { @class = "col-xs-10 address-information" })
+                            @Html.HelpTextFor(m => m.Suburb, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Suburb)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.State, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.State, Model.States, T("Location_Text_SelectState"), new { @class = "col-xs-10 single-select address-information" })
+                            @Html.HelpTextFor(m => m.State, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.State)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Postcode, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Postcode, new { @class = "col-xs-10 address-information" })
+                            @Html.HelpTextFor(m => m.Postcode, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Postcode)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Country, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.DropDownListFor(m => m.Country, Model.Countries, T("Location_Text_SelectCountry"), new { @class = "col-xs-10 single-select address-information" })
+                            @Html.HelpTextFor(m => m.Country, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Country)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Latitude, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Latitude, new { @class = "col-xs-10", @readonly = "readonly" })
+                            @Html.HelpTextFor(m => m.Latitude, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Postcode)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Longitude, new { @class = "col-sm-2 control-label" })
+                        <div class="col-sm-10">
+                            @Html.TextBoxFor(m => m.Longitude, new { @class = "col-xs-10", @readonly = "readonly" })
+                            @Html.HelpTextFor(m => m.Longitude, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Longitude)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    @Html.AceCheckBox("SyncAddressFromMap", false, "Sync the address from map")
+                    <div class="space-8"></div>
+                    <div id="mapCanvas" class="col-xs-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Location_Text_ContactInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Email, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Email, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.TimeZone, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.TimeZone, Model.TimeZones, T("Location_Text_SelectTimezone"), new { @class = "col-xs-10 single-select" })
+                        @Html.HelpTextFor(m => m.TimeZone, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.TimeZone)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Phone, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Phone, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Phone, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Phone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Fax, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Fax, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Fax)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Location_Text_OpeningHoursInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.OpeningHoursWeekdays, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.OpeningHoursWeekdays, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.OpeningHoursWeekdays, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.OpeningHoursWeekdays)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.OpeningHoursSaturday, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.OpeningHoursSaturday, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.OpeningHoursSaturday, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.OpeningHoursSaturday)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.OpeningHoursSunday, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.OpeningHoursSunday, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.OpeningHoursSunday, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.OpeningHoursSunday)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Include(Html.GoogleMapFile("places")).Block(@<script type="text/javascript">
+        var geocoder = new google.maps.Geocoder();
+
+        var defaultLatitude = defaultLatitude || Globalize.parseFloat("@EzCMSContants.GoogleMapDefaultLatitude");
+        var defaultLongitude = defaultLongitude || Globalize.parseFloat("@EzCMSContants.GoogleMapDefaultLongitude");
+        var defaultZoom = defaultZoom || @EzCMSContants.GoogleMapDefaultZoom;
+        var defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
+        var marker;
+
+        // Extract address information
+        function extractFromAdress(components, type) {
+            for (var i = 0; i < components.length; i++)
+                for (var j = 0; j < components[i].types.length; j++)
+                    if (components[i].types[j] == type) return components[i];
+            return { long_name: "", short_name: "" };
+        }
+
+        // Define address
+        function geocodePosition(pos) {
+            geocoder.geocode({
+                latLng: pos
+            }, function (responses) {
+                if (responses && responses.length > 0) {
+                    updateMarkerAddress(responses[0].address_components);
+                } else {
+                    //console.log('Cannot determine address at this location.');
+                }
+            });
+        }
+
+        // Update marker position
+        function updateMarkerPosition(latLng) {
+
+            // Parsing lat long data to culture format
+            var latitude = siteHelper.formatFloat(latLng.lat());
+            var longitude = siteHelper.formatFloat(latLng.lng());
+
+            $("#Latitude").val(latitude);
+            $("#Longitude").val(longitude);
+        }
+
+        // Event handler for address info updated
+        $(".address-information").change(function () {
+            if ($("#SyncAddressToMap").is(":checked")) {
+                var addressLine1 = $("#AddressLine1").val();
+                var suburb = $("#Suburb").val();
+                var state = $("#State").val();
+                var postcode = $("#Postcode").val();
+                var country = $("#Country").val();
+
+                var address = addressLine1 + ", " + suburb + " " + state + " " + postcode + ", " + country;
+
+                var position = defaultPosition;
+                var geo = new google.maps.Geocoder;
+                geo.geocode({ 'address': address }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        position = results[0].geometry.location;
+                    } else {
+                        //alert("Geocode was not successful for the following reason: " + status);
+                    }
+
+                    setupMap(position);
+                });
+            }
+        });
+
+        // Update marker address
+        function updateMarkerAddress(data) {
+            if ($("#SyncAddressFromMap").is(":checked")) {
+
+                var streetNumber = extractFromAdress(data, "street_number");
+                var route = extractFromAdress(data, "route");
+                $("#AddressLine1").val(streetNumber.long_name + " " + route.long_name);
+
+                var locality = extractFromAdress(data, "locality");
+                $("#Suburb").val(locality.long_name);
+
+                var administrativeAreaLevel1 = extractFromAdress(data, "administrative_area_level_1");
+                $("#State").select2("val", administrativeAreaLevel1.short_name);
+
+                var country = extractFromAdress(data, "country");
+                $("#Country").select2("val", country.long_name);
+
+                var postalCode = extractFromAdress(data, "postal_code");
+                $("#Postcode").val(postalCode.long_name);
+            }
+        }
+
+        // Init map
+        function initialize() {
+            var latitude = Globalize.parseFloat("@Model.Latitude");
+            var longitude = Globalize.parseFloat("@Model.Longitude");
+            var position;
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                position = new google.maps.LatLng(latitude, longitude);
+                setupMap(position);
+            } else {
+                position = defaultPosition;
+                setupMap(position);
+            }
+        }
+
+        // Setup map
+        function setupMap(latLng) {
+            var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+                zoom: defaultZoom,
+                center: latLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            marker = new google.maps.Marker({
+                position: latLng,
+                title: '@(string.IsNullOrEmpty(Model.Name) ? "Current Location": Model.Name)',
+                map: map,
+                draggable: true
+            });
+
+            updateMarkerPosition(marker.getPosition());
+
+            google.maps.event.addListener(marker, 'drag', function () {
+                updateMarkerPosition(marker.getPosition());
+            });
+
+            google.maps.event.addListener(marker, 'dragend', function () {
+                geocodePosition(marker.getPosition());
+            });
+        }
+
+        // Onload handler to fire off the app
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>);
+}

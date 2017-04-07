@@ -1,0 +1,532 @@
+﻿@model EzCMS.Core.Models.Contacts.ContactManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Contact_Text_ContactInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    @Html.HtmlValidationMessage("Contact")
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.FirstName, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.FirstName, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.FirstName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.LastName, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.LastName, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.LastName)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Email, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Email, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.IsCompanyAdministrator, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.AceCheckBoxFor(m => m.IsCompanyAdministrator)
+                        @Html.HelpTextFor(m => m.IsCompanyAdministrator, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.IsCompanyAdministrator)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Company, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Company, new { id = "Company", @class = "col-xs-10 no-padding" })
+                        @Html.HelpTextFor(m => m.Company, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Company)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Department, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Department, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Department, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Department)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Title, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Title, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Title)
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+</div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Contact_Text_PhoneInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PreferredPhoneNumber, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PreferredPhoneNumber, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PreferredPhoneNumber, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PreferredPhoneNumber)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PhoneWork, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PhoneWork, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PhoneWork, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PhoneWork)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PhoneHome, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PhoneHome, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PhoneHome, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PhoneHome)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.MobilePhone, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.MobilePhone, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.MobilePhone, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.MobilePhone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Fax, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Fax, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Fax)
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Contact_Text_AddressInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-4"></div>
+                <h4 class="widget-title lighter col-sm-8 no-padding">
+                    <span class="contact-header lighter col-sm-5">
+                        @T("Contact_Text_ContactPhysicalTitle")
+                    </span>
+                </h4>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.AddressLine1, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.AddressLine1, new { id = "physicalAddressLine1", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.AddressLine1, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.AddressLine1)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.AddressLine2, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.AddressLine2, new { id = "physicalAddressLine2", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.AddressLine2, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.AddressLine2)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Suburb, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Suburb, new { id = "physicalSuburb", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Suburb, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Suburb)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.State, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.State, new { id = "physicalState", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.State, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.State)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Postcode, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Postcode, new { id = "physicalPostcode", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Postcode, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Postcode)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Country, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.Country, Model.Countries, T("Contact_Text_SelectCountry"), new { id = "physicalCountry", @class = "col-xs-10 single-select" })
+                        @Html.HelpTextFor(m => m.Country, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Country)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="col-sm-4"></div>
+                <h4 class="widget-title lighter col-sm-8 no-padding">
+                    <span class="contact-header lighter col-sm-5">@T("Contact_Text_ContactPostalTitle")</span>
+                    <span class="col-sm-7">
+                        @Html.AceCheckBox("sameAsPhysical", false, "Same as physical", new { id = "sameAsPhysical" })
+                    </span>
+                </h4>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PostalAddressLine1, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PostalAddressLine1, new { id = "postalAddressLine1", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PostalAddressLine1, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PostalAddressLine1)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PostalAddressLine2, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PostalAddressLine2, new { id = "postalAddressLine2", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PostalAddressLine2, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PostalAddressLine2)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PostalSuburb, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PostalSuburb, new { id = "postalSuburb", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PostalSuburb, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PostalSuburb)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PostalState, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PostalState, new { id = "postalState", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PostalState, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PostalState)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PostalPostcode, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.PostalPostcode, new { id = "postalPostcode", @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PostalPostcode, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PostalPostcode)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PostalCountry, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.PostalCountry, Model.Countries, T("Contact_Text_SelectPostalCountry"), new { id = "postalCountry", @class = "col-xs-10 single-select" })
+                        @Html.HelpTextFor(m => m.PostalCountry, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PostalCountry)
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Contact_Text_CommunicationInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Occupation, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Occupation, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Occupation, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Occupation)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Website, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Website, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Website, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Website)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Sex, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.Sex, Model.SexList, new { @class = "col-xs-10 single-select-no-search" })
+                        @Html.HelpTextFor(m => m.Sex, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Sex)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelTimeFor(m => m.DateOfBirth, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.DateOfBirth, new { @Value = ToShortDateString(Model.DateOfBirth), @class = "col-xs-10 date-picker" })
+                        @Html.HelpTextFor(m => m.DateOfBirth, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.DateOfBirth)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.DontSendMarketing, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.AceCheckBoxFor(m => m.DontSendMarketing)
+                        @Html.HelpTextFor(m => m.DontSendMarketing, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.DontSendMarketing)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Unsubscribed, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.AceCheckBoxFor(m => m.Unsubscribed)
+                        @Html.HelpTextFor(m => m.Unsubscribed, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Unsubscribed)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelTimeFor(m => m.UnsubscribeDateTime, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.UnsubscribeDateTime, new { @Value = ToShortDateString(Model.UnsubscribeDateTime), @class = "col-sm-8 datetime-picker col-xs-10" })
+                        @Html.HelpTextFor(m => m.UnsubscribeDateTime, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.UnsubscribeDateTime)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Confirmed, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.AceCheckBoxFor(m => m.Confirmed)
+                        @Html.HelpTextFor(m => m.Confirmed, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Confirmed)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.CRMID, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.CRMID, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.CRMID, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.CRMID)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.SalesPerson, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.SalesPerson, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.SalesPerson, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.SalesPerson)
+                    </div>
+                </div>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Contact_Text_SocialInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Facebook, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Facebook, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Facebook, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Facebook)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Twitter, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.Twitter, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Twitter, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Twitter)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.LinkedIn, new { @class = "col-sm-4 control-label align-right" })
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.LinkedIn, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.LinkedIn, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.LinkedIn)
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $(function () {
+            $("#Company").select2({
+                minimumInputLength: 3,
+                placeholder: " ",
+                allowClear: true,
+                ajax: {
+                    url: "@Url.Action("SearchCompanies", "Companies")",
+                    type: "POST",
+                    dataType: "json",
+                    quietMillis: 50,
+                    data: function (term, page) {
+                        return {
+                            keyword: term
+                        };
+                    },
+                    results: function (response) {
+                        if (response.Success) {
+                            return {
+                                results: $.map(response.Data, function (item) {
+                                    return {
+                                        text: item.Text,
+                                        slug: item.Value,
+                                        id: item.Value
+                                    };
+                                })
+                            };
+                        } else {
+                            siteHelper.showMessage(response.Message);
+                            return [];
+                        }
+                    }
+                },
+                formatSelection: function (item) {
+                    var text = siteHelper.replaceAll(item.text, " - add new", "");
+                    return text;
+                },
+                createSearchChoice: function (term) {
+                    return {
+                        id: term,
+                        text: term + " - add new"
+                    };
+                },
+                initSelection: function (element, callback) {
+                    var currentValue = element.val();
+                    siteHelper.httpPost({
+                        showLoading: false,
+                        url: "@Url.Action("GetSelectCompanies", "Companies")",
+                        data: { companyName: currentValue },
+                        success: function (response) {
+                            var data = {};
+                            if (response.Success && response.Data.length > 0) {
+                                data = { id: response.Data[0].Value, text: response.Data[0].Text };
+                            } else {
+                                data = { id: currentValue, text: currentValue };
+                            }
+                            callback(data);
+                        }
+                    });
+                }
+            });
+        });
+
+        $("#sameAsPhysical").change(function () {
+            if (this.checked) {
+                $("#postalAddressLine1").data('preValue', $("#postalAddressLine1").val());
+                $("#postalAddressLine1").val($("#physicalAddressLine1").val());
+
+                $("#postalAddressLine2").data('preValue', $("#postalAddressLine2").val());
+                $("#postalAddressLine2").val($("#physicalAddressLine2").val());
+
+                $("#postalSuburb").data('preValue', $("#postalSuburb").val());
+                $("#postalSuburb").val($("#physicalSuburb").val());
+
+                $("#postalState").data('preValue', $("#postalState").val());
+                $("#postalState").val($("#physicalState").val());
+
+                $("#postalPostcode").data('preValue', $("#postalPostcode").val());
+                $("#postalPostcode").val($("#physicalPostcode").val());
+
+                $("#postalCountry").data('preValue', $("#postalCountry").val());
+                $("#postalCountry").val($("#physicalCountry").val()).change();
+            }
+            else {
+                if ($("#postalAddressLine1").val() == $("#physicalAddressLine1").val()) {
+                    var preValue = $("#postalAddressLine1").data("preValue");
+                    $("#postalAddressLine1").val(preValue);
+                }
+                if ($("#postalAddressLine2").val() == $("#physicalAddressLine2").val()) {
+                    var preValue = $("#postalAddressLine2").data("preValue");
+                    $("#postalAddressLine2").val(preValue);
+                }
+                if ($("#postalSuburb").val() == $("#physicalSuburb").val()) {
+                    var preValue = $("#postalSuburb").data("preValue");
+                    $("#postalSuburb").val(preValue);
+                }
+                if ($("#postalState").val() == $("#physicalState").val()) {
+                    var preValue = $("#postalState").data("preValue");
+                    $("#postalState").val(preValue);
+                }
+                if ($("#postalPostcode").val() == $("#physicalPostcode").val()) {
+                    var preValue = $("#postalPostcode").data("preValue");
+                    $("#postalPostcode").val(preValue);
+                }
+                if ($("#postalCountry").val() == $("#physicalCountry").val()) {
+                    var preValue = $("#postalCountry").data("preValue");
+                    $("#postalCountry").val(preValue).change();
+                }
+            }
+        });
+    </script>);
+}

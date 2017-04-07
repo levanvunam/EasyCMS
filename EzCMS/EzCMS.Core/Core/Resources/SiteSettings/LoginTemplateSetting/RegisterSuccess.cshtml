@@ -1,0 +1,39 @@
+﻿<div class="main-container">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <div class="center">
+                        <h1>
+                            <i class="fa fa-lock blue"></i>
+                            <span class="red">Login</span>
+                            <span class="light-blue">Page</span>
+                        </h1>
+                    </div>
+
+                    <div class="space-6"></div>
+
+                    <div class="position-relative">
+                        @ShowStatusMessage()
+                        <div id="reset-box" class="visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <h4 class="header red lighter bigger">
+                                        <i class="fa fa-key"></i>
+                                        Register Success
+                                    </h4>
+
+                                    <div class="space-6"></div>
+                                    <p>
+                                        Your account has been created successfully, an email has been sent to you to confirm, please check your mailbox. Please <a href='@Url.Action("Login")'>click here</a> to log in.
+                                    </p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

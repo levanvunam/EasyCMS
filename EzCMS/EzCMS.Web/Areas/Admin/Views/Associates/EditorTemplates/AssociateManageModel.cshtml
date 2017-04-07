@@ -1,0 +1,422 @@
+﻿@using Ez.Framework.Configurations
+@using EzCMS.Core.Framework.Configuration
+@model EzCMS.Core.Models.Associates.AssociateManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="col-sm-6 col-xs-12">
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.Title, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.Title, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Title)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.FirstName, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.FirstName, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.FirstName)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.LastName, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.LastName, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.LastName)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.Email, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Email, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.Email, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.Gender, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.DropDownListFor(m => m.Gender, Model.Genders, new { @class = "col-xs-10 single-select-no-search" })
+            @Html.HelpTextFor(m => m.Gender, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Gender)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.IsNew, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.AceCheckBoxFor(m => m.IsNew)
+            @Html.HelpTextFor(m => m.IsNew, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.IsNew)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.Photo, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.MediaBrowserFor(m => m.Photo, MediaEnums.MediaBrowserSelectMode.ComplexImageUpload, new { @class = "col-xs-9" }, FrameworkConstants.MediaPath, EzCMSContants.MediaAssociatePath)
+            @Html.HelpTextFor(m => m.Photo, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Photo)
+        </div>
+    </div>
+</div>
+<div class="col-sm-6 col-xs-12">
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.JobTitle, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.JobTitle, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.JobTitle, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.JobTitle)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.Company, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Company, new { id = "Company", @class = "col-xs-10 no-padding" })
+            @Html.HelpTextFor(m => m.Company, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Company)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.CompanyTypeIds, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.ListBoxFor(m => m.CompanyTypeIds, Model.CompanyTypes, new { @class = "col-xs-10 multi-select", placeholder = T("Associate_Text_SelectCompanyTypes") })
+            @Html.HelpTextFor(m => m.CompanyTypeIds, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.CompanyTypeIds)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.LocationIds, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.ListBoxFor(m => m.LocationIds, Model.Locations, new { @class = "col-xs-10 multi-select", placeholder = T("Associate_Text_SelectLocations") })
+            @Html.HelpTextFor(m => m.LocationIds, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.LocationIds)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.AssociateTypeIds, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.ListBoxFor(m => m.AssociateTypeIds, Model.AssociateTypes, new { @class = "col-xs-10 multi-select", placeholder = T("Associate_Text_SelectAssociateTypes") })
+            @Html.HelpTextFor(m => m.AssociateTypeIds, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.AssociateTypeIds)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelTimeFor(m => m.DateStart, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10 col-xs-12 no-padding">
+            <div class="input-group col-sm-6">
+                @Html.TextBoxFor(m => m.DateStart, new { @Value = ToLocalDateTime(Model.DateStart).ToDateFormat(), @class = "form-control col-xs-12 date-picker" })
+                <label class="input-group-addon" for="DateStart">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </label>
+            </div>
+            @Html.HelpTextFor(m => m.DateStart, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.DateStart)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelTimeFor(m => m.DateEnd, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10 col-xs-12 no-padding">
+            <div class="input-group col-sm-6">
+                @Html.TextBoxFor(m => m.DateEnd, new { @Value = ToLocalDateTime(Model.DateEnd).ToDateFormat(), @class = "form-control col-xs-12 date-picker" })
+                <label class="input-group-addon" for="DateEnd">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </label>
+            </div>
+            @Html.HelpTextFor(m => m.DateEnd, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.DateEnd)
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Associate_Text_AddressInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.AddressLine1, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.AddressLine1, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.AddressLine1, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.AddressLine1)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.AddressLine2, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.AddressLine2, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.AddressLine2, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.AddressLine2)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Suburb, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Suburb, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Suburb, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Suburb)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.State, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.State, Model.States, T("Associate_Text_SelectState"), new { @class = "col-xs-10 single-select" })
+                        @Html.HelpTextFor(m => m.State, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.State)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Postcode, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Postcode, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Postcode, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Postcode)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Country, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.Country, Model.Countries, T("Associate_Text_SelectCountry"), new { @class = "col-xs-10 single-select" })
+                        @Html.HelpTextFor(m => m.Country, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Country)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Associate_Text_ContactInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PhoneWork, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.PhoneWork, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PhoneWork, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PhoneWork)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PhoneHome, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.PhoneHome, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PhoneHome, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PhoneHome)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Fax, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.Fax, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Fax, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Fax)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.MobilePhone, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.MobilePhone, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.MobilePhone, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.MobilePhone)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Associate_Text_OtherInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.University, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.University, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.University, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.University)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Qualification, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Qualification, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Qualification, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Qualification)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.OtherQualification, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.OtherQualification, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.OtherQualification, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.OtherQualification)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Achievements, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Achievements, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Achievements, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Achievements)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Memberships, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Memberships, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Memberships, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Memberships)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Appointments, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Appointments, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Appointments, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Appointments)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PersonalInterests, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.PersonalInterests, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.PersonalInterests, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.PersonalInterests)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.ProfessionalInterests, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.PersonalInterests, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.ProfessionalInterests, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.ProfessionalInterests)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Positions, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.Positions, new { @class = "col-xs-10" })
+                        @Html.HelpTextFor(m => m.Positions, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.Positions)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        $(function () {
+
+            //Init company select2
+            $("#Company").select2({
+                minimumInputLength: 3,
+                width: "element",
+                placeholder: " ",
+                allowClear: true,
+                ajax: {
+                    url: "@Url.Action("SearchCompanies", "Companies")",
+                    type: "POST",
+                    dataType: "json",
+                    quietMillis: 50,
+                    data: function (term, page) {
+                        return {
+                            keyword: term
+                        };
+                    },
+                    results: function (response) {
+                        if (response.Success) {
+                            return {
+                                results: $.map(response.Data, function (item) {
+                                    return {
+                                        text: item.Text,
+                                        slug: item.Value,
+                                        id: item.Value
+                                    };
+                                })
+                            };
+                        } else {
+                            siteHelper.showMessage(response.Message);
+                            return [];
+                        }
+                    }
+                },
+                formatSelection: function (item) {
+                    var text = siteHelper.replaceAll(item.text, " - add new", "");
+                    return text;
+                },
+                createSearchChoice: function (term) {
+                    return {
+                        id: term,
+                        text: term + " - add new"
+                    };
+                },
+                initSelection: function (element, callback) {
+                    var currentValue = element.val();
+                    siteHelper.httpPost({
+                        showLoading: false,
+                        url: "@Url.Action("GetSelectCompanies", "Companies")",
+                        data: { companyName: currentValue },
+                        success: function (response) {
+                            var data = {};
+                            if (response.Success && response.Data.length > 0) {
+                                data = { id: response.Data[0].Value, text: response.Data[0].Text };
+                            } else {
+                                data = { id: currentValue, text: currentValue };
+                            }
+                            callback(data);
+                        }
+                    });
+                }
+            });
+        });
+</script>);
+}

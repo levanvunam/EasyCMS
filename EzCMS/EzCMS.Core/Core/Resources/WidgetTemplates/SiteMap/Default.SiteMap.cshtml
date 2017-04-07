@@ -1,0 +1,62 @@
+﻿{OrderButton}
+
+@if (Model.Any())
+{
+    <ul>
+        @foreach (var node in Model)
+        {
+            if (node.Data.PageId.HasValue)
+            {
+                <li id="page-@node.Data.PageId">
+                    <a href="@node.Data.Url">
+                        @node.Data.Title (@node.Data.PageId)
+                    </a>
+                    @if (!node.Data.IncludeInSiteNavigation)
+                    {
+                        <span>(@T("Widget_SiteMap_Text_NotIncludePages"))</span>
+                    }
+                    @if (node.Data.Status == PageEnums.PageStatus.Offline)
+                    {
+                        <span>(@T("Widget_SiteMap_Text_OfflinePage"))</span>
+                    }
+                    @if (node.Data.CanEdit)
+                    {
+                        if (node.Data.ViewableGroups.Any())
+                        {
+                            <text>&nbsp;</text>
+                            <a class="sercureGroups" title="@string.Join("</hr>", node.Data.ViewableGroups.Select(g => g.Name))" href="javascript:void(0)"><i class="fa fa-eye"></i></a>
+                        }
+                        if (node.Data.EditableGroups.Any())
+                        {
+                            <text>&nbsp;</text>
+                            <a class="sercureGroups" title="@string.Join("</hr>", node.Data.EditableGroups.Select(g => g.Name))" href="javascript:void(0)"><i class="fa fa-lock"></i></a>
+                        }
+                        <text>&nbsp;</text>
+                        <a href="javascript:void(0)" onclick="javascript:void(siteHelper.createPage(@node.Data.PageId));">New Page</a>
+                        <text>&nbsp;</text>
+                        <a href="javascript:void(0)" onclick="javascript:void(siteHelper.editPage(@node.Data.PageId));">Edit</a>
+                    }
+
+                    @if (node.Data.CanEdit)
+                    {
+                        <text>&nbsp;</text>
+                        <a href="javascript:void(0)" onclick="javascript:void(siteHelper.deletePage(@node.Data.PageId, 'deletePageCallback'));">Delete</a>
+                    }
+
+                    @if (node.Children.Count > 0)
+                    {
+                        @RenderTemplate("Default.SiteMap", node.Children)
+                    }
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@node.Data.Url">
+                        @node.Data.Title
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+}

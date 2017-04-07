@@ -1,0 +1,50 @@
+﻿@model EzCMS.Core.Models.News.WidgetManageModels.NewsListingWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.NewsCategoryId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.NewsCategoryId, Model.NewsCategories, T("Widget_NewsListing_Text_SearchAllCategories"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.NewsCategoryId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.NewsCategoryId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Total, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.Total, new { @class = "input-number curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Total, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Total)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PageSize, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.PageSize, new { @class = "input-number curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.PageSize, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PageSize)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.NewsType, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.NewsType, Model.NewsTypes, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.NewsType, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.NewsType)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.NewsStatus, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.NewsStatus, Model.NewsStatusList, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.NewsStatus, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.NewsStatus)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>

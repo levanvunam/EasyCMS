@@ -1,0 +1,162 @@
+﻿@model EzCMS.Core.Models.LocalizedResources.LocalizedResourceSearchModel
+
+@{
+    ViewBag.Header = T("LocalizedResource_Site_Header");
+    ViewBag.Title = T("LocalizedResource_Site_ListingTitle");
+    ViewBag.Description = T("LocalizedResource_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title @ViewBag.Language
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        <a href="@Url.Action("Create", new { languageId = Model.LanguageId })" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("LocalizedResource_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        // Delete localized resource
+        function deleteLocalizedResource(id) {
+
+            siteHelper.confirm('@T("LocalizedResource_Message_DeleteConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteLocalizedResource")",
+                        data: { id: id },
+                        success: function (response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function () {
+                                    $(gridSelector).trigger('reloadGrid');
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Localized Resource" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            postData: { languageId: '@Model.LanguageId' },
+            colNames: ['', '@T("LocalizedResource_Field_Id")',
+                '@T("LocalizedResource_Field_TextKey")',
+                '@T("LocalizedResource_Field_DefaultValue")',
+                '@T("LocalizedResource_Field_TranslatedValue")',
+                '@LabelForTime(T("LocalizedResource_Field_Created"))',
+                '@T("LocalizedResource_Field_CreatedBy")',
+                '@LabelForTime(T("LocalizedResource_Field_LastUpdate"))',
+                '@T("LocalizedResource_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90, 
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var languageId = siteHelper.getUrlParam("languageId");
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "?returnUrl=@Url.Action("Index")?languageId=" + languageId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='javascript:deleteLocalizedResource(" + options.rowId + ")'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        return editIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'TextKey', index: 'TextKey' },
+                { name: 'DefaultValue', index: 'DefaultValue', edittype: "textarea" },
+                { name: 'TranslatedValue', index: 'TranslatedValue', edittype: "textarea" },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+    <script type="text/javascript">
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid(){
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            $.extend(postData, { languageId: @Model.LanguageId });
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

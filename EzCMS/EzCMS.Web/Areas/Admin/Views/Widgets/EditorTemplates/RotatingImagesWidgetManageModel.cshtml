@@ -1,0 +1,18 @@
+﻿@model EzCMS.Core.Models.RotatingImageGroups.WidgetManageModels.RotatingImagesWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.GroupId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.GroupId, Model.Groups, T("Widget_RotatingImages_Text_SelectGroup"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.GroupId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.GroupId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>

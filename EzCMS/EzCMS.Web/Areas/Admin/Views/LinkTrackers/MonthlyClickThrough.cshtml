@@ -1,0 +1,132 @@
+﻿@model EzCMS.Core.Models.LinkTrackers.MonthlyClickThrough.LinkTrackerMonthlyClickThroughSearchModel
+
+@{
+    ViewBag.Header = T("LinkTracker_Site_Header");
+    ViewBag.Title = T("LinkTracker_Site_MonthlyClickThroughTitle");
+    ViewBag.Description = T("LinkTracker_Site_MonthlyClickThroughDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_SearchMonthlyClickThrough", Model)
+        <div class="space-4 clearfix"></div>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Link Tracker Monthly Click Through" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_LinkTrackerMonthlyClickThroughAjaxBinding")",
+            colNames: ['@T("LinkTracker_Field_Id")',
+                '@T("LinkTracker_Field_Name")',
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December'],
+            colModel: [
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Name', index: 'Name' },
+                { name: 'January', index: 'January', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'February', index: 'February', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'March', index: 'March', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'April', index: 'April', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'May', index: 'May', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'June', index: 'June', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'July', index: 'July', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'August', index: 'August', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'September', index: 'September', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'October', index: 'October', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'November', index: 'November', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'December', index: 'December', sorttype: "int", searchoptions: { sopt: ['eq'] } }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+    <script type="text/javascript">
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            $("#Year").select2("data", { id: "0", text: "@Model.Year" });
+
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid() {
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { Keyword: keyword });
+
+            var year = $("#Year").val();
+            $.extend(postData, { Year: year });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

@@ -1,0 +1,19 @@
+<!-- Select Commnunication Multiple-->
+<div class="form-group add-on-render">
+    <label class="col-md-3 control-label" for="<%= id %>"><%= label %></label>
+    <div class="<%= inputsize %>">
+        <select id="<%= id %>" name="<%= id %>" class="multi-select form-control <%= inputheight %>" multiple="multiple">
+            <%= token %>
+        </select>
+        <% if (helptext.length > 0) { %><p class="help-block"><%= helptext %></p><% } %>
+    </div>
+</div>
+
+<div class="form-group remove-on-render">
+    <label class="col-md-3 control-label" for="<%= id %>"><%= label %></label>
+    <div class="<%= inputsize %>">
+        <select id="<%= id %>" name="<%= id %>" class="multi-select form-control <%= inputheight %>" multiple="multiple">
+            <option><%= label %></option>
+        </select>
+    </div>
+</div>

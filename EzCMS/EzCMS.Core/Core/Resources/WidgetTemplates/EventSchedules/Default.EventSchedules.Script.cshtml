@@ -1,0 +1,17 @@
+<script type="text/javascript">
+    $("#newEvent").click(function () {
+        siteHelper.showPopup({
+            href: "{CreateEventLink}",
+            type: 'iframe',
+            width: '90%'
+        });
+    });
+
+    $(function () {
+        $(".fancybox").fancybox({
+            fitToView: true,
+            width: '70%',
+            autoSize: false
+        });
+    });
+</script>

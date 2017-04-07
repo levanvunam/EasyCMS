@@ -1,0 +1,132 @@
+<style>
+    .location-search form, form.location-search {
+        margin: 0;
+        padding: 0;
+        position: relative;
+        top: -20px;
+    }
+
+    .location-search p {
+        padding: 10px 0 !important;
+    }
+
+    .location-search input[type="text"] {
+        color: #87888d;
+        padding: 0 2%;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        width: 85%;
+        border: 1px solid #bdbdbf;
+        border-radius: 3px;
+        float: left;
+    }
+
+    .location-search input[type="button"] {
+        text-decoration: none;
+        color: #fff;
+        width: 10%;
+        border-radius: 5px;
+        text-align: center;
+        background: #43484c;
+        float: left;
+    }
+
+    #searchLocation {
+        background: #084379;
+        color: #fff;
+        margin-left: 5px;
+        padding: 4px 20px;
+        border: none;
+    }
+
+    .bigger-150 {
+        font-size: 150%;
+    }
+
+    .location-search select {
+        color: #87888d;
+        padding: 0 2%;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        width: 50%;
+        border: 1px solid #bdbdbf;
+        border-radius: 3px;
+        margin-top: 10px;
+    }
+
+    .location-results {
+        color: #084379;
+        font-weight: bold;
+        padding: 10px 0;
+        font-size: 18px;
+    }
+
+    .location-box {
+        display: block;
+        height: auto;
+        max-height: 520px;
+        overflow: auto;
+    }
+
+        .location-box .highlight {
+            background-color: #c5d6db;
+        }
+
+    .location-result {
+        font-weight: bold;
+        border-top: 1px solid #c5d6db;
+        padding: 10px 0;
+        overflow: auto;
+        cursor: pointer;
+    }
+
+        .location-result img {
+            padding: 10px 15px 10px 5px;
+            float: left;
+            font-weight: bold;
+            letter-spacing: 0.2px;
+            max-height: 80px;
+        }
+
+    .categories {
+        list-style: none;
+        padding: 0;
+    }
+
+        .categories li {
+            list-style: none;
+            float: left;
+            padding: 0 2px;
+            margin: 0;
+        }
+
+            .categories li:first-child {
+                padding-left: 0;
+            }
+
+            .categories li a {
+                text-transform: uppercase;
+                border: 1px solid #c5d6db;
+                padding: 5px 10px;
+                margin: 0 0 0 5px;
+            }
+
+                .categories li a:first-child {
+                    margin-left: 0;
+                }
+
+            .categories li .category {
+                background: #084379;
+                color: #fff;
+            }
+
+            .categories li .highlight {
+                background: #e2001a;
+                color: #fff;
+            }
+
+    #mapCanvas {
+        width: 100%;
+        height: 500px;
+    }
+</style>

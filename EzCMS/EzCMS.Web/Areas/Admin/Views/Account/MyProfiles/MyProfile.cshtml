@@ -1,0 +1,393 @@
+﻿@using EzCMS.Core.Core.SiteSettings
+@using EzCMS.Core.Models.Users
+@using EzCMS.Core.Models.Users.Settings
+@model UserProfileModel
+
+@{
+    ViewBag.Header = T("Account_Site_Header");
+    ViewBag.Title = T("Account_Site_ProfileTitle");
+    ViewBag.Description = T("Account_Site_ProfileDescription");
+}
+
+@{
+    Style.Block(
+        @<style type="text/css">
+             #mapCanvas {
+                 width: 100%;
+                 height: 300px;
+             }
+        </style>);
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Title
+    </h1>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#profile">
+                        <i class="green fa fa-home bigger-110"></i>
+                        @T("Account_MyProfile_Text_TabMyProfile")
+                    </a>
+                </li>
+
+                <li>
+                    <a data-toggle="tab" href="#change-password">
+                        <i class="blue fa fa-key bigger-110"></i> @T("Account_MyProfile_Text_TabChangePassword")
+                    </a>
+                </li>
+
+                <li>
+                    <a data-toggle="tab" href="#settings">
+                        <i class="purple fa fa-cog bigger-110"></i> @T("Account_MyProfile_Text_TabSettings")
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="profile" class="tab-pane in active">
+                    <div id="user-profile-1" class="user-profile row">
+                        <div class="col-xs-12 col-sm-3 center">
+                            <div>
+                                <span class="profile-picture">
+                                    <img id="avatar" class="editable img-responsive" alt="Avatar" src="#" />
+                                </span>
+                                <div class="space-4"></div>
+
+                                <div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
+                                    <div class="inline position-relative">
+                                        <a href="javascript:void(0)" class="user-title-label">
+                                            <i class="fa fa-circle light-green middle"></i>
+                                            &nbsp;<span class="white">@Model.FullName</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="hr hr16 dotted"></div>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+
+                            <div class="profile-user-info profile-user-info-striped">
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_Username")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        <span>@Model.Username</span>
+                                        @Html.HelpText("User_Field_Username", new { @class = "help-button" })
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_Email")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        <span>@Model.Email</span>
+                                        @Html.HelpText("User_Field_Email", new { @class = "help-button" })
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_FirstName")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        @Html.EditableFor(m => m.FirstName)
+                                        @Html.HelpText("User_Field_FirstName", new { @class = "help-button" })
+                                    </div>
+                                </div>
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_LastName")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        @Html.EditableFor(m => m.LastName)
+                                        @Html.HelpText("User_Field_LastName", new { @class = "help-button" })
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_Phone")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        @Html.EditableFor(m => m.Phone)
+                                        @Html.HelpText("User_Field_Phone", new { @class = "help-button" })
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_LastLogin")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        <span id="login">@Model.LastLoginHours.ToString("0") hours ago</span>
+                                        @Html.HelpText("User_Field_LastLogin", new { @class = "help-button" })
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_DateOfBirth")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        @Html.EditableFor(m => m.DateOfBirth, CommonEnums.EditableType.Date)
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_Registered")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        <span>@Model.Created.ToLongDateString()</span>
+                                        @Html.HelpText("User_Field_Registered", new { @class = "help-button" })
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_Address")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        <input id="address-input" class="controls" type="text" placeholder="@T("Account_MyProfile_Text_EnterLocation")" value="@Model.Address" />
+                                        <div id="address-buttons" class="controls" style="">
+                                            <input id="save-address-btn" class="btn btn-xs btn-info" type="button" value="@T("Account_MyProfile_Text_SaveAddress")" />
+                                            <input class="btn btn-xs btn-white" type="button" value="@T("Account_MyProfile_Text_ClearButton")" />
+                                        </div>
+                                        <div id="mapCanvas"></div>
+                                    </div>
+                                </div>
+
+                                <div class="profile-info-row">
+                                    <div class="profile-info-name">
+                                        @MText(HtmlTag.Label, "User_Field_About")
+                                    </div>
+
+                                    <div class="profile-info-value">
+                                        @Html.EditableFor(m => m.About)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="change-password" class="tab-pane">
+                    @Html.Partial("MyProfiles/_ChangePassword", new ChangePasswordModel { UserId = Model.Id })
+                </div>
+
+                <div id="settings" class="tab-pane">
+                    @Html.Partial("MyProfiles/_Settings", new ManageSettingModel(Model.Id))
+                </div>
+            </div>
+        </div>
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+    <!-- /.col -->
+</div>
+@{
+    Script.Include(@Html.GoogleMapFile(WorkContext.CurrentCulture, "places"))
+        .Include("~/Scripts/Shared/Initialize/googleMapApi.js", "~/Scripts/Shared/Initialize/editable.js")
+        .Block(@<script type="text/javascript">
+            var updateUrl = "@Url.Action("UpdateUserData", "Users")";
+            var pk = '@Model.Id';
+
+            //Add lintener for hash change to select tab
+            window.addEventListener("hashchange", siteHelper.updateSelectedTab, false);
+            siteHelper.updateSelectedTab();
+
+            $(function () {
+
+                $("#save-address-btn").click(function () {
+                    var url = '@Url.Action("UpdateUserData", new { Pk = Model.Id })';
+                    var data = { Name: 'Address', Value: $("#address-input").val() };
+                    siteHelper.httpPost({
+                        showLoading: false,
+                        url: url,
+                        data: data,
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                        }
+                    });
+                });
+
+                // *** editable avatar *** //
+                try { //ie8 throws some harmless exception, so let's catch it
+
+                    //it seems that editable plugin calls appendChild, and as Image doesn't have it, it causes errors on IE at unpredicted points
+                    //so let's have a fake appendChild for it!
+                    if (/msie\s*(8|7|6)/.test(navigator.userAgent.toLowerCase()))
+                        Image.prototype.appendChild = function () {
+                        };
+
+                    var lastGritter;
+
+                    var maxFileSize = parseInt('@(SValue<int>(SettingNames.MaxSizeUploaded))');
+                    var maxFileSizeAsMb = maxFileSize / (1024 * 1024);
+                    $('#avatar').editable({
+                        type: 'image',
+                        mode: 'inline',
+                        name: 'avatar',
+                        value: null,
+                        image: {
+                            //specify ace file input plugin's options here
+                            btn_choose: 'Change Avatar',
+                            droppable: true,
+                            /**
+                            //this will override the default before_change that only accepts image files
+                            before_change: function(files, dropped) {
+                                return true;
+                            },
+                            */
+
+                            //and a few extra ones here
+                            name: 'avatar',//put the field name here as well, will be used inside the custom plugin
+                            max_size: maxFileSize,
+                            on_error: function (code) { //on_error function will be called when the selected file has a problem
+                                if (lastGritter) $.gritter.remove(lastGritter);
+                                if (code == 1) { //file format error
+                                    lastGritter = $.gritter.add({
+                                        title: 'File is not an image!',
+                                        text: 'Please choose a jpg|gif|png image!',
+                                        class_name: 'gritter-error gritter-center'
+                                    });
+                                } else if (code == 2) { //file size rror
+                                    lastGritter = $.gritter.add({
+                                        title: 'File too big!',
+                                        text: 'Image size should not exceed' + maxFileSizeAsMb + ' MB!',
+                                        class_name: 'gritter-error gritter-center'
+                                    });
+                                } else { //other error
+                                }
+                            },
+                            on_success: function () {
+                                $.gritter.removeAll();
+                            }
+                        },
+                        url: function (params) {
+                            //please modify submit_url accordingly
+                            var submitUrl = '@Url.Action("UploadAvatar")';
+                            var deferred;
+
+
+                            //if value is empty, means no valid files were selected
+                            //but it may still be submitted by the plugin, because "" (empty string) is different from previous non-empty value whatever it was
+                            //so we return just here to prevent problems
+                            var value = $('#avatar').next().find('input[type=hidden]:eq(0)').val();
+                            if (!value || value.length == 0) {
+                                deferred = new $.Deferred;
+                                deferred.resolve();
+                                return deferred.promise();
+                            }
+
+                            var $form = $('#avatar').next().find('.editableform:eq(0)');
+                            var fileInput = $form.find('input[type=file]:eq(0)');
+
+                            //user iframe for older browsers that don't support file upload via FormData & Ajax
+                            if (!("FormData" in window)) {
+                                deferred = new $.Deferred;
+
+                                var iframeId = 'temporary-iframe-' + (new Date()).getTime() + '-' + (parseInt(Math.random() * 1000));
+                                $form.after('<iframe id="' + iframeId + '" name="' + iframeId + '" frameborder="0" width="0" height="0" src="about:blank" style="position:absolute;z-index:-1;"></iframe>');
+                                $form.append('<input type="hidden" name="temporary-iframe-id" value="' + iframeId + '" />');
+                                $form.next().data('deferrer', deferred); //save the deferred object to the iframe
+                                $form.attr({
+                                    'method': 'POST',
+                                    'enctype': 'multipart/form-data',
+                                    'target': iframeId,
+                                    'action': submitUrl
+                                });
+
+                                $form.get(0).submit();
+
+                                //if we don't receive the response after 60 seconds, declare it as failed!
+                                setTimeout(function () {
+                                    var iframe = document.getElementById(iframeId);
+                                    if (iframe != null) {
+                                        iframe.src = "about:blank";
+                                        $(iframe).remove();
+
+                                        deferred.reject({ 'status': 'fail', 'message': 'Timeout!' });
+                                    }
+                                }, 60000);
+                            } else {
+                                var fd;
+                                try {
+                                    fd = new FormData($form.get(0));
+                                } catch (ex) {
+                                    //IE10 throws "SCRIPT5: Access is denied" exception,
+                                    //so we need to add the key/value pairs one by one
+                                    fd = new FormData();
+                                    $.each($form.serializeArray(), function (index, item) {
+                                        fd.append(item.name, item.value);
+                                    });
+                                    //and then add files because files are not included in serializeArray()'s result
+                                    $form.find('input[type=file]').each(function () {
+                                        if (this.files.length > 0) fd.append(this.getAttribute('name'), this.files[0]);
+                                    });
+                                }
+
+                                //if file has been drag&dropped , append it to FormData
+                                if (fileInput.data('ace_input_method') == 'drop') {
+                                    var files = fileInput.data('ace_input_files');
+                                    if (files && files.length > 0) {
+                                        fd.append(fileInput.attr('name'), files[0]);
+                                    }
+                                }
+
+                                deferred = siteHelper.httpPost({
+                                    showLoading: false,
+                                    url: submitUrl,
+                                    processData: false,
+                                    contentType: false,
+                                    dataType: 'json',
+                                    data: fd,
+                                    xhr: function () {
+                                        var req = $.ajaxSettings.xhr();
+                                        return req;
+                                    },
+                                    beforeSend: function () {
+                                    },
+                                    success: function () {
+                                    }
+                                });
+                            }
+
+                            deferred.done(function (response) {
+                                if (response.Success) {
+                                    $('#avatar').get(0).src = response.Data;
+                                }
+                            }).fail(function (response) {
+                                showErrorMessage(response.Message);
+                            });
+
+
+                            return deferred.promise();
+                        },
+
+                        success: function (response, newValue) {
+                            siteHelper.showMessage(response);
+                        }
+                    });
+                } catch (e) {
+                }
+            });
+        </script>);
+}

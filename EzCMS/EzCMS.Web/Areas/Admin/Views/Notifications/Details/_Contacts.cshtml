@@ -1,0 +1,45 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "NotifiedContacts")
+</div>
+<div class="col-xs-12">
+    <table id="contact-grid-table"></table>
+    <div id="contact-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var contactGrid = "#contact-grid-table";
+        var contactGridPager = "#contact-grid-pager";
+        var contactTab = "#contacts";
+        var contactGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Notified Contact" })');
+        var contactExportUrl = "@Url.Action("ExportsNotifiedContacts", "Notifications", new { notificationId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBindingForNotifiedContacts", "Notifications", new { notificationId = Model })",
+                colNames: ['@T("Notification_NotifiedContact_Field_FirstName")',
+                    '@T("Notification_NotifiedContact_Field_LastName")',
+                    '@T("Notification_NotifiedContact_Field_Email")',
+                    '@T("Notification_NotifiedContact_Field_PhoneNumber")'],
+                colModel: [
+                    { name: 'FirstName', index: 'FirstName' },
+                    { name: 'LastName', index: 'LastName' },
+                    { name: 'Email', index: 'Email' },
+                    { name: 'PhoneNumber', index: 'PhoneNumber' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-contact").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(contactGrid, contactGridPager, gridOptions, contactGridSettings, contactTab, contactExportUrl, "NotifiedContacts");
+        });
+    </script>);
+}

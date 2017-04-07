@@ -1,0 +1,116 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "LinkTracker")
+</div>
+<div class="col-xs-12">
+    <table id="link-tracker-grid-table"></table>
+    <div id="link-tracker-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        // Edit link tracker
+        function editLinkTracker(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "LinkTrackers")/" + id,
+                type: 'iframe',
+                width: '60%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(linkTrackerGrid);
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var linkTrackerGrid = "#link-tracker-grid-table";
+        var linkTrackerGridPager = "#link-tracker-grid-pager";
+        var linkTrackerTab = "#link-trackers";
+        var linkTrackerGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Link Tracker" })');
+        var linkTrackerExportUrl = "@Url.Action("ExportsLinkTrackersByPage", "LinkTrackers", new { pageId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBindingByPage", "LinkTrackers", new { pageId = Model })",
+                colNames: ['', '@T("LinkTracker_Field_Id")',
+                    '@T("LinkTracker_Field_Name")',
+                    '@T("LinkTracker_Field_TrackerLink")',
+                    '@T("LinkTracker_Field_IsAllowMultipleClick")',
+                    '@T("LinkTracker_Field_RedirectUrl")',
+                    '@T("LinkTracker_Field_PageId")',
+                    '@T("LinkTracker_Field_PageTitle")',
+                    '@T("LinkTracker_Field_ClickCount")',
+                    '@T("LinkTracker_Field_Active")',
+                    '@T("LinkTracker_Field_RecordOrder")',
+                    '@LabelForTime(T("LinkTracker_Field_Created"))',
+                    '@T("LinkTracker_Field_CreatedBy")',
+                    '@LabelForTime(T("LinkTracker_Field_LastUpdate"))',
+                    '@T("LinkTracker_Field_LastUpdateBy")'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:editLinkTracker(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "LinkTrackers")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "LinkTrackers")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Name', index: 'Name' },
+                    { name: 'TrackerLink', index: 'TrackerLink', formatter: "link" },
+                    {
+                        name: 'IsAllowMultipleClick',
+                        index: 'IsAllowMultipleClick',
+                        search: false,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'RedirectUrl', index: 'RedirectUrl', formatter: "link" },
+                    { name: 'PageId', index: 'PageId', hidden: true },
+                    {
+                        name: 'PageTitle',
+                        index: 'PageTitle',
+                        formatter: function (cellvalue, options, rowObject) {
+                            var detailUrl = "<a href='@Url.Action("Details", "Pages")/" + rowObject.PageId + "'>" + cellvalue + "</a>";
+                            return detailUrl;
+                        }
+                    },
+                    { name: 'ClickCount', index: 'ClickCount', width: 90, fixed: true, sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    {
+                        name: 'Active',
+                        index: 'Active',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-link-tracker").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(linkTrackerGrid, linkTrackerGridPager, gridOptions, linkTrackerGridSettings, linkTrackerTab, linkTrackerExportUrl, "LinkTracker");
+        });
+    </script>);
+}

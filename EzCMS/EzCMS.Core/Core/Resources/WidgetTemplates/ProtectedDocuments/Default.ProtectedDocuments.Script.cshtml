@@ -1,0 +1,151 @@
+<script type="text/javascript">
+
+    $("#@(Model.DocumentId)-search-button").click(function () {
+        var buttonSearch = $(this);
+
+        var keyword = $("#@(Model.DocumentId)-search-keyword").val();
+        if (keyword == null || keyword == "") {
+            siteHelper.alert("Please input keyword");
+            return;
+        }
+
+        // Disable search button and generate spin icon
+        buttonSearch.attr("disabled", "disabled");
+        $("#@(Model.DocumentId)-search-icon").removeClass("fa-search").addClass("fa-refresh fa-spin");
+
+
+        $.ajax({
+            url: "@Url.Action("SearchDocuments", "ProtectedDocuments", new { area = "Admin" })",
+            data: {
+                keyword: keyword,
+                path: "@Model.EncryptedPath"
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (response) {
+
+                // Remove disabled and spin icon
+                buttonSearch.removeAttr("disabled");
+                $("#@(Model.DocumentId)-search-icon").removeClass("fa-refresh fa-spin").addClass("fa-search");
+
+                if (response.Success) {
+                    $("#@(Model.DocumentId)").hide();
+                    $("#@(Model.DocumentId)-search-result").show();
+                    $("#@(Model.DocumentId)-search-result").html("");
+                    $.each(response.Data, function (index, item) {
+                        $("#@(Model.DocumentId)-search-result").append(
+                            '<li id="' + item.Data.Id + '" class="tree-item document-search-as" data-path="' + item.Data.Path + '">' +
+                                '<div class="document-search-icon"><i class="' + item.Data.DataIcon + '"></i></div> '
+                                + item.Text +
+                                replaceDocumentData($("#file-options").html(), item.Data) +
+                                '</li>');
+                    });
+                } else {
+                    siteHelper.showMessage(response);
+                }
+            }
+        });
+    });
+
+    $("#@(Model.DocumentId)-clear-button").click(function () {
+        $("#@(Model.DocumentId)-search-keyword").val("");
+        $("#@(Model.DocumentId)").show();
+        $("#@(Model.DocumentId)-search-result").hide();
+    });
+
+    $("body").on("click", ".document-search-item", function (e) {
+        var url = $(this).data("url");
+        var mime = $(this).data("mime");
+        siteHelper.viewDocument(url, mime);
+        return false;
+    });
+
+    $("body").on("keypress", "#@(Model.DocumentId)-search-keyword", function (e) {
+        if (e.which == 13) {
+            $("#@(Model.DocumentId)-search-button").click();
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    $("#@(Model.DocumentId)").on("click", ".manage-secure", function (e) {
+        var path = $(this).data("path");
+        siteHelper.showPopup({
+            href: "@Url.Action("SetPermissions", "ProtectedDocuments", new { area = "Admin" })?path=" + path,
+            width: '60%',
+            height: '60%'
+        });
+        return false;
+    });
+
+    $("#@(Model.DocumentId)").on("click", ".feedback-document", function (e) {
+        var path = $(this).data("path");
+        siteHelper.showPopup({
+            href: "@Url.Action("Feedback", "ProtectedDocuments", new { area = "Admin" })?path=" + path,
+            width: '60%',
+            height: '40%'
+        });
+        return false;
+    });
+
+    $("#@(Model.DocumentId)").on("click", ".tree-item", function (e) {
+        var url = $(this).data("url");
+        var mime = $(this).data("mime");
+        siteHelper.viewDocument(url, mime);
+        return false;
+    });
+
+    $(function () {
+        $("#@(Model.DocumentId)").EzCMSTree({
+            dataSource: remoteDateSource_@(Model.DocumentId),
+            cacheItems: true,
+            multiSelect: false,
+            'selectable': false,
+            'open-icon': 'ace-icon orange fa fa-folder-open',
+            'close-icon': 'ace-icon orange fa fa-folder',
+            'selected-icon': '',
+            'unselected-icon': '',
+            loadingHTML: '<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>',
+            folderTemplate: $("#folder-options").html(),
+            fileTemplate: $("#file-options").html()
+        });
+    });
+
+    var remoteDateSource_@(Model.DocumentId) = function (options, callback) {
+        var parentId = null;
+        var loadFirstLevel = false;
+        if (!('Text' in options || 'Type' in options)) {
+            parentId = "@Model.EncryptedPath"; //load first level data
+            loadFirstLevel = true;
+        } else if ('Type' in options && options['Type'] == 'folder') {
+            if ('Data' in options && 'HasChildren' in options.Data && options.Data.HasChildren == true) {
+                parentId = options.Data.Path;
+            } else {
+                callback({ data: {} });
+                return;
+            }
+        }
+
+        if (parentId !== null) {
+            var remoteUrl = "@Url.Action("GetDocuments", "ProtectedDocuments", new { area = "Admin"})";
+
+            $.ajax({
+                url: remoteUrl,
+                data: { path: parentId },
+                type: 'POST',
+                dataType: 'json',
+                success: function (response) {
+                    if (response.Success) {
+                        var $data = response.Data;
+                        if ($data.length > 0 && loadFirstLevel) {
+                            $("#@(Model.DocumentId)-search-box").show();
+                        }
+                        callback({ data: $data });
+                    } else {
+                        siteHelper.alert(response.Message);
+                    }
+                }
+            });
+        }
+    };
+</script>

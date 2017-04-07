@@ -1,0 +1,6 @@
+<ol class="carousel-indicators">
+    @foreach (var item in Model.Images)
+    {
+        <li data-target="#myCarousel" data-slide-to="@item.Index" class="@(item.Index == 0 ? "active" : "")"></li>
+    }
+</ol>

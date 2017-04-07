@@ -1,0 +1,24 @@
+﻿@model EzCMS.Core.Models.Users.UserSearchModel
+
+<div class="widget-box">
+    <div class="widget-header">
+        <h5>@T("User_Search_Header")</h5>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="form-group col-sm-4">
+                @Html.TextBoxFor(m => m.Keyword, new { id = "Keyword", @class = "col-xs-10 search-input", placeholder = T("User_Search_Keyword") })
+                @Html.HelpTextFor(m => m.Keyword, new { @class = "help-button" })
+            </div>
+            <div class="form-group col-sm-4">
+                @Html.DropDownListFor(m => m.UserGroupId, Model.UserGroups, T("User_Search_AllGroups"), new { id = "UserGroupId", @class = "single-select-no-search col-xs-10 search-input" })
+                @Html.HelpTextFor(m => m.UserGroupId, new { @class = "help-button" })
+            </div>
+            <div class="form-group col-sm-4">
+                <button id="btnSearch" class="btn btn-sm btn-info">@T("System_Search_Button")</button>
+                <button id="btnClearSearch" class="btn btn-sm btn-default">@T("System_Search_ClearButton")</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

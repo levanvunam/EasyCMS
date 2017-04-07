@@ -1,0 +1,193 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.News.NewsSearchModel
+
+@{
+    ViewBag.Header = T("News_Site_Header");
+    ViewBag.Title = T("News_Site_ListingTitle");
+    ViewBag.Description = T("News_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("News_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "News" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("News_Field_Id")',
+                '@T("News_Field_Title")',
+                '@T("News_Field_NewsCategories")',
+                '@T("News_Field_Status")',
+                '@T("News_Field_HotNews")',
+                '@LabelForTime(@T("News_Field_DateStart"))',
+                '@LabelForTime(@T("News_Field_DateEnd"))',
+                '@T("News_Field_TotalReads")',
+                '@LabelForTime(T("News_Field_Created"))',
+                '@T("News_Field_CreatedBy")',
+                '@LabelForTime(T("News_Field_LastUpdate"))',
+                '@T("News_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        return editIcon + detailsIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Title', index: 'Title' },
+                {
+                    name: 'Categories',
+                    index: 'Categories'
+                },
+                {
+                    name: 'Status',
+                    index: 'Status',
+                    align: 'center',
+                    search: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        var icon = "";
+                        switch (cellvalue) {
+                            case @((int)NewsEnums.NewsStatus.Active):
+                                icon = "<span class='label label-success'> Active </span>";
+                                break;
+                            case @((int)NewsEnums.NewsStatus.Archive):
+                                icon = "<span class='label label-inverse'> Archive </span>";
+                                break;
+                            case @((int)NewsEnums.NewsStatus.Inactive):
+                                icon = "<span class='label'> Inactive </span>";
+                                break;
+                        }
+                        return icon;
+                    }
+                },
+                {
+                    name: 'IsHotNews',
+                    index: 'IsHotNews',
+                    align: "center",
+                    search: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                },
+                { name: 'DateStart', index: 'DateStart', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateFormat(cellValue); } },
+                { name: 'DateEnd', index: 'DateEnd', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateFormat(cellValue); } },
+                {
+                    name: 'TotalReads',
+                    index: 'TotalReads',
+                    width: 90,
+                    fixed: true,
+                    align: 'center',
+                    sorttype: "int",
+                    searchoptions: { sopt: ['eq'] },
+                    formatter: function(cellvalue, options, rowObject) {
+                        var newsReadsUrl = "@Url.Action("Details", "News")/" + rowObject.Id + "#news-reads";
+                        return jqGridHelper.formatLink(newsReadsUrl, cellvalue);
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+    <script type="text/javascript">
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            $("#NewsCategoryId").select2("data", { id: "0", text: "@T("News_Search_AllNewsCategories")" });
+
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid() {
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            var newsCategoryId = $("#NewsCategoryId").val();
+            $.extend(postData, { newsCategoryId: newsCategoryId });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

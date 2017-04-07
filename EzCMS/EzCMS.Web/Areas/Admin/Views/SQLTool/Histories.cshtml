@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("SQLTool_Site_Header");
+    ViewBag.Title = T("SQLTool_Site_CommandHistoryTitle");
+    ViewBag.Description = T("SQLTool_Site_CommandHistoryDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+    </h1>
+</div>
+
+<div style="display: table">
+    <div class="col-xs-11">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        function selectVersion(query) {
+            window.parent.ValueSelected(query);
+            parent.$.fancybox.close();
+        }
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Sql History" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxHistory")",
+            colNames: ['', 'Id', 'Query', '@LabelForTime("Last Update")', 'By'],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var selectIcon = "<a class='select-query' href='javascript:selectVersion(\"" + rowObject.Query + "\")'><div class='ui-pg-div' title='Select this'><span class='fa fa-check'></span></div></a>";
+
+                        return selectIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Query', index: 'Query' },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

@@ -1,0 +1,13 @@
+﻿@model EzCMS.Core.Models.Notifications.Setup.NotificationInitializeModel
+
+@if (!Model.NotificationConfiguration.DisableNotifyContacts)
+{
+    @Html.HiddenFor(m => m.Module)
+    @Html.HiddenFor(m => m.Parameters)
+
+    <div class="inline notifyContacts">
+        @Html.AceCheckBoxFor(m => m.NotifyContacts, true)
+    </div>
+
+    <hr class="visible-sm visible-xs hidden-md hidden-lg clearfix" />
+}

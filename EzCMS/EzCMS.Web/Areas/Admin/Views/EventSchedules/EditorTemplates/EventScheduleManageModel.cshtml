@@ -1,0 +1,101 @@
+﻿@using Ez.Framework.Utilities.Time
+@model EzCMS.Core.Models.EventSchedules.EventScheduleManageModel
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.TimeStart)
+@Html.HiddenFor(m => m.TimeEnd)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.EventId, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.DropDownListFor(m => m.EventId, Model.Events, T("EventSchedule_Text_SelectEvent"), new { @class = "col-sm-8 col-xs-10 single-select" })
+        @Html.ValidationMessageFor(m => m.EventId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Location, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.Location, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.Location, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Location)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelTimeFor(m => m.TimeStart, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        <div class="col-sm-3 no-padding">
+            <div class="input-group col-xs-12 no-padding">
+                @Html.TextBoxFor(m => m.StartDay, new { @Value = ToLocalDateTime(Model.StartDay).ToDateFormat(), @class = "form-control col-xs-12 date-picker" })
+                <label class="input-group-addon" for="StartDay">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </label>
+            </div>
+            @Html.HelpTextFor(m => m.StartDay, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.StartDay)
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group col-xs-12 no-padding">
+                @Html.TextBoxFor(m => m.StartHour, new { @Value = ToLocalDateTime(Model.StartHour).ToTimeFormat(), @class = "form-control col-xs-12 time-picker" })
+                <label class="input-group-addon" for="StartHour">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </label>
+            </div>
+            @Html.HelpTextFor(m => m.StartHour, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.StartHour)
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelTimeFor(m => m.TimeEnd, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        <div class="col-sm-3 no-padding">
+            <div class="input-group col-xs-12 no-padding">
+                @Html.TextBoxFor(m => m.EndDay, new { @Value = ToLocalDateTime(Model.EndDay).ToDateFormat(), @class = "form-control col-xs-12 date-picker" })
+                <label class="input-group-addon" for="EndDay">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </label>
+            </div>
+            @Html.HelpTextFor(m => m.EndDay, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.EndDay)
+        </div>
+        <div class="col-sm-3">
+            <div class="input-group col-xs-12 no-padding">
+                @Html.TextBoxFor(m => m.EndHour, new { @Value = ToLocalDateTime(Model.EndHour).ToTimeFormat(), @class = "form-control col-xs-12 time-picker" })
+                <label class="input-group-addon" for="EndHour">
+                    <i class="fa fa-calendar bigger-110"></i>
+                </label>
+            </div>
+            @Html.HelpTextFor(m => m.EndHour, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.EndHour)
+        </div>
+        @Html.ValidationMessageFor(m => m.TimeEnd)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.MaxAttendees, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.MaxAttendees, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.MaxAttendees, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.MaxAttendees)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $("#event-schedule-form").submit(function (e) {
+            $("#TimeStart").val($("#StartDay").val() + ' ' + $("#StartHour").val());
+            $("#TimeEnd").val('');
+            if ($("#EndDay").val() != '' && $("#EndDay").valid() && $("#EndHour").valid()) {
+                $("#TimeEnd").val($("#EndDay").val() + ' ' + $("#EndHour").val());
+            }
+        });
+
+        $(function () {
+
+            //Build date range
+            siteHelper.buildDateRange("#StartDay", "#EndDay");
+        });
+    </script>);
+}

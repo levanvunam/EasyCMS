@@ -1,0 +1,18 @@
+﻿@model EzCMS.Core.Models.NewsCategories.WidgetManageModels.NewsCategoryWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.CategoryId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.CategoryId, Model.NewsCategories, T("Widget_NewsCategory_Text_SelectCategory"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.CategoryId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.CategoryId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>

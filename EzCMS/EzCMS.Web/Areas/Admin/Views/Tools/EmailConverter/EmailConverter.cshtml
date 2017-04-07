@@ -1,0 +1,144 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Tool_Site_Header");
+    ViewBag.Title = T("Tool_Site_EmailConverterTitle");
+    ViewBag.Description = T("Tool_Site_EmailConverterDescription");
+}
+
+@section styles
+{
+    @Styles.Render("~/styles/codemirror")
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/EmailConverter/css/emailConverter.css")" />
+}
+
+<h2> <a href="@Url.Action("Index", "Home", new { area = "Admin"})">Admin DashBoard</a> >> Email Converter</h2>
+<div class="space-12"></div>
+
+<div class="pull-left text-left" style="width: 170px; margin: 0 20px;">
+    <a href="@Url.Action("EmailConverterHelp", "Tools")" data-toggle="modal" data-target="#help-dialog" class="btn btn-block btn-default" style="margin-bottom: 5px;">
+        <i class="text-primary fa fa-question"></i> @T("Tool_EmailConverter_Text_Help")
+    </a>
+
+    <div id="options" class="option-group list-group">
+        <div class="list-group-item" title="Content width, usually 600px">
+            @T("Tool_EmailConverter_Text_Width")
+            <input type="text" name="option[base-width]" value="600" />
+        </div>
+
+        <div class="list-group-item" title="Body background color">
+            @T("Tool_EmailConverter_Text_BackgroundColor")
+            <input type="text" name="option[body-background]" value="#E4E6E9" />
+        </div>
+
+        <div class="list-group-item" title="Content background color">
+            @T("Tool_EmailConverter_Text_ContentBackground")
+            <input type="text" name="option[content-background]" value="#FFFFFF" />
+        </div>
+
+        <div class="list-group-item" title="Text color">
+            @T("Tool_EmailConverter_Text_TextColor")
+            <input type="text" name="option[text-color]" value="#444444" />
+        </div>
+
+        <div class="list-group-item" title="Font family">
+            @T("Tool_EmailConverter_Text_FontName")
+            <input type="text" name="option[font-family]" value="Arial, sans-serif" />
+        </div>
+
+        <div class="list-group-item" title="Font size">
+            @T("Tool_EmailConverter_Text_FontSize")
+            <input type="text" name="option[font-size]" value="13" />
+        </div>
+
+        <div class="list-group-item" title="Horizontal line color">
+            @T("Tool_EmailConverter_Text_HorizontalLineColor")
+            <input type="text" name="option[hr-background]" value="#E8E8E8" />
+        </div>
+
+        <div class="list-group-item" title="Wrap content inside a slightly larger element so that body background is always visible">
+            @T("Tool_EmailConverter_Text_ContentWrapSize")
+            <input type="text" name="option[wrap-size]" value="8" />
+        </div>
+
+        <div class="list-group-item">
+            <label>
+                <input style="vertical-align: top;" type="checkbox" name="option[rtl]" />
+                @T("Tool_EmailConverter_Text_RTL")
+            </label>
+        </div>
+
+    </div>
+</div>
+
+
+
+<form class="pull-left" style="width: 770px; width: calc(100% - 230px);">
+    <div style="margin-bottom: 5px;" class="row">
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="email-title" name="email-title" placeholder="Email title goes here..." />
+        </div>
+        <div class="col-sm-4" style="padding-left: 0;">
+            <div class="row">
+                <div class="col-xs-10">
+                    <select id="saved-templates" class="form-control" placeholder="@T("Tool_EmailConverter_Text_LoadPreviousTemplatesPlaceHolder")">
+                        <option value="">@T("Tool_EmailConverter_Text_LoadSavedEmails")</option>
+                        <option value="">----------------------</option>
+                        <option value="demo-confirmation">@T("Tool_EmailConverter_Text_DemoConfirmation")</option>
+                        <option value="demo-navbar">@T("Tool_EmailConverter_Text_DemoNavbar")</option>
+                        <option value="demo-newsletter">@T("Tool_EmailConverter_Text_DemoNewsletter")</option>
+                        <option value="demo-contrast">@T("Tool_EmailConverter_Text_DemoContrast")</option>
+                        <option value="">----------------------</option>
+                    </select>
+                </div>
+                <div class="col-xs-2" style="padding-left: 0;">
+                    <a id="btn-delete-email" href="#" class="hidden btn btn-danger btn-sm" style="font-size: 14px;">&times;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <textarea id="email-code" name="email-code" placeholder="@T("Tool_EmailConverter_Text_EmailContentPlaceHolder")"></textarea>
+    <hr />
+    <div class="clearfix">
+        <div class="pull-left">
+            <button id="id-btn-preview" type="button" class="btn btn-success">@T("Tool_EmailConverter_Text_Preview")</button>
+        </div>
+
+        <div class="pull-right">
+            <button id="id-btn-later" type="button" class="btn btn-info">@T("Tool_EmailConverter_Text_SaveForLater")</button>
+            <button id="id-btn-save" type="button" class="btn btn-primary">@T("Tool_EmailConverter_Text_SaveToFile")</button>
+
+            <a href="javascript:void" id="btn-save-html" class="hidden">@T("Tool_EmailConverter_Text_GetCode")</a>
+        </div>
+    </div>
+</form>
+
+<div class="modal" id="preview-dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title text-primary">Preview Email</h4>
+            </div>
+
+            <div class="modal-body">
+                <iframe id="preview-frame" width="100%" style="border: 1px dotted #D36767; min-height: 100%;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<iframe id="convert-frame" src="@Url.Action("EmailConverterResult", "Tools")" width="0" height="0" style="border-width: 0"></iframe>
+
+
+<div class="modal" id="help-dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+        </div>
+    </div>
+</div>
+@section scripts
+{
+    @* Code Mirror *@
+    @Scripts.Render("~/js/codemirror")
+}

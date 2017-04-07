@@ -1,0 +1,15 @@
+<script type="text/javascript">
+    var enableCookie = enableCookie || false;
+    $(function () {
+        if (enableCookie) {
+            siteHelper.httpPost({
+                showLoading: false,
+                url: "@Url.Action("SetupNewsTracking", "SiteApi", new { area = "" })",
+                data: { id : {Id} },
+                success: function(response) {
+                    //DO NOTHING HERE
+                }
+            });
+        }
+    });
+</script>

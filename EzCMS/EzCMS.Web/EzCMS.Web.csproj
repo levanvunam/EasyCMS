@@ -1,0 +1,2677 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{99F01414-B8C0-471D-BF0B-7197B1ACE049}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EzCMS.Web</RootNamespace>
+    <AssemblyName>EzCMS.Web</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\Build</MSBuildCommunityTasksPath>
+    <NuGetPackageImportStamp>0a6d8ac6</NuGetPackageImportStamp>
+    <UseGlobalApplicationHostFile />
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging, Version=3.0.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.1.0-alpha1\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Owin.3.0.0-rc1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0-rc1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebHelpers.3.2.3\lib\net45\Microsoft.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Extensions">
+      <HintPath>..\..\packages\Owin.Extensions.0.8.5\lib\net40\Owin.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin.Types">
+      <HintPath>..\..\packages\Owin.Types.0.8.5\lib\net40\Owin.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.9.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RazorEngine.3.9.3\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Recaptcha.Web, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\RecaptchaNet.1.8.0\lib\net45\Recaptcha.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Extensions.ExecutionContextScoping, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Extensions.ExecutionContextScoping.3.3.2\lib\net45\SimpleInjector.Extensions.ExecutionContextScoping.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Integration.Web.3.3.2\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Integration.Web.Mvc.3.3.2\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.WebApi, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Integration.WebApi.3.3.2\lib\net45\SimpleInjector.Integration.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.29.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <HintPath>..\..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\OwinStartup.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="App_Start\EzCMSConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\AccountController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ClientNavigationsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\FavouriteNavigationsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsReadsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AnonymousContactsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PageReadsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\AssociatesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\PluginsControllers.cs" />
+    <Compile Include="Areas\Admin\Controllers\RssFeedsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\UserLoginHistoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\ToolbarsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LocationsController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LocationTypesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\BackgroundTasksController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\BannersController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\BodyTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\CampaignCodesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\CompaniesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\CompanyTypesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ContactCommunicationsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ContactGroupsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ContactsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\CountriesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\WidgetsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\EmailAccountsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\EmailLogsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\EmailTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\AssociateTypesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\EventSchedulesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\EventsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FileTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FormComponentFieldsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FormComponentsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FormComponentTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FormDefaultComponentFieldsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FormDefaultComponentsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FormsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\FormTabsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\LanguagesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\LinksController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\LinkTrackerClicksController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\LinkTrackersController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\LinkTypesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\LocalizedResourcesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\MediaController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\EventCategoriesController.cs" />
+    <Compile Include="Areas\Admin\Controllers\NewsCategoriesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\NewsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\NoticesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\NoticeTypesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\NotificationsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\NotificationSetupController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\NotificationTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\PageLogsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\PagesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\PageTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\PollAnswersController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\PollsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ProductOfInterestsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ProtectedDocumentsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\RemoteAuthenticationsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\RotatingImageGroupsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\RotatingImagesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ScriptsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ServicesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SiteSettingsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SlideInHelpsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SocialMediaController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SocialMediaLogsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SocialMediaTokensController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SQLToolController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\StylesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SubscriptionLogsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SubscriptionsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\SubscriptionTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\TagsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\WidgetTemplatesController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\TestimonialsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\ToolsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\UserGroupsController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\Admin\Controllers\UsersController.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Areas\BackgroundTasks\BackgroundTasksAreaRegistration.cs" />
+    <Compile Include="Areas\BackgroundTasks\Controllers\BackgroundEntryPointController.cs" />
+    <Compile Include="Areas\BackgroundTasks\Models\ProxyTask.cs" />
+    <Compile Include="Areas\BackgroundTasks\Models\TokenResult.cs" />
+    <Compile Include="Areas\SiteSetup\SiteSetupAreaRegistration.cs" />
+    <Compile Include="Controllers\SiteApiController.cs" />
+    <Compile Include="Controllers\ResourcesController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PagesController.cs" />
+    <Compile Include="Areas\SiteSetup\Controllers\SetupController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Account\ForgotPassword\ForgotPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\ForgotPassword\ForgotPasswordSuccess.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Login\ChangePasswordAfterLogin.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Login\Login.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Login\LoginSuccess.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\MyProfiles\MyProfile.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\MyProfiles\_ChangePassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\MyProfiles\_Settings.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Register\Register.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\Register\RegisterSuccess.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\ResetPassword\ResetPassword.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\ResetPassword\ResetPasswordSuccess.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\_Layout.Account.cshtml" />
+    <Content Include="Areas\Admin\Views\BackgroundTasks\Config.cshtml" />
+    <Content Include="Areas\Admin\Views\BackgroundTasks\EditorTemplates\BackgroundTaskManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\BackgroundTasks\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\EditorTemplates\BannerManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Banners\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\BodyTemplates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\BodyTemplates\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\BodyTemplates\Details\_Pages.cshtml" />
+    <Content Include="Areas\Admin\Views\BodyTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\BodyTemplates\EditorTemplates\BodyTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\BodyTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\CampaignCodes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CampaignCodes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CampaignCodes\EditorTemplates\CampaignCodeManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CampaignCodes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Companies\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Companies\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Companies\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Companies\EditorTemplates\CompanyManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Companies\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Companies\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanyTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanyTypes\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\CompanyTypes\Details\_Companies.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanyTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanyTypes\EditorTemplates\CompanyTypeManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanyTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactCommunications\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactCommunications\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactCommunications\EditorTemplates\ContactCommunicationManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactGroups\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\ContactGroups\Details\_Contacts.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactGroups\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactGroups\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactGroups\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactGroups\EditorTemplates\ContactGroupManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Contacts\Details\_Histories.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\EditorTemplates\ContactManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Partials\_ContactDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\EditorTemplates\CountryManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Countries\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\WidgetBuilders\WidgetDropdown.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\WidgetBuilders\GenerateWidget.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\WidgetBuilders\IframePreview.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\WidgetBuilders\SelectWidgets.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\BannerWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\EventSchedulesWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\FormWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\LinksWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\MemberWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\NewsCategoryWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\NewsWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\NewsListingWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\NoticeBoardWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\PageContentWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\PageLinkWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\PollWidgetManageModel.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\PollResultWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\ProtectedDocumentWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\ProtectedDocumentFilesWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\RotatingImagesWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\ServicesWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\SubscriptionWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\TestimonialsWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\EmailAccounts\Details\_EmailLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\EditorTemplates\EmailAccountManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailAccounts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailLogs\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\EmailLogs\Details\_Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailLogs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailLogs\ResendEmail.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailTemplates\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\EmailTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailTemplates\EditorTemplates\EmailTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EventSchedules\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EventSchedules\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\EventSchedules\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EventSchedules\EditorTemplates\EventScheduleManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\EventSchedules\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Events\Details\_EventSchedules.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\EditorTemplates\EventCreateModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\EditorTemplates\EventManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\FileTemplates\Details\_Pages.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\EditorTemplates\FileTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FileTemplates\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentFields\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentFields\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\FormComponentFields\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentFields\EditorTemplates\FormComponentFieldManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentFields\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponents\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponents\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\FormComponents\Details\_FormComponentFields.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponents\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponents\EditorTemplates\FormComponentManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponents\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentTemplates\Details\_FormComponents.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponents\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentTemplates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentTemplates\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\FormComponentTemplates\Details\_FormDefaultComponents.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentTemplates\EditorTemplates\FormComponentTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FormComponentTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponentFields\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponentFields\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\FormDefaultComponentFields\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponentFields\EditorTemplates\FormDefaultComponentFieldManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponentFields\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponents\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponents\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\FormDefaultComponents\Details\_FormDefaultComponentFields.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponents\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponents\EditorTemplates\FormDefaultComponentManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FormDefaultComponents\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\Partials\_Steps.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\Setup\BuildForm.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\Setup\Configure.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\Setup\EmbeddedScript.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\Setup\Preview.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\_Layout.FormBuilder.cshtml" />
+    <Content Include="Areas\Admin\Views\Forms\_Layout.Setup.cshtml" />
+    <Content Include="Areas\Admin\Views\FormTabs\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\FormTabs\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\FormTabs\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\FormTabs\EditorTemplates\FormTabManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\FormTabs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Analytics\Partials\_AnalyticApiSetup.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Analytics\Partials\_AnalyticBoard.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Analytics\_GoogleAnalytic.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Languages\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Languages\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Languages\EditorTemplates\LanguageManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Languages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Links\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Links\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Links\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Links\EditorTemplates\LinkManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Links\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Links\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Links\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackerClicks\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\LinkTrackers\Details\_LinkTrackerClicks.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\EditorTemplates\LinkTrackerManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\MonthlyClickThrough.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\Partials\_SearchMonthlyClickThrough.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTypes\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\LinkTypes\Details\_Links.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTypes\EditorTemplates\LinkTypeManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LocalizedResources\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\LocalizedResources\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\LocalizedResources\EditorTemplates\LocalizedResourceManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\LocalizedResources\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Media\ImageEditor.cshtml" />
+    <Content Include="Areas\Admin\Views\Media\MediaBrowser.cshtml" />
+    <Content Include="Areas\Admin\Views\Media\Partials\_MediaBrowserScripts.cshtml" />
+    <Content Include="Areas\Admin\Views\Plugins\Config.cshtml" />
+    <Content Include="Areas\Admin\Views\Plugins\EditorTemplates\ModuleInformationModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Plugins\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsCategories\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsCategories\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\NewsCategories\Details\_Children.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsCategories\Details\_News.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsCategories\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsCategories\EditorTemplates\NewsCategoryManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsCategories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NewsCategories\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\News\Details\_NewsCategories.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\News\EditorTemplates\NewsManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\News\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Notices\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Notices\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Notices\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Notices\EditorTemplates\NoticeManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Notices\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Notices\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Notices\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\NoticeTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NoticeTypes\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\NoticeTypes\Details\_Notices.cshtml" />
+    <Content Include="Areas\Admin\Views\NoticeTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NoticeTypes\EditorTemplates\NoticeTypeManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\NoticeTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationSetup\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationSetup\Partials\_Steps.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationSetup\Steps\ContactGroup.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationSetup\Steps\NotificationTemplate.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationSetup\Steps\SavingNotificationConfiguration.cshtml" />
+    <Content Include="Areas\Admin\Views\Notifications\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationTemplates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationTemplates\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationTemplates\EditorTemplates\NotificationTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PageLogs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Pages\Details\_Children.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Details\_Tags.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\EditorTemplates\PageManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Partials\_PageManageScripts.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Partials\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Details.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\PageTemplates\Details\_Children.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Details\_Pages.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\EditorTemplates\PageTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\Partials\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\PageTemplates\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\EditorTemplates\PollAnswerManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Polls\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Polls\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Polls\Details\_PollAnswers.cshtml" />
+    <Content Include="Areas\Admin\Views\Polls\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Polls\EditorTemplates\PollManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Polls\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductOfInterests\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductOfInterests\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductOfInterests\EditorTemplates\ProductOfInterestManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ProductOfInterests\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProtectedDocuments\EditorTemplates\DocumentFeedbackModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ProtectedDocuments\EditorTemplates\DocumentPermissionManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ProtectedDocuments\Feedback.cshtml" />
+    <Content Include="Areas\Admin\Views\ProtectedDocuments\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ProtectedDocuments\SetPermissions.cshtml" />
+    <Content Include="Areas\Admin\Views\RemoteAuthentications\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\RemoteAuthentications\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\RemoteAuthentications\EditorTemplates\RemoteAuthenticationManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\RemoteAuthentications\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImageGroups\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImageGroups\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImageGroups\EditorTemplates\RotatingImageGroupManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImageGroups\EditSettings.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImageGroups\Gallery.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImageGroups\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImages\EditorTemplates\RotatingImageManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImages\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\RotatingImages\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Scripts\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Scripts\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Scripts\EditorTemplates\ScriptManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Scripts\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Scripts\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\Scripts\Partials\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\EditorTemplates\ServiceManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Services\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\WidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\GoogleAnalyticApiSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\NotificationInitializeModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\SubscriptionLogManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\EditorTemplates\SubscriptionManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.Administrator.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\CaptchaSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\CompanySetupSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\DocumentTypeMappingSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\EditorSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\ErrorHandlingSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\FormBuilderSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\GridRowListSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\IconSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\ImageUploadSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\LoginTemplateSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\PageSearchSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\PasswordSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\RobotsSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\SiteSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\SlideInHelps\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SlideInHelps\EditorTemplates\SlideInHelpManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\SlideInHelps\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SlideInHelps\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMediaLogs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMediaTokens\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMediaTokens\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMediaTokens\EditorTemplates\SocialMediaTokenManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMediaTokens\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMedia\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMedia\EditorTemplates\SocialMediaManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMedia\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SQLTool\Histories.cshtml" />
+    <Content Include="Areas\Admin\Views\SQLTool\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Styles\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Styles\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Styles\EditorTemplates\StyleManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Styles\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Styles\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\Styles\Partials\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\SubscriptionLogs\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Subscriptions\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SubscriptionTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SubscriptionTemplates\EditorTemplates\SubscriptionTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\SubscriptionTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\EditorTemplates\TagManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\WidgetTemplates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\WidgetTemplates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\WidgetTemplates\EditorTemplates\WidgetTemplateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\WidgetTemplates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\WidgetTemplates\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\WidgetTemplates\Partials\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\WidgetTemplates\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\EditorTemplates\TestimonialManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Testimonials\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Tools\EmailConverter\EmailConverter.cshtml" />
+    <Content Include="Areas\Admin\Views\Tools\EmailConverter\Help.cshtml" />
+    <Content Include="Areas\Admin\Views\Tools\EmailConverter\Result.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Details\_Users.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\EditorTemplates\UserGroupManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Permissions.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Details\_Contacts.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\EditorTemplates\SimpleUserManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\EditorTemplates\UserManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\PopupCreateFromContact.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Admin\editor.css" />
+    <Content Include="Content\Admin\form-builder.css" />
+    <Content Include="Content\Admin\google.css" />
+    <Content Include="Content\Plugins\Multiselect\BootstrapDuallistbox\bootstrap-duallistbox.css" />
+    <Content Include="Content\Plugins\Multiselect\BootstrapDuallistbox\bootstrap-duallistbox.min.css" />
+    <Content Include="app_offline.inactive.htm" />
+    <Content Include="Images\StarterKits\Blog\about-bg.jpg" />
+    <Content Include="Images\StarterKits\Blog\contact-bg.jpg" />
+    <Content Include="Images\StarterKits\Blog\home-bg.jpg" />
+    <Content Include="Images\StarterKits\Blog\post-bg.jpg" />
+    <Content Include="Images\StarterKits\Blog\post-sample-image.jpg" />
+    <Content Include="Images\Widgets\Associates.png" />
+    <Content Include="Images\Widgets\PageLink.png" />
+    <Content Include="Images\Widgets\NoWidget.png" />
+    <Content Include="Images\Widgets\PageMembers.png" />
+    <Content Include="Images\Widgets\Poll.png" />
+    <Content Include="Images\Widgets\PollResult.png" />
+    <Content Include="Images\Widgets\RssFeed.png" />
+    <Content Include="Images\Widgets\SocialFeed.png" />
+    <Content Include="Images\Widgets\Testimonials.png" />
+    <Content Include="Images\Widgets\Subscription.png" />
+    <Content Include="Images\Widgets\Services.png" />
+    <Content Include="Images\Widgets\RotatingImages.png" />
+    <Content Include="Images\Widgets\ProtectedDocuments.png" />
+    <Content Include="Images\Widgets\ProtectedDocumentFiles.png" />
+    <Content Include="Images\Widgets\LinkDisplay.png" />
+    <Content Include="Images\Widgets\NewsCategoryListing.png" />
+    <Content Include="Images\Widgets\NewsCategoryDetails.png" />
+    <Content Include="Images\Widgets\NewsListing.png" />
+    <Content Include="Images\Widgets\NewsDetails.png" />
+    <Content Include="Images\Widgets\NoticeBoard.png" />
+    <Content Include="Images\Widgets\Banner.png" />
+    <Content Include="Images\Widgets\Breadcrumbs.png" />
+    <Content Include="Images\Widgets\EventSchedules.png" />
+    <Content Include="Images\Widgets\ContentUpdates.png" />
+    <Content Include="Images\Widgets\Form.png" />
+    <Content Include="Images\Widgets\GoogleAnalytic.png" />
+    <Content Include="Images\Widgets\Navigations.png" />
+    <Content Include="Images\Widgets\PageContent.png" />
+    <Content Include="Images\Widgets\PageSearch.png" />
+    <Content Include="Images\Widgets\SitemapSimple.png" />
+    <Content Include="Images\Widgets\Sitemap.png" />
+    <Content Include="Images\BodyTemplate.png" />
+    <Content Include="Images\Google\search.png" />
+    <Content Include="Images\Google\google.png" />
+    <Content Include="Images\Google\voice.png" />
+    <Content Include="Scripts\Media\fileuploader.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\EzCMSwidget\dialogs\EzCMSwidget.old.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\EzCMSwidget\dialogs\EzCMSwidget.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\EzCMSwidget\icons\EzCMSwidget.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\EzCMSwidget\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\EzCMSwidget\plugin_old.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms\dialogs\ezcms_widget.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms\dialogs\ezcms_widget.old.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms\icons\ezcms_widget.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms\plugin_old.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms_widget\dialogs\ezcms_widget.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms_widget\dialogs\ezcms_widget.old.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms_widget\icons\ezcms_widget.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms_widget\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms_widget\plugin_old.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\comment\comment.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\comment\continuecomment.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\dialog\dialog.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\dialog\dialog.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\display\autorefresh.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\display\fullscreen.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\display\fullscreen.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\display\panel.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\display\placeholder.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\display\rulers.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\edit\closebrackets.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\edit\closetag.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\edit\continuelist.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\edit\matchbrackets.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\edit\matchtags.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\edit\trailingspace.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\brace-fold.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\comment-fold.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\foldcode.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\foldgutter.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\foldgutter.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\indent-fold.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\markdown-fold.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\fold\xml-fold.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\anyword-hint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\css-hint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\html-hint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\javascript-hint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\show-hint.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\show-hint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\sql-hint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\hint\xml-hint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\coffeescript-lint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\css-lint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\html-lint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\javascript-lint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\json-lint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\lint.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\lint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\lint\yaml-lint.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\merge\merge.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\merge\merge.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\mode\loadmode.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\mode\multiplex.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\mode\multiplex_test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\mode\overlay.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\mode\simple.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\runmode\colorize.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\runmode\runmode-standalone.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\runmode\runmode.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\runmode\runmode.node.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\scroll\annotatescrollbar.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\scroll\scrollpastend.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\scroll\simplescrollbars.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\scroll\simplescrollbars.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\search\jump-to-line.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\search\match-highlighter.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\search\matchesonscrollbar.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\search\matchesonscrollbar.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\search\search.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\search\searchcursor.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\selection\active-line.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\selection\mark-selection.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\selection\selection-pointer.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\tern\tern.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\tern\tern.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\tern\worker.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\addon\wrap\hardwrap.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\codemirror.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\codemirror.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\apl\apl.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\asciiarmor\asciiarmor.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\asn.1\asn.1.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\asterisk\asterisk.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\brainfuck\brainfuck.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\clike\clike.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\clike\scala.html" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\clike\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\clojure\clojure.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\cmake\cmake.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\cobol\cobol.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\coffeescript\coffeescript.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\commonlisp\commonlisp.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\css.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\gss.html" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\gss_test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\less.html" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\less_test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\scss.html" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\scss_test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\css\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\cypher\cypher.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\dart\dart.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\diff\diff.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\django\django.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\dockerfile\dockerfile.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\dtd\dtd.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\dylan\dylan.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\d\d.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\ebnf\ebnf.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\ecl\ecl.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\eiffel\eiffel.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\elm\elm.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\erlang\erlang.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\factor\factor.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\forth\forth.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\fortran\fortran.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\gas\gas.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\gfm\gfm.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\gfm\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\gherkin\gherkin.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\go\go.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\groovy\groovy.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\haml\haml.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\haml\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\handlebars\handlebars.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\haskell\haskell.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\haxe\haxe.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\htmlembedded\htmlembedded.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\htmlmixed\htmlmixed.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\http\http.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\idl\idl.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\jade\jade.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\javascript\javascript.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\javascript\json-ld.html" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\javascript\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\javascript\typescript.html" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\jinja2\jinja2.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\julia\julia.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\livescript\livescript.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\lua\lua.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\markdown\markdown.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\markdown\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mathematica\mathematica.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\meta.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mirc\mirc.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mllike\mllike.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\modelica\modelica.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mscgen\mscgen.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mscgen\mscgen_test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mscgen\msgenny_test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mscgen\xu_test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\mumps\mumps.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\nginx\nginx.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\nsis\nsis.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\ntriples\ntriples.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\octave\octave.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\oz\oz.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\pascal\pascal.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\pegjs\pegjs.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\perl\perl.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\php\php.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\php\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\pig\pig.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\properties\properties.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\puppet\puppet.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\python\python.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\q\q.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\rpm\rpm.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\rst\rst.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\ruby\ruby.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\ruby\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\rust\rust.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\rust\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\r\r.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\sass\sass.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\scheme\scheme.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\shell\shell.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\shell\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\sieve\sieve.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\slim\slim.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\slim\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\smalltalk\smalltalk.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\smarty\smarty.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\solr\solr.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\soy\soy.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\sparql\sparql.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\spreadsheet\spreadsheet.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\sql\sql.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\stex\stex.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\stex\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\stylus\stylus.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\swift\swift.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\tcl\tcl.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\textile\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\textile\textile.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\tiddlywiki\tiddlywiki.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\tiddlywiki\tiddlywiki.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\tiki\tiki.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\tiki\tiki.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\toml\toml.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\tornado\tornado.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\troff\troff.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\ttcn-cfg\ttcn-cfg.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\ttcn\ttcn.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\turtle\turtle.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\twig\twig.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\vbscript\vbscript.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\vb\vb.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\velocity\velocity.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\verilog\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\verilog\verilog.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\vhdl\vhdl.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\vue\vue.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\xml\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\xml\xml.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\xquery\test.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\xquery\xquery.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\mode\z80\z80.js" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\3024-day.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\3024-night.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\abcdef.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\ambiance-mobile.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\ambiance.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\base16-dark.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\base16-light.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\bespin.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\blackboard.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\cobalt.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\colorforth.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\dracula.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\eclipse.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\elegant.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\erlang-dark.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\hopscotch.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\icecoder.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\isotope.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\lesser-dark.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\liquibyte.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\material.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\mbo.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\mdn-like.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\midnight.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\monokai.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\neat.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\neo.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\night.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\paraiso-dark.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\paraiso-light.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\pastel-on-dark.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\railscasts.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\rubyblue.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\seti.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\solarized.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\the-matrix.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\tomorrow-night-bright.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\tomorrow-night-eighties.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\ttcn.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\twilight.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\vibrant-ink.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\xq-dark.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\xq-light.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\yeti.css" />
+    <Content Include="Scripts\Plugins\CodeMirror\theme\zenburn.css" />
+    <Content Include="Scripts\Plugins\CropImage\Jcrop.gif" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.af-ZA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.af.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.am-ET.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.am.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-AE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-BH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-DZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-EG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-IQ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-JO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-KW.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-LB.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-LY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-MA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-OM.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-QA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-SA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-SY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-TN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar-YE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ar.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.arn-CL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.arn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.as-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.as.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.az-Cyrl-AZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.az-Cyrl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.az-Latn-AZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.az-Latn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.az.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ba-RU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ba.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.be-BY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.be.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bg-BG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bg.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bn-BD.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bn-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bo-CN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bo.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.br-FR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.br.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bs-Cyrl-BA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bs-Cyrl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bs-Latn-BA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bs-Latn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.bs.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ca-ES.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ca.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.co-FR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.co.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.cs-CZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.cs.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.cy-GB.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.cy.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.da-DK.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.da.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.de-AT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.de-CH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.de-DE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.de-LI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.de-LU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.de.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.dsb-DE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.dsb.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.dv-MV.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.dv.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.el-GR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.el.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-029.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-AU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-BZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-CA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-GB.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-IE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-JM.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-MY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-NZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-PH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-SG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-TT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-US.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-ZA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.en-ZW.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-AR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-BO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-CL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-CO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-CR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-DO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-EC.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-ES.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-GT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-HN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-MX.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-NI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-PA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-PE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-PR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-PY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-SV.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-US.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-UY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es-VE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.es.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.et-EE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.et.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.eu-ES.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.eu.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fa-IR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fa.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fi-FI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fi.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fil-PH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fil.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fo-FO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fo.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fr-BE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fr-CA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fr-CH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fr-FR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fr-LU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fr-MC.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fr.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fy-NL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.fy.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ga-IE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ga.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gd-GB.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gd.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gl-ES.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gsw-FR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gsw.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gu-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.gu.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ha-Latn-NG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ha-Latn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ha.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.he-IL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.he.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hi-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hi.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hr-BA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hr-HR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hr.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hsb-DE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hsb.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hu-HU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hu.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hy-AM.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.hy.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.id-ID.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.id.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ig-NG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ig.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ii-CN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ii.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.is-IS.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.is.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.it-CH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.it-IT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.it.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.iu-Cans-CA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.iu-Cans.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.iu-Latn-CA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.iu-Latn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.iu.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ja-JP.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ja.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ka-GE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ka.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kk-KZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kk.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kl-GL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.km-KH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.km.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kn-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ko-KR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ko.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kok-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.kok.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ky-KG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ky.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lb-LU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lb.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lo-LA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lo.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lt-LT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lt.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lv-LV.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.lv.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mi-NZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mi.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mk-MK.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mk.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ml-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ml.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mn-Cyrl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mn-MN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mn-Mong-CN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mn-Mong.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.moh-CA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.moh.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mr-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mr.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ms-BN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ms-MY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ms.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mt-MT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.mt.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nb-NO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nb.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ne-NP.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ne.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nl-BE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nl-NL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nn-NO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.no.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nso-ZA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.nso.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.oc-FR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.oc.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.or-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.or.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.pa-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.pa.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.pl-PL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.pl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.prs-AF.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.prs.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ps-AF.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ps.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.pt-BR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.pt-PT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.pt.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.qut-GT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.qut.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.quz-BO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.quz-EC.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.quz-PE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.quz.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.rm-CH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.rm.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ro-RO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ro.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ru-RU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ru.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.rw-RW.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.rw.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sa-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sa.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sah-RU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sah.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.se-FI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.se-NO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.se-SE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.se.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.si-LK.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.si.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sk-SK.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sk.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sl-SI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sma-NO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sma-SE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sma.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.smj-NO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.smj-SE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.smj.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.smn-FI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.smn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sms-FI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sms.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sq-AL.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sq.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Cyrl-BA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Cyrl-CS.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Cyrl-ME.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Cyrl-RS.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Cyrl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Latn-BA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Latn-CS.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Latn-ME.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Latn-RS.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr-Latn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sr.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sv-FI.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sv-SE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sv.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sw-KE.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.sw.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.syr-SY.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.syr.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ta-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ta.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.te-IN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.te.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tg-Cyrl-TJ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tg-Cyrl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tg.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.th-TH.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.th.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tk-TM.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tk.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tn-ZA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tr-TR.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tr.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tt-RU.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tt.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tzm-Latn-DZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tzm-Latn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.tzm.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ug-CN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ug.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.uk-UA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.uk.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ur-PK.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.ur.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.uz-Cyrl-UZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.uz-Cyrl.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.uz-Latn-UZ.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.uz-Latn.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.uz.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.vi-VN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.vi.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.wo-SN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.wo.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.xh-ZA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.xh.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.yo-NG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.yo.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-CHS.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-CHT.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-CN.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-Hans.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-Hant.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-HK.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-MO.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-SG.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh-TW.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zh.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zu-ZA.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.culture.zu.js" />
+    <Content Include="Scripts\Plugins\Globalize\cultures\globalize.cultures.js" />
+    <Content Include="Scripts\Plugins\Globalize\globalize.js" />
+    <Content Include="Scripts\FormBuilder\bootstrap.min.js" />
+    <Content Include="Scripts\FormBuilder\css\bootstrap.min.css" />
+    <Content Include="Scripts\FormBuilder\css\form.css" />
+    <Content Include="Scripts\FormBuilder\css\Select2\select2-spinner.gif" />
+    <Content Include="Scripts\FormBuilder\css\Select2\select2.css" />
+    <Content Include="Scripts\FormBuilder\css\Select2\select2.min.css" />
+    <Content Include="Scripts\FormBuilder\css\Select2\select2.png" />
+    <Content Include="Scripts\FormBuilder\css\Select2\select2x2.png" />
+    <Content Include="Scripts\FormBuilder\html5shiv.js" />
+    <Content Include="Scripts\FormBuilder\images\ajax-loader.gif" />
+    <Content Include="Scripts\FormBuilder\images\spinner.gif" />
+    <Content Include="Scripts\FormBuilder\jquery-ie.min.js" />
+    <Content Include="Scripts\FormBuilder\jquery.min.js" />
+    <Content Include="Scripts\FormBuilder\jquery.validate.min.js" />
+    <Content Include="Scripts\FormBuilder\library\app.js" />
+    <Content Include="Scripts\FormBuilder\library\collections\my-form-snippets.js" />
+    <Content Include="Scripts\FormBuilder\library\collections\snippets.js" />
+    <Content Include="Scripts\FormBuilder\library\helper\pubsub.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\backbone.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\bootstrap.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\build.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\jquery.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\require.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\select2.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\select2.min.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\text.js" />
+    <Content Include="Scripts\FormBuilder\library\lib\underscore.js" />
+    <Content Include="Scripts\FormBuilder\library\main-built.js" />
+    <Content Include="Scripts\FormBuilder\library\main.js" />
+    <Content Include="Scripts\FormBuilder\library\models\snippet.js" />
+    <Content Include="Scripts\FormBuilder\library\templates\app\renderform.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\app\tab-nav.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\app\temp.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\popover\popover-checkbox.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\popover\popover-hidden.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\popover\popover-input.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\popover\popover-main.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\popover\popover-select.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\popover\popover-textarea-split.html" />
+    <Content Include="Scripts\FormBuilder\library\templates\popover\popover-textarea.html" />
+    <Content Include="Scripts\FormBuilder\library\views\my-form-snippet.js" />
+    <Content Include="Scripts\FormBuilder\library\views\my-form.js" />
+    <Content Include="Scripts\FormBuilder\library\views\snippet.js" />
+    <Content Include="Scripts\FormBuilder\library\views\tab-snippet.js" />
+    <Content Include="Scripts\FormBuilder\library\views\tab.js" />
+    <Content Include="Scripts\FormBuilder\library\views\temp-snippet.js" />
+    <Content Include="Content\Plugins\Ace\ace-fonts.min.css" />
+    <Content Include="Content\Plugins\Ace\ace-ie.min.css" />
+    <Content Include="Content\Plugins\Ace\ace-part2.min.css" />
+    <Content Include="Content\Plugins\Ace\ace-rtl.min.css" />
+    <Content Include="Content\Plugins\Ace\ace-skins.min.css" />
+    <Content Include="Content\Plugins\Ace\ace.min.css" />
+    <Content Include="Content\Plugins\Ace\images\border.png" />
+    <Content Include="Content\Plugins\Ace\images\border1.png" />
+    <Content Include="Content\Plugins\Ace\images\border2.png" />
+    <Content Include="Content\Plugins\Ace\images\controls.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderBottomCenter.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderBottomLeft.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderBottomRight.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderMiddleLeft.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderMiddleRight.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderTopCenter.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderTopLeft.png" />
+    <Content Include="Content\Plugins\Ace\images\ie6\borderTopRight.png" />
+    <Content Include="Content\Plugins\Ace\images\loading.gif" />
+    <Content Include="Content\Plugins\Ace\images\loading_background.png" />
+    <Content Include="Content\Plugins\Ace\images\meteorshower.jpg" />
+    <Content Include="Content\Plugins\Ace\images\meteorshower2.jpg" />
+    <Content Include="Content\Plugins\Ace\images\overlay.png" />
+    <Content Include="Content\Plugins\Ace\images\pattern.jpg" />
+    <Content Include="Content\Plugins\Ace\images\pattern.png" />
+    <Content Include="Content\Plugins\Ace\images\spritemap%402x.png" />
+    <Content Include="Content\Plugins\Ace\images\spritemap.png" />
+    <Content Include="Content\Plugins\Ace\img\alpha.png" />
+    <Content Include="Content\Plugins\Ace\img\hue.png" />
+    <Content Include="Content\Plugins\Ace\img\saturation.png" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap-datetimepicker.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap-duallistbox.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap-multiselect.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap-timepicker.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap.min.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap-editable.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap-theme.css" />
+    <Content Include="Content\Plugins\Bootstrap\bootstrap-theme.min.css" />
+    <Content Include="Content\Plugins\colorbox.min.css" />
+    <Content Include="Content\Plugins\FontAwesome\css\font-awesome.css" />
+    <Content Include="Content\Plugins\FontAwesome\css\font-awesome.min.css" />
+    <Content Include="Content\Admin\googleAnalyticBoard.css" />
+    <Content Include="Content\Plugins\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Plugins\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Plugins\jquery.gritter.min.css" />
+    <Content Include="Content\Plugins\jqueryui\jquery-ui.custom.min.css" />
+    <Content Include="Content\Plugins\jqueryui\jquery-ui.min.css" />
+    <Content Include="Content\Plugins\Multiselect\BootstrapMultiselect\bootstrap-multiselect.css" />
+    <Content Include="Content\Plugins\Multiselect\Select2\select2-spinner.gif" />
+    <Content Include="Content\Plugins\Multiselect\Select2\select2.css" />
+    <Content Include="Content\Plugins\Multiselect\Select2\select2.png" />
+    <Content Include="Content\Plugins\Multiselect\Select2\select2x2.png" />
+    <Content Include="Content\Plugins\Photobox\photobox.css" />
+    <Content Include="Content\Plugins\Photobox\photobox.ie.css" />
+    <Content Include="Content\Plugins\FontAwesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Plugins\fancybox\blank.gif" />
+    <Content Include="Content\Plugins\fancybox\fancybox_loading%402x.gif" />
+    <Content Include="Content\Plugins\fancybox\fancybox_loading.gif" />
+    <Content Include="Content\Plugins\fancybox\fancybox_overlay.png" />
+    <Content Include="Content\Plugins\fancybox\fancybox_sprite%402x.png" />
+    <Content Include="Content\Plugins\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\Plugins\fancybox\jquery.fancybox-thumbs.css" />
+    <Content Include="Content\Plugins\fancybox\jquery.fancybox.css" />
+    <Content Include="Content\Media\file.png" />
+    <Content Include="Content\Media\fileuploader.css" />
+    <Content Include="Content\Media\folder.png" />
+    <Content Include="Content\Media\imageEditor\imgEditor.css" />
+    <Content Include="Content\Media\imageEditor\img\brightness_contrast.png" />
+    <Content Include="Content\Media\imageEditor\img\crop.png" />
+    <Content Include="Content\Media\imageEditor\img\flip-h.png" />
+    <Content Include="Content\Media\imageEditor\img\flip-v.png" />
+    <Content Include="Content\Media\imageEditor\img\imgbackground.gif" />
+    <Content Include="Content\Media\imageEditor\img\resize.png" />
+    <Content Include="Content\Media\imageEditor\img\rotate-anticlockwise.png" />
+    <Content Include="Content\Media\imageEditor\img\rotate-clockwise.png" />
+    <Content Include="Content\Media\imageEditor\Jcrop.gif" />
+    <Content Include="Content\Media\imageEditor\jquery.Jcrop.css" />
+    <Content Include="Content\Media\imageEditor\loading.gif" />
+    <Content Include="Content\Media\loading.gif" />
+    <Content Include="Content\Media\mediaBrowser.css" />
+    <Content Include="Content\Media\themes\apple\bg.jpg" />
+    <Content Include="Content\Media\themes\apple\d.png" />
+    <Content Include="Content\Media\themes\apple\dot_for_ie.gif" />
+    <Content Include="Content\Media\themes\apple\style.css" />
+    <Content Include="Content\Media\themes\apple\throbber.gif" />
+    <Content Include="Content\Media\themes\classic\d.gif" />
+    <Content Include="Content\Media\themes\classic\d.png" />
+    <Content Include="Content\Media\themes\classic\dot_for_ie.gif" />
+    <Content Include="Content\Media\themes\classic\style.css" />
+    <Content Include="Content\Media\themes\classic\throbber.gif" />
+    <Content Include="Content\Media\themes\default-rtl\d.gif" />
+    <Content Include="Content\Media\themes\default-rtl\d.png" />
+    <Content Include="Content\Media\themes\default-rtl\dots.gif" />
+    <Content Include="Content\Media\themes\default-rtl\style.css" />
+    <Content Include="Content\Media\themes\default-rtl\throbber.gif" />
+    <Content Include="Content\Media\themes\default\d.gif" />
+    <Content Include="Content\Media\themes\default\d.png" />
+    <Content Include="Content\Media\themes\default\dll.png" />
+    <Content Include="Content\Media\themes\default\file.png" />
+    <Content Include="Content\Media\themes\default\folder.png" />
+    <Content Include="Content\Media\themes\default\home.png" />
+    <Content Include="Content\Media\themes\default\image.png" />
+    <Content Include="Content\Media\themes\default\mkv.png" />
+    <Content Include="Content\Media\themes\default\root.png" />
+    <Content Include="Content\Media\themes\default\style.css" />
+    <Content Include="Content\Media\themes\default\throbber.gif" />
+    <Content Include="Content\Media\themes\default\xml.png" />
+    <Content Include="Content\Shared\EzCMS.tree.css" />
+    <Content Include="Content\SiteSetup\sitesetup.css" />
+    <Content Include="Images\loading.gif" />
+    <Content Include="Images\no-image.png" />
+    <Content Include="Images\StarterKits\BlankTheme.jpg" />
+    <Content Include="Images\StarterKits\DefaultTheme.jpg" />
+    <Content Include="Images\noavatar.png" />
+    <Content Include="Media\dummy.txt" />
+    <Content Include="ProtectedDocuments\dummy.txt" />
+    <Content Include="Scripts\FormBuilder\respond.min.js" />
+    <Content Include="Scripts\FormBuilder\select2.min.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Steps\CompanySetup.cshtml" />
+    <Content Include="Areas\Admin\Views\EventSchedules\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Tags\Details\_Pages.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\DeleteConfirm.cshtml" />
+    <Content Include="Areas\Admin\Views\EventCategories\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\EventCategories\Details\_Events.cshtml" />
+    <Content Include="Areas\Admin\Views\EventCategories\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\EventCategories\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\EventCategories\EditorTemplates\EventCategoryManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\EventCategories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\EventCategories\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\Details\_EventCategories.cshtml" />
+    <Content Include="Areas\Admin\Views\LocalizedResources\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationSetup\Partials\ConfirmNotification.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\UserLoginSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\NotificationConfigurationSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\SubscriptionConfigurationSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\EzCMSHelpConfigurationSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\AssociateTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\AssociateTypes\Details\_Associates.cshtml" />
+    <Content Include="Areas\Admin\Views\AssociateTypes\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\AssociateTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\AssociateTypes\EditorTemplates\AssociateTypeManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\AssociateTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\AssociateTypes\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\LocationTypes\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\LocationTypes\Details\_Locations.cshtml" />
+    <Content Include="Areas\Admin\Views\LocationTypes\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\LocationTypes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\LocationTypes\EditorTemplates\LocationTypeManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\LocationTypes\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\LocationTypes\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\EditorTemplates\LocationManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\EditorTemplates\AssociateManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\PopupCreate.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\AssociateListingWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Details\_Locations.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Details\_CompanyTypes.cshtml" />
+    <Content Include="Areas\Admin\Views\Associates\Details\_AssociateTypes.cshtml" />
+    <Content Include="Areas\Admin\Views\CompanyTypes\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Locations\Details\_LocationTypes.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\EventConfiguration.cshtml">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include="Areas\Admin\Views\Locations\Details\_Associates.cshtml" />
+    <Content Include="Areas\Admin\Views\FormTabs\Details\_FormComponents.cshtml" />
+    <Content Include="Areas\Admin\Views\Toolbars\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Toolbars\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Toolbars\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Toolbars\EditorTemplates\ToolbarManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Toolbars\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Toolbars\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Toolbars\Details\_UserGroups.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\Tools\SessionManager\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UserLoginHistories\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\UserLoginHistories\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\UserLoginHistories\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Details\_UserLoginHistories.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Details\_UserGroups.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\CleanupLogsSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\SetupPageOrder.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Partials\_PageTree.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackers\PopupEdit.cshtml" />
+    <Content Include="Areas\Admin\Views\LinkTrackerClicks\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Details\_LinkTrackers.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\SelectBodyTemplate\SelectBodyTemplate.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\SelectBodyTemplate\_OnlineBodyTemplates.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\SelectBodyTemplate\_InstalledBodyTemplates.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Partials\_ConfirmChangeUrl.cshtml" />
+    <Content Include="Areas\Admin\Views\BackgroundTasks\Partials\_GetLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\BackgroundTasks\Partials\_GetLogsDetails.cshtml" />
+    <Content Include="Areas\Admin\Views\BackgroundTasks\Logs.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Details\_Permissions.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Details\_PageSecurities.cshtml" />
+    <Content Include="Areas\Admin\Views\UserGroups\Details\_ProtectedDocuments.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\AccountExpiredSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Account\ExtendAccountExpiresDate\ExtendAccountExpiresDate.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\EditorTemplates\SocialMediaMessageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\SocialFeedWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\NotificationSetup\Partials\_ContactSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\Partials\_SearchQueries.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Partials\_ContactSearch.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMedia\Details\_SocialMediaLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMediaTokens\Details\_SocialMediaLogs.cshtml" />
+    <Content Include="Areas\Admin\Views\RssFeeds\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\RssFeeds\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\RssFeeds\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\RssFeeds\EditorTemplates\RssFeedManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\RssFeeds\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\RssFeedWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMediaTokens\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\SocialMedia\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\SEOScoringSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailTemplates\ConfirmSendTestEmail.cshtml" />
+    <Content Include="Areas\Admin\Views\EmailTemplates\EditorTemplates\EmailTemplateSendTestModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ContactGroups\AddToGroup.cshtml" />
+    <Content Include="Areas\Admin\Views\Notifications\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Notifications\Details\_Contacts.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\PageInGoogleResult.cshtml" />
+    <Content Include="Areas\Admin\Views\SiteSettings\EditorTemplates\GoogleMapsSetting.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\LocatorWidgetManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\Tools\CookieManager\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Details\_PageReads.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Details\_PageReads.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Details\_NewsReads.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Details\_NewsReads.cshtml" />
+    <Content Include="Areas\Admin\Views\Contacts\Details\_AnonymousContacts.cshtml" />
+    <Content Include="Areas\Admin\Views\Companies\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Events\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Links\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\News\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\Notices\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\PollAnswers\Partials\_Search.cshtml" />
+    <Content Include="Areas\Admin\Views\FavouriteNavigations\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\ClientNavigations\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\ClientNavigations\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\ClientNavigations\EditorTemplates\ClientNavigationManageModel.cshtml" />
+    <Content Include="Areas\Admin\Views\ClientNavigations\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Widgets\EditorTemplates\NavigationsWidgetManageModel.cshtml" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\Plugins\Ace\ace-elements.min.js" />
+    <Content Include="Scripts\Plugins\Ace\ace-extra.min.js" />
+    <Content Include="Scripts\Plugins\Ace\ace.min.js" />
+    <Content Include="Scripts\Plugins\BootBox\bootbox.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\bootstrap-colorpicker.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\bootstrap-tag.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\bootstrap-wysiwyg.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\bootstrap-timepicker.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\daterangepicker.min.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.bg.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.ca.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.cs.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.da.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.de.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.el.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.es.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.fi.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.fr.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.he.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.hr.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.hu.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.id.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.is.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.it.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.ja.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.kr.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.lt.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.lv.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.ms.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.nb.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.nl.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.pl.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.pt.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.ro.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.rs.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.ru.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.sk.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.sl.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.sv.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.sw.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.th.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.tr.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.uk.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\date-time\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Include="Scripts\Plugins\CkEditor\build-config.js" />
+    <Content Include="Scripts\Plugins\CkEditor\ckeditor.js" />
+    <Content Include="Scripts\Plugins\CkEditor\contents.css" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\af.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ar.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\bg.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\bn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\bs.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\cs.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\cy.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\da.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\de.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\el.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\en-au.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\en-ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\en-gb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\en.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\eo.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\es.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\et.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\eu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\fa.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\fi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\fo.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\fr-ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\fr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\gl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\gu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\he.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\hi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\hr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\hu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\id.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\is.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\it.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ja.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ka.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\km.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ko.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ku.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\lt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\lv.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\mk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\mn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ms.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\nb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\nl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\no.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\pl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\pt-br.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\pt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ro.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ru.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\si.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\sk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\sl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\sq.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\sr-latn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\sr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\sv.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\th.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\tr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\tt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\ug.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\uk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\vi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\zh-cn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\lang\zh.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\a11yhelp.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\af.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ar.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\bg.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\cs.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\cy.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\da.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\de.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\el.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\en-gb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\en.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\eo.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\es.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\et.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\fa.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\fi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\fr-ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\fr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\gl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\gu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\he.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\hi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\hr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\hu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\id.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\it.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ja.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\km.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ko.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ku.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\lt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\lv.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\mk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\mn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\nb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\nl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\no.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\pl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\pt-br.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\pt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ro.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ru.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\si.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\sk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\sl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\sq.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\sr-latn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\sr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\sv.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\th.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\tr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\tt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\ug.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\uk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\vi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\zh-cn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\zh.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\a11yhelp\dialogs\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\about\dialogs\about.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\about\dialogs\hidpi\logo_ckeditor.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\about\dialogs\logo_ckeditor.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\clipboard\dialogs\paste.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\colordialog\dialogs\colordialog.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\dialog\dialogDefinition.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\div\dialogs\div.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\find\dialogs\find.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\flash\dialogs\flash.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\flash\images\placeholder.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\dialogs\fontawesome.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\dialogs\index.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\css\index.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\fonts\index.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\index.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\icons\fontawesome.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\icons\index.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\index.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\button.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\checkbox.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\form.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\hiddenfield.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\radio.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\select.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\textarea.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\dialogs\textfield.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\forms\images\hiddenfield.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\CHANGELOG.txt" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\lang\en.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\lang\es.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\lang\fr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\lang\it.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\lang\ru.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\icons.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\icons_hidpi.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\iframe\dialogs\iframe.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\iframe\images\placeholder.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\image\dialogs\image.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\image\images\noimage.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\lineutils\dev\dnd.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\lineutils\dev\magicfinger.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\lineutils\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\link\dialogs\anchor.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\link\dialogs\link.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\link\images\anchor.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\link\images\hidpi\anchor.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\liststyle\dialogs\liststyle.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\magicline\images\hidpi\icon-rtl.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\magicline\images\hidpi\icon.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\magicline\images\icon-rtl.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\magicline\images\icon.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\pagebreak\images\pagebreak.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\pastefromword\filter\default.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\preview\preview.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\scayt\dialogs\options.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\scayt\dialogs\toolbar.css" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_address.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_blockquote.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_div.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_h1.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_h2.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_h3.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_h4.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_h5.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_h6.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_p.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\showblocks\images\block_pre.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\dialogs\smiley.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\angel_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\angel_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\angry_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\angry_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\broken_heart.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\broken_heart.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\confused_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\confused_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\cry_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\cry_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\devil_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\devil_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\embaressed_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\embarrassed_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\embarrassed_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\envelope.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\envelope.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\heart.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\heart.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\kiss.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\kiss.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\lightbulb.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\lightbulb.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\omg_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\omg_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\regular_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\regular_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\sad_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\sad_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\shades_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\shades_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\teeth_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\teeth_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\thumbs_down.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\thumbs_down.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\thumbs_up.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\thumbs_up.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\tongue_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\tongue_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\tounge_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\whatchutalkingabout_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\whatchutalkingabout_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\wink_smile.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\smiley\images\wink_smile.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\af.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\ar.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\bg.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\cs.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\cy.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\da.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\de.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\el.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\en-gb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\en.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\eo.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\es.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\et.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\fa.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\fi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\fr-ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\fr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\gl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\he.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\hr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\hu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\id.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\it.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\ja.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\km.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\ku.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\lt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\lv.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\nb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\nl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\no.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\pl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\pt-br.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\pt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\ru.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\si.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\sk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\sl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\sq.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\sv.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\th.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\tr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\tt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\ug.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\uk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\vi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\zh-cn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\zh.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\lang\_translationstatus.txt" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\specialchar\dialogs\specialchar.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\stylesheetparser\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\stylesheetparser\samples\assets\sample.css" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\stylesheetparser\samples\stylesheetparser.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\tabletools\dialogs\tableCell.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\table\dialogs\table.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\templates\dialogs\templates.css" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\templates\dialogs\templates.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\templates\templates\default.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\templates\templates\images\template1.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\templates\templates\images\template2.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\templates\templates\images\template3.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\ezcms_stylesheetparser\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\assets\contents.css" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\assets\sample.jpg" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\assets\simplebox\contents.css" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\assets\simplebox\dialogs\simplebox.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\assets\simplebox\icons\simplebox.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\assets\simplebox\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\console.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\nestedwidgets.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\dev\widgetstyles.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\images\handle.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\af.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\ar.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\ca.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\cs.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\cy.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\da.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\de.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\el.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\en-gb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\en.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\eo.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\es.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\fa.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\fi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\fr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\gl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\he.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\hr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\hu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\it.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\ja.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\km.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\ko.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\ku.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\nb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\nl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\no.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\pl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\pt-br.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\pt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\ru.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\sk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\sl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\sq.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\sv.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\tr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\tt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\uk.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\vi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\zh-cn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\lang\zh.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\widget\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\wsc\dialogs\ciframe.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\wsc\dialogs\tmpFrameset.html" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\wsc\dialogs\wsc.css" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\wsc\dialogs\wsc.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\wsc\dialogs\wsc_ie.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\images\icon.png" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\ar.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\de.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\el.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\en.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\es.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\fi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\fr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\he.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\hu.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\it.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\ja.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\nb.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\nl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\nn.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\pl.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\pt.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\ru.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\tr.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\vi.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\lang\zh.js" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\youtube\plugin.js" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\dialog.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\dialog_ie.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\dialog_ie7.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\dialog_ie8.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\dialog_iequirks.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\editor.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\editor_gecko.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\editor_ie.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\editor_ie7.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\editor_ie8.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\editor_iequirks.css" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\icons.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\icons_hidpi.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\arrow.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\close.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\hidpi\close.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\hidpi\lock-open.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\hidpi\lock.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\hidpi\refresh.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\lock-open.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\lock.png" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\images\refresh.png" />
+    <Content Include="Scripts\Plugins\CkEditor\styles.js" />
+    <Content Include="Scripts\EmailConverter\css\emailResult.css" />
+    <Content Include="Scripts\EmailConverter\css\emailConverter.css" />
+    <Content Include="Scripts\EmailConverter\email-convert.js" />
+    <Content Include="Scripts\EmailConverter\email.js" />
+    <Content Include="Scripts\Plugins\Ace\fuelux\fuelux.spinner.js" />
+    <Content Include="Scripts\Plugins\Ace\fuelux\fuelux.spinner.min.js" />
+    <Content Include="Scripts\Plugins\Ace\fuelux\fuelux.tree.js" />
+    <Content Include="Scripts\Plugins\Ace\fuelux\fuelux.tree.min.js" />
+    <Content Include="Scripts\Plugins\Ace\fuelux\fuelux.wizard.js" />
+    <Content Include="Scripts\Plugins\Ace\fuelux\fuelux.wizard.min.js" />
+    <Content Include="Scripts\Plugins\Datetimepicker\css\bootstrap-datetimepicker.min.css" />
+    <Content Include="Scripts\Plugins\fuelux\css\fuelux.css" />
+    <Content Include="Scripts\Plugins\fuelux\css\fuelux.min.css" />
+    <Content Include="Scripts\Plugins\fuelux\fonts\fuelux.svg" />
+    <Content Include="Scripts\Plugins\fuelux\js\fuelux.js" />
+    <Content Include="Scripts\Plugins\fuelux\js\fuelux.min.js" />
+    <Content Include="Scripts\Plugins\JavascriptToolbox\date.js" />
+    <Content Include="Scripts\Plugins\jqGrid\css\ui.jqgrid.min.css" />
+    <Content Include="Scripts\Plugins\jqGrid\jquery.jqGrid.showHideColumnMenu.js" />
+    <Content Include="Scripts\Plugins\jquery.colorbox.min.js" />
+    <Content Include="Scripts\Plugins\jquery.maskedinput.min.js" />
+    <Content Include="Scripts\Plugins\jquery.mobile.custom.min.js" />
+    <Content Include="Scripts\Plugins\jquery.ui.touch-punch.min.js" />
+    <Content Include="Scripts\Plugins\moment\moment-timezone-with-data.min.js" />
+    <Content Include="Scripts\Plugins\moment\moment.min.js" />
+    <Content Include="Scripts\Plugins\html5shiv.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-ar.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-bg.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-bg1251.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-cat.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-cn.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-cs.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-da.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-de.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-dk.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-el.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-en.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-es.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-fa.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-fi.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-fr.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-gl.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-he.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-hr.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-hr1250.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-hu.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-id.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-is.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-it.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-ja.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-kr.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-lt.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-mne.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-nl.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-no.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-pl.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-pt-br.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-pt.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-ro.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-ru.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-sk.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-sr-latin.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-sr.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-sv.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-th.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-tr.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-tw.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-ua.js" />
+    <Content Include="Scripts\Plugins\jqGrid\i18n\grid.locale-vi.js" />
+    <Content Include="Scripts\Plugins\jqGrid\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\Plugins\jqueryui\jquery-ui-1.10.3.custom.min.js" />
+    <Content Include="Scripts\Plugins\jqueryui\jquery-ui-1.10.3.full.min.js" />
+    <Content Include="Scripts\Plugins\jquery.gritter.min.js" />
+    <Content Include="Scripts\Plugins\Globalize\jquery.validate.globalize.js" />
+    <Content Include="Scripts\Plugins\Globalize\jquery.validate.globalize.min.js" />
+    <Content Include="Scripts\Plugins\Multiselect\BootstrapDuallistbox\jquery.bootstrap-duallistbox.js" />
+    <Content Include="Scripts\Plugins\Multiselect\BootstrapDuallistbox\jquery.bootstrap-duallistbox.min.js" />
+    <Content Include="Scripts\Plugins\Nestable\jquery.nestable.js" />
+    <Content Include="Scripts\Plugins\respond.min.js" />
+    <Content Include="Scripts\Plugins\spin.min.js" />
+    <Content Include="Scripts\Plugins\typeahead-bs2.min.js" />
+    <Content Include="Scripts\Plugins\typeahead.jquery.min.js" />
+    <Content Include="Scripts\Plugins\x-editable\ace-editable.min.js" />
+    <Content Include="Scripts\Plugins\x-editable\bootstrap-editable.min.js" />
+    <Content Include="Content\Admin\template.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Images\Shared\loading.gif" />
+    <Content Include="Scripts\Plugins\CkEditor\config.js" />
+    <Content Include="Content\Plugins\FontAwesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Plugins\FontAwesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Plugins\FontAwesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Plugins\FontAwesome\fonts\FontAwesome.otf" />
+    <Content Include="Areas\SiteSetup\Views\Web.config" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Steps\Welcome.cshtml" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Steps\License.cshtml" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Steps\StarterKit.cshtml" />
+    <Content Include="Areas\BackgroundTasks\Views\web.config" />
+    <Content Include="Areas\SiteSetup\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Steps\EmailSetup.cshtml" />
+    <Content Include="Content\Plugins\FontAwesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Error.cshtml" />
+    <Content Include="Content\Plugins\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Plugins\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Plugins\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Plugins\fonts\FontAwesome.otf" />
+    <Content Include="Content\Plugins\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\Plugins\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\Plugins\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Plugins\fonts\cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff" />
+    <Content Include="Content\Plugins\fonts\DXI1ORHCpsQm3Vp6mXoaTXhCUOGz7vYGh680lGh-uXM.woff" />
+    <Content Include="log4net.config" />
+    <Content Include="Logs\dummy.log" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\scayt\LICENSE.md" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\scayt\README.md" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\wsc\LICENSE.md" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\wsc\README.md" />
+    <Content Include="Scripts\Plugins\CkEditor\skins\moono\readme.md" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\fontawesome\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\LICENSE" />
+    <Content Include="Scripts\Plugins\CkEditor\plugins\html5validation\README.md" />
+    <Content Include="Scripts\Plugins\CropImage\jquery.color.js" />
+    <Content Include="Scripts\Plugins\CropImage\jquery.filestyle.js" />
+    <Content Include="Scripts\Plugins\CropImage\jquery.Jcrop.css" />
+    <Content Include="Scripts\Plugins\CropImage\jquery.Jcrop.js" />
+    <Content Include="Scripts\Plugins\Datetimepicker\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\Plugins\fancybox\jquery.fancybox-thumbs.js" />
+    <Content Include="Scripts\Plugins\fancybox\jquery.fancybox.js" />
+    <Content Include="Scripts\Plugins\fancybox\jquery.fancybox.pack.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\bootstrap-datepicker.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\bootstrap-datepicker.vi.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\bootstrap.js" />
+    <Content Include="Scripts\Plugins\Bootstrap\ie8-responsive-file-warning.js" />
+    <Content Include="Scripts\Plugins\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <None Include="Scripts\Media\fileuploader.js.bak" />
+    <Content Include="Scripts\Media\imageEditor\jquery.Jcrop.js" />
+    <Content Include="Scripts\Media\imageEditor\pixastic.js" />
+    <Content Include="Scripts\Media\jquery.cookie.js" />
+    <Content Include="Scripts\Media\jquery.hotkeys.js" />
+    <Content Include="Scripts\Media\jquery.jstree.js" />
+    <Content Include="Scripts\Media\mediaBrowser\plugin.js" />
+    <Content Include="Scripts\Media\mediaBrowser\plugin.min.js" />
+    <Content Include="Scripts\modernizr-2.5.3.js" />
+    <Content Include="Scripts\Plugins\Multiselect\BootstrapMultiselect\bootstrap-multiselect.js" />
+    <Content Include="Scripts\Plugins\Multiselect\Select2\select2.js" />
+    <Content Include="Content\Plugins\Multiselect\Select2\select2.min.css" />
+    <Content Include="Scripts\Plugins\Multiselect\Select2\select2.min.js" />
+    <Content Include="Scripts\Plugins\jquery.highlight.js" />
+    <Content Include="Scripts\Shared\askWhenLeaving.js" />
+    <Content Include="Scripts\Shared\Helpers\siteHelper.js" />
+    <Content Include="Scripts\Shared\Helpers\jqGridHelper.js" />
+    <Content Include="Scripts\Shared\Initialize\validation.init.js" />
+    <Content Include="Scripts\Shared\Initialize\admin.init.js" />
+    <Content Include="Scripts\Shared\Initialize\editable.js" />
+    <Content Include="Scripts\Shared\Initialize\googleAnalyticBoard.js" />
+    <Content Include="Scripts\Shared\Initialize\googleMapApi.js" />
+    <Content Include="Scripts\Shared\Initialize\ckeditor.init.js" />
+    <Content Include="Scripts\Plugins\Timezone\jstz.js" />
+    <Content Include="Scripts\Plugins\Wizard\jquery.easyWizard.js" />
+    <Content Include="Scripts\Shared\Plugins\Tree\fuelux.tree.js" />
+    <Content Include="Scripts\Shared\Plugins\Tree\EzCMS.tree.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Shared\CloseFancyBox.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\NavigationItemModel.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\PropertyModel.cshtml" />
+    <Content Include="Views\Shared\Maps\_ShowMap.cshtml" />
+    <Content Include="Views\Shared\Partials\_Breadcrumb.cshtml" />
+    <Content Include="Views\Shared\Partials\_EditorToolbar.cshtml" />
+    <Content Include="Views\Shared\Partials\_ExportButtons.cshtml" />
+    <Content Include="Views\Shared\Partials\_ExportButtonsExcludeExportAll.cshtml" />
+    <Content Include="Views\Shared\Partials\_Header.cshtml" />
+    <Content Include="Views\Shared\Partials\_Navigation.cshtml" />
+    <Content Include="Views\Shared\Partials\_PropertyDropdown.cshtml" />
+    <Content Include="Views\Shared\Partials\_SubmitButtons.cshtml" />
+    <Content Include="Views\Shared\Partials\_Variables.cshtml" />
+    <Content Include="Views\Shared\ShowMessageAndCloseFancyBox.cshtml" />
+    <Content Include="Views\Shared\_CleanLayout.cshtml" />
+    <Content Include="Views\Shared\_Layout.Blank.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Preview.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\Pages\Index.cshtml" />
+    <Content Include="Scripts\Media\mediaBrowser\plugin.min.js.map" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Index.cshtml" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Steps\DatabaseSetup.cshtml" />
+    <Content Include="Areas\SiteSetup\Views\Setup\Steps\UserSetup.cshtml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\SiteApi\Subscriptions\Index.cshtml" />
+    <Content Include="Scripts\Plugins\fuelux\css\fuelux.css.map" />
+    <Content Include="Scripts\Plugins\fuelux\fonts\fuelux.eot" />
+    <Content Include="Scripts\Plugins\fuelux\fonts\fuelux.ttf" />
+    <Content Include="Scripts\Plugins\fuelux\fonts\fuelux.woff" />
+    <Content Include="Views\SiteApi\Forms\IframeLoader.cshtml" />
+    <Content Include="Views\SiteApi\Polls\ShowResult.cshtml" />
+    <Content Include="Views\SiteApi\LinkTrackers\Index.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\uploads\" />
+    <Folder Include="Properties\PublishProfiles\" />
+    <Folder Include="Scripts\Plugins\CodeMirror\mode\rpm\changes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Ez.Framework\Ez.Framework.csproj">
+      <Project>{E4C5A7DB-DBE4-4B52-8BFB-9C5AE0FD3D9F}</Project>
+      <Name>Ez.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EzCMS.Core\EzCMS.Core.csproj">
+      <Project>{c864e852-11ae-4e1f-a2ce-b4e48b0ad4b1}</Project>
+      <Name>EzCMS.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EzCMS.Entity\EzCMS.Entity.csproj">
+      <Project>{887ADA4E-4E67-418D-94AF-303A655FEB4E}</Project>
+      <Name>EzCMS.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_Data\version.txt" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>12015</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:1234/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

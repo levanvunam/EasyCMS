@@ -1,0 +1,206 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "LinkTrackerClick")
+</div>
+<div class="col-xs-12">
+    <table id="link-tracker-click-grid-table"></table>
+    <div id="link-tracker-click-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var linkTrackerClickGrid = "#link-tracker-click-grid-table";
+        var linkTrackerClickGridPager = "#link-tracker-click-grid-pager";
+        var linkTrackerClickTab = "#link-tracker-clicks";
+        var linkTrackerClickGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Link Tracker Click" })');
+        var linkTrackerClickExportUrl = "@Url.Action("Exports", "LinkTrackerClicks", new { linkTrackerId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "LinkTrackerClicks", new { linkTrackerId = Model })",
+                colNames: ['', '@T("LinkTrackerClick_Field_Id")',
+                    '@T("LinkTrackerClick_Field_LinkTrackerName")',
+                    '@LabelForTime(T("LinkTrackerClick_Field_TimeClick"))',
+                    '@T("LinkTrackerClick_Field_IpAddress")',
+                    '@T("LinkTrackerClick_Field_Platform")',
+                    '@T("LinkTrackerClick_Field_OsVersion")',
+                    '@T("LinkTrackerClick_Field_BrowserType")',
+                    '@T("LinkTrackerClick_Field_BrowserName")',
+                    '@T("LinkTrackerClick_Field_BrowserVersion")',
+                    '@T("LinkTrackerClick_Field_MajorVersion")',
+                    '@T("LinkTrackerClick_Field_MinorVersion")',
+                    '@T("LinkTrackerClick_Field_IsBeta")',
+                    '@T("LinkTrackerClick_Field_IsCrawler")',
+                    '@T("LinkTrackerClick_Field_IsAOL")',
+                    '@T("LinkTrackerClick_Field_IsWin16")',
+                    '@T("LinkTrackerClick_Field_IsWin32")',
+                    '@T("LinkTrackerClick_Field_SupportsFrames")',
+                    '@T("LinkTrackerClick_Field_SupportsTables")',
+                    '@T("LinkTrackerClick_Field_SupportsCookies")',
+                    '@T("LinkTrackerClick_Field_SupportsVBScript")',
+                    '@T("LinkTrackerClick_Field_SupportsJavaScript")',
+                    '@T("LinkTrackerClick_Field_SupportsJavaApplets")',
+                    '@T("LinkTrackerClick_Field_SupportsActiveXControls")', 'T("LinkTrackerClick_Field_JavaScriptVersion")',
+                    '@LabelForTime(T("LinkTrackerClick_Field_Created"))',
+                    '@T("LinkTrackerClick_Field_CreatedBy")',
+                    '@LabelForTime(T("LinkTrackerClick_Field_LastUpdate"))',
+                    '@T("LinkTrackerClick_Field_LastUpdateBy")'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "LinkTrackerClicks")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete link tracker click icon
+                            var returnUrl = "@Url.Action("Details", new { id = Model })";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "LinkTrackerClicks")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return detailsIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    {
+                        name: 'LinkTrackerName',
+                        index: 'LinkTrackerName',
+                        formatter: function (cellvalue, options, rowObject) {
+                            var detailUrl = "<a href='@Url.Action("Details", "LinkTrackers")/" + rowObject.LinkTrackerId + "'>" + cellvalue + "</a>";
+                            return detailUrl;
+                        }
+                    },
+                    { name: 'Created', index: 'Created', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'IpAddress', index: 'IpAddress' },
+                    { name: 'OsVersion', index: 'OsVersion' },
+                    { name: 'Platform', index: 'Platform', hidden: true },
+                    { name: 'BrowserType', index: 'BrowserSettingType', hidden: true },
+                    { name: 'BrowserName', index: 'BrowserName' },
+                    { name: 'BrowserVersion', index: 'BrowserVersion' },
+                    { name: 'MajorVersion', index: 'MajorVersion', hidden: true },
+                    { name: 'MinorVersion', index: 'MinorVersion', hidden: true },
+                    {
+                        name: 'IsBeta',
+                        index: 'IsBeta',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsCrawler',
+                        index: 'IsCrawler',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsAOL',
+                        index: 'IsAOL',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsWin16',
+                        index: 'IsWin16',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsWin32',
+                        index: 'IsWin32',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsFrames',
+                        index: 'SupportsFrames',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsTables',
+                        index: 'SupportsTables',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsCookies',
+                        index: 'SupportsCookies',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsVBScript',
+                        index: 'SupportsVBScript',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'SupportsJavaScript', index: 'SupportsJavaScript', hidden: true },
+                    {
+                        name: 'SupportsJavaApplets',
+                        index: 'SupportsJavaApplets',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsActiveXControls',
+                        index: 'SupportsActiveXControls',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'JavaScriptVersion', index: 'JavaScriptVersion', hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-link-tracker-click").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(linkTrackerClickGrid, linkTrackerClickGridPager, gridOptions, linkTrackerClickGridSettings, linkTrackerClickTab, linkTrackerClickExportUrl, "LinkTrackerClick");
+        });
+    </script>);
+}

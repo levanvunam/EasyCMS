@@ -1,0 +1,50 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.Pages.PageManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Header = T("Page_Site_Header");
+    ViewBag.Title = T("Page_Site_EditTitle");
+    ViewBag.Description = T("Page_Site_EditDescription");
+}
+
+<div class="page-content" style="overflow-x: hidden">
+    @using (Html.BeginForm("PopupEdit", "Pages", null, FormMethod.Post, new { @class = "form-horizontal", id = "pageForm", enctype = "multipart/form-data" }))
+    {
+        <div class="page-manage-header col-xs-12 no-padding-left no-padding-right">
+            <h1 class="col-xs-4 no-padding-left">
+                @Model.Title
+                @switch (Model.Status)
+                {
+                    case PageEnums.PageStatus.Online:
+                        <small class="label label-success arrowed">
+                            @(Model.Status.GetEnumName())
+                        </small>
+                        break;
+                    case PageEnums.PageStatus.Draft:
+                        <small class="label label-light arrowed">
+                            @(Model.Status.GetEnumName())
+                        </small>
+                        break;
+                    case PageEnums.PageStatus.Offline:
+                        <small class="label label-inverse arrowed">
+                            @(Model.Status.GetEnumName())
+                        </small>
+                        break;
+                    default:
+                        <small class="label label-default arrowed">
+                            @(Model.Status.GetEnumName())
+                        </small>
+                        break;
+                }
+            </h1>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                @ShowStatusMessage()
+                @Html.EditorForModel(Model)
+            </div>
+        </div>
+    }
+</div>

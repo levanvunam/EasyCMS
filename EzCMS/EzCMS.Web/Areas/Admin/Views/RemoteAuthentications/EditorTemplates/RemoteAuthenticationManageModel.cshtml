@@ -1,0 +1,46 @@
+﻿@model EzCMS.Core.Models.RemoteAuthentications.RemoteAuthenticationManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ServiceUrl, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.ServiceUrl, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.ServiceUrl, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ServiceUrl)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.AuthorizeCode, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.AuthorizeCode, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.AuthorizeCode, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.AuthorizeCode)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Active, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.AceCheckBoxFor(m => m.Active)
+        @Html.HelpTextFor(m => m.Active, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Active)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RecordOrder, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.RecordOrder, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.RecordOrder, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RecordOrder)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>

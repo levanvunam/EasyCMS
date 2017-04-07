@@ -1,0 +1,140 @@
+﻿@model EzCMS.Core.Models.Navigations.NavigationModel
+
+<a href="#" class="menu-toggler invisible" id="menu-toggler" data-target="#sidebar"></a>
+<div id="sidebar" class="sidebar responsive-min">
+    <div class="sidebar-shortcuts" id="sidebar-shortcuts">
+        <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+            <a data-rel="tooltip" title="Go to Website" class="btn btn-success" href="/">
+                <i class="ace-icon fa fa-home"></i>
+            </a>
+
+            <a data-rel="tooltip" title="Manage Pages" class="btn btn-info" href="@Url.Action("Index", "Pages")">
+                <i class="ace-icon fa fa-pencil"></i>
+            </a>
+
+            <a data-rel="tooltip" title="Manage Users" class="btn btn-warning" href="@Url.Action("Index", "Users")">
+                <i class="ace-icon fa fa-users"></i>
+            </a>
+
+            <a data-rel="tooltip" title="Configure Settings" class="btn btn-danger" href="@Url.Action("Index", "SiteSettings")">
+                <i class="ace-icon fa fa-cogs"></i>
+            </a>
+        </div>
+
+        <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+
+            <span class="btn btn-success"></span>
+
+            <span class="btn btn-info"></span>
+
+            <span class="btn btn-warning"></span>
+
+            <span class="btn btn-danger"></span>
+        </div>
+    </div>
+
+    <div id="search-menu" class="hidden-xs col-xs-12">
+        <span class="input-icon input-icon-right">
+            <input id="menu-search-keyword" type="text">
+            <i class="fa fa-search ace-icon"></i>
+        </span>
+    </div>
+    <div class="clear"></div>
+    <div class="space-2"></div>
+    <ul class="nav nav-list">
+        @foreach (var searchItem in Model.SearchNavigations)
+        {
+            var url = !string.IsNullOrEmpty(searchItem.Url) ? searchItem.Url : Url.Action(searchItem.Action, searchItem.Controller);
+            <li class="search-menu-item" data-name="@searchItem.Name" data-url="@url" style="display: none">
+                <a href="@url">
+                    <i class="menu-icon @searchItem.Icon"></i>
+                    <span class="menu-text">@searchItem.Name </span>
+                </a>
+            </li>
+        }
+
+        @foreach (var item in Model.Navigations)
+        {
+            @Html.DisplayFor(m => item)
+        }
+    </ul>
+
+    <!-- #section:basics/sidebar.layout.minimize -->
+    <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
+        <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
+    </div>
+
+    <div class="sidebar-toggle sidebar-expand" id="sidebar-expand">
+        <i class="ace-icon fa fa-angle-double-right" data-icon1="ace-icon fa fa-angle-double-right" data-icon2="ace-icon fa fa-angle-double-left"></i>
+    </div>
+
+    <!-- /section:basics/sidebar.layout.minimize -->
+    @{
+        Script.Block(@<script type="text/javascript">
+            try {
+                ace.settings.check('sidebar', 'collapsed');
+            } catch (e) {
+            }
+
+            $(".nav-list").on("click", ".add-to-favourite", function () {
+                var icon = $(this);
+                var id = icon.data("id");
+                if (id != 0) {
+                    siteHelper.httpPost({
+                        showLoading: false,
+                        url: "@Url.Action("AddToFavourites", "FavouriteNavigations")",
+                        data: { id: id },
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                icon.removeClass("add-to-favourite blue").addClass("remove-from-favourite red");
+                            }
+                        }
+                    });
+                }
+            });
+
+            $(".nav-list").on("click", ".remove-from-favourite", function () {
+                var icon = $(this);
+                var id = icon.data("id");
+                if (id != 0) {
+                    siteHelper.httpPost({
+                        showLoading: false,
+                        url: "@Url.Action("RemoveFromFavourites", "FavouriteNavigations")",
+                        data: { id: id },
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                icon.removeClass("remove-from-favourite red").addClass("add-to-favourite blue");
+                            }
+                        }
+                    });
+                }
+            });
+
+            $("#menu-search-keyword").keyup(function () {
+                var keyword = $(this).val().toLowerCase();
+                if (keyword != '') {
+                    $(".menu-item").hide();
+                    $.each($(".search-menu-item"), function (index, value) {
+                        var name = $(this).data("name").toLowerCase();
+                        var url = $(this).data("url").toLowerCase();
+
+                        console.log(name);
+                        console.log(url);
+                        console.log(name.indexOf(keyword));
+                        console.log(url.indexOf(keyword));
+                        if (name.indexOf(keyword) >= 0 || url.indexOf(keyword) >= 0) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                } else {
+                    $(".menu-item").show();
+                    $(".search-menu-item").hide();
+                }
+            });
+        </script>);
+    }
+</div>

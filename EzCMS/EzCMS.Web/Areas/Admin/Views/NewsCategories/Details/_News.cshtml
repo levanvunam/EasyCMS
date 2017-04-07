@@ -1,0 +1,164 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "News")
+</div>
+<div class="col-xs-12">
+    <table id="news-grid-table"></table>
+    <div id="news-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+    // Edit news
+    function editNews(id) {
+        siteHelper.showPopup({
+            href: "@Url.Action("PopupEdit", "News")/" + id,
+            type: 'iframe',
+            width: '60%',
+        }, function () {
+            if ($dirty == true) {
+                jqGridHelper.reloadGrid(newsGrid);
+            }
+        });
+    }
+
+    // Delete news - news category mapping
+    function deleteNewsNewsCategoryMapping(newsId) {
+        var data = { newsId: newsId, newsCategoryId: @Model };
+
+        siteHelper.confirm('@T("NewsNewsCategory_Message_DeleteMappingConfirm")', function (ok) {
+            if (ok) {
+                siteHelper.httpPost({
+                    url: '@Url.Action("DeleteNewsNewsCategoryMapping", "News")',
+                    data: data,
+                    success: function (response) {
+                        siteHelper.showMessage(response);
+                        if (response.Success) {
+                            jqGridHelper.reloadGrid(newsGrid);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /*
+     * Setup grid
+     */
+    var $dirty = false;
+    var newsGrid = "#news-grid-table";
+    var newsGridPager = "#news-grid-pager";
+    var newsTab = "#news";
+    var newsGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "News" })');
+        var newsExportUrl = "@Url.Action("Exports", "News", new { companyTypeId = Model })";
+
+    $(function () {
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBindingByNewsCategory", "News", new { newsCategoryId = Model })",
+            colNames: ['', '@T("News_Field_Id")',
+                '@T("News_Field_Title")',
+                '@T("News_Field_NewsCategories")',
+                '@T("News_Field_Status")',
+                '@T("News_Field_HotNews")',
+                '@LabelForTime(@T("News_Field_DateStart"))',
+                '@LabelForTime(@T("News_Field_DateEnd"))',
+                '@LabelForTime(@T("News_Field_TotalReads"))',
+                '@LabelForTime(T("News_Field_Created"))',
+                '@T("News_Field_CreatedBy")',
+                '@LabelForTime(T("News_Field_LastUpdate"))',
+                '@T("News_Field_LastUpdateBy")'],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 120,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+
+                        //Edit icon
+                        var editIcon = "<a class='grid-action' href='javascript:editNews(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+
+                        //Details icon
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details","News")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                        //Delete news - news category mapping
+                        var deleteRelationshipIcon = "<a class='grid-action' href='javascript:deleteNewsNewsCategoryMapping(" + options.rowId + ")'><div class='ui-pg-div' title='@T("NewsNewsCategory_Text_Delete")'><span class='fa fa-chain-broken'></span></div></a>";
+
+                        // Delete news
+                        var returnUrl = "@Url.Action("Details", new { id = Model })";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "News")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        return editIcon + detailsIcon + deleteRelationshipIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Title', index: 'Title' },
+                {
+                    name: 'Categories',
+                    index: 'Categories'
+                },
+                {
+                    name: 'Status',
+                    index: 'Status',
+                    align: 'center',
+                    search: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        var icon = "";
+                        switch (cellvalue) {
+                            case @((int)NewsEnums.NewsStatus.Active):
+                                icon = "<span class='label label-success'> Active </span>";
+                                break;
+                            case @((int)NewsEnums.NewsStatus.Archive):
+                                icon = "<span class='label label-inverse'> Archive </span>";
+                                break;
+                            case @((int)NewsEnums.NewsStatus.Inactive):
+                                icon = "<span class='label'> Inactive </span>";
+                                break;
+                        }
+                        return icon;
+                    }
+                },
+                {
+                    name: 'IsHotNews',
+                    index: 'IsHotNews',
+                    align: "center",
+                    search: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                },
+                { name: 'DateStart', index: 'DateStart', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateFormat(cellValue); } },
+                { name: 'DateEnd', index: 'DateEnd', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateFormat(cellValue); } },
+                {
+                    name: 'TotalReads',
+                    index: 'TotalReads',
+                    width: 90,
+                    fixed: true,
+                    align: 'center',
+                    sorttype: "int",
+                    searchoptions: { sopt: ['eq'] },
+                    formatter: function(cellvalue, options, rowObject) {
+                        var newsReadsUrl = "@Url.Action("Details", "News")/" + rowObject.Id + "#news-reads";
+                        return jqGridHelper.formatLink(newsReadsUrl, cellvalue);
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ],
+            loadComplete: function(response) {
+                $("#tab-news").data("total", response.records).html(response.records);
+            }
+        };
+
+        jqGridHelper.setupTabGrid(newsGrid, newsGridPager, gridOptions, newsGridSettings, newsTab);
+    });
+    </script>);
+}

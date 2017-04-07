@@ -1,0 +1,42 @@
+﻿@model EzCMS.Core.Models.EventSchedules.WidgetManageModels.EventSchedulesWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.CategoryId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.CategoryId, Model.Categories, T("Widget_EventSchedules_Text_SelectAllCategories"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.CategoryId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.CategoryId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Total, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.Total, new { @class = "input-number curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Total, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Total)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DateFormat, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.DateFormat, new { @class = "col-xs-10 curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.DateFormat, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DateFormat)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.TimeFormat, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.TimeFormat, new { @class = "col-xs-10 curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.TimeFormat, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.TimeFormat)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>

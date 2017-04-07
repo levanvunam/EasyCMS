@@ -1,0 +1,104 @@
+﻿@model SEOScoringSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.TitleGoodRangeFrom, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5 control-value">
+        @Html.HiddenFor(m => m.TitleGoodRangeFrom)
+        @Html.HiddenFor(m => m.TitleGoodRangeTo)
+        <div id="title-range" class="col-xs-10"></div>
+        @Html.HelpTextFor(m => m.TitleGoodRangeFrom, new { @class = "help-button" })
+        <div class="space-6 clear"></div>
+        <div class="col-sm-10 center">
+            ( <span id="lblTitleGoodRangeFrom">@Model.TitleGoodRangeFrom</span> - <span id="lblTitleGoodRangeTo">@Model.TitleGoodRangeTo</span> )
+        </div>
+        <div class="space-6 clear"></div>
+    </div>
+</div>
+<div class="space-10"></div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DescriptionGoodRangeFrom, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5 control-value">
+        @Html.HiddenFor(m => m.DescriptionGoodRangeFrom)
+        @Html.HiddenFor(m => m.DescriptionGoodRangeTo)
+        <div id="description-range" class="col-xs-10"></div>
+        @Html.HelpTextFor(m => m.DescriptionGoodRangeFrom, new { @class = "help-button" })
+        <div class="space-6 clear"></div>
+        <div class="col-sm-10 center">
+            ( <span id="lblDescriptionGoodRangeFrom">@Model.DescriptionGoodRangeFrom</span> - <span id="lblDescriptionGoodRangeTo">@Model.DescriptionGoodRangeTo</span> )
+        </div>
+        <div class="space-6 clear"></div>
+    </div>
+</div>
+<div class="space-10"></div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.KeywordCountGoodRangeFrom, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5 control-value">
+        @Html.HiddenFor(m => m.KeywordCountGoodRangeFrom)
+        @Html.HiddenFor(m => m.KeywordCountGoodRangeTo)
+        <div id="keyword-count-range" class="col-xs-10"></div>
+        @Html.HelpTextFor(m => m.KeywordCountGoodRangeFrom, new { @class = "help-button" })
+        <div class="space-6 clear"></div>
+        <div class="col-sm-10 center">
+            ( <span id="lblKeywordCountGoodRangeFrom">@Model.KeywordCountGoodRangeFrom</span> - <span id="lblKeywordCountGoodRangeTo">@Model.KeywordCountGoodRangeTo</span> )
+        </div>
+        <div class="space-6 clear"></div>
+    </div>
+</div>
+<div class="space-10"></div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.KeywordWeightGoodRangeFrom, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5 control-value">
+        @Html.HiddenFor(m => m.KeywordWeightGoodRangeFrom)
+        @Html.HiddenFor(m => m.KeywordWeightGoodRangeTo)
+        <div id="keyword-weight-range" class="col-xs-10"></div>
+        @Html.HelpTextFor(m => m.KeywordWeightGoodRangeFrom, new { @class = "help-button" })
+        <div class="space-6 clear"></div>
+        <div class="col-sm-10 center">
+            ( <span id="lblKeywordWeightGoodRangeFrom">@Model.KeywordCountGoodRangeFrom</span> - <span id="lblKeywordWeightGoodRangeTo">@Model.KeywordWeightGoodRangeTo</span> )
+        </div>
+        <div class="space-6 clear"></div>
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        setupRange("#title-range", "TitleGoodRangeFrom", "TitleGoodRangeTo");
+        setupRange("#description-range", "DescriptionGoodRangeFrom", "DescriptionGoodRangeTo", 512);
+        setupRange("#keyword-count-range", "KeywordCountGoodRangeFrom", "KeywordCountGoodRangeTo", 20);
+        setupRange("#keyword-weight-range", "KeywordWeightGoodRangeFrom", "KeywordWeightGoodRangeTo");
+
+        function setupRange(rangeSelector, rangeFromSelector, rangeToSelector, maxValue) {
+            if (maxValue == null) {
+                maxValue = 100;
+            }
+            var rangeFromValue = $("#" + rangeFromSelector).val();
+            var rangeToValue = $("#" + rangeToSelector).val();
+            $(rangeSelector).slider({
+                range: true,
+                min: 0,
+                max: maxValue,
+                values: [rangeFromValue, rangeToValue],
+                slide: function (event, ui) {
+                    var val = ui.value;
+
+                    if ($(ui.handle).index() == 1) {
+                        $("#" + rangeFromSelector).val(val);
+                        $("#lbl" + rangeFromSelector).text(val);
+                    } else {
+                        $("#" + rangeToSelector).val(val);
+                        $("#lbl" + rangeToSelector).text(val);
+                    }
+
+                    $(ui.handle.firstChild).show().children().eq(1).text(val);
+                }
+            }).find('span.ui-slider-handle').on('blur', function () {
+                $(this.firstChild).hide();
+            });
+
+            var value = $(rangeSelector).slider("option", "values");
+            $(rangeSelector + ' .ui-slider-handle:first').html("<div class='tooltip top in' style='left:-3px;top:-35px;'><div class='tooltip-arrow'></div><div class='tooltip-inner'>" + value[0] + '</div></div>');
+            $(rangeSelector + ' .ui-slider-handle:last').html("<div class='tooltip top in' style='left:-3px;top:-35px;'><div class='tooltip-arrow'></div><div class='tooltip-inner'>" + value[1] + '</div></div>');
+        }
+    </script>);
+}

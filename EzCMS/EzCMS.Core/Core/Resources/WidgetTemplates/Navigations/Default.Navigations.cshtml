@@ -1,0 +1,107 @@
+@if (HasNoContext("MasterNavigationRendering"))
+{
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div id="site-Navigations" style="display: none" class="navbar navbar-static-top navbar-default" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @foreach (var node in Model)
+                {
+                    if (node.Children.Any())
+                    {
+                            <li class="dropdown Navigation-item" data-id="@(node.Data.PageId ?? 0)" data-viewablegroups="@(string.Join(",", node.Data.ViewableGroups.Select(g => g.Id)))" data-editablegroups="@(string.Join(",", node.Data.EditableGroups.Select(g => g.Id)))">
+                                <a href="@node.Data.Url" target="@node.Data.UrlTarget">
+                                    @node.Data.Title
+                                    @if (node.Data.ViewableGroups.Any())
+                                    {
+                                        <text>&nbsp;</text>
+                                        <i title="@string.Join("</hr>", node.Data.ViewableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-eye"></i>
+                                    }
+                                    @if (node.Data.EditableGroups.Any())
+                                    {
+                                        <text>&nbsp;</text>
+                                        <i title="@string.Join("</hr>", node.Data.EditableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-lock"></i>
+                                    }
+                                </a>
+                                <ul class="dropdown-Navigation" role="Navigation">
+                                    @RenderTemplate("Default.Navigations", node.Children)
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="Navigation-item" data-id="@(node.Data.PageId ?? 0)" data-viewablegroups="@(string.Join(",", node.Data.ViewableGroups.Select(g => g.Id)))" data-editablegroups="@(string.Join(",", node.Data.EditableGroups.Select(g => g.Id)))">
+                                <a href="@node.Data.Url" target="@node.Data.UrlTarget">
+                                    @node.Data.Title
+                                    @if (node.Data.ViewableGroups.Any())
+                                    {
+                                        <text>&nbsp;</text>
+                                        <i title="@string.Join("</hr>", node.Data.ViewableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-eye"></i>
+                                    }
+                                    @if (node.Data.EditableGroups.Any())
+                                    {
+                                        <text>&nbsp;</text>
+                                        <i title="@string.Join("</hr>", node.Data.EditableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-lock"></i>
+                                    }
+                                </a>
+                                <ul></ul>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div> 
+    </div>
+}
+else
+{
+    foreach (var node in Model)
+    {
+        if (node.Children.Any())
+        {
+            <li class="dropdown Navigation-item" data-id="@(node.Data.PageId ?? 0)" data-viewablegroups="@(string.Join(",", node.Data.ViewableGroups.Select(g => g.Id)))" data-editablegroups="@(string.Join(",", node.Data.EditableGroups.Select(g => g.Id)))">
+                <a href="@node.Data.Url" target="@node.Data.UrlTarget">
+                    @node.Data.Title
+                    @if (node.Data.ViewableGroups.Any())
+                    {
+                        <text>&nbsp;</text>
+                        <i title="@string.Join("</hr>", node.Data.ViewableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-eye"></i>
+                    }
+                    @if (node.Data.EditableGroups.Any())
+                    {
+                        <text>&nbsp;</text>
+                        <i title="@string.Join("</hr>", node.Data.EditableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-lock"></i>
+                    }
+                </a>
+                <ul class="dropdown-Navigation" role="Navigation">
+                    @RenderTemplate("Default.Navigations", node.Children)
+                </ul>
+            </li>
+        }
+        else
+        {
+            <li class="Navigation-item" data-id="@(node.Data.PageId ?? 0)" data-viewablegroups="@(string.Join(",", node.Data.ViewableGroups.Select(g => g.Id)))" data-editablegroups="@(string.Join(",", node.Data.EditableGroups.Select(g => g.Id)))">
+                <a href="@node.Data.Url" target="@node.Data.UrlTarget">
+                    @node.Data.Title
+                    @if (node.Data.ViewableGroups.Any())
+                    {
+                        <text>&nbsp;</text>
+                        <i title="@string.Join("</hr>", node.Data.ViewableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-eye"></i>
+                    }
+                    @if (node.Data.EditableGroups.Any())
+                    {
+                        <text>&nbsp;</text>
+                        <i title="@string.Join("</hr>", node.Data.EditableGroups.Select(g => g.Name))" class="NavigationSercureGroups fa fa-lock"></i>
+                    }
+                </a>
+            </li>
+        }
+    }
+}

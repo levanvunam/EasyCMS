@@ -1,0 +1,52 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Area = "Admin";
+}
+
+@section styles
+{
+    @RenderSection("styles", false)
+}
+
+@Html.Partial("Partials/_Header")
+
+<div class="main-container" id="main-container">
+    @{
+        Html.RenderAction("Navigation", "Home");
+    }
+
+    <div class="main-content">
+        @{
+            Html.RenderAction("GetBreadCrumb", "Home");
+        }
+
+        <div class="page-content">
+            <div class="col-xs-12">
+                @if (WorkContext.IsSystemChanged)
+                {
+                    <div class="alert alert-warning">
+                        <button class="close" data-dismiss="alert" type="button">
+                            <i class="fa fa-times"></i>
+                        </button>
+                        Application settings had been changed. Please click on &nbsp; <a id="btnRestartApplication" href="javascript:siteHelper.restartApplication()" class="btn btn-primary btn-minier">
+                            <i class="fa fa-refresh align-top bigger-125"></i>
+                            Restart Application
+                        </a>
+                        &nbsp; to apply the changes.
+                        <br>
+                    </div>
+                }
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+
+    <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+        <i class="fa fa-angle-double-up bigger-110"></i>
+    </a>
+</div>
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Initialize/editable.js")"></script>
+    @RenderSection("scripts", false)
+}

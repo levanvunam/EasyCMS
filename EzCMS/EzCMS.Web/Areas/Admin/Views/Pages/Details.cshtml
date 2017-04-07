@@ -1,0 +1,285 @@
+﻿@model EzCMS.Core.Models.Pages.PageDetailModel
+
+@{
+    ViewBag.Header = T("Page_Site_Header");
+    ViewBag.Title = T("Page_Site_DetailsTitle");
+    ViewBag.Description = T("Page_Site_DetailsDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        @if (Model.IsHomePage)
+        {
+            <a class="btn btn-xs btn-default" data-rel="tooltip" title="@T("Page_Text_DeleteHomePageDisabled")" href="javascript:void(0)">Delete</a>
+        }
+        else
+        {
+            <a class="btn btn-xs btn-danger" href="javascript:siteHelper.deletePage(@Model.Id, 'deletePageCallback')">@T("System_Text_Delete")</a>
+        }
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new {id = Model.Id, returnUrl = Url.Action("Details", new {id = Model.Id})})">
+            @T("System_Text_Edit")
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Page.Title, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Page.Title)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.ParentName, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @if (Model.Page.ParentId.HasValue)
+                        {
+                            <a href="@Url.Action("Details", "Pages", new { id = Model.Page.ParentId })"><i class="fa fa-search-plus"></i> @Model.ParentName </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Page.StartPublishingDate, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Page.StartPublishingDate, CommonEnums.EditableType.Date)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Page.EndPublishingDate, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Page.EndPublishingDate, CommonEnums.EditableType.Date)
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-12"></div>
+
+            <div class="widget-box col-xs-12 collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@Html.LocalizeLabelFor(m => m.Page.Content, new { @class = "no-padding" })</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-6 ">
+                        <div class="space-4"></div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                @Html.Raw(Model.Page.Content)
+                            </div>
+                        </div>
+                        <div class="clear space-4"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Page_Text_AdvancedSettingsInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Page.SSL, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Page.SSL, CommonEnums.EditableType.Boolean)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Page.IncludeInSiteNavigation, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Page.IncludeInSiteNavigation, CommonEnums.EditableType.Boolean)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Page.DisableNavigationCascade, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Page.DisableNavigationCascade, CommonEnums.EditableType.Boolean)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Page.SeoTitle, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Page.SeoTitle)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.PageTemplateName, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @if (Model.Page.PageTemplateId.HasValue)
+                                    {
+                                        <a href="@Url.Action("Details", "PageTemplates", new { id = Model.Page.PageTemplateId })"><i class="fa fa-search-plus"></i> @Model.PageTemplateName </a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.FileTemplateName, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @if (Model.Page.FileTemplateId.HasValue)
+                                    {
+                                        <a href="@Url.Action("Details", "FileTemplates", new { id = Model.Page.FileTemplateId })"><i class="fa fa-search-plus"></i> @Model.FileTemplateName </a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.BodyTemplateName, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @if (Model.Page.BodyTemplateId.HasValue)
+                                    {
+                                        <a href="@Url.Action("Details", "BodyTemplates", new { id = Model.Page.BodyTemplateId })"><i class="fa fa-search-plus"></i> @Model.BodyTemplateName </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Page_Text_RecordInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.Created)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.CreatedBy
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.LastUpdate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.LastUpdateBy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-12 clear"></div>
+            <div class="row">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+                        <li class="active">
+                            <a data-toggle="tab" href="#children">
+                                @T("Page_Text_TabChildren") (<span id="tab-child" class="tab-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#tags">
+                                @T("Page_Text_TabTags") (<span id="tab-tag" class="tab-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#link-trackers">
+                                @T("Page_Text_TabLinkTrackers") (<span id="tab-link-tracker" class="tab-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#page-reads">
+                                @T("Page_Text_TabPageReads") (<span id="tab-page-read" class="tab-button"></span>)
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="children" class="tab-pane active">
+                            @Html.Partial("Details/_Children", Model.Id)
+                        </div>
+                        <div id="tags" class="tab-pane">
+                            @Html.Partial("Details/_Tags", Model.Id)
+                        </div>
+                        <div id="link-trackers" class="tab-pane">
+                            @Html.Partial("Details/_LinkTrackers", Model.Id)
+                        </div>
+                        <div id="page-reads" class="tab-pane">
+                            @Html.Partial("Details/_PageReads", Model.Id)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        var updateUrl = "@Url.Action("UpdatePageData")";
+        var pk = '@Model.Id';
+
+        siteHelper.updateSelectedTab();
+        
+        $(function () {
+            if (siteHelper.getUrlParam("action") == "delete") {
+                siteHelper.deletePage('@Model.Id', 'deletePageCallback');
+            }
+        });
+
+        // Delete page callback
+        function deletePageCallback() {
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            if (returnUrl != "")
+                window.location.href = returnUrl;
+            else
+                window.location.href = "@Url.Action("Index")";
+        }
+    </script>
+}

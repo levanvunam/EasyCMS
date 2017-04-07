@@ -1,0 +1,197 @@
+﻿@model EzCMS.Core.Models.EmailLogs.EmailLogDetailModel
+
+@{
+    ViewBag.Header = T("EmailLog_Site_Header");
+    ViewBag.Title = T("EmailLog_Site_DetailsTitle");
+    ViewBag.Description = T("EmailLog_Site_DetailsDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a class="btn btn-xs btn-danger" href="javascript:deleteEmailLog()">@T("System_Text_Delete")</a>
+        <a id="btn-resend" class="btn btn-xs btn-info" href="javascript:void(0)">@T("EmailLog_Text_ResendEmail")</a>
+    </div>
+</div>
+
+<div class="row form-horizontal">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Subject, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @Model.Subject
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.EmailAccountId, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        <a href="@Url.Action("Details", "EmailAccounts", new { id = Model.EmailAccountId})"><i class="fa fa-search-plus"></i> @T("EmailLog_Text_ViewEmailAccount")</a>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.From, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @Model.From
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.FromName, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @Model.FromName
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.To, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @Model.To
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.ToName, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @Model.ToName
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.CcList, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @foreach (var item in Model.CcList)
+                        {
+                            <div class="col-xs-12">@item</div>
+                            <div class="space-6"></div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.BccList, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @foreach (var item in Model.BccList)
+                        {
+                            <div class="col-xs-12">@item</div>
+                            <div class="space-6"></div>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.SentTries, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @Model.SentTries
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelTimeFor(m => m.SentOn, new { @class = "col-sm-5 control-label" })
+                    <div class="col-sm-7 control-value">
+                        @Html.DisplayTimeFor(m => m.SentOn)
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+            <div class="widget-box">
+                <div class="widget-header widget-header-flat">
+                    <h4 class="smaller">
+                        @Html.LocalizeLabelFor(m => m.Body, new { @class = "control-label" })
+                    </h4>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main">
+                        @Html.Raw(Model.Body)
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+            <div class="row">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+                        <li class="active">
+                            <a data-toggle="tab" href="#logs">
+                                @T("EmailLog_Text_TabLogs") (<span id="tab-log" class="tab-button"></span>)
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="logs" class="tab-pane active">
+                            @Html.Partial("Details/_Logs", Model.Id)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        $(function() {
+            var action = siteHelper.getUrlParam("action");
+            switch (action) {
+                case "delete":
+                    deleteEmailLog();
+                    break;
+                case "resend":
+                    $("#btn-resend").trigger("click");
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        //Delete email queue
+        function deleteEmailLog() {
+            var data = { id: @Model.Id };
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            siteHelper.confirm('@T("EmailLog_Message_DeleteConfirm")', function(ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteEmail")",
+                        data: data,
+                        success: function(response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function() {
+                                    if (returnUrl != "")
+                                        window.location.href = returnUrl;
+                                    else
+                                        window.location.href = "@Url.Action("Index")";
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        $("#btn-resend").click(function() {
+            siteHelper.confirm('@T("EmailLog_Message_ResendConfirm")', function(ok) {
+                if (ok) {
+                    siteHelper.showPopup({
+                        href: "@Url.Action("ResendEmail", "EmailLogs", new { area = "Admin", id = Model.Id })",
+                        type: 'iframe',
+                        width: '60%'
+                    }, function() {
+                        window.location.href = "@Url.Action("Index")";
+                    });
+                }
+            });
+        });
+    </script>
+}

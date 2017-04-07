@@ -1,0 +1,32 @@
+﻿@model EzCMS.Core.Models.SocialMedia.Feed.SocialMediaMessageModel
+
+<div class="form-group">
+    @Html.HiddenFor(m => m.SocialMediaId)
+    @Html.HiddenFor(m => m.SocialMediaTokenId)
+    @Html.HiddenFor(m => m.SocialNetwork)
+    @if (Model.IsSetup)
+    {
+        <div class="col-xs-12">
+            @Html.AceCheckBoxFor(m => m.PostStatus, false, new { @class = "post-social-status", data_id = Model.SocialMediaId })
+            @Html.LabelFor(m => m.PostStatus, string.Format("Post to {0} about {1}", Model.SocialNetwork.GetEnumName(), Model.PageTitle))
+        </div>
+        <div class="space-4"></div>
+        <div class="col-xs-12">
+            Publishing on behalf of: @Model.FullName @(!string.IsNullOrEmpty(Model.Email) ? string.Format("- {0}", Model.Email) : "")
+        </div>
+        <div class="space-4"></div>
+        <div class="social-message col-xs-12" style="display: none" data-id="@Model.SocialMediaId">
+            @Html.TextAreaFor(m => m.Message, new { @class = "col-xs-12" })
+        </div>
+    }
+    else
+    {
+        <div class="col-xs-12">
+            @Html.AceCheckBoxFor(m => m.PostStatus, false, new { disabled = "disabled" })
+            @Html.LabelFor(m => m.PostStatus, string.Format("Post to {0} about {1}", Model.SocialNetwork.GetEnumName(), Model.PageTitle))
+            <p class="red">
+                @T("Page_Text_ProvideAuthorizationMessage") @Model.SocialNetwork.GetEnumName()
+            </p>
+        </div>
+    }
+</div>

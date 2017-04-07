@@ -1,0 +1,31 @@
+﻿@model EzCMS.Core.Models.BodyTemplates.BodyTemplateSelectorModel
+
+@foreach (var bodyTemplate in Model.BodyTemplates)
+{
+    <div class="online-template body-template col-sm-6" data-id="@bodyTemplate.Id" data-name="@bodyTemplate.Name" data-description="@bodyTemplate.Description">
+        <div class="col-sm-4">
+            <div class="preview center">
+                <a data-rel="tooltip" title="Preview Template" class="preview-online-template btn btn-info btn-xs" href="javascript:showOnlinePreview(@bodyTemplate.Id)">
+                    <i class="fa fa-eye"></i>
+                </a>
+                <a data-rel="tooltip" title="Download Template" class="download-online-template btn btn-warning btn-xs" href="javascript:downloadOnlineTemplate(@bodyTemplate.Id)">
+                    <i class="fa fa-download"></i>
+                </a>
+                <a data-rel="tooltip" title="Download And Select Template" class="select-online-template btn btn-primary btn-xs" href="javascript:selectOnlineTemplate(@bodyTemplate.Id)">
+                    <i class="fa fa-check"></i>
+                </a>
+            </div>
+            <div class="body-template-image">
+                <img src="@(string.IsNullOrEmpty(bodyTemplate.ImageUrl) ? "/Images/BodyTemplate.png" : bodyTemplate.ImageUrl)" class="img-responsive" alt="@bodyTemplate.Name" />
+            </div>
+        </div>
+        <div class="body-template-info col-sm-8">
+            <h4 class="body-template-name">
+                @bodyTemplate.Name
+            </h4>
+            <div class="body-template-description">
+                @bodyTemplate.Description
+            </div>
+        </div>
+    </div>
+}

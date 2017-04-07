@@ -1,0 +1,15 @@
+﻿@model EzCMS.Core.Models.Shared.ContentPreviewModel
+
+@{
+    Layout = null;
+}
+
+<iframe id="iFrame" style="width: 100%; height: 90%; border: 0" src="about:blank" class="col-xs-12"></iframe>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        var iframe = document.getElementById('iFrame');
+        var content = @Html.Raw(Json.Encode(Model.Content));
+        iframe.srcdoc = content;
+    </script>);
+}

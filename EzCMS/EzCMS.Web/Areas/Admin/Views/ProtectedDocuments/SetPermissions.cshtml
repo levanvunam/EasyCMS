@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.ProtectedDocuments.DocumentPermissionManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Permission_Site_SetPermissionHeader");
+    ViewBag.Title = TFormat("Permission_Site_SetPermissionTitle", Model.RelativePath);
+    ViewBag.Description = T("Permission_Site_SetPermissionDescription");
+}
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("SetPermissions", "ProtectedDocuments", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

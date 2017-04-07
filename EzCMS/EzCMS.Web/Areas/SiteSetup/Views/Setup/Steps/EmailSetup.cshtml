@@ -1,0 +1,101 @@
+﻿@using EzCMS.Core.Framework.Mvc.Helpers
+@model EzCMS.Core.Models.SiteSetup.EmailSetupModel
+
+<div class="col-xs-12">
+    <h1>Setup Email Account</h1>
+    <div>
+        <p>
+            You can now setup the email account for sending email in EzCMS, we recommend that you should setup this to make sure all the feature is working correctly.
+        </p>
+        <p>If you want to setup later, please click Skip button.</p>
+    </div>
+</div>
+<div class="col-xs-12">
+    @using (Ajax.BeginForm("EmailSetup", "Setup", null, new AjaxOptions
+{
+    OnBegin = "siteHelper.showLoading",
+    OnSuccess = "EmailSetupSuccess",
+    OnComplete = "siteHelper.hideLoading"
+}))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DisplayName, "Display Name", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.DisplayName, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.DisplayName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Host, "Host", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Host, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Host)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Port, "Port", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Port, new { @class = "col-sm-6 input-number" })
+                @Html.ValidationMessageFor(m => m.Port)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.EnableSsl, "Enable SSL", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.AceCheckBoxFor(m => m.EnableSsl)
+                @Html.ValidationMessageFor(m => m.EnableSsl)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Timeout, "Timeout", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Timeout, new { @class = "col-sm-6 input-number" })
+                @Html.ValidationMessageFor(m => m.Timeout)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UseDefaultCredentials, "Use Default Credentials", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.AceCheckBoxFor(m => m.UseDefaultCredentials)
+                @Html.ValidationMessageFor(m => m.UseDefaultCredentials)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, "Username", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, "Password", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Password, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+        </div>
+        <div class="clearfix form-actions">
+            <input id="btnSkip" onclick="skip()" class="btn" type="button" value="Skip this" />
+            <input class="btn btn-info" type="submit" value="Save" />
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    function skip() {
+        $('#siteSetup').easyWizard('nextStep');
+    }
+    function EmailSetupSuccess(response) {
+        if (response.Success) {
+            $('#siteSetup').easyWizard('nextStep');
+        } else {
+            siteHelper.alert(response.Message);
+        }
+    }
+</script>

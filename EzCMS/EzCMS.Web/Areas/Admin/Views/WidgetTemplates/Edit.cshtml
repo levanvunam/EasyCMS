@@ -1,0 +1,31 @@
+﻿@model EzCMS.Core.Models.WidgetTemplates.WidgetTemplateManageModel
+
+@{
+    ViewBag.Header = T("WidgetTemplate_Site_Header");
+    ViewBag.Title = TFormat("WidgetTemplate_Site_EditTitle", Model.Name, Model.Widget);
+    ViewBag.Description = TFormat("WidgetTemplate_Site_EditDescription", Model.Name, Model.Widget);
+}
+
+@section styles{
+    @Styles.Render("~/styles/codemirror")
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "WidgetTemplates", null, FormMethod.Post, new { id = "template-form", @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

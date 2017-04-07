@@ -1,0 +1,162 @@
+﻿@model int
+
+<div class="col-xs-12">
+    <a href="javascript:void(0)" class="create-location btn btn-yellow btn-minier">
+        <i class="fa fa-plus bigger-125"></i>
+        @T("Location_Text_Create")
+    </a>
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "Location")
+</div>
+<div class="col-xs-12">
+    <table id="location-grid-table"></table>
+    <div id="location-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        // Create location
+        $(".create-location").click(function () {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupCreate", "Locations", new { area = "Admin", locationTypeId = Model })",
+                type: 'iframe',
+                width: '90%'
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(locationGrid);
+                }
+            });
+        });
+
+        //Edit location
+        function editLocation(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "Locations")/" + id,
+                type: 'iframe',
+                width: '100%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(locationGrid);
+                }
+            });
+        }
+
+        // Delete location - location type mapping
+        function deleteLocationLocationTypeMapping(locationId) {
+            var data = { locationId: locationId, locationTypeId: @Model };
+
+            siteHelper.confirm('@T("LocationLocationType_Message_DeleteMappingConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteLocationLocationTypeMapping", "LocationTypes")",
+                        data: data,
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                jqGridHelper.reloadGrid(locationGrid);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var locationGrid = "#location-grid-table";
+        var locationGridPager = "#location-grid-pager";
+        var locationTab = "#locations";
+        var locationGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Location" })');
+        var locationExportUrl = "@Url.Action("Exports", "Locations", new { locationTypeIds = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "Locations", new { locationTypeIds = Model})",
+                colNames: ['', '@T("Location_Field_Id")',
+                    '@T("Location_Field_Name")',
+                    '@T("Location_Field_ContactName")',
+                    '@T("Location_Field_ContactTitle")',
+                    '@T("Location_Field_Types")',
+                    '@T("Location_Field_AddressLine1")',
+                    '@T("Location_Field_AddressLine2")',
+                    '@T("Location_Field_Suburb")',
+                    '@T("Location_Field_State")',
+                    '@T("Location_Field_Postcode")',
+                    '@T("Location_Field_Country")',
+                    '@T("Location_Field_Latitude")',
+                    '@T("Location_Field_Longitude")',
+                    '@T("Location_Field_Phone")',
+                    '@T("Location_Field_Fax")',
+                    '@T("Location_Field_Email")',
+                    '@T("Location_Field_TrainingAffiliation")',
+                    '@T("Location_Field_PinImage")',
+                    '@T("Location_Field_OpeningHoursWeekdays")',
+                    '@T("Location_Field_OpeningHoursSaturday")',
+                    '@T("Location_Field_OpeningHoursSunday")',
+                    '@T("Location_Field_TimeZone")',
+                    '@LabelForTime(T("Location_Field_Created"))',
+                    '@T("Location_Field_CreatedBy")',
+                    '@LabelForTime(T("Location_Field_LastUpdate"))',
+                    '@T("Location_Field_LastUpdateBy")'
+                ],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 120,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function(cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:editLocation(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details","Locations")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete location - location type mapping
+                            var deleteRelationshipIcon = "<a class='grid-action' href='javascript:deleteLocationLocationTypeMapping(" + options.rowId + ")'><div class='ui-pg-div' title='@T("LocationLocationType_Text_Delete")'><span class='fa fa-chain-broken'></span></div></a>";
+
+                            // Delete location icon
+                            var returnUrl = "@Url.Action("Details", new { id = Model })";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "Locations")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteRelationshipIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Name', index: 'Name' },
+                    { name: 'ContactName', index: 'ContactName', hidden: true },
+                    { name: 'ContactTitle', index: 'ContactTitle', hidden: true },
+                    { name: 'Types', index: 'SettingTypes' },
+                    { name: 'AddressLine1', index: 'AddressLine1' },
+                    { name: 'AddressLine2', index: 'AddressLine2' },
+                    { name: 'Suburb', index: 'Suburb' },
+                    { name: 'State', index: 'State' },
+                    { name: 'Postcode', index: 'Postcode' },
+                    { name: 'Country', index: 'Country' },
+                    { name: 'Latitude', index: 'Latitude', hidden: true },
+                    { name: 'Longitude', index: 'Longitude', hidden: true },
+                    { name: 'Phone', index: 'Phone', hidden: true },
+                    { name: 'Fax', index: 'Fax', hidden: true },
+                    { name: 'Email', index: 'Email', hidden: true },
+                    { name: 'TrainingAffiliation', index: 'TrainingAffiliation', hidden: true },
+                    { name: 'PinImage', index: 'PinImage', hidden: true },
+                    { name: 'OpeningHoursWeekdays', index: 'OpeningHoursWeekdays', hidden: true },
+                    { name: 'OpeningHoursSaturday', index: 'OpeningHoursSaturday', hidden: true },
+                    { name: 'OpeningHoursSunday', index: 'OpeningHoursSunday', hidden: true },
+                    { name: 'TimeZone', index: 'TimeZone', hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function(response) {
+                    $(".create-location.tab-add-button").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(locationGrid, locationGridPager, gridOptions, locationGridSettings, locationTab, locationExportUrl, "Location");
+        });
+    </script>);
+}

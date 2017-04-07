@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Header = T("Subscription_Site_Header");
+    ViewBag.Title = T("Subscription_Site_ListingTitle");
+    ViewBag.Description = T("Subscription_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Subscription" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['@T("Subscription_Field_Id")',
+                '@T("Subscription_Field_Module")',
+                '@T("Subscription_Field_Email")',
+                '@T("Subscription_Field_Parameters")',
+                '@T("Subscription_Field_RegisteredDate")',
+                '@T("Subscription_Field_DeactivatedDate")',
+                '@T("Subscription_Field_Active")',
+                '@LabelForTime(T("Subscription_Field_Created"))',
+                '@T("Subscription_Field_CreatedBy")',
+                '@LabelForTime(T("Subscription_Field_LastUpdate"))',
+                '@T("Subscription_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'ModuleName', index: 'ModuleName', search: false },
+                { name: 'Email', index: 'Email' },
+                { name: 'Parameters', index: 'Parameters' },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'DeactivatedDate', index: 'DeactivatedDate', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                {
+                    name: 'Active',
+                    index: 'Active',
+                    align: "center",
+                    hidden: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

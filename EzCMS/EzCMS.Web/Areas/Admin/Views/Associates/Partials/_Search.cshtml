@@ -1,0 +1,46 @@
+﻿@model EzCMS.Core.Models.Associates.AssociateSearchModel
+
+<div class="widget-box">
+    <div class="widget-header">
+        <h5>@T("Associate_Search_Header")</h5>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="col-lg-9">
+                <div class="col-lg-3 col-md-6">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Keyword, new { id = "Keyword", @class = "col-xs-10 search-input", placeholder = T("Associate_Search_Keyword") })
+                        @Html.HelpTextFor(m => m.Keyword, new { @class = "help-button" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="form-group">
+                        @Html.ListBoxFor(m => m.LocationIds, Model.Locations, new { id = "LocationIds", placeholder = T("Associate_Search_AllLocations"), @class = "multi-select col-xs-10" })
+                        @Html.HelpTextFor(m => m.LocationIds, new { @class = "help-button" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="form-group">
+                        @Html.ListBoxFor(m => m.CompanyTypeIds, Model.CompanyTypes, new { id = "CompanyTypeIds", placeholder = T("Associate_Search_AllCompanyTypes"), @class = "multi-select col-xs-10" })
+                        @Html.HelpTextFor(m => m.CompanyTypeIds, new { @class = "help-button" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="form-group">
+                        @Html.ListBoxFor(m => m.AssociateTypeIds, Model.AssociateTypes, new { id = "AssociateTypeIds", placeholder = T("Associate_Search_AllAssociateTypes"), @class = "multi-select col-xs-10" })
+                        @Html.HelpTextFor(m => m.AssociateTypeIds, new { @class = "help-button" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <button id="btnSearch" class="btn btn-sm btn-info">@T("System_Search_Button")</button>
+                <button id="btnClearSearch" class="btn btn-sm btn-default">@T("System_Search_ClearButton")</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+﻿@foreach (var item in Model.Feed)
+{
+    <div>
+        Title: @item.Title
+    </div>
+    <div>
+        Message: @item.Message
+    </div>
+    <div>
+        Caption: @item.Caption
+    </div>
+    <div>
+        Description: @item.Description
+    </div>
+    <div>
+        Link: @item.Link
+    </div>
+    <img class="img-responsive" src="@item.Picture" />
+    <div>
+        @item.Created
+    </div>
+    <hr />
+}

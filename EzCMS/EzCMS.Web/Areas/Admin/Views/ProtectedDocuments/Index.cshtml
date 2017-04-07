@@ -1,0 +1,237 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.ProtectedDocuments.Widgets.ProtectedDocumentWidget
+
+@{
+    ViewBag.Header = T("ProtectedDocument_Site_Header");
+    ViewBag.Title = T("ProtectedDocument_Site_ListingTitle");
+    ViewBag.Description = T("ProtectedDocument_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Content/Shared/EzCMS.tree.css")" />
+}
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        <div class="widget-box widget-color-green2">
+            <div class="widget-header">
+                <h4 class="widget-title lighter smaller">@T("ProtectedDocument_Text_ProtectedDocuments")</h4>
+                <input id="@(Model.DocumentId)-search-keyword" class="document-search-input" type="text" placeholder="@T("ProtectedDocument_Text_SearchDocument")" />
+                <button id="@(Model.DocumentId)-search-button" class="btn btn-sm btn-info margin-bottom-4"><i class="fa fa-search"></i></button>
+                <button id="@(Model.DocumentId)-clear-button" class="btn btn-sm btn-default margin-bottom-4">@T("ProtectedDocument_Button_Clear")</button>
+                <div class="widget-toolbar">
+                    <a href="#" data-action="fullscreen" class="orange2">
+                        <i class="ace-icon fa fa-expand"></i>
+                    </a>
+                    <a href="#" data-action="collapse">
+                        <i class="ace-icon fa fa-chevron-up"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main padding-8">
+                    <ul id="@(Model.DocumentId)-search-result" class="document-search-result" style="display: none"></ul>
+                    <ul id="@(Model.DocumentId)" class="tree"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="action-templates" style="display: none">
+    <div id="folder-options">
+        <div class="folder-box">
+            @if (HasPermissions(Permission.ManageProtectedDocuments))
+            {
+                <a data-rel="tooltip" title="@T("ProtectedDocument_Text_SetPermissions")" class="manage-secure" href="javascript:void(0)" data-id="{Id}" data-path="{Path}">
+                    <i class="fa fa-lock" data-id="{Id}"></i>
+                </a>
+            }
+            <span>
+                <i data-rel="tooltip" title="{TotalFiles} @T("ProtectedDocument_Text_TotalFiles"), {TotalFolders} Folders - {TotalRead} @T("ProtectedDocument_Text_FilesRead"), {TotalNotRead} @T("ProtectedDocument_Text_FilesNotReadYet")" class="fa fa-info-circle"></i>
+            </span>
+            <a data-rel="tooltip" title="@T("ProtectedDocument_Text_Feedback")" class="feedback-document" href="javascript:void(0)" data-id="{Id}" data-path="{Path}">
+                <i class="fa fa-comment"></i>
+            </a>
+        </div>
+    </div>
+    <div id="file-options">
+        <div class="file-box">
+            <span>
+                <i data-rel="tooltip" title="{LastModified}" class="fa fa-clock-o"></i>
+            </span>
+            <span class="{IsReadClass}">
+                <i data-rel="tooltip" title="@T("ProtectedDocument_Text_FilesReadyReadDocument")" class="fa fa-eye"></i>
+            </span>
+            <span class="{IsNotReadClass}">
+                <i data-rel="tooltip" title="@T("ProtectedDocument_Text_FilesNotReadYet")" class="fa fa-eye-slash"></i>
+            </span>
+            <a data-rel="tooltip" title="Feedback" class="feedback-document" href="javascript:void(0)" data-id="{Id}" data-path="{Path}">
+                <i class="fa fa-comment"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Plugins/Tree/fuelux.tree.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Plugins/Tree/EzCMS.tree.js")"></script>
+
+    <script type="text/javascript">
+        var documentTree = "#@Model.DocumentId";
+
+        $(documentTree + "-search-button").click(function () {
+            var buttonSearch = $(this);
+
+            var keyword = $(documentTree + "-search-keyword").val();
+            if (keyword == null || keyword == "") {
+                siteHelper.alert("Please input keyword");
+                return;
+            }
+
+            // Disable search button and generate spin icon
+            buttonSearch.attr("disabled", "disabled");
+            $(documentTree + "-search-icon").removeClass("fa-search").addClass("fa-refresh fa-spin");
+
+
+            siteHelper.httpPost({
+                showLoading: false,
+                url: "@Url.Action("SearchDocuments", "ProtectedDocuments")",
+                data: {
+                    keyword: keyword,
+                    path: "@Model.EncryptedPath"
+                },
+                dataType: 'json',
+                success: function (response) {
+
+                    // Remove disabled and spin icon
+                    buttonSearch.removeAttr("disabled");
+                    $(documentTree + "-search-icon").removeClass("fa-refresh fa-spin").addClass("fa-search");
+
+                    if (response.Success) {
+                        $(documentTree).hide();
+                        $(documentTree + "-search-result").show();
+                        $(documentTree + "-search-result").html("");
+                        $.each(response.Data, function (index, item) {
+                            $(documentTree + "-search-result").append(
+                                '<li id="' + item.Data.Id + '" class="tree-item document-search-as" data-path="' + item.Data.Path + '">' +
+                                    '<div class="document-search-icon"><i class="' + item.Data.DataIcon + '"></i></div> '
+                                    + item.Text +
+                                    replaceDocumentData($("#file-options").html(), item.Data) +
+                                    '</li>');
+                        });
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        });
+
+        $(documentTree + "-clear-button").click(function () {
+            $(documentTree + "-search-keyword").val("");
+            $(documentTree).show();
+            $(documentTree + "-search-result").hide();
+        });
+
+        $("body").on("click", ".document-search-item", function (e) {
+            var url = $(this).data("url");
+            var mime = $(this).data("mime");
+            siteHelper.viewDocument(url, mime);
+            return false;
+        });
+
+        $(document).on("keypress", documentTree + "-search-keyword", function (e) {
+            if (e.which == 13) {
+                $(documentTree + "-search-button").click();
+            }
+        });
+
+        $(documentTree).on("click", ".manage-secure", function (e) {
+            var path = $(this).data("path");
+            siteHelper.showPopup({
+                href: "@Url.Action("SetPermissions", "ProtectedDocuments")?path=" + path,
+                width: '60%'
+            });
+            return false;
+        });
+
+        $(documentTree).on("click", ".feedback-document", function (e) {
+            var path = $(this).data("path");
+            siteHelper.showPopup({
+                href: "@Url.Action("Feedback", "ProtectedDocuments")?path=" + path,
+                width: '60%',
+                height: 'auto',
+                autosize: true
+            });
+            return false;
+        });
+
+        $(documentTree).on("click", ".tree-item", function (e) {
+            var url = $(this).data("url");
+            var mime = $(this).data("mime");
+            siteHelper.viewDocument(url, mime);
+            return false;
+        });
+
+        $(function () {
+            $(documentTree).EzCMSTree({
+                dataSource: remoteDateSource,
+                cacheItems: true,
+                multiSelect: false,
+                'selectable': false,
+                'open-icon': 'ace-icon orange fa fa-folder-open',
+                'close-icon': 'ace-icon orange fa fa-folder',
+                'selected-icon': '',
+                'unselected-icon': '',
+                loadingHTML: '<div class="tree-loading"><i class="ace-icon fa fa-refresh fa-spin blue"></i></div>',
+                folderTemplate: $("#folder-options").html(),
+                fileTemplate: $("#file-options").html()
+            });
+        });
+
+        var remoteDateSource = function (options, callback) {
+            var parentId = null;
+            if (!('Text' in options || 'Type' in options)) {
+                //load first level data
+                parentId = "";
+            } else if ('Type' in options && options['Type'] == 'folder') {
+                if ('Data' in options && 'HasChildren' in options.Data && options.Data.HasChildren == true) {
+                    parentId = options.Data.Path;
+                } else {
+                    callback({ data: {} });
+                    return;
+                }
+            }
+
+            if (parentId !== null) {
+                var remoteUrl = "@Url.Action("GetDocuments", "ProtectedDocuments")";
+
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: remoteUrl,
+                    data: { path: parentId },
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.Success) {
+                            var $data = response.Data;
+                            callback({ data: $data });
+                        } else {
+                            siteHelper.showMessage(response);
+                        }
+                    }
+                });
+            }
+        };
+    </script>
+}

@@ -1,0 +1,34 @@
+﻿@{
+    @model List<EzCMS.Core.Services.Tree.ITree<EzCMS.Core.Models.ClientNavigations.Widgets.NavigationNodeModel>>
+}
+
+@if (Model.Any())
+{
+    <ol class="dd-list">
+        @foreach (var node in Model)
+        {
+            if (node.Data.PageId.HasValue)
+            {
+                <li class="dd-item" data-id="@node.Data.PageId">
+                    <div class="dd-handle">
+                        @node.Data.Title (@node.Data.Id)
+
+                        <div class="pull-right">
+                            <a data-rel="tooltip" title="View Page" href="@node.Data.Url" target="_blank">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </div>
+                    </div>                    
+                    @if (node.Children.Count > 0)
+                    {
+                    @Html.Partial("Partials/_PageTree", node.Children)
+                    }
+                </li>
+            }
+            else
+            {
+                //No function for client menu
+            }
+        }
+    </ol>
+}

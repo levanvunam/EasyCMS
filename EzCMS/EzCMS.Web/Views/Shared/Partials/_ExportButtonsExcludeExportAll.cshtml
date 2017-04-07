@@ -1,0 +1,29 @@
+﻿@model string
+
+@{
+    var id = string.Empty;
+    if (!string.IsNullOrEmpty(Model))
+    {
+        id = Model.ToUrlString();
+    }
+}
+
+<div class="btn-group btn-group-export">
+
+    <a id=@("exportCurrentSearch" + id) class="btn btn-success btn-minier">
+        <i class="fa fa-file-excel-o bigger-125"></i>
+        @T("System_Text_ExportCurrentSearch")
+    </a>
+    <button data-toggle="dropdown" class="btn btn-success btn-minier dropdown-toggle" aria-expanded="false">
+        <span class="ace-icon fa fa-caret-down icon-only"></span>
+    </button>
+
+    <ul class="dropdown-menu dropdown-success">
+        <li>
+            <a id=@("exportCurrentPage" + id)>
+                <i class="fa fa-file-excel-o bigger-125"></i>
+                @T("System_Text_ExportCurrentPage")
+            </a>
+        </li>
+    </ul>
+</div>

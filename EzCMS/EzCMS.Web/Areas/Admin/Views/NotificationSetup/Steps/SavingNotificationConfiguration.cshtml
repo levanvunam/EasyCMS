@@ -1,0 +1,126 @@
+﻿@model EzCMS.Core.Models.Notifications.Setup.NotificationSetup.NotificationConfigurationSetupModel
+
+@{
+    ViewBag.Title = TFormat("Notification_Site_NotificationSetupTitle", Model.Step.GetEnumName());
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+}
+
+@Html.Partial("Partials/_Steps", Model.Step)
+
+<h1 class="center">@T("Notification_Text_SavingNotificationConfigurationHeader")</h1>
+<div class="space-22"></div>
+<div class="row form-horizontal" id="notification-configuration">
+    @using (Ajax.BeginForm("SavingNotificationConfiguration", "NotificationSetup", new AjaxOptions
+    {
+        OnBegin = "siteHelper.showLoading",
+        OnComplete = "siteHelper.hideLoading",
+        OnSuccess = "SaveNotificationConfigurationSuccess"
+    }, new { id = "SaveNotificationForm" }))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.ContactGroupName, new { @class = "col-sm-4 control-label align-right" })
+                <div class="col-sm-8 col-xs-12">
+                    @Html.TextBoxFor(m => m.ContactGroupName, new { @class = "col-sm-6" })
+                    @Html.HelpTextFor(m => m.ContactGroupName, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.ContactGroupName)
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.NotificationTemplateName, new { @class = "col-sm-4 control-label align-right" })
+                <div class="col-sm-8 col-xs-12">
+                    @Html.TextBoxFor(m => m.NotificationTemplateName, new { @class = "col-sm-6" })
+                    @Html.HelpTextFor(m => m.NotificationTemplateName, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.NotificationTemplateName)
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LocalizeLabelTimeFor(m => m.SendTime, new { @class = "col-sm-4 control-label align-right" })
+                <div class="col-sm-8 col-xs-12 no-padding">
+                    <div class="input-group col-sm-3">
+                        @Html.TextBoxFor(m => m.SendTime, new { id = "SendTime", @Value = ToLocalDateTime(Model.SendTime).ToDateTimeFormat(), @class = "form-control col-xs-12 datetime-picker" })
+                        <label class="input-group-addon" for="SendTime">
+                            <i class="fa fa-calendar bigger-110"></i>
+                        </label>
+                    </div>
+                    @Html.HelpTextFor(m => m.SendTime, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.SendTime)
+                </div>
+            </div>
+        </div>
+        <div class="space-32 clear"></div>
+        <div class="space-32 clear"></div>
+        <div class="clearfix pageButtonFix form-actions align-right left-0">
+            <div class="no-margin align-right">
+                <button class="btn btn-default" onclick="parent.$.fancybox.close();"> <i class="fa fa-times bigger-110"></i> @T("Notification_Text_SavingNotificationConfigurationCancel")</button>
+                <button id="btnBack" class="btn btn-primary" type="button"><i class="ace-icon fa fa-arrow-left"></i> @T("Notification_Text_SavingNotificationConfigurationBack")</button>
+                <button id="btnConfirmNotification" class="btn btn-success" type="button">@T("Notification_Text_SavingNotificationConfigurationNext") <i class="ace-icon fa fa-envelope-o icon-on-right"></i></button>
+            </div>
+        </div>
+
+        <div id="confirmNotification" style="display: none;">
+        </div>
+    }
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        $("#btnBack").click(function () {
+            window.location = "@Url.Action("NotificationTemplate", new { id = Model.Id })";
+        });
+
+        $('#btnConfirmNotification').click(function () {
+            siteHelper.showLoading();
+            var data = {
+                id: '@Model.Id',
+                contactGroupName: $('#ContactGroupName').val(),
+                notificationTemplateName: $('#NotificationTemplateName').val(),
+                sendTime: $('#SendTime').val()
+            };
+            siteHelper.httpPost({
+                method: 'POST',
+                url: '@Url.Action("ConfirmNotification")',
+                data: data,
+                success: function (response) {
+                    siteHelper.hideLoading();
+                    if (response.Success) {
+                        $('#confirmNotification').html(response.Data);
+                        $.fancybox({
+                            href: '#confirmNotification',
+                            autoSize: false,
+                            width: '40%',
+                            height: '440px',
+                            closeBtn: false,
+                            'scrolling': 'no'
+                        });
+                    }
+                }
+            });
+        });
+
+        $("input").keypress(function (e) {
+            if (e.which == 13) {
+                e.preventDefault();
+            }
+        });
+
+        function submitForm() {
+            $('#SaveNotificationForm').submit();
+        }
+
+        function SaveNotificationConfigurationSuccess(response) {
+            if (response.Success) {
+                parent.$.fancybox.close();
+            } else {
+                $.fancybox.close();
+                siteHelper.showMessage(response);
+            }
+        }
+    </script>
+}

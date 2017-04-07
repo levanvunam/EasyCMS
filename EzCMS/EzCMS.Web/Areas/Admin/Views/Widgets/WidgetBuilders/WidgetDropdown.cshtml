@@ -1,0 +1,54 @@
+﻿@model EzCMS.Core.Models.Widgets.WidgetBuilders.WidgetDropdownModel
+
+<div class="btn-group">
+    <button class="btn btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">
+        @T("Widget_Text_AddWidget")
+        <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+    </button>
+    <ul id="widgetList" class="dropdown-menu">
+        @foreach (var item in Model.Widgets)
+        {
+            <li>
+                <a href='javascript:void(0)' onclick='generateWidget("@item.Widget", "@item.FullWidget", "@item.CanGenerate")'>
+                    @item.Name
+                </a>
+            </li>
+        }
+        <li>
+            <a href="javascript:openSelectWidgets()">@T("Widget_Text_MoreShortcut")</a>
+        </li>
+    </ul>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        function openSelectWidgets() {
+            siteHelper.showPopup({
+                href: "@Url.Action("SelectWidgets", "Widgets", new { area = "Admin", callback = Model.CallBack })",
+                type: 'iframe',
+                width: '1000px',
+                height: '650px'
+            });
+        }
+
+        function generateWidget(widget, fullWidget, canGenerate) {
+            if (canGenerate) {
+                siteHelper.showPopup({
+                    href: "@Url.Action("GenerateWidget", "Widgets")" + "?id=" + widget + "&callback=@Model.CallBack",
+                    type: 'iframe',
+                    width: '1000px',
+                    height: '650px'
+                });
+            } else {
+                printWidget(fullWidget);
+            }
+        }
+
+        function printWidget(widget) {
+            var callBack = '@Model.CallBack';
+            if (callback != '') {
+                siteHelper.executeFunction(callBack, window, widget);
+            }
+        }
+    </script>);
+}

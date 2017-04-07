@@ -1,0 +1,150 @@
+﻿@using EzCMS.Core.Models.Notifications.NotificationTemplates
+@model EzCMS.Core.Models.Notifications.Setup.NotificationTemplateSetupModel
+
+@{
+    ViewBag.Title = TFormat("Notification_Site_NotificationSetupTitle", Model.Step.GetEnumName());
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+}
+
+@section styles{
+    @Styles.Render("~/styles/codemirror")
+}
+
+@Html.Partial("Partials/_Steps", Model.Step)
+
+<h1 class="center">@T("Notification_Text_NotificationTemplateHeader")</h1>
+<div class="space-22"></div>
+<div class="col-xs-12 col-sm-12">
+    <div class="col-xs-2 col-sm-4"></div>
+    @Html.DropDownList("NotificationTemplate", Model.NotificationTemplates, T("Notification_Text_SelectNotificationTemplate"), new { id = "NotificationTemplate", @class = "col-xs-12 col-sm-4 col-sm-offset-4 no-padding" })
+    <div class="col-xs-2 col-sm-4"></div>
+</div>
+
+<div class="row form-horizontal">
+    @using (Ajax.BeginForm("NotificationTemplate", new AjaxOptions { OnSuccess = "SaveNotificationTemplateSuccess" }))
+    {
+        @Html.HiddenFor(m => m.Id)
+        <div class="col-xs-12">
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.NotificationSubject, new { @class = "col-sm-2 control-label align-right" })
+                <div class="col-sm-10 col-xs-12">
+                    @Html.TextBoxFor(m => m.NotificationSubject, new { id = "NotificationSubject", @class = "col-xs-10" })
+                    @Html.HelpTextFor(m => m.NotificationSubject, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.NotificationSubject)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.NotificationBody, new { @class = "col-sm-2 control-label align-right" })
+                <div class="col-xs-10">
+                    <div class="btn-group">
+                        <button class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                            @T("Widget_Text_AddProperty")
+                            <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                        </button>
+                        <ul id="propertyBuilder" class="dropdown-menu dropdown-info"></ul>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="col-sm-offset-2 col-sm-9 no-padding">
+                        @Html.TextAreaFor(m => m.NotificationBody, new { id = "NotificationBody", @class = "col-xs-12" })
+                    </div>
+                    @Html.HelpTextFor(m => m.NotificationBody, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.NotificationBody)
+                </div>
+            </div>
+        </div>
+        <div class="space-32 clear"></div>
+        <div class="space-32 clear"></div>
+        <div class="clearfix pageButtonFix form-actions align-right left-0">
+            <div class="no-margin align-right">
+                <button class="btn btn-default" onclick="parent.$.fancybox.close();"> <i class="fa fa-times bigger-110"></i> @T("Notification_Text_NotificationTemplateCancel")</button>
+                <button id="btnBack" class="btn btn-primary" type="button"><i class="ace-icon fa fa-arrow-left"></i> @T("Notification_Text_NotificationTemplateBack")</button>
+                <button id="btnNext" class="btn btn-success" type="submit">@T("Notification_Text_NotificationTemplateNext") <i class="ace-icon fa fa-arrow-right icon-on-right"></i></button>
+            </div>
+        </div>
+    }
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/ckeditor/ckeditor.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Initialize/ckeditor.init.js")"></script>
+    <script type="text/javascript">
+        ContentEditor = buildCkEditor('NotificationBody', {
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+
+        $(function () {
+            // Get property dropdown
+            siteHelper.httpPost({
+                showLoading: false,
+                type: "POST",
+                url: "@Url.Action("GeneratePropertyDropdownFromType", "Widgets", new { type = typeof(NotificationPageEmailModel).AssemblyQualifiedName })",
+                async: false,
+                success: function (response) {
+                    if (response.Success) {
+                        $("#propertyBuilder").html(response.Data);
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        });
+
+        // Call back function for selecting property
+        var callback = function (property) {
+            ContentEditor.insertText(property);
+        };
+
+        $("#NotificationTemplate").select2({
+            minimumResultsForSearch: Infinity,
+            allowClear: true
+        }).on("select2-selecting", function (e) {
+            var selector = $(this);
+            var selectValue = e.val;
+            e.preventDefault();
+            selector.select2("close");
+            if (selectValue != '') {
+                siteHelper.confirm("@T("Notification_Message_SelectTemplateConfirm")", function (ok) {
+                    if (ok) {
+                        selector.select2("val", selectValue);
+                        var data = { id: $("#NotificationTemplate").val() };
+
+                        siteHelper.httpPost({
+                            url: "@Url.Action("GetNotificationTemplate")",
+                            data: data,
+                            success: function (response) {
+                                $("#NotificationSubject").val(response.Subject);
+                                ContentEditor.setData(response.Body);
+                            }
+                        });
+                        return true;
+                    } else {
+                        e.preventDefault();
+                        return false;
+                    }
+                });
+            } else {
+                selector.select2("val", selectValue);
+            }
+        });
+
+        $("#btnBack").click(function () {
+            siteHelper.confirm("@T("Notification_Message_ReturnConfirm")", function (ok) {
+                if (ok) {
+                    window.location = "@Url.Action("ContactGroup", new { id = Model.Id })";
+                    return true;
+                }
+                return false;
+            });
+        });
+
+        function SaveNotificationTemplateSuccess(response) {
+            if (response.Success) {
+                window.location = "@Url.Action("SavingNotificationConfiguration", new { id = Model.Id })";
+            } else {
+                siteHelper.showMessage(response);
+            }
+        }
+    </script>
+}

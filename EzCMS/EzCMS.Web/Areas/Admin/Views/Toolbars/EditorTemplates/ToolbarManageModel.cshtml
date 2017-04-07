@@ -1,0 +1,604 @@
+﻿@model EzCMS.Core.Models.Toolbars.ToolbarManageModel
+
+@{
+    Style.Block(
+        @<style type="text/css">
+             #basic-editor, #advance-editor {
+                 min-height: 110px;
+             }
+
+             .cke_bottom {
+                 display: none;
+             }
+
+             .icon-ckeditor {
+                 background-image: url('/Scripts/Plugins/ckeditor/plugins/icons.png');
+                 background-size: auto;
+             }
+
+             .icon-Source {
+                 background-position: 0 -1824px !important;
+             }
+
+             .icon-Save {
+                 background-position: 0 -1704px !important;
+             }
+
+             .icon-NewPage {
+                 background-position: 0 -1440px !important;
+             }
+
+             .icon-Preview {
+                 background-position: 0 -1632px !important;
+             }
+
+             .icon-Print {
+                 background-position: 0 -1656px !important;
+             }
+
+             .icon-Templates {
+                 background-position: 0 -456px !important;
+             }
+
+             .icon-Cut {
+                 background-position: 0 -312px !important;
+             }
+
+             .icon-Copy {
+                 background-position: 0 -264px !important;
+             }
+
+             .icon-Paste {
+                 background-position: 0 -360px !important;
+             }
+
+             .icon-PasteText {
+                 background-position: 0 -1536px !important;
+             }
+
+             .icon-PasteFromWord {
+                 background-position: 0 -1584px !important;
+             }
+
+             .icon-Undo {
+                 background-position: 0 -1992px !important;
+             }
+
+             .icon-Redo {
+                 background-position: 0 -1944px !important;
+             }
+
+             .icon-Find {
+                 background-position: 0 -528px !important;
+             }
+
+             .icon-Replace {
+                 background-position: 0 -552px !important;
+             }
+
+             .icon-SelectAll {
+                 background-position: 0 -1728px !important;
+             }
+
+             .icon-Scayt {
+                 background-position: 0 -1872px !important;
+             }
+
+             .icon-Form {
+                 background-position: 0 -648px !important;
+             }
+
+             .icon-Checkbox {
+                 background-position: 0 -624px !important;
+             }
+
+             .icon-Radio {
+                 background-position: 0 -720px !important;
+             }
+
+             .icon-TextField {
+                 background-position: 0 -864px !important;
+             }
+
+             .icon-Textarea {
+                 background-position: 0 -816px !important;
+             }
+
+             .icon-Select {
+                 background-position: 0 -768px !important;
+             }
+
+             .icon-Button {
+                 background-position: 0 -600px !important;
+             }
+
+             .icon-ImageButton {
+                 background-position: 0 -696px !important;
+             }
+
+             .icon-HiddenField {
+                 background-position: 0 -672px !important;
+             }
+
+             .icon-Bold {
+                 background-position: 0 -24px !important;
+             }
+
+             .icon-Italic {
+                 background-position: 0 -48px !important;
+             }
+
+             .icon-Underline {
+                 background-position: 0 -144px !important;
+             }
+
+             .icon-Strike {
+                 background-position: 0 -72px !important;
+             }
+
+             .icon-Subscript {
+                 background-position: 0 -96px !important;
+             }
+
+             .icon-Superscript {
+                 background-position: 0 -120px !important;
+             }
+
+             .icon-RemoveFormat {
+                 background-position: 0 -1680px !important;
+             }
+
+             .icon-NumberedList {
+                 background-position: 0 -1368px !important;
+             }
+
+             .icon-BulletedList {
+                 background-position: 0 -1320px !important;
+             }
+
+             .icon-Outdent {
+                 background-position: 0 -1032px !important;
+             }
+
+             .icon-Indent {
+                 background-position: 0 -984px !important;
+             }
+
+             .icon-Blockquote {
+                 background-position: 0 -216px !important;
+             }
+
+             .icon-CreateDiv {
+                 background-position: 0 -480px !important;
+             }
+
+             .icon-JustifyLeft {
+                 background-position: 0 -1128px !important;
+             }
+
+             .icon-JustifyCenter {
+                 background-position: 0 -1104px !important;
+             }
+
+             .icon-JustifyRight {
+                 background-position: 0 -1152px !important;
+             }
+
+             .icon-JustifyBlock {
+                 background-position: 0 -1080px !important;
+             }
+
+             .icon-BidiLtr {
+                 background-position: 0 -168px !important;
+             }
+
+             .icon-BidiRtl {
+                 background-position: 0 -192px !important;
+             }
+
+             .icon-Link {
+                 background-position: 0 -1248px !important;
+             }
+
+             .icon-Unlink {
+                 background-position: 0 -1272px !important;
+             }
+
+             .icon-Anchor {
+                 background-position: 0 -1224px !important;
+             }
+
+             /*.icon-CreatePlaceholder {
+                          background-position: 0 -1824px !important;
+                      }*/
+
+             .icon-Image {
+                 background-position: 0 -936px !important;
+             }
+
+             .icon-Flash {
+                 background-position: 0 -576px !important;
+             }
+
+             .icon-Table {
+                 background-position: 0 -1896px !important;
+             }
+
+             .icon-HorizontalRule {
+                 background-position: 0 -888px !important;
+             }
+
+             .icon-Smiley {
+                 background-position: 0 -1056px !important;
+             }
+
+             .icon-SpecialChar {
+                 background-position: 0 -1848px !important;
+             }
+
+             .icon-PageBreak {
+                 background-position: 0 -1488px !important;
+             }
+
+             .icon-Iframe {
+                 background-position: 0 -912px !important;
+             }
+
+             .icon-InsertPre {
+                 background-position: 0 -1824px !important;
+             }
+
+             .icon-Youtube {
+                 background: url('/Scripts/Plugins/ckeditor/plugins/youtube/images/icon.png') !important;
+             }
+
+             .icon-FontAwesome {
+                 background: url('/Scripts/Plugins/ckeditor/plugins/fontawesome/icons/fontawesome.png') !important;
+             }
+
+             .icon-EzCMSwidget {
+                 background: url('/Scripts/Plugins/ckeditor/plugins/EzCMSwidget/icons/EzCMSwidget.png') !important;
+                 width: 24px;
+                 height: 24px;
+             }
+
+             .icon-Styles {
+                 background: none !important;
+             }
+
+             .icon-Format {
+                 background: none !important;
+             }
+
+             .icon-Font {
+                 background: none !important;
+             }
+
+             .icon-FontSize {
+                 background: none !important;
+             }
+
+             .icon-TextColor {
+                 background-position: 0 -408px !important;
+             }
+
+             .icon-BGColor {
+                 background-position: 0 -384px !important;
+             }
+
+             .icon-Maximize {
+                 background-position: 0 -1392px !important;
+             }
+
+             .icon-ShowBlocks {
+                 background-position: 0 -1776px !important;
+             }
+        </style>);
+}
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="space-12"></div>
+<div class="row">
+    <div class="tabbable">
+        <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+            <li class="active">
+                <a data-toggle="tab" href="#page-toolbar">
+                    @T("Toolbar_Text_PageToolbar")
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#basic-toolbar">
+                    @T("Toolbar_Text_BasicToolbar")
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div id="page-toolbar" class="tab-pane active">
+                <div class="widget-box transparent">
+                    <div class="widget-header widget-header-flat">
+                        <div class="widget-toolbar no-border">
+                            <button type="button" onclick="selectAllPageTools()" class="btn btn-xs btn-primary bigger">
+                                <i class="ace-icon fa fa-check"></i>
+                                @T("Toolbar_Text_SelectAll")
+                            </button>
+                            <button type="button" onclick="unSelectAllPageTools()" class="btn btn-xs btn-light bigger">
+                                <i class="ace-icon fa fa-times"></i>
+                                @T("Toolbar_Text_UnSelectAll")
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            <div class="form-group">
+                                <div id="page-editor" class="col-xs-12">
+                                    @Html.TextArea("PageEditor")
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div id="pageToolbarConfig">
+                                    @{
+                                        var index = -1;
+                                        foreach (var group in Model.Groups)
+                                        {
+                                            <div class="toolbar-group-box col-xs-12">
+                                                <div class="toolbar-group col-sm-3">
+                                                    <div class="col-sm-5">
+                                                        <label>@group.Group.GetEnumName().CamelFriendly()</label>
+                                                    </div>
+                                                    <div class="col-sm-7">
+                                                        <button type="button" onclick="selectAllPageTools('@group.Group')" class="btn btn-xs btn-primary col-xs-12">
+                                                            <i class="ace-icon fa fa-check"></i>
+                                                            @T("Toolbar_Text_SelectAll")
+                                                        </button>
+                                                        <div class="space-4 clear"></div>
+                                                        <button type="button" onclick="unSelectAllPageTools('@group.Group')" class="btn btn-xs btn-light col-xs-12">
+                                                            <i class="ace-icon fa fa-times"></i>
+                                                            @T("Toolbar_Text_RemoveAll")
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="space-4 clear visible-xs"></div>
+                                                <div class="toolbar-group-tools col-sm-9">
+                                                    @foreach (var tool in group.Tools)
+                                                    {
+                                                        <input type='hidden' name='pageTools.Index' value='@index' />
+                                                        <input id="page-hidden-@tool" class="page-hidden" type='hidden' data-group="@group.Group" name='pageTools[@index]' value='@tool' @(Model.PageTools.Contains(tool.ToString()) ? "" : "disabled='disabled'") />
+                                                        <div class="col-sm-4">
+                                                            <div class="col-xs-8">
+                                                                <span class="icon-@tool cke_button_icon cke_button__save_icon">&nbsp;</span>&nbsp;<label for="page-@tool">@tool.GetEnumName().CamelFriendly()</label>
+                                                            </div>
+                                                            <div class="col-xs-4">
+                                                                <input id="page-@tool" class="page-checkbox" data-group="@group.Group" data-tool="@tool" type="checkbox" @(Model.PageTools.Contains(tool.ToString()) ? "checked" : "") />
+                                                            </div>
+                                                        </div>
+                                                        index++;
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="space-6 clear"></div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="basic-toolbar" class="tab-pane">
+                <div id="basic-toolbar" class="tab-pane active">
+                    <div class="widget-box transparent">
+                        <div class="widget-header widget-header-flat">
+                            <div class="widget-toolbar no-border">
+                                <button type="button" onclick="selectAllBasicTools()" class="btn btn-xs btn-primary bigger">
+                                    <i class="ace-icon fa fa-check"></i>
+                                    @T("Toolbar_Text_SelectAll")
+                                </button>
+                                <button type="button" onclick="unSelectAllBasicTools()" class="btn btn-xs btn-light bigger">
+                                    <i class="ace-icon fa fa-times"></i>
+                                    @T("Toolbar_Text_UnSelectAll")
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <div class="form-group">
+                                    <div id="basic-editor" class="col-xs-12">
+                                        @Html.TextArea("BasicEditor")
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div id="basicToolbarConfig">
+                                        @{
+                                            index = -1;
+                                            foreach (var group in Model.Groups)
+                                            {
+                                                <div class="toolbar-group-box col-xs-12">
+                                                    <div class="toolbar-group col-sm-3">
+                                                        <div class="col-sm-5">
+                                                            <label>@group.Group.GetEnumName().CamelFriendly()</label>
+                                                        </div>
+                                                        <div class="col-sm-7">
+                                                            <button type="button" onclick="selectAllBasicTools('@group.Group')" class="btn btn-xs btn-primary col-xs-12">
+                                                                <i class="ace-icon fa fa-check"></i>
+                                                                @T("Toolbar_Text_SelectAll")
+                                                            </button>
+                                                            <div class="space-4 clear"></div>
+                                                            <button type="button" onclick="unSelectAllBasicTools('@group.Group')" class="btn btn-xs btn-light col-xs-12">
+                                                                <i class="ace-icon fa fa-times"></i>
+                                                                @T("Toolbar_Text_RemoveAll")
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="space-4 clear visible-xs"></div>
+                                                    <div class="toolbar-group-tools col-sm-9">
+                                                        @foreach (var tool in group.Tools)
+                                                        {
+                                                            if (tool != EditorTool.EzCMSwidget)
+                                                            {
+                                                                <input type='hidden' name='basicTools.Index' value='@index' />
+                                                                <input id="basic-hidden-@tool" class="basic-hidden" type='hidden' data-group="@group.Group" name='basicTools[@index]' value='@tool' @(Model.BasicTools.Contains(tool.ToString()) ? "" : "disabled='disabled'") />
+                                                                <div class="col-sm-4">
+                                                                    <div class="col-xs-8">
+                                                                        <span class="icon-@tool cke_button_icon cke_button__save_icon">&nbsp;</span>&nbsp;<label for="basic-@tool">@tool.GetEnumName().CamelFriendly()</label>
+                                                                    </div>
+                                                                    <div class="col-xs-4">
+                                                                        <input id="basic-@tool" class="basic-checkbox" data-group="@group.Group" data-tool="@tool" type="checkbox" @(Model.BasicTools.Contains(tool.ToString()) ? "checked" : "") />
+                                                                    </div>
+                                                                </div>
+                                                                index++;
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="space-6 clear"></div>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Bundle("~/js/ckeditor").Block(@<script type="text/javascript">
+
+        var BasicEditor, AdvanceEditor, PageEditor;
+
+        $(function () {
+            $(".basic-checkbox").first().trigger("change");
+            $(".page-checkbox").first().trigger("change");
+        });
+
+        function selectAllPageTools(group) {
+            if (group == null) {
+                $(".page-checkbox").prop("checked", true);
+                $(".page-hidden").removeAttr("disabled");
+                $(".page-checkbox").first().trigger("change");
+            } else {
+                $(".page-checkbox[data-group='" + group + "']").prop("checked", true);
+                $(".page-hidden[data-group='" + group + "']").removeAttr("disabled");
+                $(".page-checkbox[data-group='" + group + "']").first().trigger("change");
+            }
+        }
+
+        function unSelectAllPageTools(group) {
+            if (group == null) {
+                $(".page-checkbox").removeAttr("checked");
+                $(".page-hidden").attr("disabled", "disabled");
+                $(".page-checkbox").first().trigger("change");
+            } else {
+                $(".page-checkbox[data-group='" + group + "']").removeAttr("checked");
+                $(".page-hidden[data-group='" + group + "']").attr("disabled", "disabled");
+                $(".page-checkbox[data-group='" + group + "']").first().trigger("change");
+            }
+        }
+
+        function selectAllBasicTools(group) {
+            if (group == null) {
+                $(".basic-checkbox").prop("checked", true);
+                $(".basic-hidden").removeAttr("disabled");
+                $(".basic-checkbox").first().trigger("change");
+            } else {
+                $(".basic-checkbox[data-group='" + group + "']").prop("checked", true);
+                $(".basic-hidden[data-group='" + group + "']").removeAttr("disabled");
+                $(".basic-checkbox[data-group='" + group + "']").first().trigger("change");
+            }
+        }
+
+        function unSelectAllBasicTools(group) {
+            if (group == null) {
+                $(".basic-checkbox").removeAttr("checked");
+                $(".basic-hidden").attr("disabled", "disabled");
+                $(".basic-checkbox").first().trigger("change");
+            } else {
+                $(".basic-checkbox[data-group='" + group + "']").removeAttr("checked");
+                $(".basic-hidden[data-group='" + group + "']").attr("disabled", "disabled");
+                $(".basic-checkbox[data-group='" + group + "']").first().trigger("change");
+            }
+        }
+
+        $(".basic-checkbox").change(function () {
+            var id = "#basic-hidden-" + $(this).data("tool");
+            if ($(this).is(":checked")) {
+                $(id).removeAttr("disabled");
+            } else {
+                $(id).attr("disabled", "disabled");
+            }
+            var data = [];
+            $.each($(".basic-checkbox"), function (index, value) {
+                if ($(this).is(":checked")) {
+                    data.push($(this).data("tool"));
+                }
+            });
+
+            siteHelper.httpPost({
+                showLoading: false,
+                url: '@Url.Action("GetToolbars", "Home")',
+                data: { toolbars: data },
+                success: function (response) {
+                    if (response.Success) {
+                        if (BasicEditor) {
+                            BasicEditor.destroy();
+                        }
+                        var config = $.parseJSON(response.Data);
+                        BasicEditor = buildCkEditor('BasicEditor', {
+                            height: '0px',
+                            toolbar: config
+                        });
+                    }
+                }
+            });
+        });
+
+        $(".page-checkbox").change(function () {
+            var id = "#page-hidden-" + $(this).data("tool");
+            if ($(this).is(":checked")) {
+                $(id).removeAttr("disabled");
+            } else {
+                $(id).attr("disabled", "disabled");
+            }
+            var data = [];
+            $.each($(".page-checkbox"), function (index, value) {
+                if ($(this).is(":checked")) {
+                    data.push($(this).data("tool"));
+                }
+            });
+
+            siteHelper.httpPost({
+                showLoading: false,
+                url: '@Url.Action("GetToolbars", "Home")',
+                data: { toolbars: data },
+                success: function (response) {
+                    if (response.Success) {
+                        if (PageEditor) {
+                            PageEditor.destroy();
+                        }
+                        var config = $.parseJSON(response.Data);
+                        PageEditor = buildCkEditor('PageEditor', {
+                            height: '0px',
+                            toolbar: config
+                        });
+                    }
+                }
+            });
+        });
+    </script>);
+}

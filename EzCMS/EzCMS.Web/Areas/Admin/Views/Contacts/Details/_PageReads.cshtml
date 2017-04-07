@@ -1,0 +1,71 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "PageRead")
+</div>
+<div class="col-xs-12">
+    <table id="page-read-grid-table"></table>
+    <div id="page-read-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+<script type="text/javascript">
+    /*
+     * Setup grid
+     */
+    var $dirty = false;
+    var pageReadGrid = "#page-read-grid-table";
+    var pageReadGridPager = "#page-read-grid-pager";
+    var pageReadTab = "#page-reads";
+    var pageReadGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Page Read" })');
+    var pageReadExportUrl = "@Url.Action("Exports", "PageReads", new { contactId = Model })";
+
+    $(function () {
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding", "PageReads", new { contactId = Model })",
+            colNames: ['@T("PageRead_Field_Id")',
+                '@T("PageRead_Field_PageId")',
+                '@T("AnonymousContact_Field_ContactId")',
+                '@T("AnonymousContact_Field_CookieKey")',
+                '@T("AnonymousContact_Field_FirstName")',
+                '@T("AnonymousContact_Field_LastName")',
+                '@T("AnonymousContact_Field_Email")',
+                '@T("AnonymousContact_Field_Phone")',
+                '@T("AnonymousContact_Field_Address")',
+                '@LabelForTime(T("PageRead_Field_Created"))'],
+            colModel: [
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                {
+                    name: 'PageId',
+                    index: 'PageId',
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.formatLink('@Url.EmtpyRouteUrl("Details", "Pages")/' + cellvalue, rowObject.Title, rowObject.Title, true);
+                    }
+                },
+                {
+                    name: 'ContactId',
+                    index: 'ContactId',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (cellvalue != null) {
+                            var fullName = rowObject.FirstName + " " + rowObject.LastName;
+                            return jqGridHelper.formatLink('@Url.EmtpyRouteUrl("Details", "Contacts")/' + cellvalue, fullName, fullName, true);
+                        }
+                        return "";
+                    }
+                },
+                { name: 'CookieKey', index: 'CookieKey' },
+                { name: 'FirstName', index: 'FirstName' },
+                { name: 'LastName', index: 'LastName' },
+                { name: 'Email', index: 'Email' },
+                { name: 'Phone', index: 'Phone' },
+                { name: 'Address', index: 'Address', hidden: true },
+                { name: 'Created', index: 'Created', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } }
+            ],
+            loadComplete: function(response) {
+                $("#tab-page-read").data("total", response.records).html(response.records);
+            }
+        };
+
+        jqGridHelper.setupTabGrid(pageReadGrid, pageReadGridPager, gridOptions, pageReadGridSettings, pageReadTab, pageReadExportUrl , "PageRead");
+    });
+</script>

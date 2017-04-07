@@ -1,0 +1,29 @@
+<div class="info">
+    <div class="date">
+        <h4>{PostedDay}</h4>
+        <span>{PostedMonth}</span>
+    </div>
+</div>
+<div class="preview">
+    <img class="img-responsive" src="{ImageUrl}" />
+    <a href="#">
+        <h3 class="news-title">{Title}</h3>
+    </a>
+    <div class="meta-info">
+        <i class="fa fa-user"></i>
+        <a href="#">{LastUpdatedBy}</a>
+        <span>|</span>
+        <i class="fa fa-tag"></i>
+        <ul class="category-tags">
+            @foreach (dynamic item in Model.Categories)
+            {
+                <li>
+                    <a href="/Category-Details?categoryId=@(item.Id)&title=@(item.Name.ToUrlString())">@item.Name</a>
+                </li>
+            }
+        </ul>
+        <span>|</span>
+    </div>
+    <blockquote>{Abstract}</blockquote>
+    <div class="news-content">{Content}</div>
+</div>

@@ -1,0 +1,23 @@
+<div id="registered" style="display: @(Model.Id.HasValue ? "block" : "none")">
+    <span>You will be notified when this page changed. </span>
+    <a href="javascript:removeNotification()">Remove</a>
+</div>
+<div id="not-register-yet" style="display: @(Model.Id.HasValue ? "none" : "block")">
+    <a id="notifyMe" href="javascript:notifyMe()">Tell me when this page is updated.</a>
+    <span id="registered" style="display: none">You will be notified when this page changed.</span>
+    <div id="modal-template" style="display: none">
+        <div class="row">
+            <div class="col-md-12">
+                <form id="validation-form" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-5 control-label" for="email">Enter your email address</label>
+                        <div class="col-md-6">
+                            <input id="email" name="email" type="email" placeholder="Enter your email address" value="@CurrentContact.Email" class="form-control col-xs-10" required>
+                        </div>
+                    </div>
+                    {SelectSubscriptionType}
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

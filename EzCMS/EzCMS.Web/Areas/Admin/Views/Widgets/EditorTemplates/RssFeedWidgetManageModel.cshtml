@@ -1,0 +1,57 @@
+﻿@model EzCMS.Core.Models.RssFeeds.WidgetManageModels.RssFeedWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RssType, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.RssType, Model.RssFeedTypes, T("Widget_RssFeed_Text_SelectRssType"), new { @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.RssType, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RssType)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RssFeedId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.RssFeedId, Model.RssFeeds, new { id = "RssFeedId", @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.RssFeedId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RssFeedId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Number, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.Number, new { @class = "input-number curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Number, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Number)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        //Rss type change listener
+        $('#RssType').change(function () {
+            var rssType = $(this).val();
+
+            if (parseInt(rssType) > 0) {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: '@Url.Action("GetRssFeedsByType", "RssFeeds")',
+                    data: { rssType: rssType },
+                    success: function (response) {
+                        siteHelper.buildSelect2("#RssFeedId", response);
+                        $("#RssFeedId").trigger("change");
+                    }
+                });
+            } else {
+                siteHelper.buildSelect2("#RssFeedId", null);
+            }
+        });
+    </script>);
+}

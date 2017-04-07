@@ -1,0 +1,74 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "EventSchedule")
+</div>
+<div class="col-xs-12">
+    <table id="event-schedule-grid-table"></table>
+    <div id="event-schedule-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+    // Edit event schedule
+    function editEventSchedule(id) {
+        siteHelper.showPopup({
+            href: "@Url.Action("PopupEdit", "EventSchedules")/" + id,
+            type: 'iframe',
+            width: '60%',
+        }, function () {
+            if ($dirty == true) {
+                jqGridHelper.reloadGrid(eventScheduleGrid);
+            }
+        });
+    }
+
+    /*
+     * Setup grid
+     */
+    var $dirty = false;
+    var eventScheduleGrid = "#event-schedule-grid-table";
+    var eventScheduleGridPager = "#event-schedule-grid-pager";
+    var eventScheduleTab = "#event-schedules";
+    var eventScheduleGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Event Schedule" })');
+        var eventScheduleExportUrl = "@Url.Action("Exports", "EventSchedules", new { eventId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBindingByEvent", "EventSchedules", new { eventId = Model })",
+            colNames: ['', 'Id', 'Location', '@LabelForTime("Time Start")', '@LabelForTime("Time End")'],
+            colModel: [
+                {
+                    name: 'Actions',
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    hidedlg: true,
+                    formatter: function (cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='javascript:editEventSchedule(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "EventSchedules")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                        // Delete event schedule icon
+                        var returnUrl = "@Url.Action("Details", new { id = Model })";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "EventSchedules")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        return editIcon + detailsIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Location', index: 'Location' },
+                { name: 'TimeStart', index: 'SentOn', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'TimeEnd', index: 'SentOn', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            ],
+            loadComplete: function (response) {
+                $("#tab-event-schedule").data("total", response.records).html(response.records);
+            }
+        };
+
+        jqGridHelper.setupTabGrid(eventScheduleGrid, eventScheduleGridPager, gridOptions, eventScheduleGridSettings, eventScheduleTab);
+    });
+    </script>);
+}

@@ -1,0 +1,126 @@
+﻿@model EzCMS.Core.Models.Widgets.WidgetBuilders.WidgetManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Widget_Site_Header");
+    ViewBag.Title = T("Widget_Site_CreateTitle");
+    ViewBag.Description = T("Widget_Site_CreateDescription");
+
+    var isCkEditor = Request["isCkEditor"].ToBool();
+    var callback = Request["callback"];
+}
+
+
+<div class="widget-box">
+    <div class="widget-header widget-header-large">
+        <h4 class="widget-title">@TFormat("Widget_Text_HeaderTitle", Model.Widget)</h4>
+
+        <div class="widget-toolbar">
+            <a href="@Url.Action("SelectWidgets", "Widgets", new { callback, isCkEditor })">@T("Widget_Text_SelectShortcutTitle")</a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-0 overflow-hidden">
+            <div class="row form-horizontal">
+                <div id="left-box" class="col-xs-4">
+                    @using (Ajax.BeginForm("GenerateWidget", null, null, new { id = "widgetForm", style = "height: 100%", @class = "form-horizontal" }))
+                    {
+                        <div class="col-xs-12">
+                            @Html.HiddenFor(m => m.FullWidget)
+                            @Html.HiddenFor(m => m.Widget)
+                            @ShowStatusMessage()
+                            @Html.EditorFor(m => m, "", "")
+                            <div class="space-4"></div>
+                        </div>
+                    }
+                </div>
+                <div id="right-box" class="col-xs-8 no-padding">
+                    <div id="preview-header" class="col-xs-12">
+                        <h4 class="pull-left">
+                            @T("Widget_Text_ReviewShortcut")
+                        </h4>
+                        <div id="curly-bracket-preview-loading" class="pull-left" style="display: none">
+                            <img src="/Images/Shared/loading.gif" class="center" style="height: 30px" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                    <div id="curly-bracket-preview">
+                        <iframe id="iframe-preview" onload="previewIframeLoaded()" src="@Url.Action("IframePreview", new { widget = Model.FullWidget })"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="widget-toolbox padding-8 clearfix">
+            <div class="center">
+                <button class="btn btn-xs btn-info" type="button" onclick="selectWidget()">
+                    <i class="fa fa-check bigger-110"></i>
+                    @T("Widget_Text_InsertShortcutButton")
+                </button>
+                <button class="btn btn-xs" onclick="parent.$.fancybox.close();">
+                    <i class="fa fa-times bigger-110"></i>                    
+                    @T("Widget_Text_CancelShortcutButton")
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        function selectWidget() {
+            if ($("#widgetForm").valid()) {
+                var widget = $("#FullWidget").val();
+                if (widget != '') {
+                    var isCkEditor = "@isCkEditor";
+                    if (isCkEditor.toLowerCase() == 'true') {
+                        parent.CKEDITOR.dialog.getCurrent().getContentElement('tab-setup', 'widget').setValue(widget);
+                    } else {
+                        siteHelper.executeFunction("@callback", parent, widget);
+                    }
+                    parent.$.fancybox.close();
+                    return;
+                }
+            }
+            siteHelper.alert("Please select parameters.");
+        }
+
+        $(".curly-bracket-parameter").change(function () {
+            if ($("#widgetForm").valid()) {
+
+                //Show ajax
+                $("#curly-bracket-preview-loading").show();
+
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("GenerateWidget")",
+                    data: $("#widgetForm").serialize(),
+                    success: function (response) {
+                        $("#curly-bracket-preview-loading").hide();
+                        if (response.Success) {
+                            $("#FullWidget").val(response.Data);
+                            preview();
+                        } else {
+                            siteHelper.showMessage(response);
+                        }
+                    }
+                }, false);
+            }
+        });
+
+        function preview() {
+            var widget = $("#FullWidget").val();
+            if (widget != '') {
+                $("#curly-bracket-preview-loading").show();
+                $("#iframe-preview").hide();
+                $("#iframe-preview").attr("src", "@Url.Action("IframePreview")?widget=" + widget);
+            }
+        }
+
+        function previewIframeLoaded() {
+            $("#curly-bracket-preview-loading").hide();
+            $("#iframe-preview").show();
+        }
+    </script>
+}

@@ -1,0 +1,40 @@
+﻿@model EzCMS.Core.Models.Forms.Render.FormIframeLoaderModel
+
+
+<link rel="stylesheet" href="@Url.Content("~/Scripts/FormBuilder/css/bootstrap.min.css")" />
+<link rel="stylesheet" href="@Url.Content("~/Scripts/FormBuilder/css/form.css")" />
+@if (Model == null)
+{
+    <div class="alert alert-danger">
+        <span>
+            @T("Form_Message_InvalidFormId");
+        </span>
+    </div>
+}
+else
+{
+    if (!string.IsNullOrEmpty(Model.Style))
+    {
+        <link rel="stylesheet" href="@Model.Style" />
+    }
+
+    if (Model.FormSubmitted)
+    {
+        <p>@Model.ThankyouMessage</p>
+    }
+    else
+    {
+        using (Html.BeginForm("SubmitForm", "SiteApi", new { area = "", f = Model.EncryptId }, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            <noscript>
+                <div class="alert alert-warning">
+                    <span>
+                        <strong>Notice: </strong> JavaScript is not enabled, for full functionality of this site it is necessary to enable JavaScript.
+                        <a href="http://enable-javascript.com/" class="alert-link">Please Enable JavaScript Safley</a>.
+                    </span>
+                </div>
+            </noscript>
+            @Html.Raw(Model.Content)
+        }
+    }
+}

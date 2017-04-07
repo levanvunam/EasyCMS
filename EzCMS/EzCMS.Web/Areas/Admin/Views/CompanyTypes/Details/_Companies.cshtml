@@ -1,0 +1,96 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "Company")
+</div>
+<div class="col-xs-12">
+    <table id="company-grid-table"></table>
+    <div id="company-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        // Edit company
+        function editCompany(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "Companies")/" + id,
+                type: 'iframe',
+                width: '60%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(companyGrid);
+                }
+            });
+        }
+
+        /*
+        * Setup grid
+        */
+        var $dirty = false;
+        var companyGrid = "#company-grid-table";
+        var companyGridPager = "#company-grid-pager";
+        var companyTab = "#companies";
+        var companyGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Company" })');
+        var companyExportUrl = "@Url.Action("Exports", "Companies", new { companyTypeId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "Companies", new { companyTypeId = Model })",
+                colNames: ['', '@T("Company_Field_Id")',
+                    '@T("Company_Field_Name")',
+                    '@T("Company_Field_CompanyTypeName")',
+                    '@T("Company_Field_RecordOrder")',
+                    '@LabelForTime(T("Company_Field_Created"))',
+                    '@T("Company_Field_CreatedBy")',
+                    '@LabelForTime(T("Company_Field_LastUpdate"))',
+                    '@T("Company_Field_LastUpdateBy")'
+                ],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:editCompany(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details","Companies")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete company icon
+                            var returnUrl = "@Url.Action("Details", new { id = Model })";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "Companies")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Name', index: 'Name' },
+                    {
+                        name: 'CompanyTypeName',
+                        index: 'CompanyTypeName',
+                        formatter: function (cellvalue, options, rowObject) {
+                            if (rowObject.CompanyTypeId != null) {
+                                return jqGridHelper.formatLink('@Url.Action("Details", "CompanyTypes")/' + rowObject.CompanyTypeId, cellvalue, cellvalue, true);
+                            }
+                            return "";
+                        }
+                    },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-company").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(companyGrid, companyGridPager, gridOptions, companyGridSettings, companyTab, companyExportUrl, "Company");
+        });
+    </script>);
+}

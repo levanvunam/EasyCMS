@@ -1,0 +1,125 @@
+﻿@using EzCMS.Entity.Core.Enums
+@{
+    ViewBag.Header = T("PageLog_Site_Header");
+    ViewBag.Title = T("PageLog_Site_ListingTitle");
+    ViewBag.Description = T("PageLog_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+    </div>
+
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Page Log" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("PageLog_Field_Id")',
+                '@T("PageLog_Field_PageTitle")',
+                '@T("PageLog_Field_ChangeLog")',
+                '@T("PageLog_Field_FriendlyUrl")',
+                '@T("PageLog_Field_PageTemplateId")',
+                '@T("PageLog_Field_FileTemplateId")',
+                '@T("PageLog_Field_BodyTemplateId")',
+                '@T("PageLog_Field_Status")',
+                '@T("PageLog_Field_FriendlyUrl")',
+                '@T("PageLog_Field_ParentId")',
+                '@LabelForTime(T("PageLog_Field_Created"))',
+                '@T("PageLog_Field_CreatedBy")',
+                '@LabelForTime(T("PageLog_Field_LastUpdate"))',
+                '@T("PageLog_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var previewIcon = "<a class='grid-action' href='@Url.Action("Preview")/" + options.rowId + "'><div class='ui-pg-div' title='@T("PageLog_Text_Preview")'><span class='fa fa-eye-open'></span></div></a>";
+
+                        return previewIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'PageTitle', index: 'PageTitle' },
+                { name: 'ChangeLog', index: 'ChangeLog' },
+                { name: 'Url', index: 'ParentName' },
+                { name: 'PageTemplateId', index: 'PageTemplateId', hidden: true },
+                { name: 'FileTemplateId', index: 'FileTemplateId', hidden: true },
+                { name: 'BodyTemplateId', index: 'BodyTemplateId', hidden: true },
+                {
+                    name: 'Status',
+                    index: 'Status',
+                    align: 'center',
+                    hidden: true,
+                    search: false,
+                    formatter: function (cellvalue) {
+                        var icon = "<span class='label label-success'> @(PageEnums.PageStatus.Online) </span>";
+                        if (cellvalue == '@((int)PageEnums.PageStatus.Draft)') {
+                            icon = "<span class='label label-warning'> @(PageEnums.PageStatus.Draft) </span>";
+                        } else if (cellvalue == '@((int)PageEnums.PageStatus.Offline)') {
+                            icon = "<span class='label label-fail'> @(PageEnums.PageStatus.Offline) </span>";
+                        }
+                        return icon;
+                    }
+                },
+                { name: 'FriendlyUrl', index: 'FriendlyUrl', hidden: true },
+                { name: 'ParentId', index: 'ParentId', hidden: true },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

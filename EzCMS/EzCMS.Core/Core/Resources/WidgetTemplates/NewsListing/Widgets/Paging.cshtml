@@ -1,0 +1,26 @@
+@if (Model.PageSize > 0 && Model.NewsListing.Any())
+{
+    <div class="blog-page-navigation-wrap">
+        <ul>
+            <li class="prev">
+                <a href="?page=@Model.PreviousPage">
+                    <span class="fa fa-angle-left"></span>Prev
+                </a>
+            </li>
+            @for (int i = 0; i < Model.TotalPage; i++)
+            {
+                <li class="@(Model.PageIndex == i ? "current" : "")">
+                    <a href="?page=@i">@(i + 1)</a>
+                </li>
+
+            }
+            <li class="next">
+                <a href="?page=@Model.NextPage">
+                    Next
+                    <span class="fa fa-angle-right"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+}

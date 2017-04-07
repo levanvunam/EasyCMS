@@ -1,0 +1,199 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "UserLoginHistory")
+</div>
+<div class="col-xs-12">
+    <table id="user-login-history-grid-table"></table>
+    <div id="user-login-history-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var userLoginHistoryGrid = "#user-login-history-grid-table";
+        var userLoginHistoryGridPager = "#user-login-history-grid-pager";
+        var userLoginHistoryTab = "#user-login-histories";
+        var userLoginHistoryGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "User Login History" })');
+        var userLoginHistoryExportUrl = "@Url.Action("Exports", "UserLoginHistories", new { userId = Model })";
+
+        $(function ($) {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "UserLoginHistories", new { userId = Model })",
+                colNames: ['', '@T("UserLoginHistory_Field_Id")',
+                    '@T("UserLoginHistory_Field_UserId")',
+                    '@T("UserLoginHistory_Field_Username")',
+                    '@LabelForTime(T("UserLoginHistory_Field_LoginTime"))',
+                    '@T("UserLoginHistory_Field_IpAddress")',
+                    '@T("UserLoginHistory_Field_OsVersion")',
+                    '@T("UserLoginHistory_Field_BrowserName")',
+                    '@T("UserLoginHistory_Field_BrowserType")',
+                    '@T("UserLoginHistory_Field_BrowserVersion")',
+                    '@T("UserLoginHistory_Field_Platform")',
+                    '@T("UserLoginHistory_Field_MajorVersion")',
+                    '@T("UserLoginHistory_Field_IsBeta")',
+                    '@T("UserLoginHistory_Field_IsCrawler")',
+                    '@T("UserLoginHistory_Field_IsAOL")',
+                    '@T("UserLoginHistory_Field_IsWin16")',
+                    '@T("UserLoginHistory_Field_IsWin32")',
+                    '@T("UserLoginHistory_Field_SupportsFrames")',
+                    '@T("UserLoginHistory_Field_SupportsTables")',
+                    '@T("UserLoginHistory_Field_SupportsCookies")',
+                    '@T("UserLoginHistory_Field_SupportsVBScript")',
+                    '@T("UserLoginHistory_Field_SupportsJavaScript")',
+                    '@T("UserLoginHistory_Field_SupportsJavaApplets")',
+                    '@T("UserLoginHistory_Field_JavaScriptVersion")',
+                    '@T("UserLoginHistory_Field_Active")',
+                    '@T("UserLoginHistory_Field_RecordOrder")',
+                    '@LabelForTime(T("UserLoginHistory_Field_Created"))',
+                    '@T("UserLoginHistory_Field_CreatedBy")',
+                    '@LabelForTime(T("UserLoginHistory_Field_LastUpdate"))',
+                    '@T("UserLoginHistory_Field_LastUpdateBy")'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "UserLoginHistories")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            return detailsIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'UserId', index: 'UserId', hidden: true },
+                    { name: 'Username', index: 'Username' },
+                    { name: 'Created', index: 'Created', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'IpAddress', index: 'IpAddress' },
+                    { name: 'OsVersion', index: 'OsVersion' },
+                    { name: 'BrowserName', index: 'BrowserName' },
+                    { name: 'BrowserType', index: 'BrowserSettingType', hidden: true },
+                    { name: 'BrowserVersion', index: 'BrowserVersion' },
+                    { name: 'Platform', index: 'Platform', hidden: true },
+                    { name: 'MajorVersion', index: 'MajorVersion', hidden: true },
+                    {
+                        name: 'IsBeta',
+                        index: 'IsBeta',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsCrawler',
+                        index: 'IsCrawler',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsAOL',
+                        index: 'IsAOL',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsWin16',
+                        index: 'IsWin16',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsWin32',
+                        index: 'IsWin32',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsWin32',
+                        index: 'IsWin32',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsFrames',
+                        index: 'SupportsFrames',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsTables',
+                        index: 'SupportsTables',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsCookies',
+                        index: 'SupportsCookies',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'SupportsVBScript',
+                        index: 'SupportsVBScript',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'SupportsJavaScript', index: 'SupportsJavaScript', hidden: true },
+                    {
+                        name: 'SupportsJavaApplets',
+                        index: 'SupportsJavaApplets',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'JavaScriptVersion', index: 'JavaScriptVersion', hidden: true },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-user-login-history").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(userLoginHistoryGrid, userLoginHistoryGridPager, gridOptions, userLoginHistoryGridSettings, userLoginHistoryTab, userLoginHistoryExportUrl, "UserLoginHistory");
+        });
+    </script>);
+}
+

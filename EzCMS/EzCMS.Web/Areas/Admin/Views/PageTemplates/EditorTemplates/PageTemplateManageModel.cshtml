@@ -1,0 +1,71 @@
+﻿@using EzCMS.Core.Models.Pages.Widgets
+@model EzCMS.Core.Models.PageTemplates.PageTemplateManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-2 control-label no-padding-top">
+        @Html.LocalizeLabelFor(m => m.Content)
+        @Html.HelpTextFor(m => m.Content, new { @class = "help-button" })
+    </div>
+    <div class="col-sm-10">
+        <div class="btn-group">
+            <button class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                @T("Widget_Text_AddProperty")
+                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+            </button>
+            <ul id="propertyBuilder" class="dropdown-menu dropdown-info"></ul>
+        </div>
+        @Html.Action("WidgetDropdown", "Widgets", new { callback = "callback" })
+    </div>
+    <div class="col-sm-offset-2 col-xs-12 col-sm-10">
+        @Html.TextAreaFor(m => m.Content)
+        @Html.ValidationMessageFor(m => m.Content)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ParentId, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.ParentId, Model.Parents, T("PageTemplate_Text_SelectParentTemplate"), new { @class = "single-select-no-search col-xs-10" })
+        @Html.HelpTextFor(m => m.ParentId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ParentId)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Bundle("~/js/codemirror").Block(@<script type="text/javascript">
+        var Editor;
+        $(function () {
+            Editor = siteHelper.buildHtmlEditor("Content");
+
+            // Get property dropdown
+            siteHelper.httpPost({
+                showLoading: false,
+                type: "POST",
+                url: "@Url.Action("GeneratePropertyDropdownFromType", "Widgets", new { type = typeof(PageRenderModel).AssemblyQualifiedName })",
+                async: false,
+                success: function (response) {
+                    if (response.Success) {
+                        $("#propertyBuilder").html(response.Data);
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        });
+
+        var callback = function (text) {
+            Editor.replaceRange(text, Editor.getCursor());
+        };
+    </script>);
+}

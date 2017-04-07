@@ -1,0 +1,81 @@
+﻿@{
+    @model List<EzCMS.Core.Services.Tree.ITree<EzCMS.Core.Models.ClientNavigations.Widgets.NavigationNodeModel>>
+}
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Page_Site_Header");
+    ViewBag.Title = T("Page_Site_ConfigOrderTitle");
+    ViewBag.Description = T("Page_Site_ConfigOrderDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        <div id="pages" class="dd">
+            @Html.Partial("Partials/_PageTree", Model)
+        </div>
+    </div>
+    <div class="space-32 clear"></div>
+    <div class="space-32 clear"></div>
+    <div class="space-32 clear"></div>
+    <div class="clearfix pageButtonFix form-actions align-right left-0">
+        <div class="col-xs-12 no-margin">
+            <button class="btn btn-default" onclick="parent.$.fancybox.close();">
+                 <i class="fa fa-times bigger-110"></i> @T("Page_Text_ButtonClose") 
+            </button>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Nestable/jquery.nestable.js")"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#pages').nestable({
+                onDragFinished: function (currentNode, parentNode) {
+                    var previousNode = $(currentNode).prev("li.dd-item");
+                    var nextNode = $(currentNode).next("li.dd-item");
+
+                    var currentNodeId = $(currentNode).data("id");
+                    var parentNodeId = $(parentNode).data("id");
+                    var previousNodeId = $(previousNode).data("id");
+                    var nextNodeId = $(nextNode).data("id");
+
+                    siteHelper.httpPost({
+                        showLoading: false,
+                        url: "@Url.Action("SetupPageOrder")",
+                        data: {
+                            currentId: currentNodeId,
+                            parentId: parentNodeId,
+                            previousId: previousNodeId,
+                            nextId: nextNodeId
+                        },
+                        success: function (response) {
+                            // Only show message when order is changed
+                            if (response.Message != '') {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+
+            $('.dd-handle a').on('mousedown', function (e) {
+                e.stopPropagation();
+            });
+        });
+    </script>
+}

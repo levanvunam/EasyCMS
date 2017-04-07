@@ -1,0 +1,61 @@
+﻿@model EzCMS.Core.Models.Polls.WidgetManageModels.PollResultWidgetManageModel
+@Html.HiddenFor(m => m.PollAnswerIdsString, new { id = "PollAnswerIdsString", @class = "curly-bracket-parameter" })
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PollId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.PollId, Model.Polls, T("Widget_PollResult_Text_SelectPoll"), new { id = "PollId", @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.PollId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PollId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PollAnswerIds, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.ListBoxFor(c => c.PollAnswerIds, Model.PollAnswers, new { id = "PollAnswerIds", @class = "col-xs-10 multi-select", multiple = "multiple", placeholder = T("Widget_PollResult_Text_SelectAnswers") })
+        @Html.HelpTextFor(m => m.PollAnswerIds, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PollAnswerIds)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        //Poll answers change listener
+        $("#PollAnswerIds").change(function () {
+            if ($("#PollAnswerIds").val() != null) {
+                $("#PollAnswerIdsString").val($("#PollAnswerIds").val().join());
+            } else {
+                $("#PollAnswerIdsString").val("");
+            }
+
+            $(".curly-bracket-parameter").trigger("change");
+        });
+
+        //Poll change listener
+        $("#PollId").change(function () {
+            //Current poll id
+            var pollId = $(this).val();
+
+            if (parseInt(pollId) > 0) {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("GetPollAnswers", "PollAnswers")",
+                    data: { pollId: $(this).val() },
+                    success: function (data) {
+                        siteHelper.buildSelect2("#PollAnswerIds", data, "-- Select Answers --");
+                    }
+                });
+            } else {
+                siteHelper.buildSelect2("#PollAnswerIds", null, "-- Select Answers --");
+            }
+        });
+    </script>);
+}

@@ -1,0 +1,18 @@
+﻿@model CaptchaSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PublicKey, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.PublicKey, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.PublicKey, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PublicKey)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PrivateKey, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.PrivateKey, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.PrivateKey, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PrivateKey)
+    </div>
+</div>

@@ -1,0 +1,4 @@
+﻿Name: Help Plugin
+Description: Help Plugin for EzCMS 9
+Author: Customer Community
+Version: 1.0.0.0

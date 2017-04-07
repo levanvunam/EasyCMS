@@ -1,0 +1,78 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "FormComponent")
+</div>
+<div class="col-xs-12">
+    <table id="form-component-grid-table"></table>
+    <div id="form-component-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var formComponentGrid = "#form-component-grid-table";
+        var formComponentGridPager = "#form-component-grid-pager";
+        var formComponentTab = "#form-components";
+        var formComponentGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "Form Component"})');
+        var formComponentExportUrl = "@Url.Action("Exports", "FormComponents", new {formComponentTemplateId = Model})";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "FormComponents", new { formComponentTemplateId = Model })",
+                colNames: ['', '@T("FormComponent_Field_Id")',
+                    '@T("FormComponent_Field_Name")',
+                    '@T("FormComponent_Field_FormComponentTemplateName")',
+                    '@T("FormComponent_Field_RecordOrder")',
+                    '@LabelForTime(T("FormComponent_Field_Created"))',
+                    '@T("FormComponent_Field_CreatedBy")',
+                    '@LabelForTime(T("FormComponent_Field_LastUpdate"))',
+                    '@T("FormComponent_Field_LastUpdateBy")'
+                ],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='@Url.Action("Edit", "FormComponents")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "FormComponents")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "FormComponents")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Name', index: 'Name' },
+                    {
+                        name: 'FormComponentTemplateName',
+                        index: 'FormComponentTemplateName',
+                        formatter: function (cellvalue, options, rowObject) {
+                            var detailUrl = "<a href='@Url.Action("Details", "FormComponentTemplates")/" + rowObject.FormComponentTemplateId + "'>" + cellvalue + "</a>";
+                            return detailUrl;
+                        }
+                    },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-form-component").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(formComponentGrid, formComponentGridPager, gridOptions, formComponentGridSettings, formComponentTab, formComponentExportUrl, "FormComponent");
+        });
+    </script>);
+}

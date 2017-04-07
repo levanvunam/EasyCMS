@@ -1,0 +1,36 @@
+﻿@model int
+
+<div class="col-xs-12">
+    <table id="permission-grid-table"></table>
+    <div id="permission-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var permissionGrid = "#permission-grid-table";
+        var permissionGridPager = "#permission-grid-pager";
+        var permissionTab = "#permissions";
+        var permissionGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Permission" })');
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBindingForGroupPermissions", "UserGroups", new { userGroupId = Model })",
+                colNames: ['@T("Permission_Field_PermissionName")'],
+                colModel: [
+                    { name: 'PermissionName', index: 'PermissionName', width: 500, key: true }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-permission").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(permissionGrid, permissionGridPager, gridOptions, permissionGridSettings, permissionTab);
+        });
+    </script>);
+}

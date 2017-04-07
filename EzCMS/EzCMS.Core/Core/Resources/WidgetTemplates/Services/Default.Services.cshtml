@@ -1,0 +1,16 @@
+<div class="carouselServiceList owl-carousel">
+    @foreach (var item in Model)
+    {
+        <div class="item">
+            <div class="serviceList">
+                <div class="serviceImg col-sm-6">
+                    <img src="@item.ImageUrl" class="img-thumbnail img-responsive"/>
+                </div>
+                <div class="serviceDescription col-sm-6">
+                    <div>@item.Description</div>
+                    <a href="/ServiceDetails?id=@(item.Id)&title=@ToUrlString(item.Name)" class="btn btn-default">Read more</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

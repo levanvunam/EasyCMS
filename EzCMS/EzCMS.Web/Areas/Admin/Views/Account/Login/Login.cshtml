@@ -1,0 +1,104 @@
+﻿@model EzCMS.Core.Models.Users.Logins.LoginModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Account/_Layout.Account.cshtml";
+    ViewBag.Header = T("Account_Site_Header");
+    ViewBag.Title = T("Account_Site_LoginTitle");
+    ViewBag.Description = T("Account_Site_LoginDescription");
+}
+
+@using (Ajax.BeginForm("Login", "Account", null, new AjaxOptions
+{
+    OnBegin = "siteHelper.showLoading",
+    OnSuccess = "OnLoginSuccess"
+}, new { id = "login-form" }))
+{
+    @Html.HiddenFor(m => m.ReturnUrl)
+    if (!Model.EnableTemplate)
+    {
+        <div id="login-box" class="login-box visible widget-box no-border">
+            <div class="widget-body">
+                <div class="widget-main">
+                    <h4 class="header blue lighter bigger">
+                        <i class="fa fa-coffee green"></i>
+                        @T("Account_Text_LoginUserInfoTitle")
+                    </h4>
+
+                    <div class="space-6"></div>
+
+                    <form>
+                        <fieldset>
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                                    <i class="ace-icon fa fa-user"></i>
+                                    @Html.ValidationMessageFor(m => m.Username)
+                                </span>
+                            </label>
+
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    <i class="ace-icon fa fa-lock"></i>
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </span>
+                            </label>
+
+                            <div class="space"></div>
+
+                            <div class="clearfix">
+                                @Html.AceCheckBox("RememberMe", Model.RememberMe, T("Account_Text_LoginRememberMe"))
+
+                                <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                    <i class="fa fa-key"></i>
+                                    @T("Account_Text_LoginButton")
+                                </button>
+                            </div>
+
+                            <div class="space-4"></div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div class="toolbar clearfix">
+                    <div>
+                        <a href="@Url.Action("ForgotPassword")" class="forgot-password-link">
+                            <i class="fa fa-arrow-left"></i>
+                            @T("Account_Text_LoginForgotPassword")
+                        </a>
+                    </div>
+
+                    <div>
+                        <a href="@Url.Action("Register")" class="user-signup-link">
+
+                            @T("Account_Text_LoginRegisterAccount")
+                            <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        @section scripts
+        {
+            <script type="text/javascript">
+                function OnLoginSuccess(response) {
+                    if (response.Success) {
+                        if (response.Data.IsRedirectPermanent && parent.jQuery().fancybox) {
+                            parent.location.href = response.Data.ReturnUrl;
+                        } else {
+                            location.href = response.Data.ReturnUrl;
+                        }
+                    } else {
+                        siteHelper.hideLoading();
+                        siteHelper.showMessage(response);
+                    }
+                }
+            </script>
+        }
+    }
+    else
+    {
+        @RenderTemplate(Model.TemplateName, Model.Template, Model)
+    }
+}

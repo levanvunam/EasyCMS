@@ -1,0 +1,195 @@
+﻿@model EzCMS.Core.Models.Events.EventCreateModel
+
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Event_Text_Information")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="form-horizontal">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Event.Title, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            @Html.TextBoxFor(m => m.Event.Title, new { @class = "col-sm-8 col-xs-10" })
+                            @Html.HelpTextFor(m => m.Event.Title, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Event.Title)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Event.EventCategoryIds, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-8">
+                            @Html.ListBoxFor(c => c.Event.EventCategoryIds, Model.Event.EventCategories, new { @class = "col-xs-10 multi-select", multiple = "multiple", data_placeholder = T("Event_Text_SelectEventCategories") })
+                            @Html.HelpTextFor(m => m.Event.EventCategoryIds, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Event.EventCategoryIds)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Event.EventSummary, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            @Html.TextAreaFor(m => m.Event.EventSummary, new { @class = "col-sm-8 col-xs-10", rows = 3 })
+                            @Html.HelpTextFor(m => m.Event.EventSummary, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Event.EventSummary)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-2 control-label no-padding-top">
+                            @Html.LocalizeLabelFor(m => m.Event.EventDescription)
+                            @Html.HelpTextFor(m => m.Event.EventDescription, new { @class = "help-button" })
+                        </div>
+                        <div class="col-sm-10">
+                            @Html.TextAreaFor(m => m.Event.EventDescription, new { id = "EventDescription", @class = "col-xs-12" })
+                            @Html.ValidationMessageFor(m => m.Event.EventDescription)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Event.RegistrationFullText, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            @Html.TextAreaFor(m => m.Event.RegistrationFullText, new { @class = "col-sm-8 col-xs-10", rows = 3 })
+                            @Html.HelpTextFor(m => m.Event.RegistrationFullText, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Event.RegistrationFullText)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Event.RegistrationWaiver, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            @Html.TextAreaFor(m => m.Event.RegistrationWaiver, new { @class = "col-sm-8 col-xs-10", rows = 3 })
+                            @Html.HelpTextFor(m => m.Event.RegistrationWaiver, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Event.RegistrationWaiver)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Event.MaxAttendees, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            @Html.TextBoxFor(m => m.Event.MaxAttendees, new { @class = "input-number" })
+                            @Html.HelpTextFor(m => m.Event.MaxAttendees, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Event.MaxAttendees)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("Event_Text_ScheduleInformation")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            @Html.HiddenFor(m => m.EventSchedule.TimeStart, new { id = "TimeStart" })
+            @Html.HiddenFor(m => m.EventSchedule.TimeEnd, new { id = "TimeEnd" })
+            <div class="form-horizontal">
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.EventSchedule.Location, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            @Html.TextBoxFor(m => m.EventSchedule.Location, new { @class = "col-sm-8 col-xs-10" })
+                            @Html.HelpTextFor(m => m.EventSchedule.Location, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.EventSchedule.Location)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelTimeFor(m => m.EventSchedule.TimeStart, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            <div class="col-sm-3 no-padding">
+                                <div class="input-group col-xs-12 no-padding">
+                                    @Html.TextBoxFor(m => m.EventSchedule.StartDay, new { @Value = ToLocalDateTime(Model.EventSchedule.StartDay).ToDateFormat(), id = "StartDay", @class = "form-control col-xs-12" })
+                                    <label class="input-group-addon" for="StartDay">
+                                        <i class="fa fa-calendar bigger-110"></i>
+                                    </label>
+                                </div>
+                                @Html.HelpTextFor(m => m.EventSchedule.StartDay, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.EventSchedule.StartDay)
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group col-xs-12 no-padding">
+                                    @Html.TextBoxFor(m => m.EventSchedule.StartHour, new { @Value = ToLocalDateTime(Model.EventSchedule.StartHour).ToTimeFormat(), id = "StartHour", @class = "form-control col-xs-12 time-picker" })
+                                    <label class="input-group-addon" for="StartHour">
+                                        <i class="fa fa-calendar bigger-110"></i>
+                                    </label>
+                                </div>
+                                @Html.HelpTextFor(m => m.EventSchedule.StartHour, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.EventSchedule.StartHour)
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelTimeFor(m => m.EventSchedule.TimeEnd, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            <div class="col-sm-3 no-padding">
+                                <div class="input-group col-xs-12 no-padding">
+                                    @Html.TextBoxFor(m => m.EventSchedule.EndDay, new { @Value = ToLocalDateTime(Model.EventSchedule.EndDay).ToDateFormat(), id = "EndDay", @class = "form-control col-xs-12" })
+                                    <label class="input-group-addon" for="EndDay">
+                                        <i class="fa fa-calendar bigger-110"></i>
+                                    </label>
+                                </div>
+                                @Html.HelpTextFor(m => m.EventSchedule.EndDay, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.EventSchedule.EndDay)
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group col-xs-12 no-padding">
+                                    @Html.TextBoxFor(m => m.EventSchedule.EndHour, new { @Value = ToLocalDateTime(Model.EventSchedule.EndHour).ToTimeFormat(), id = "EndHour", @class = "form-control col-xs-12 time-picker" })
+                                    <label class="input-group-addon" for="EndHour">
+                                        <i class="fa fa-calendar bigger-110"></i>
+                                    </label>
+                                </div>
+                                @Html.HelpTextFor(m => m.EventSchedule.EndHour, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.EventSchedule.EndHour)
+                            </div>
+                            @Html.ValidationMessageFor(m => m.EventSchedule.TimeEnd)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.EventSchedule.MaxAttendees, new { @class = "col-sm-2 control-label align-right" })
+                        <div class="col-sm-10 col-xs-12">
+                            @Html.TextBoxFor(m => m.EventSchedule.MaxAttendees, new { @class = "input-number" })
+                            @Html.HelpTextFor(m => m.EventSchedule.MaxAttendees, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.EventSchedule.MaxAttendees)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", false)
+</div>
+
+@{
+    Script.Bundle("~/js/ckeditor").Block(@<script type="text/javascript">
+        buildCkEditor('EventDescription', {
+            height: '200px',
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+
+        $("#event-form").submit(function (e) {
+            $("#TimeStart").val($("#StartDay").val() + ' ' + $("#StartHour").val());
+            $("#TimeEnd").val('');
+            if ($("#EndDay").val() != '' && $("#EndDay").valid() && $("#EndHour").valid()) {
+                $("#TimeEnd").val($("#EndDay").val() + ' ' + $("#EndHour").val());
+            }
+        });
+
+        $(function () {
+            
+            //Build date range
+            siteHelper.buildDateRange("#StartDay", "#EndDay");
+        });
+    </script>);
+}

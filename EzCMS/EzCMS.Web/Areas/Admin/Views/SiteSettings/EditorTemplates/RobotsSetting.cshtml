@@ -1,0 +1,62 @@
+﻿@using EzCMS.Core.Framework.SiteSettings
+@model RobotsSetting
+
+@{
+    Style.Bundle("~/styles/codemirror");
+    var enableLiveSiteMode = SValue<bool>(SettingNames.EnableLiveSiteMode);
+}
+
+<div class="widget-box">
+    <div class="widget-header widget-header-flat">
+        <h4 class="widget-title">@Html.LocalizeLabelFor(m => m.LiveSiteModeContent)</h4>
+        @Html.HelpTextFor(m => m.LiveSiteModeContent, new { @class = "help-button" })
+        &nbsp;&nbsp;<span data-rel="tooltip" title="@(enableLiveSiteMode ? T("SiteSetting_RobotsSetting_Text_ActiveMode") : T("SiteSetting_RobotsSetting_Text_InactiveMode"))" class="badge @(enableLiveSiteMode ? "badge-success" : "")">&nbsp;</span>
+        <div class="widget-toolbar no-border">
+            <a id="showLive" href="#" data-action="collapse">
+                <i class="ace-icon fa @(enableLiveSiteMode ? "fa-chevron-up" : "fa-chevron-down")"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="form-group">
+                <div class="col-md-10 col-xs-12">
+                    @Html.TextAreaFor(m => m.LiveSiteModeContent, new { @class = "col-xs-12" })
+                    @Html.ValidationMessageFor(m => m.LiveSiteModeContent)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="widget-box">
+    <div class="widget-header widget-header-flat">
+        <h4 class="widget-title">@Html.LocalizeLabelFor(m => m.TestSiteModeContent)</h4>
+        @Html.HelpTextFor(m => m.TestSiteModeContent, new { @class = "help-button" })
+        &nbsp;&nbsp;<span data-rel="tooltip" title="@(!enableLiveSiteMode ? T("SiteSetting_RobotsSetting_Text_ActiveMode") : T("SiteSetting_RobotsSetting_Text_InactiveMode"))" class="badge @(!enableLiveSiteMode ? "badge-success" : "")">&nbsp;</span>
+        <div class="widget-toolbar no-border">
+            <a id="showTest" href="#" data-action="collapse">
+                <i class="ace-icon fa @(!enableLiveSiteMode ? "fa-chevron-up" : "fa-chevron-down")"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="form-group">
+                <div id="testBox" class="col-md-10 col-xs-12">
+                    @Html.TextAreaFor(m => m.TestSiteModeContent, new { @class = "col-xs-12" })
+                    @Html.ValidationMessageFor(m => m.TestSiteModeContent)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    Script.Bundle("~/js/codemirror").Block(@<script type="text/javascript">
+        var liveEditor, testEditor;
+        liveEditor = siteHelper.buildHtmlEditor("LiveSiteModeContent");
+        testEditor = siteHelper.buildHtmlEditor("TestSiteModeContent");
+    </script>);
+}

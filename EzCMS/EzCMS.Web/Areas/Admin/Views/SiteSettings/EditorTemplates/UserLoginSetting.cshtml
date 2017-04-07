@@ -1,0 +1,34 @@
+﻿@model UserLoginSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.MaxAllowedLoginAttempts, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.MaxAllowedLoginAttempts, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.MaxAllowedLoginAttempts, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.MaxAllowedLoginAttempts)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.LockOutTimeInMinutes, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.LockOutTimeInMinutes, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.LockOutTimeInMinutes, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.LockOutTimeInMinutes)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ResetPasswordEffectiveTimeInMinutes, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.ResetPasswordEffectiveTimeInMinutes, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.ResetPasswordEffectiveTimeInMinutes, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ResetPasswordEffectiveTimeInMinutes)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PasswordExpiryDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.PasswordExpiryDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.PasswordExpiryDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PasswordExpiryDays)
+    </div>
+</div>

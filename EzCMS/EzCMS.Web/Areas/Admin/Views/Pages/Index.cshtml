@@ -1,0 +1,264 @@
+﻿@model EzCMS.Core.Models.Pages.PageSearchModel
+
+@{
+    ViewBag.Header = T("Page_Site_Header");
+    ViewBag.Title = T("Page_Site_ListingTitle");
+    ViewBag.Description = T("Page_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("Page_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+        <a id="btnSetupOrder" href="javascript:siteHelper.setupPageOrder()" class="btn btn-primary btn-minier">
+            <i class="fa fa-cog bigger-125"></i>
+            @T("Page_Text_ReorderPages")
+        </a>
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        //Change home page
+        function changeHomePage(id) {
+            var data = { id: id };
+
+            siteHelper.httpPost({
+                url: '@Url.Action("ChangeHomePage")',
+                data: data,
+                success: function (response) {
+                    siteHelper.showMessage(response);
+                    if (response.Success) {
+                        jqGridHelper.reloadGrid(gridSelector);
+                    }
+                }
+            });
+        };
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Page" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("Page_Field_Id")',
+                '@T("Page_Field_Title")',
+                '@T("Page_Field_FriendlyUrl")',
+                '@T("Page_Field_Status")',
+                '@T("Page_Field_ParentName")',
+                '@T("Page_Field_PageTemplateName")',
+                '@T("Page_Field_FileTemplateName")',
+                '@T("Page_Field_BodyTemplateName")',
+                '@T("Page_Field_TotalReads")',
+                '@LabelForTime(T("Page_Field_Created"))',
+                '@T("Page_Field_CreatedBy")',
+                '@LabelForTime(T("Page_Field_LastUpdate"))',
+                '@T("Page_Field_LastUpdateBy")'],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 150,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                        var previewIcon = "<a class='grid-action' href='/" + rowObject.FriendlyUrl + "'><div class='ui-pg-div' title='@T("Page_Text_Preview")'><span class='fa fa-eye'></span></div></a>";
+
+                        var logIcon = "<a class='grid-action' href='@Url.Action("Logs")/" + options.rowId + "'><div class='ui-pg-div' title='View Logs'><span class='fa fa-book'></span></div></a>";
+
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+                        var homePageIcon = "<a class='grid-action' href='javascript:changeHomePage(" + options.rowId + ")'><div class='ui-pg-div' title='@T("Page_Text_SetAsHomePage")'><span class='fa fa-home blue'></span></div></a>";
+
+                        if (rowObject.IsHomePage) {
+                            homePageIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("Page_Text_PageIsHomePage")'><span class='fa fa-home green'></span></div></a>";
+                            deleteIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("Page_Text_DeleteHomePageDisabled")'><span class='fa fa-times grey'></span></div></a>";
+                        }
+
+                        return editIcon + detailsIcon + deleteIcon + previewIcon + logIcon + homePageIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Title', index: 'Title' },
+                { name: 'FriendlyUrl', index: 'FriendlyUrl' },
+                {
+                    name: 'Status',
+                    index: 'Status',
+                    align: 'center',
+                    search: false,
+                    formatter: function(cellvalue) {
+                        var icon = "<span class='label label-success'> @(PageEnums.PageStatus.Online) </span>";
+                        if (cellvalue == '@((int)PageEnums.PageStatus.Draft)') {
+                            icon = "<span class='label label-warning'> @(PageEnums.PageStatus.Draft) </span>";
+                        } else if (cellvalue == '@((int)PageEnums.PageStatus.Offline)') {
+                            icon = "<span class='label label-fail'> @(PageEnums.PageStatus.Offline) </span>";
+                        }
+                        return icon;
+                    }
+                },
+                {
+                    name: 'ParentName',
+                    index: 'ParentName',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (rowObject.ParentId != null) {
+                            return jqGridHelper.formatLink('@Url.Action("Details", "Pages")/' + rowObject.ParentId, cellvalue, cellvalue, true);
+                        }
+                        return "";
+                    }
+                },
+                {
+                    name: 'PageTemplateName',
+                    index: 'PageTemplateName',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (rowObject.PageTemplateId != null) {
+                            return jqGridHelper.formatLink('@Url.Action("Details", "PageTemplates")/' + rowObject.PageTemplateId, cellvalue, cellvalue, true);
+                        }
+                        return "";
+                    }
+                },
+                {
+                    name: 'FileTemplateName',
+                    index: 'FileTemplateName',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (rowObject.FileTemplateId != null) {
+                            return jqGridHelper.formatLink('@Url.Action("Details", "FileTemplates")/' + rowObject.FileTemplateId, cellvalue, cellvalue, true);
+                        }
+                        return "";
+                    }
+                },
+                {
+                    name: 'BodyTemplateName',
+                    index: 'BodyTemplateName',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (rowObject.BodyTemplateId != null) {
+                            return jqGridHelper.formatLink('@Url.Action("Details", "BodyTemplates")/' + rowObject.BodyTemplateId, cellvalue, cellvalue, true);
+                        }
+                        return "";
+                    }
+                },
+                {
+                    name: 'TotalReads',
+                    index: 'TotalReads',
+                    width: 90,
+                    fixed: true,
+                    align: 'center',
+                    sorttype: "int",
+                    searchoptions: { sopt: ['eq'] },
+                    formatter: function(cellvalue, options, rowObject) {
+                        var pageReadsUrl = "@Url.Action("Details", "Pages")/" + rowObject.Id + "#page-reads";
+                        return jqGridHelper.formatLink(pageReadsUrl, cellvalue);
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ],
+            loadComplete: function(response) {
+                $("#tab-page").data("total", response.records).html(response.records);
+            }
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+
+    <script type="text/javascript">
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            $("#Status").select2("data", { id: "0", text: "@T("Page_Search_AllStatus")" });
+            $("#Tags").select2("data", []);
+            $("#PageTemplateId").select2("data", { id: "0", text: "@T("Page_Search_AllPageTempates")" });
+            $("#FileTemplateId").select2("data", { id: "0", text: "@T("Page_Search_AllFileTempates")" });
+            $("#BodyTemplateId").select2("data", { id: "0", text: "@T("Page_Search_AllBodyTempates")" });
+
+            // Update result search for grid
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid() {
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            var status = $("#Status").val();
+            $.extend(postData, { status: status });
+
+            var tagIds = $("#Tags").val();
+            $.extend(postData, { tagIds: tagIds });
+
+            var pageTemplateId = $("#PageTemplateId").val();
+            $.extend(postData, { pageTemplateId: pageTemplateId });
+
+            var fileTemplateId = $("#FileTemplateId").val();
+            $.extend(postData, { fileTemplateId: fileTemplateId });
+
+            var bodyTemplateId = $("#BodyTemplateId").val();
+            $.extend(postData, { bodyTemplateId: bodyTemplateId });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

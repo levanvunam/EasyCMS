@@ -1,0 +1,645 @@
+﻿@model string
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="image-editor-wrapper">
+    <div class="image-editor">
+        <div class="row img-toolbar form-inline">
+            <div class="btn-group">
+                <button type="button" data-action="initCrop" id="cmdCrop" class="imgEditCmd btn" title="Crop image"><i class="imgEdit-crop"></i></button>
+                <button type="button" data-action="initResize" id="cmdResize" class="imgEditCmd btn" title="Resize image"><i class="imgEdit-resize"></i></button>
+                <button type="button" data-action="flipV" class="imgEditCmd btn" title="Flip vertically"><i class="imgEdit-flipv"></i></button>
+                <button type="button" data-action="flipH" class="imgEditCmd btn" title="Flip horizontally"><i class="imgEdit-fliph"></i></button>
+                <button type="button" data-action="rotateClockwise" class="imgEditCmd btn" title="Rotate by 90degree clockwise"><i class="imgEdit-rotate-clockwise"></i></button>
+                <button type="button" data-action="rotateAntiClockwise" class="imgEditCmd btn" title="Rotate by 90degree anti-clockwise"><i class="imgEdit-rotate-anticlockwise"></i></button>
+                <button type="button" data-action="initAdjustBrightness" id="cmdBrightnessAdj" class="imgEditCmd btn" title="Adjust brightness/contrast"><i class="imgEdit-brightness-contrast"></i></button>
+            </div>
+            <div class="btn-group">
+                <button type="button" data-action="zoomIn" id="cmdZoomIn" class="imgEditInput btn btn-info" title="Zoom In"><i class="fa fa-search-plus"></i></button>
+                <button type="button" data-action="zoomOut" id="cmdZoomOut" class="btn btn-info imgEditInput"><i class="fa fa-search-minus" title="Zoom Out"></i></button>
+                <button type="button" data-action="zoomRestore" id="cmdZoomRestore" class="btn btn-info imgEditInput" title="Restore Zoom"><i class="fa fa-search"></i></button>
+            </div>
+            <div class="btn-group">
+                <input id="zoomRatio" class="imgEditInput" />
+                <span class="add-on imgEditInput">%</span>
+            </div>
+        </div>
+        <div class="space-4"></div>
+        <div class="btn-group">
+            <button type="submit" class="btn btn-success imgEditInput" title="Save result" onclick="Save(); return false;"><i class="fa fa-floppy-o"></i>@T("Media_Text_SaveButton")</button>
+            <button type="submit" class="btn btn-primary imgEditInput" title="Save result as a new file" onclick="initSaveAs(); return false;"><i class="fa fa-floppy-o"></i>@T("Media_Text_SaveAsButton")</button>
+            <button type="submit" class="btn btn-danger imgEditInput" title="Revert back to the original image" onclick="Revert(); return false;"><i class="fa fa-refresh"></i>@T("Media_Text_RevertButton")</button>
+            <button type="submit" class="btn imgEditInput" title="Close" onclick="Close(); return false;"><i class="fa fa-times"></i>@T("Media_Text_CloseButton")</button>
+        </div>
+    </div>
+    <div class="source-image">
+        <img id="result-image" />
+    </div>
+    <img id="original-image" src="@Model" />
+    <canvas id="output-canvas"></canvas>
+</div>
+
+<div class="tool-box">
+    <div class="tool-box-group crop hide form-inline">
+        <div class="modal-header">
+            <h4>@T("Media_Text_CropImageHeader")</h4>
+        </div>
+        <div class="modal-body">
+            <label>@T("Media_Text_CropImageGuideMessage")</label>
+            <input type="hidden" id="crop-x" />
+            <input type="hidden" id="crop-y" />
+            <input type="hidden" id="crop-w" />
+            <input type="hidden" id="crop-h" />
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="cropItExec(); return false;">@T("Media_Text_ApplyButton")</button>
+                <button type="button" class="btn" onclick="endCrop(); return false;">@T("Media_Text_CancelButton")</button>
+            </div>
+        </div>
+    </div>
+    <div class="tool-box-group resize hide form-inline">
+        <div class="modal-header">
+            <h4>@T("Media_Text_ResizeImageHeader")</h4>
+        </div>
+        <div class="modal-body">
+            @*<label>Drag the edge or corner of the image to resize, you can also enter the size in the boxes and press Apply to proceed.</label>*@
+            <div class="control-group">
+                @Html.AceCheckBox("keepratio", false, T("Media_Text_KeepRatio"))
+            </div>
+            <div class="space-4"></div>
+            <div class="control-group">
+                <label>
+                    <input type="text" id="resize-w" required />
+                    @T("Media_Text_ImageWidth")
+                    <div class="space-4"></div>
+                    <input type="text" id="resize-h" required />
+                    @T("Media_Text_ImageHeight")
+                </label>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="resizeItExec(); return false;">@T("Media_Text_ApplyButton")</button>
+                <button type="button" class="btn" onclick="cancelResize(); return false;">@T("Media_Text_CancelButton")</button>
+            </div>
+        </div>
+    </div>
+    <div class="tool-box-group adjustBrightness hide form-inline">
+        <div class="modal-header">
+            <h4>@T("Media_Text_AdjustBrightnessHeader")</h4>
+        </div>
+        <div class="modal-body">
+            @*<label>Drag the slider below to adjust Brightnes/Contrast, press Apply to proceed</label>*@
+
+            <div class="control-group">
+                <label class="control-label">@T("Media_Text_AdjustBrightness")</label>
+                <div class="">
+                    <span id="brightness-slider" class="ui-slider-green"></span>
+                    <input id="brightnessValue" class="pull-left width-20" type="number" />
+                </div>
+            </div>
+            <div>
+                <label class="control-label">@T("Media_Text_AdjustContrast")</label>
+                <div>
+                    <span id="contrast-slider" class="ui-slider-green"></span>
+                    <input id="contrastValue" class="pull-left width-20" type="number" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="adjustBrightness(); return false;">@T("Media_Text_ApplyButton")</button>
+                <button type="button" class="btn" onclick="cancelAdjustBrightness(); return false;">@T("Media_Text_CancelButton")</button>
+            </div>
+        </div>
+    </div>
+    <div class="tool-box-group saveas hide form-inline">
+        <div class="modal-header">
+            <h4>@T("Media_Text_SaveAsHeader")</h4>
+        </div>
+        <div class="modal-body">
+            <div>
+                <label class="control-label">@T("Media_Text_Filename")</label>
+                <div>
+                    <input id="newname" type="text" class="col-xs-12" value="@Path.GetFileName(Model)" />
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="button" class="btn btn-primary" onclick="SaveAs(); return false;">@T("Media_Text_SaveButton")</button>
+                <button type="button" class="btn" onclick="endSave(); return false;">@T("Media_Text_CancelButton")</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section styles
+{
+    <link rel="stylesheet" href="@Url.Content("~/Content/Media/imageEditor/imgEditor.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Media/imageEditor/jquery.Jcrop.css")" />
+}
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Media/imageEditor/jquery.Jcrop.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Media/imageEditor/pixastic.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/jqueryui/jquery-ui-1.10.3.full.min.js")"></script>
+    <script type="text/javascript">
+        var SaveSuccess = @((int)MediaEnums.EditImageStatus.SaveSuccess);
+        var SaveFail = @((int)MediaEnums.EditImageStatus.SaveFail);
+        var OverWriteConfirm = @((int)MediaEnums.EditImageStatus.OverWriteConfirm);
+        // Work around http://dev.jqueryui.com/ticket/4186
+        (function () {
+            var oldSetOption = $.ui.resizable.prototype._setOption;
+            $.ui.resizable.prototype._setOption = function (key, value) {
+                oldSetOption.apply(this, arguments);
+                if (key === "aspectRatio") {
+                    this._aspectRatio = !!value;
+                }
+            };
+        })();
+        var resultImage = $("#result-image");
+
+        function getImageFromCanvas() {
+            var c = document.getElementById("output-canvas");
+            return c.toDataURL();
+        }
+        function setImageFromCanvas() {
+            var dataUrl = getImageFromCanvas();
+            setImageData(dataUrl);
+        }
+
+        $(".tool-box > .tool-box-group").draggable();
+
+        resultImage.draggable();
+
+        function setImageData(data) {
+            resultImage.attr("src", data);
+            image.src = data;
+            image.onload = function () {
+                imgHeight = this.height;
+                imgWidth = this.width;
+                setZoomRatio(currentZoomRatio);
+            };
+        }
+
+        var image;
+        var imgWidth;
+        var imgHeight;
+        var originalImgSource;
+        var filename;
+
+        var mode = "";
+
+        function initialize(imgSource, callback) {
+            image = new Image();
+            image.onload = function () {
+                imgHeight = this.height;
+                imgWidth = this.width;
+
+                var c = document.getElementById("output-canvas");
+                c.width = imgWidth;
+                c.height = imgHeight;
+                var ctx = c.getContext("2d");
+                ctx.drawImage(this, 0, 0);
+                var dataUrl = c.toDataURL();
+                setImageData(dataUrl);
+                if (callback) {
+                    callback();
+                }
+            };
+            image.src = imgSource;
+        }
+        //Init
+        $(function () {
+            originalImgSource = $("img#original-image").attr("src");
+            initialize(originalImgSource, function() {
+                currentZoomRatio = parseInt(($(".source-image").height() / imgHeight) * 100);
+                $("#zoomRatio").val(currentZoomRatio);
+            });
+        });
+
+
+        /*#region Zoom*/
+        var currentZoomRatio = 100;
+
+        function setZoomRatio(value) {
+            currentZoomRatio = value;
+            var w = imgWidth * currentZoomRatio / 100;
+            var h = imgHeight * currentZoomRatio / 100;
+            resultImage.css({
+                "width": w + "px",
+                "height": h + "px"
+            });
+        }
+
+        $("#zoomRatio").on('change keyup', function () {
+            var value = $("#zoomRatio").val();
+
+            if (parseInt(value)) {
+                setZoomRatio(value);
+            }
+        }).on("keydown", function (event) {
+            preventNotDigits(event);
+        });
+
+        function zoomIn() {
+            var value = parseInt($("#zoomRatio").val());
+            if (value || value === 0) {
+                value += 10;
+                $("#zoomRatio").val(value).trigger('change');
+            }
+        }
+
+        function zoomRestore() {
+            $("#zoomRatio").val(100).trigger('change');
+        }
+
+        function zoomOut() {
+            var value = parseInt($("#zoomRatio").val());
+            if (value || value === 0) {
+                value -= 10;
+                $("#zoomRatio").val(value).trigger('change');
+            }
+        }
+
+        /*#endregion*/
+        $(".imgEditCmd").click(function (e) {
+            e.preventDefault();
+            initActions();
+            siteHelper.executeFunction($(this).attr("data-action"));
+        });
+
+        $(".imgEditInput").click(function (e) {
+            if ($(this).attr("data-action")) {
+                e.preventDefault();
+                siteHelper.executeFunction($(this).attr("data-action"));
+            }
+        });
+
+        function initActions() {
+            $(".imgEditCmd, .imgEditInput").attr("disabled", true);
+        }
+
+        function endActions() {
+            $(".imgEditCmd, .imgEditInput").removeAttr("disabled");
+        }
+
+        function initCrop() {
+            $(".tool-box-group.crop").removeClass("hide");
+            $("input#crop-x").val(0);
+            $("input#crop-y").val(0);
+            $("input#crop-w").val(imgWidth);
+            $("input#crop-h").val(imgHeight);
+            resultImage.Jcrop({
+                onSelect: function (c) {
+                    $("input#crop-x").val(c.x);
+                    $("input#crop-y").val(c.y);
+                    $("input#crop-w").val(c.w);
+                    $("input#crop-h").val(c.h);
+                }
+            });
+        }
+
+        function endCrop() {
+            if (resultImage.data("Jcrop"))
+                resultImage.data("Jcrop").destroy();
+
+            $(".tool-box-group.crop").addClass("hide");
+            endActions();
+        }
+
+        function cropItExec() {
+            var c = {
+                x: $("input#crop-x").val(),
+                y: $("input#crop-y").val(),
+                w: $("input#crop-w").val(),
+                h: $("input#crop-h").val()
+            };
+
+            var scale = 100 / currentZoomRatio;
+            Pixastic.process(resultImage[0], "crop", {
+                rect: {
+                    left: c.x * scale,
+                    top: c.y * scale,
+                    width: c.w * scale,
+                    height: c.h * scale
+                },
+                resultCanvas: $("#output-canvas")[0],
+                leaveDOM: true,
+                done: function (result) {
+                    endCrop();
+                    setImageData(result);
+                }
+            });
+        }
+
+
+        var new_width;
+        var new_height;
+        var original_ratio;
+
+        function setNewSize(w, h) {
+            var scale = currentZoomRatio / 100;
+            new_width = parseInt(w, 10);
+            new_height = parseInt(h, 10);
+
+            $("#resize-w").val(new_width);
+            $("#resize-h").val(new_height);
+            resultImage.css({
+                "width": w * scale,
+                "height": h * scale
+            });
+            resultImage.closest(".ui-wrapper").css({
+                "width": w * scale,
+                "height": h * scale
+            });
+        }
+        function initResize() {
+            $(".tool-box-group.resize").removeClass("hide");
+            var scale = 100 / currentZoomRatio;
+            var wrapperWidth = resultImage.width();
+            var wrapperHeight = resultImage.height();
+            original_ratio = wrapperWidth / wrapperHeight;
+            resultImage.wrap("<div class='resize-wrapper' style='width: " + wrapperWidth + "px; height: " + wrapperHeight + "px;'></div>");
+            resultImage.resizable({
+                animate: true,
+                handles: 'all',
+                resize: function (event, ui) {
+                    setNewSize(ui.size.width * scale, ui.size.height * scale);
+                },
+                aspectRatio: original_ratio
+            });
+            new_width = parseInt(wrapperWidth * scale);
+            new_height = parseInt(wrapperHeight * scale);
+
+            $("input#resize-w").val(new_width);
+            $("input#resize-h").val(new_height);
+            $("input#keepratio").attr("checked", true);
+        }
+
+        $(function () {
+            $("#brightnessValue, #contrastValue").on('change', function () {
+                if ($(this).is("#brightnessValue")) {
+                    $("#brightness-slider").slider("value", $("#brightnessValue").val());
+                } else {
+                    $("#contrast-slider").slider("value", $("#contrastValue").val());
+                }
+                changeBaC();
+            });
+            $("input#resize-w, input#resize-h").on("keydown", function (event) {
+                preventNotDigits(event);
+            });
+            $("input#resize-w, input#resize-h").on('change', function () {
+                var value = parseInt($(this).val());
+                if (value) {
+                    if ($(this).is("#resize-w")) {
+                        if ($("input#keepratio").is(":checked")) {
+                            setNewSize(value, value / original_ratio);
+                        } else {
+                            setNewSize(value, new_height);
+                        }
+                    } else {
+                        if ($("input#keepratio").is(":checked")) {
+                            setNewSize(value * original_ratio, value);
+                        } else {
+                            setNewSize(new_width, value);
+                        }
+                    }
+                }
+            });
+
+            $("input#keepratio").on("onclick, change", function () {
+                if ($(this).is(":checked")) {
+                    resultImage.resizable('option', { aspectRatio: original_ratio });
+                    setNewSize(new_width, new_width / original_ratio);
+                } else {
+                    resultImage.resizable('option', 'aspectRatio', false);
+                }
+            });
+        });
+
+        function preventNotDigits(event) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+                // Allow: Ctrl+A
+                (event.keyCode == 65 && event.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (event.keyCode >= 35 && event.keyCode <= 39)) {
+                // let it happen, don't do anything
+                return;
+            }
+            else {
+                // Ensure that it is a number and stop the keypress
+                if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105)) {
+                    event.preventDefault();
+                }
+            }
+        }
+
+        function resizeItExec() {
+            Pixastic.process(resultImage[0], "resize", {
+                width: new_width,
+                height: new_height,
+                resultCanvas: $("#output-canvas")[0],
+                leaveDOM: true,
+                done: function (result) {
+                    endResize();
+                    setImageData(result);
+                }
+            });
+        }
+
+        function endResize() {
+            $(".tool-box-group.resize").addClass("hide");
+            resultImage.resizable("destroy");
+            endActions();
+            resultImage.unwrap();
+        }
+        function cancelResize() {
+            endResize();
+            setZoomRatio(currentZoomRatio);
+        }
+        function flipH() {
+            Pixastic.process(resultImage[0], "fliph", {
+                resultCanvas: $("#output-canvas")[0],
+                leaveDOM: true,
+                done: function (result) {
+                    endActions();
+                    setImageData(result);
+                }
+            });
+        }
+        function rotateClockwise() {
+            Pixastic.process(resultImage[0], "rotate", {
+                angle: -90,
+                resultCanvas: $("#output-canvas")[0],
+                leaveDOM: true,
+                done: function (result) {
+                    endActions();
+                    setImageData(result);
+                }
+            });
+        }
+
+        function rotateAntiClockwise() {
+            Pixastic.process(resultImage[0], "rotate", {
+                angle: 90,
+                resultCanvas: $("#output-canvas")[0],
+                leaveDOM: true,
+                done: function (result) {
+                    endActions();
+                    setImageData(result);
+                }
+            });
+        }
+
+        function flipV() {
+            Pixastic.process(resultImage[0], "flipv", {
+                resultCanvas: $("#output-canvas")[0],
+                leaveDOM: true,
+                done: function (result) {
+                    endActions();
+                    setImageData(result);
+                }
+            });
+        }
+
+        $("#brightness-slider").slider({
+            orientation: "horizontal",
+            range: "min",
+            min: -150,
+            max: 150,
+            value: 0,
+            animate: true,
+            //slide: function (event, ui) {
+            //    $("#brightnessValue").val(ui.value);
+            //    changeBaC();
+            //},
+            stop: function (event, ui) {
+                $("#brightnessValue").val(ui.value);
+                changeBaC();
+            }
+        });
+
+        $("#contrast-slider").slider({
+            orientation: "horizontal",
+            range: "min",
+            min: -10,
+            max: 30,
+            value: 0,
+            //slide: function (event, ui) {
+            //    $("#contrastValue").val(ui.value);
+            //    changeBaC();
+            //},
+            stop: function (event, ui) {
+                $("#contrastValue").val(ui.value);
+                changeBaC();
+            }
+        });
+
+        function initAdjustBrightness() {
+            $(".tool-box-group.adjustBrightness").removeClass("hide");
+            $("#brightness-slider").slider("value", 0);
+            $("#brightnessValue").val(0);
+            $("#contrast-slider").slider("value", 0);
+            $("#contrastValue").val(0);
+        }
+
+        function endAdjustBrightness() {
+            $(".tool-box-group.adjustBrightness").addClass("hide");
+            endActions();
+        }
+
+        function changeBaC() {
+            setImageFromCanvas();
+            var brightnessValue = $("#brightnessValue").val();
+            var contrastValue = $("#contrastValue").val() / 10;
+            Pixastic.process(resultImage[0], "brightness", {
+                brightness: brightnessValue,
+                contrast: contrastValue,
+                leaveDOM: true,
+                done: function (result) {
+                    setImageData(result);
+                }
+            });
+        }
+
+        function adjustBrightness() {
+            var brightnessValue = $("#brightnessValue").val();
+            var contrastValue = $("#contrastValue").val() / 10;
+            Pixastic.process($("#output-canvas")[0], "brightness", {
+                brightness: brightnessValue,
+                contrast: contrastValue,
+                leaveDOM: true,
+                resultCanvas: $("#output-canvas")[0],
+                done: function (result) {
+                    endAdjustBrightness();
+                    setImageData(result);
+                }
+            });
+        }
+
+        function cancelAdjustBrightness() {
+            setImageFromCanvas();
+            endAdjustBrightness();
+        }
+
+        function initSaveAs() {
+            $(".tool-box-group.saveas").removeClass("hide");
+        }
+        function endSave() {
+            $(".tool-box-group.saveas").addClass("hide");
+            endActions();
+        }
+        function Save() {
+            $.post('', { data: getImageFromCanvas(), newname : filename, overwrite: true }, function (data) {
+                if (data.result == SaveSuccess) {
+                    siteHelper.showSuccessMessage("The image has been saved successfully.");
+                } else if (data.result == SaveFail) {
+                    siteHelper.showErrorMessage("Error while saving image. " + data.message);
+                } else {
+
+                }
+            })
+                .fail(function () {
+                    siteHelper.showErrorMessage("Internal server error. The image has not been saved.");
+                })
+                .always(function () {
+
+                });
+        }
+        function SaveAs() {
+            filename = $("#newname").val();
+            $.post('', { data: getImageFromCanvas(), newname : filename, overwrite: false }, function (data) {
+                if (data.result == SaveSuccess) {
+                    siteHelper.showSuccessMessage("The image has been saved successfully.");
+                    endSave();
+                } else if (data.result == SaveFail) {
+                    siteHelper.showErrorMessage("Error while saving image. " + data.message);
+                } else {
+                    confirm("The file is already existed. Do you want to overwrite it ?", function(result) {
+                        if (result) {
+                            $.post('', { data: getImageFromCanvas(), newname: newname, overwrite: true }, function(data2) {
+                                if (data2.result == SaveSuccess) {
+                                    siteHelper.alert("The image has been save successfully.");
+                                    endSave();
+                                } else if (data2.result == SaveFail) {
+                                    siteHelper.alert("Error while saving image. " + data.message);
+                                }
+                            });
+                        }
+                    });
+                }
+            })
+              .fail(function () {
+                  siteHelper.alert("Internal server error. The image has not been saved.");
+              })
+              .always(function () {
+
+              });
+        }
+        function Close() {
+            parent.$.fancybox.close();
+        }
+        function Revert() {
+            initialize(originalImgSource);
+        }
+    </script>
+}

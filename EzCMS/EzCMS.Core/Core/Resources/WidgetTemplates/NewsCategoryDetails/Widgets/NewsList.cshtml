@@ -1,0 +1,36 @@
+﻿<ul class="news-list">
+    @foreach (var item in Model.NewsListing.NewsListing)
+    {
+        <li>
+            <div class="info">
+                <div class="date">
+                    <h4>@item.DatePosted.Day</h4>
+                    <span>@item.DatePosted.ToString("MMM")</span>
+                </div>
+            </div>
+            <div class="preview">
+                <img class="img-responsive" src="@item.ImageUrl" />
+                <a href="#">
+                    <h3 class="news-title">@item.Title</h3>
+                </a>
+                <div class="meta-info">
+                    <i class="fa fa-user"></i>
+                    <a href="#">@item.LastUpdatedBy</a>
+                    <span>|</span>
+                    <i class="fa fa-tag"></i>
+                    @foreach (var category in item.Categories)
+                    {
+                        <a href="/Category-Details?categoryId=@(category.Id)&title=@category.Name.ToUrlString()">@category.Name ,</a>
+                    }
+                    <span>|</span>
+                </div>
+                <div class="short-abstract">@item.Abstract</div>
+                <a href="#">
+                    <a href="/News-Details?newsId=@(item.Id)&title=@item.Title.ToUrlString()" class="readmore-button">
+                        Read More <i class="fa fa-eye"></i>
+                    </a>
+                </a>
+            </div>
+        </li>
+    }
+</ul>

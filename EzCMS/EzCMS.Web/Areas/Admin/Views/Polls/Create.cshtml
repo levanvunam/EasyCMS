@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.Polls.PollManageModel
+
+@{
+    ViewBag.Header = T("Poll_Site_Header");
+    ViewBag.Title = T("Poll_Site_CreateTitle");
+    ViewBag.Description = T("Poll_Site_CreateDescription");
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Create", "Polls", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

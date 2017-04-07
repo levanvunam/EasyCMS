@@ -1,0 +1,280 @@
+﻿@model EzCMS.Core.Models.Forms.Setup.ConfigurationSetupModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Forms/_Layout.Setup.cshtml";
+    ViewBag.Title = T("Form_Site_ConfigureTitle");
+    ViewBag.Description = T("Form_Site_ConfigureDescription");
+}
+
+@{
+    Style.Include("~/Content/Admin/template.css")
+        .Block(@<style type="text/css">
+                    .popover-content form .btn {
+                        margin-right: 1px;
+                    }
+
+                    .form-horizontal .editable {
+                        border: none !important;
+                    }
+        </style>);
+}
+
+<div class="row form-horizontal">
+    @ShowStatusMessage()
+    @using (Html.BeginForm("Configure", "Forms", null, FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="container">
+            <h1>@ViewBag.Title</h1>
+            <hr />
+            @Html.HiddenFor(m => m.Id)
+
+            <div class="clear space-8"></div>
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Form_Setup_Text_GeneralConfigure")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12">
+                        <div class="form-group">
+                            @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 no-padding-right" })
+                            <div class="col-sm-4">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+                                @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.Name)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LocalizeLabelFor(m => m.StyleId, new { @class = "col-sm-2 no-padding-right" })
+                            <div class="col-sm-4">
+                                @Html.DropDownListFor(m => m.StyleId, Model.Styles, T("Form_Text_SelectStyle"), new { @class = "col-xs-10 single-select" })
+                                @Html.HelpTextFor(m => m.StyleId, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.StyleId)
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-2">
+                                @Html.LocalizeLabelFor(m => m.ThankyouMessage, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.ThankyouMessage, new { @class = "help-button" })
+                            </div>
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(m => m.ThankyouMessage, new { @class = "col-xs-10", id = "thankyouMessage" })
+                                @Html.ValidationMessageFor(m => m.ThankyouMessage)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Form_Setup_Text_EmailConfigure")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12">
+                        <div class="form-group">
+                            <div class="col-sm-6 form-group">
+                                @Html.LocalizeLabelFor(m => m.FromName, new { @class = "col-sm-4 no-padding-right" })
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.FromName, new { @class = "col-xs-10" })
+                                    @Html.HelpTextFor(m => m.FromName, new { @class = "help-button" })
+                                    @Html.ValidationMessageFor(m => m.FromName)
+                                </div>
+                            </div>
+                            <div class="col-sm-6 form-group">
+                                @Html.LocalizeLabelFor(m => m.FromEmail, new { @class = "col-sm-4 no-padding-right" })
+                                <div class="col-sm-8">
+                                    @Html.TextBoxFor(m => m.FromEmail, new { @class = "col-xs-10" })
+                                    @Html.HelpTextFor(m => m.FromEmail, new { @class = "help-button" })
+                                    @Html.ValidationMessageFor(m => m.FromEmail)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.AceCheckBoxFor(m => m.SendSubmitFormEmail, true, new { id = "SendSubmitFormEmail" })
+                            @Html.HelpTextFor(m => m.SendSubmitFormEmail, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.SendSubmitFormEmail)
+                        </div>
+                        <div class="form-group submitFormEmailSetup" style="display: @(Model.SendSubmitFormEmail ? "block" : "none")">
+                            @Html.LocalizeLabelFor(m => m.EmailTo, new { @class = "col-sm-2 no-padding-right" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(m => m.EmailTo, new { @class = "col-xs-10" })
+                                @Html.HelpTextFor(m => m.EmailTo, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.EmailTo)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Form_Setup_Text_AdvanceOptions")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12">
+                        <div class="form-group">
+                            @Html.AceCheckBoxFor(m => m.SendAutoResponse, true, new { id = "SendAutoResponse" })
+                            @Html.HelpTextFor(m => m.SendAutoResponse, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.SendAutoResponse)
+                        </div>
+                        <div class="widget-box autoResponseEmailSetup" style="display: @(Model.SendAutoResponse ? "block" : "none")">
+                            <div class="widget-header widget-header-flat">
+                                <h4 class="widget-title">@T("Form_Setup_Text_AutoResponseSetupHeaderTitle")</h4>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-group">
+                                        @Html.LocalizeLabelFor(m => m.AutoResponseSubject, new { @class = "col-sm-2 no-padding-right" })
+                                        <div class="col-sm-10">
+                                            @Html.TextBoxFor(m => m.AutoResponseSubject, new { @class = "col-xs-10" })
+                                            @Html.HelpTextFor(m => m.AutoResponseSubject, new { @class = "help-button" })
+                                            @Html.ValidationMessageFor(m => m.AutoResponseSubject)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            @Html.LocalizeLabelFor(m => m.AutoResponseBody, new { @class = "no-padding-left" })
+                                            @Html.HelpTextFor(m => m.AutoResponseBody, new { @class = "help-button" })
+                                        </div>
+                                        <div class="col-sm-10">
+                                            @Html.TextAreaFor(m => m.AutoResponseBody, new { @class = "col-xs-10", id = "thankyouMessage" })
+                                            @Html.ValidationMessageFor(m => m.AutoResponseBody)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-12"></div>
+                        <div class="form-group">
+                            @Html.AceCheckBoxFor(m => m.SendNotificationEmail, true, new { id = "SendNotificationEmail" })
+                            @Html.HelpTextFor(m => m.SendNotificationEmail, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.SendNotificationEmail)
+                        </div>
+                        <div class="widget-box notificationEmailSetup" style="display: @(Model.SendNotificationEmail ? "block" : "none")">
+                            <div class="widget-header widget-header-flat">
+                                <h4 class="widget-title">@T("Form_Setup_Text_NotificationSetupHeaderTitle")</h4>
+                            </div>
+
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <div class="form-group">
+                                        @Html.LocalizeLabelFor(m => m.NotificationEmailTo, new { @class = "col-sm-2 no-padding-right" })
+                                        <div class="col-sm-4">
+                                            @Html.TextBoxFor(m => m.NotificationEmailTo, new { @class = "col-xs-10" })
+                                            @Html.HelpTextFor(m => m.NotificationEmailTo, new { @class = "help-button" })
+                                            @Html.ValidationMessageFor(m => m.NotificationEmailTo)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.LocalizeLabelFor(m => m.NotificationSubject, new { @class = "col-sm-2 no-padding-right" })
+                                        <div class="col-sm-10">
+                                            @Html.TextBoxFor(m => m.NotificationSubject, new { @class = "col-xs-10" })
+                                            @Html.HelpTextFor(m => m.NotificationSubject, new { @class = "help-button" })
+                                            @Html.ValidationMessageFor(m => m.NotificationSubject)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            @Html.LocalizeLabelFor(m => m.NotificationBody, new { @class = "no-padding-left" })
+                                            @Html.HelpTextFor(m => m.NotificationBody, new { @class = "help-button" })
+                                        </div>
+                                        <div class="col-sm-10">
+                                            @Html.TextAreaFor(m => m.NotificationBody, new { @class = "col-xs-10" })
+                                            @Html.ValidationMessageFor(m => m.NotificationBody)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-12 clearfix"></div>
+                        <div class="form-group">
+                            @Html.LocalizeLabelFor(m => m.AllowAjaxSubmit, new { @class = "col-sm-2 no-padding-right" })
+                            <div class="col-sm-10">
+                                @Html.AceCheckBoxFor(m => m.AllowAjaxSubmit)
+                                @Html.HelpTextFor(m => m.AllowAjaxSubmit, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.AllowAjaxSubmit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+        </div>
+        <div class="space-24 clear"></div>
+        <div class="form-actions no-margin align-right width-100p buttonFix">
+            <a href="@Url.Action("BuildForm", new { id = Model.Id})" class="btn btn-success">Edit Form <i class="ace-icon fa fa-edit icon-on-right"></i> </a>
+            <button class="btn" type="submit" value="@SubmitType.SaveAndContinueEdit" name="Submit">
+                @T("Form_Setup_Text_SaveAndContinueButton") <i class="ace-icon fa fa-cogs icon-on-right"></i>
+            </button>
+            <button id="btnNext" class="btn btn-primary" type="submit" value="@SubmitType.Save" name="Submit">
+                @T("Form_Setup_Text_FinishConfigureButton") <i class="ace-icon fa fa-check icon-on-right"></i>
+            </button>
+        </div>
+    }
+</div>
+<div class="space-24 clear"></div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/ckeditor")
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Bootstrap/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/x-editable/bootstrap-editable.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/x-editable/ace-editable.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Initialize/editable.js")"></script>
+
+    <script type="text/javascript">
+        buildCkEditor('ThankyouMessage', {
+            height: '200px',
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+        buildCkEditor('AutoResponseBody', {
+            height: '200px',
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+        buildCkEditor('NotificationBody', {
+            height: '200px',
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+
+        $("#SendAutoResponse").change(function () {
+            if ($(this).is(":checked")) {
+                $(".autoResponseEmailSetup").show();
+            } else {
+                $(".autoResponseEmailSetup").hide();
+            }
+        });
+
+        $("#SendNotificationEmail").change(function () {
+            if ($(this).is(":checked")) {
+                $(".notificationEmailSetup").show();
+            } else {
+                $(".notificationEmailSetup").hide();
+            }
+        });
+
+        $("#SendSubmitFormEmail").change(function () {
+            if ($(this).is(":checked")) {
+                $(".submitFormEmailSetup").show();
+            } else {
+                $(".submitFormEmailSetup").hide();
+            }
+        });
+    </script>
+}

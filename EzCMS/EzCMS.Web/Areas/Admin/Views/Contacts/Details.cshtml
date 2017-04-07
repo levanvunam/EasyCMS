@@ -1,0 +1,512 @@
+﻿@model EzCMS.Core.Models.Contacts.ContactDetailModel
+
+@{
+    ViewBag.Header = T("Contact_Site_Header");
+    ViewBag.Title = T("Contact_Site_DetailsTitle");
+    ViewBag.Description = T("Contact_Site_DetailsDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a class="btn btn-xs btn-danger" href="javascript:deleteContact()">@T("System_Text_Delete")</a>
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new { id = Model.Id, returnUrl = Url.Action("Details", new { id = Model.Id }) })">
+            @T("System_Text_Edit")
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="space-6"></div>
+            <div class="clear"></div>
+
+            <div class="col-sm-6 col-xs-12">
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.Title, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.Title)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.FullName, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.FirstName)
+                        &nbsp;
+                        @Html.EditableFor(m => m.Contact.LastName)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.Email, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.Email)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.Company, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableSelectFor(m => m.Contact.Company, Url.Action("SearchCompanies", "Companies"))
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.IsCompanyAdministrator, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.IsCompanyAdministrator, CommonEnums.EditableType.Boolean)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.Department, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.Department)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.UserId, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @if (Model.UserId.HasValue)
+                        {
+                            <a href="@Url.Action("Details", "Users", new { id = Model.UserId })"><i class="fa fa-search-plus"></i> @Model.UserFullName - @T("Contact_Text_ViewUserDetail") </a>
+                        }
+                        else
+                        {
+                            <a href="javascript:createUserForContact()"><i class="fa fa-plus"></i> @T("Contact_Text_MakeContactBecomeUser") </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.PreferredPhoneNumber, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.PreferredPhoneNumber)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.PhoneWork, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.PhoneWork)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.PhoneHome, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.PhoneHome)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.MobilePhone, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.MobilePhone)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Contact.Fax, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Contact.Fax)
+                    </div>
+                </div>
+            </div>
+            <div class="space-6 clear"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Contact_Text_AddressInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="col-sm-5"></div>
+                            <h4 class="contact-header lighter col-sm-7">@T("Contact_Text_PhysicalTitle")</h4>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Address, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.AddressLine1)
+                                    <br />
+                                    @Html.EditableFor(m => m.Contact.AddressLine2)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Suburb, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Suburb)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.State, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableSelectFor(m => m.Contact.State, Url.Action("GetAustraliaStates", "Home"))
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Postcode, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Postcode)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Country, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableSelectFor(m => m.Contact.Country, Url.Action("GetCountries", "Countries"), true)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="col-sm-5"></div>
+                            <h4 class="contact-header lighter col-sm-7 no-padding">@T("Contact_Text_PostalTitle")</h4>
+                            <div class="space-4"></div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.PostalAddress, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.PostalAddressLine1)
+                                    <br />
+                                    @Html.EditableFor(m => m.Contact.PostalAddressLine2)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.PostalSuburb, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.PostalSuburb)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.PostalState, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.PostalState)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.PostalPostcode, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.PostalPostcode)
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.PostalCountry, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableSelectFor(m => m.Contact.PostalCountry, Url.Action("GetCountries", "Countries"), true)
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Contact_Text_CommunicationInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Occupation, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Occupation)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Website, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Website, CommonEnums.EditableType.Url)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Sex, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableSelectFor(m => m.Contact.Sex, Url.Action("GetGenders", "Home"))
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.DateOfBirth, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.DateOfBirth, CommonEnums.EditableType.Date)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.DontSendMarketing, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.DontSendMarketing, CommonEnums.EditableType.Boolean)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Unsubscribed, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Unsubscribed, CommonEnums.EditableType.Boolean)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.UnsubscribeDateTime, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.UnsubscribeDateTime, CommonEnums.EditableType.Date)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Confirmed, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Confirmed, CommonEnums.EditableType.Boolean)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.CRMID, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.CRMID)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.SalesPerson, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.SalesPerson)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Contact_Text_SocialInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Facebook, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Facebook)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.Twitter, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.Twitter)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Contact.LinkedIn, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Contact.LinkedIn)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Contact_Text_RecordInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.Created)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.CreatedBy
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.LastUpdate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.LastUpdateBy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+            <div class="row">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+                        <li class="active">
+                            <a data-toggle="tab" href="#histories">
+                                @T("Contact_Text_TabHistories") (<span class="create-history tab-add-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#tasks">
+                                @T("Contact_Text_TabTasks") (<span class="create-task tab-add-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#anonymous-contacts">
+                                @T("Contact_Text_TabAnonymousContacts") (<span id="tab-anonymous-contact" class="tab-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#page-reads">
+                                @T("Contact_Text_TabPageReads") (<span id="tab-page-read" class="tab-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#news-reads">
+                                @T("Contact_Text_TabNewsReads") (<span id="tab-news-read" class="tab-button"></span>)
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="histories" class="tab-pane active">
+                            @Html.Partial("Details/_Histories", Model.Id)
+                        </div>
+                        <div id="tasks" class="tab-pane">
+                            @Html.Partial("Details/_Tasks", Model.Id)
+                        </div>
+                        <div id="anonymous-contacts" class="tab-pane">
+                            @Html.Partial("Details/_AnonymousContacts", Model.Id)
+                        </div>
+                        <div id="page-reads" class="tab-pane">
+                            @Html.Partial("Details/_PageReads", Model.Id)
+                        </div>
+                        <div id="news-reads" class="tab-pane">
+                            @Html.Partial("Details/_NewsReads", Model.Id)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        var updateUrl = "@Url.Action("UpdateContactData")";
+        var pk = '@Model.Contact.Id';
+
+        $(function () {
+            if (siteHelper.getUrlParam("action") == "delete") {
+                createUserForContact();
+            }
+        });
+
+        // Create user for contact
+        function createUserForContact() {
+            siteHelper.confirm('@T("Contact_Message_CreateUserConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("IsContactValidForCreateNewUser")",
+                        data: { contactId : @Model.Id },
+                        success: function (response) {
+                            if (response.Success) {
+                                siteHelper.showPopup({
+                                    href: "@Url.Action("PopupCreateFromContact", "Users", new { contactId = Model.Id })",
+                                    width: "80%"
+                                }, function () {
+                                    window.location.reload();
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        // Delete contact
+        function deleteContact() {
+            var message = '@T("Contact_Message_DeleteConfirm")';
+            if ('@Model.UserId.HasValue' === 'True') {
+                message = '@T("UserContact_Message_DeleteMappingConfirm")';
+            }
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            var data = { id: "@Model.Id" };
+
+            siteHelper.confirm(message, function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteContact")",
+                        data: data,
+                        success: function (response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function () {
+                                    if (returnUrl != null && returnUrl != "") {
+                                        window.location.href = returnUrl;
+                                    }
+                                    else
+                                        window.location.href = "@Url.Action("Index")";
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

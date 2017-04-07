@@ -1,0 +1,39 @@
+﻿@using Ez.Entity.Core.Enums
+@using EzCMS.Entity.Core.Enums
+@model Ez.Entity.Entities.Models.SiteSetting
+
+@Html.HiddenFor(m => m.EditorType, new { @class = "help-button" })
+<div class="form-group">
+    @if (!string.IsNullOrEmpty(Model.FieldName))
+    {
+        @Html.LabelFor(m => m.Value, Model.FieldName, new { @class = "col-md-4 control-label" })
+    }
+    else
+    {
+        @Html.LocalizeLabelFor(m => m.Value, new { @class = "col-md-4 control-label" })
+    }
+    <div class="col-md-5">
+        @switch (Model.EditorType)
+        {
+            case SettingEnums.EditorType.Text:
+                @Html.TextBoxFor(m => m.Value, new {@class = "col-xs-10"})
+                break;
+            case SettingEnums.EditorType.Address:
+                @Html.TextBoxFor(m => m.Value, new {@class = "col-xs-10"})
+                break;
+            case SettingEnums.EditorType.DateTime:
+                @Html.TextBoxFor(m => m.Value, new {@class = "col-xs-10 datetime-picker"})
+                break;
+            case SettingEnums.EditorType.Number:
+                @Html.TextBoxFor(m => m.Value, new {@class = "input-number"})
+                break;
+            case SettingEnums.EditorType.TextArea:
+                @Html.TextAreaFor(m => m.Value, new {@class = "col-xs-10", rows = 8})
+                break;
+            case SettingEnums.EditorType.Checkbox:
+                @Html.AceCheckBox("Value", Model.Value.ToBool())
+                break;
+        }
+        @Html.ValidationMessageFor(m => m.Value)
+    </div>
+</div>

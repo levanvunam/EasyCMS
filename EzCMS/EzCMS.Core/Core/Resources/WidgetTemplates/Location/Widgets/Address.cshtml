@@ -1,0 +1,11 @@
+@if (!string.IsNullOrEmpty(Model.AddressLine1))
+{
+    @(Model.AddressLine1 + ", ")<br />
+}
+@if (!string.IsNullOrEmpty(Model.Suburb) || !string.IsNullOrEmpty(Model.State) || !string.IsNullOrEmpty(Model.Postcode))
+{
+    @(!string.IsNullOrEmpty(Model.Suburb) ? Model.Suburb + " " : "")
+    @(!string.IsNullOrEmpty(Model.State) ? Model.State + " " : "")
+    @(!string.IsNullOrEmpty(Model.Postcode) ? Model.Postcode : "")
+    <br />
+}

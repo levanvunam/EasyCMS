@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{887ADA4E-4E67-418D-94AF-303A655FEB4E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EzCMS.Entity</RootNamespace>
+    <AssemblyName>EzCMS.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Integration.Web.3.3.2\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web.Mvc, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Integration.Web.Mvc.3.3.2\lib\net40\SimpleInjector.Integration.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\Configurations\EzCMSEntityConstants.cs" />
+    <Compile Include="Core\Enums\AssociateEnums.cs" />
+    <Compile Include="Core\Enums\AuthenticateEnums.cs" />
+    <Compile Include="Core\Enums\ClientNavigationEnums.cs" />
+    <Compile Include="Core\Enums\ContactEnums.cs" />
+    <Compile Include="Core\Enums\ContactGroupEnums.cs" />
+    <Compile Include="Core\Enums\EmailEnums.cs" />
+    <Compile Include="Core\Enums\FormEnums.cs" />
+    <Compile Include="Core\Enums\LinkTrackerEnums.cs" />
+    <Compile Include="Core\Enums\NewsEnums.cs" />
+    <Compile Include="Core\Enums\NotificationEnums.cs" />
+    <Compile Include="Core\Enums\PageEnums.cs" />
+    <Compile Include="Core\Enums\ProtectedDocumentEnums.cs" />
+    <Compile Include="Core\Enums\RssFeedEnums.cs" />
+    <Compile Include="Core\Enums\ServiceEnums.cs" />
+    <Compile Include="Core\Enums\SetupEnums.cs" />
+    <Compile Include="Core\Enums\SubscriptionEnums.cs" />
+    <Compile Include="Core\Enums\UserEnums.cs" />
+    <Compile Include="Core\Extensions\MigrationExtensions.cs" />
+    <Compile Include="Core\Plugins\IPluginContext.cs" />
+    <Compile Include="Core\SiteInitialize\SiteConfiguration.cs" />
+    <Compile Include="Core\SiteInitialize\SiteInitializer.cs" />
+    <Compile Include="Entities\EzCMSEntities.cs" />
+    <Compile Include="Entities\Models\AnonymousContact.cs" />
+    <Compile Include="Entities\Models\Associate.cs" />
+    <Compile Include="Entities\Models\AssociateAssociateType.cs" />
+    <Compile Include="Entities\Models\AssociateCompanyType.cs" />
+    <Compile Include="Entities\Models\AssociateLocation.cs" />
+    <Compile Include="Entities\Models\AssociateType.cs" />
+    <Compile Include="Entities\Models\Banner.cs" />
+    <Compile Include="Entities\Models\BodyTemplate.cs" />
+    <Compile Include="Entities\Models\CampaignCode.cs" />
+    <Compile Include="Entities\Models\ClientNavigation.cs" />
+    <Compile Include="Entities\Models\Company.cs" />
+    <Compile Include="Entities\Models\CompanyType.cs" />
+    <Compile Include="Entities\Models\Contact.cs" />
+    <Compile Include="Entities\Models\ContactCommunication.cs" />
+    <Compile Include="Entities\Models\ContactGroup.cs" />
+    <Compile Include="Entities\Models\ContactGroupContact.cs" />
+    <Compile Include="Entities\Models\Country.cs" />
+    <Compile Include="Entities\Models\EmailAccount.cs" />
+    <Compile Include="Entities\Models\EmailLog.cs" />
+    <Compile Include="Entities\Models\EmailTemplate.cs" />
+    <Compile Include="Entities\Models\Event.cs" />
+    <Compile Include="Entities\Models\EventCategory.cs" />
+    <Compile Include="Entities\Models\EventEventCategory.cs" />
+    <Compile Include="Entities\Models\EventSchedule.cs" />
+    <Compile Include="Entities\Models\FavouriteNavigation.cs" />
+    <Compile Include="Entities\Models\FileTemplate.cs" />
+    <Compile Include="Entities\Models\Form.cs" />
+    <Compile Include="Entities\Models\FormComponent.cs" />
+    <Compile Include="Entities\Models\FormComponentField.cs" />
+    <Compile Include="Entities\Models\FormComponentTemplate.cs" />
+    <Compile Include="Entities\Models\FormDefaultComponent.cs" />
+    <Compile Include="Entities\Models\FormDefaultComponentField.cs" />
+    <Compile Include="Entities\Models\FormTab.cs" />
+    <Compile Include="Entities\Models\GroupPermission.cs" />
+    <Compile Include="Entities\Models\Language.cs" />
+    <Compile Include="Entities\Models\Link.cs" />
+    <Compile Include="Entities\Models\LinkTracker.cs" />
+    <Compile Include="Entities\Models\LinkTrackerClick.cs" />
+    <Compile Include="Entities\Models\LinkType.cs" />
+    <Compile Include="Entities\Models\LocalizedResource.cs" />
+    <Compile Include="Entities\Models\Location.cs" />
+    <Compile Include="Entities\Models\LocationLocationType.cs" />
+    <Compile Include="Entities\Models\LocationType.cs" />
+    <Compile Include="Entities\Models\News.cs" />
+    <Compile Include="Entities\Models\NewsCategory.cs" />
+    <Compile Include="Entities\Models\NewsNewsCategory.cs" />
+    <Compile Include="Entities\Models\NewsRead.cs" />
+    <Compile Include="Entities\Models\Notice.cs" />
+    <Compile Include="Entities\Models\NoticeType.cs" />
+    <Compile Include="Entities\Models\Notification.cs" />
+    <Compile Include="Entities\Models\NotificationTemplate.cs" />
+    <Compile Include="Entities\Models\Page.cs" />
+    <Compile Include="Entities\Models\PageLog.cs" />
+    <Compile Include="Entities\Models\PageRead.cs" />
+    <Compile Include="Entities\Models\PageSecurity.cs" />
+    <Compile Include="Entities\Models\PageTag.cs" />
+    <Compile Include="Entities\Models\PageTemplate.cs" />
+    <Compile Include="Entities\Models\PageTemplateLog.cs" />
+    <Compile Include="Entities\Models\Poll.cs" />
+    <Compile Include="Entities\Models\PollAnswer.cs" />
+    <Compile Include="Entities\Models\ProductOfInterest.cs" />
+    <Compile Include="Entities\Models\ProtectedDocument.cs" />
+    <Compile Include="Entities\Models\ProtectedDocumentCompany.cs" />
+    <Compile Include="Entities\Models\ProtectedDocumentCompanyType.cs" />
+    <Compile Include="Entities\Models\ProtectedDocumentGroup.cs" />
+    <Compile Include="Entities\Models\ProtectedDocumentLog.cs" />
+    <Compile Include="Entities\Models\RemoteAuthentication.cs" />
+    <Compile Include="Entities\Models\RotatingImage.cs" />
+    <Compile Include="Entities\Models\RotatingImageGroup.cs" />
+    <Compile Include="Entities\Models\RssFeed.cs" />
+    <Compile Include="Entities\Models\Script.cs" />
+    <Compile Include="Entities\Models\ScriptLog.cs" />
+    <Compile Include="Entities\Models\Service.cs" />
+    <Compile Include="Entities\Models\SlideInHelp.cs" />
+    <Compile Include="Entities\Models\SocialMedia.cs" />
+    <Compile Include="Entities\Models\SocialMediaLog.cs" />
+    <Compile Include="Entities\Models\SocialMediaToken.cs" />
+    <Compile Include="Entities\Models\SQLCommandHistory.cs" />
+    <Compile Include="Entities\Models\Style.cs" />
+    <Compile Include="Entities\Models\StyleLog.cs" />
+    <Compile Include="Entities\Models\Subscription.cs" />
+    <Compile Include="Entities\Models\SubscriptionLog.cs" />
+    <Compile Include="Entities\Models\SubscriptionTemplate.cs" />
+    <Compile Include="Entities\Models\Tag.cs" />
+    <Compile Include="Entities\Models\WidgetTemplate.cs" />
+    <Compile Include="Entities\Models\WidgetTemplateLog.cs" />
+    <Compile Include="Entities\Models\Testimonial.cs" />
+    <Compile Include="Entities\Models\Toolbar.cs" />
+    <Compile Include="Entities\Models\User.cs" />
+    <Compile Include="Entities\Models\UserGroup.cs" />
+    <Compile Include="Entities\Models\UserLoginHistory.cs" />
+    <Compile Include="Entities\Models\UserUserGroup.cs" />
+    <Compile Include="Migrations\201704060947391_InitDatabase.cs" />
+    <Compile Include="Migrations\201704060947391_InitDatabase.Designer.cs">
+      <DependentUpon>201704060947391_InitDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Repositories\ClientNavigations\ClientNavigationRepository.cs" />
+    <Compile Include="Repositories\ClientNavigations\IClientNavigationRepository.cs" />
+    <Compile Include="Repositories\LocationLocationTypes\LocationLocationTypeRepository.cs" />
+    <Compile Include="Repositories\LocationLocationTypes\ILocationLocationTypeRepository.cs" />
+    <Compile Include="Repositories\AssociateLocations\AssociateLocationRepository.cs" />
+    <Compile Include="Repositories\AssociateLocations\IAssociateLocationRepository.cs" />
+    <Compile Include="Repositories\AssociateCompanyTypes\AssociateCompanyTypeRepository.cs" />
+    <Compile Include="Repositories\AssociateCompanyTypes\IAssociateCompanyTypeRepository.cs" />
+    <Compile Include="Repositories\ContactGroupContacts\ContactGroupContactRepository.cs" />
+    <Compile Include="Repositories\ContactGroupContacts\IContactGroupContactRepository.cs" />
+    <Compile Include="Repositories\AssociateAssociateTypes\AssociateAssociateTypeRepository.cs" />
+    <Compile Include="Repositories\AssociateAssociateTypes\IAssociateAssociateTypeRepository.cs" />
+    <Compile Include="Repositories\EventEventCategories\IEventEventCategoryRepository.cs" />
+    <Compile Include="Repositories\EventEventCategories\EventEventCategoryRepository.cs" />
+    <Compile Include="Repositories\GroupPermissions\IGroupPermissionRepository.cs" />
+    <Compile Include="Repositories\LocalizedResources\ILocalizedResourceRepository.cs" />
+    <Compile Include="Repositories\NewsNewsCategories\INewsNewsCategoryRepository.cs" />
+    <Compile Include="Repositories\NewsNewsCategories\NewsNewsCategoryRepository.cs" />
+    <Compile Include="Repositories\PageSecurities\PageSecurityRepository.cs" />
+    <Compile Include="Repositories\PageSecurities\IPageSecurityRepository.cs" />
+    <Compile Include="Repositories\PageTags\IPageTagRepository.cs" />
+    <Compile Include="Repositories\PageTags\PageTagRepository.cs" />
+    <Compile Include="Repositories\Pages\IPageRepository.cs" />
+    <Compile Include="Repositories\ProtectedDocumentCompanyTypes\IProtectedDocumentGroupRepository.cs" />
+    <Compile Include="Repositories\ProtectedDocumentCompanyTypes\ProtectedDocumentGroupRepository.cs" />
+    <Compile Include="Repositories\ProtectedDocumentCompanies\IProtectedDocumentCompanyRepository.cs" />
+    <Compile Include="Repositories\ProtectedDocumentCompanies\ProtectedDocumentCompanyRepository.cs" />
+    <Compile Include="Repositories\ProtectedDocumentGroups\IProtectedDocumentGroupRepository.cs" />
+    <Compile Include="Repositories\ProtectedDocumentGroups\ProtectedDocumentGroupRepository.cs" />
+    <Compile Include="Repositories\SlideInHelps\SlideInHelpRepository.cs" />
+    <Compile Include="Repositories\SlideInHelps\ISlideInHelpRepository.cs" />
+    <Compile Include="Repositories\UserUserGroups\UserUserGroupRepository.cs" />
+    <Compile Include="Repositories\Pages\PageRepository.cs" />
+    <Compile Include="Repositories\GroupPermissions\GroupPermissionRepository.cs" />
+    <Compile Include="Repositories\LocalizedResources\LocalizedResourceRepository.cs" />
+    <Compile Include="Repositories\UserUserGroups\IUserUserGroupRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\Users\IUserRepository.cs" />
+    <Compile Include="Repositories\Users\UserRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Ez.Framework\Ez.Framework.csproj">
+      <Project>{E4C5A7DB-DBE4-4B52-8BFB-9C5AE0FD3D9F}</Project>
+      <Name>Ez.Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MigrationScripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201704060947391_InitDatabase.resx">
+      <DependentUpon>201704060947391_InitDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

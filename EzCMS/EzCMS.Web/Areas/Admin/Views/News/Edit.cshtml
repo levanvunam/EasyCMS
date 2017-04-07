@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.News.NewsManageModel
+
+@{
+    ViewBag.Header = T("News_Site_Header");
+    ViewBag.Title = T("News_Site_EditTitle");
+    ViewBag.Description = T("News_Site_EditDescription");
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "News", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

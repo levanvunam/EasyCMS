@@ -1,0 +1,179 @@
+﻿@model EzCMS.Core.Models.WidgetTemplates.WidgetTemplateSearchModel
+
+@{
+    ViewBag.Header = T("WidgetTemplate_Site_Header");
+    ViewBag.Title = T("WidgetTemplate_Site_ListingTitle");
+    ViewBag.Description = T("WidgetTemplate_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        <a href="@Url.Action("Index", "Widgets")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("WidgetTemplate_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        // Delete template
+        function deleteTemplate(id) {
+            siteHelper.confirm('@T("WidgetTemplate_Message_DeleteConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteTemplate")",
+                        data: { id: id },
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                jqGridHelper.reloadGrid(gridSelector);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "WidgetTemplates"})');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("WidgetTemplate_Field_Id")',
+                '@T("WidgetTemplate_Field_Name")',
+                '@T("WidgetTemplate_Field_IsDefaultWidgetTemplate")',
+                '@T("WidgetTemplate_Field_DataType")',
+                '@T("WidgetTemplate_Field_Widget")',
+                '@LabelForTime(T("WidgetTemplate_Field_Created"))',
+                '@T("WidgetTemplate_Field_CreatedBy")',
+                '@LabelForTime(T("WidgetTemplate_Field_LastUpdate"))',
+                '@T("WidgetTemplate_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 120,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+
+                        var logIcon = "<a class='grid-action' href='@Url.Action("Logs")/" + options.rowId + "'><div class='ui-pg-div' title='@T("WidgetTemplate_Text_ViewLogs")'><span class='fa fa-book'></span></div></a>";
+
+                        var deleteIcon = "<a class='grid-action' href='javascript:deleteWidgetTemplate(" + options.rowId + ")'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+                        if (rowObject.IsDefaultTemplate) {
+                            deleteIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("WidgetTemplate_Message_DisableDeleteDefaultTemplate")'><span class='fa fa-times grey'></span></div></a>";
+                        }
+                        var copyIcon = "<a class='grid-action' href='@Url.Action("Create")?WidgetTemplateId=" + options.rowId + "'><div class='ui-pg-div' title='@T("WidgetTemplate_Text_CopyTemplate")'><span class='fa fa-copy'></span></div></a>";
+
+                        return editIcon + copyIcon + logIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Name', index: 'Name' },
+                {
+                    name: 'IsDefaultTemplate',
+                    index: 'Status',
+                    search: false,
+                    align: 'center',
+                    formatter: function (cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                },
+                { name: 'DataType', index: 'DataSettingType', hidden: true },
+                {
+                    name: 'Widget',
+                    index: 'Widget',
+                    formatter: function (cellvalue, options, rowObject) {
+                        return "{" + cellvalue + "}";
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+    <script type="text/javascript">
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            $("#Shortcut").select2("data", { id: "0", text: "@T("WidgetTemplate_Search_AllWidgets")" });
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid() {
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            var widget = $("#Widget").val();
+            $.extend(postData, { widget: widget });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

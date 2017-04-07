@@ -1,0 +1,77 @@
+<script type="text/javascript" src="/Scripts/jquery.validate.min.js"></script>
+<script type="text/javascript">
+    var html = $("#modal-template").html();
+    $("#modal-template").remove();
+
+    function notifyMe() {
+        bootbox.dialog({
+            title: "@Model.Module.GetEnumName()",
+            message: html,
+            buttons: {
+                success: {
+                    label: "Subscribe",
+                    className: "btn-success",
+                    callback: function () {
+                        if (!$("#validation-form").valid()) {
+                            return false;
+                        }
+
+                        var data = {
+                            module: '@Model.Module',
+                            parameters: '@Model.Parameters',
+                            email: $("#email").val(),
+                            SubscriptionType: $('input:radio[name=SubscriptionType]:checked').val()
+                        };
+
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("SubscriptionRegister", "SiteApi", new { area = "" })',
+                            data: data,
+                            success: function (response) {
+                                if (response.Success) {
+                                    $("#registered").show();
+                                    $("#not-register-yet").hide();
+                                }
+                                siteHelper.alert(response.Message);
+                            }
+                        });
+                    }
+                }
+            }
+        }).on("shown.bs.modal", function () {
+            $("#validation-form").validate({
+                errorPlacement: function (error, element) {
+                    if (element.attr("name") == "module") {
+                        $("#module-radio").append(error);
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+        });
+    }
+
+    function removeNotification() {
+        siteHelper.confirm("Are you sure want to remove notification from this page?", function (ok) {
+            if (ok) {
+                var data = {
+                    module: '@Model.Module',
+                    parameters: '@Model.Parameters'
+                };
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("SubscriptionRemoveRegistration", "SiteApi", new { area = "" })',
+                    data: data,
+                    success: function (response) {
+                        if (response.Success) {
+                            $("#registered").hide();
+                            $("#not-register-yet").show();
+                        }
+                        siteHelper.alert(response.Message);
+                    }
+                });
+            }
+        });
+    }
+
+</script>

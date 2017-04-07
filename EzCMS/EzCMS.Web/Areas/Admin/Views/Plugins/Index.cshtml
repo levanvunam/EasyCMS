@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Header = T("Plugin_Site_Header");
+    ViewBag.Title = T("Plugin_Site_ListingTitle");
+    ViewBag.Description = T("Plugin_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Plugin" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['',
+                '@T("Plugin_Field_Name")',
+                '@T("Plugin_Field_Version")',
+                '@T("Plugin_Field_Author")',
+                '@T("Plugin_Field_IsInstalled")',
+                '@T("Plugin_Field_Description")',
+                '@T("Plugin_Field_ConnectionString")',
+                '@T("Plugin_Field_RecordOrder")',
+                '@LabelForTime(T("Plugin_Field_Created"))',
+                '@T("Plugin_Field_CreatedBy")',
+                '@LabelForTime(T("Plugin_Field_LastUpdate"))',
+                '@T("Plugin_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Config")/" + options.rowId + "'><div class='ui-pg-div' title='Config'><span class='fa fa-cog'></span></div></a>";
+
+                        return editIcon;
+                    }
+                },
+                { name: 'Name', index: 'Name', key: true, align: 'center' },
+                { name: 'Version', index: 'Version' },
+                { name: 'Author', index: 'Author' },
+                {
+                    name: 'IsInstalled',
+                    index: 'IsInstalled',
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                },
+                { name: 'Description', index: 'Description' },
+                { name: 'ConnectionString', index: 'ConnectionString' },
+                { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

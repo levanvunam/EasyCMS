@@ -1,0 +1,31 @@
+﻿@using Ez.Framework.Configurations
+@model EzCMS.Core.Models.ProtectedDocuments.WidgetManageModels.ProtectedDocumentWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Path, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.ValidationMessageFor(m => m.Path)
+        @Html.MediaBrowserFor(m => m.Path, MediaEnums.MediaBrowserSelectMode.Folder, new { @class = "col-xs-10 curly-bracket-parameter" }, EzCMSContants.ProtectedDocumentPath)
+        @Html.HelpTextFor(m => m.Path, new { @class = "help-button" })
+        <div class="clearfix"></div>
+        @Html.ValidationMessageFor(m => m.Path)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        //Select document folder trigger update widget preview
+        function selectMedia(protectedDocumentFolder) {
+            $("#Path").val(protectedDocumentFolder.replace("@EzCMSContants.ProtectedDocumentPath", ""));
+            $("#Path").trigger("change");
+        }
+    </script>);
+}

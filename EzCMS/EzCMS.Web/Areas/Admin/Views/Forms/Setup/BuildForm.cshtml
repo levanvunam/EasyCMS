@@ -1,0 +1,102 @@
+﻿@model EzCMS.Core.Models.Forms.Setup.BuildFormSetupModel
+@{
+    Layout = "~/Areas/Admin/Views/Forms/_Layout.FormBuilder.cshtml";
+    ViewBag.Title = T("Form_Site_BuildFormTitle");
+    ViewBag.Description = T("Form_Site_BuildFormDescription");
+}
+
+@Html.Partial("Partials/_Steps", Model.Step)
+
+@section styles
+{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/FormBuilder/css/Select2/select2.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/FormBuilder/css/form.css")" />
+}
+
+<div class="main-container">
+    <div id="build-form-box" class="container full-width" style="visibility: hidden">
+        @ShowStatusMessage()
+        <div class="row col-xs-12">
+            <!-- Components -->
+            <div class="col-md-6">
+                <h2>@T("Form_BuildForm_Text_DragDropComponentsHeaderTitle")</h2>
+                <hr>
+                <div class="tabbable">
+                    <ul class="nav nav-tabs" id="formtabs">
+                        <!-- Tab nav -->
+                    </ul>
+                    <form id="components" class="form-horizontal">
+                        <fieldset>
+                            <div class="tab-content">
+                                <!-- Tabs of snippets go here -->
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <!-- Building Form. -->
+            <div id="building-form" class="col-md-6">
+                <div class="clearfix">
+                    <h2>@T("Form_BuildForm_Text_BuildYourFormHeaderTitle")</h2>
+                    <hr>
+                    <div id="build">
+                        <form id="target" class="form-horizontal"></form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="popoverTemplates" class="hidden">
+            @Html.Raw(Model.ComponentTemplates)
+        </div>
+
+        <div class="space-24 clear"></div>
+        @using (Html.BeginForm("BuildForm", "Forms", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(m => m.Id, new { id = "formId" })
+            @Html.HiddenFor(m => m.Content, new { value = Html.Raw(Model.Content), id = "content" })
+            @Html.HiddenFor(m => m.JsonContent, new { value = Html.Raw(Model.JsonContent), id = "jsonContent" })
+            <div class="form-actions no-margin align-right buttonFix no-padding-left">
+                <button class="btn btn-success btn-responsive" type="submit" value="@SubmitType.SaveAndContinueEdit" name="Submit">
+                    @T("Form_BuildForm_Text_SaveAndContinueButton") <i class="ace-icon fa fa-save icon-on-right"></i>
+                </button>
+                <a id="btnPreview" href="javascript:void(0)" class="btn btn-info">
+                    @T("Form_BuildForm_Text_Preview") <i class="ace-icon fa fa-eye icon-on-right"></i>
+                </a>
+                <button id="btnNext" class="btn btn-primary" type="submit" value="@SubmitType.Save" name="Submit">
+                    @T("Form_BuildForm_Text_FinishAndStartConfigureButton") <i class="ace-icon fa fa-check icon-on-right"></i>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script data-main="/Scripts/FormBuilder/library/main.js" src="@Url.Content("~/Scripts/FormBuilder/library/lib/require.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/FormBuilder/bootstrap.min.js")"></script>
+
+    <script type="text/javascript">
+        $("#btnPreview").click(function () {
+            var id = "@(Model.Id)";
+            var content = $("#content").val();
+
+            siteHelper.httpPost({
+                type: "POST",
+                datatype: "json",
+                url: "@Url.Action("SaveDraft")",
+                data: { id: id, content: content },
+                success: function (response) {
+                    if (response.Success) {
+                        if (response.Data != "") {
+                            siteHelper.openUrl("@Url.Action("Preview")?id=" + id + "&token=" + response.Data, "_blank");
+                        } else {
+                            siteHelper.openUrl("@Url.Action("Preview")?id=" + id, "_blank");
+                        }
+                    } else {
+                        alert(response.Message);
+                    }
+                }
+            });
+        });
+    </script>
+}

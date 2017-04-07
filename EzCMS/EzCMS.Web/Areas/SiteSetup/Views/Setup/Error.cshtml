@@ -1,0 +1,14 @@
+﻿@model Ez.Framework.Core.Entity.RepositoryBase.Models.ResponseModel
+@{
+    ViewBag.Title = "EzCMS Setup";
+    Layout = "~/Areas/SiteSetup/Views/Shared/_Layout.cshtml";
+}
+@section styles
+{
+    <link rel="stylesheet" href="@Url.Content("~/Content/SiteSetup/sitesetup.css")" />
+}
+
+<h1 class="center">EzCMS Setup Error</h1>
+<p class="center">
+    @Model.Message
+</p>

@@ -1,0 +1,18 @@
+﻿<script type="text/javascript" src="/Scripts/Plugins/jquery.highlight.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var searchItems = {SearchItems};
+        if ($("#search-result .search-content").length > 0) {
+            $("#search-result .search-content").highlight(searchItems);
+        }
+    });
+    
+    function SearchPages() {
+        var keyword = $("#searchText").val().trim();
+        if (keyword == '') {
+            siteHelper.alert("Please input search string.");
+            return;
+        }
+        window.location.href = "/Search?keyword=" + keyword;
+    }
+</script>

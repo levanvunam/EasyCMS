@@ -1,0 +1,129 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>{SiteTitle} - {Title}</title>
+    <meta name="description" content="{Description}">
+    <meta name="keywords" content="{Keywords}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/Content/Plugins/Bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="/Content/Plugins/FontAwesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/Content/Plugins/fancybox/jquery.fancybox.css" />
+    <link rel="stylesheet" href="/CkEditor/editor.css" />
+    <link rel="stylesheet" href="/Resources/template.css" />
+    <link rel="stylesheet" href="/Resources/protected-document.css" />
+    <!-- Custom Fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!--[if lt IE 9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Plugins/Bootstrap/bootstrap.min.js"></script>
+    {GoogleAnalytic}
+</head>
+<body>
+    <nav class="navbar-default" role="navigation">
+        {Navigations_Navigations}
+    </nav>
+
+    @RenderBody()
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Your Website 2016</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    @if (!Model.IsLoggedIn)
+    {
+        <a style="float: right" href="javascript:siteHelper.showLogin(true);">Login</a>
+    }
+    <div class="clear"></div>
+    <!-- Add Subscription Module For Pages = 1 -->
+    {Subscription_1}
+    @if (Model.IsLoggedIn && Model.CanEdit)
+    {
+        <div style="position: fixed; top: 45%; right: 0; width: 50px">
+            <div id="ace-settings-btn" class="btn btn-app btn-xs ace-settings-btn">
+                <i title="Create New Page" class="fa fa-plus fa-2x" onclick="javascript:siteHelper.selectBodyTemplate(@Model.Id);"></i>
+            </div>
+            <div id="ace-settings-btn" class="btn btn-app btn-xs ace-settings-btn">
+                <i title="Edit" class="fa fa-edit fa-2x" onclick="javascript:siteHelper.editPage(@Model.Id);"></i>
+            </div>
+            @if (WorkContext.CurrentUser != null && WorkContext.CurrentUser.IsSystemAdministrator)
+            {
+                <div id="ace-settings-btn" class="btn btn-app btn-xs ace-settings-btn">
+                    <a title="Admin Dashboard" href="@Url.Action("Index", "Home", new {area = "Admin"})"><i class="fa fa-dashboard fa-2x"></i></a>
+                </div>
+            }
+            <div id="ace-settings-btn" class="btn btn-app btn-xs ace-settings-btn">
+                <a title="Log out" href="javascript:siteHelper.logout()"><i class="fa fa-sign-out fa-2x"></i></a>
+            </div>
+            <div id="ace-settings-btn" class="btn btn-app btn-xs ace-settings-btn">
+                <a title="Site Map" href="/Site-Map"><i class="fa fa-list fa-2x"></i></a>
+            </div>
+        </div>
+    }
+    <!-- Contact Form JavaScript -->
+    <script src="Resources/jqBootstrapValidation.js"></script>
+    <script src="Resources/contact_me.js"></script>
+    <script src="Resources/main.js"></script>
+    <script type="text/javascript" src="/Scripts/Plugins/fancybox/jquery.fancybox.js"></script>
+    <script type="text/javascript" src="/Scripts/Plugins/Bootbox/bootbox.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Shared/Helpers/siteHelper.js"></script>
+    <script type="text/javascript" src="/Scripts/Shared/Plugins/Tree/fuelux.tree.js"></script>
+    <script type="text/javascript" src="/Scripts/Shared/Plugins/Tree/EzCMS.tree.js"></script>
+    <script type="text/javascript">
+        var currentUserGroupIds = [@(string.Join(",", Model.GroupIds))];
+        $(function () {
+            var currentNavigation = $(".Navigation-item[data-id=" + @Model.Id + "]");
+            if (currentNavigation.length > 0) {
+                currentNavigation.addClass("active");
+                currentNavigation.parents().addClass("active");
+            } else {
+                var hierarchyIds = [@(string.Join(",", Model.HierarchyIds))];
+
+                $.each(hierarchyIds, function (index, value) {
+                    var activeNavigations = $(".Navigation-item[data-id=" + value + "]");
+                    if (activeNavigations.length > 0) {
+                        activeNavigations.addClass("active");
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

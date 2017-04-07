@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Header = T("Notification_Site_Header");
+    ViewBag.Title = T("Notification_Site_ListingTitle");
+    ViewBag.Description = T("Notification_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Notification" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("Notification_Field_Id")',
+                '@T("Notification_Field_Parameters")',
+                '@T("Notification_Field_ContactQueries")',
+                '@T("Notification_Field_NotifiedContacts")',
+                '@T("Notification_Field_Module")',
+                '@T("Notification_Field_IsSent")',
+                '@T("Notification_Field_NotificationSubject")',
+                '@T("Notification_Field_NotificationBody")',
+                '@LabelForTime(@T("Notification_Field_SendTime"))',
+                '@LabelForTime(T("Notification_Field_Created"))',
+                '@T("Notification_Field_CreatedBy")',
+                '@LabelForTime(T("Notification_Field_LastUpdate"))',
+                '@T("Notification_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='View Details'><span class='fa fa-search-plus'></span></div></a>";
+
+                        return detailsIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                {
+                    name: 'Parameters',
+                    index: 'Parameters',
+                    formatter: function (cellValue, options, rowObject) {
+                        return jqGridHelper.buildJsonValue(cellValue, '@T("Notification_Field_Parameters")');
+                    }
+                },
+                {
+                    name: 'ContactQueries',
+                    index: 'ContactQueries',
+                    hidden: true,
+                    formatter: function (cellValue, options, rowObject) {
+                        return jqGridHelper.buildJsonValue(cellValue, '@T("Notification_Field_ContactQueries")');
+                    }
+                },
+                {
+                    name: 'NotifiedContacts',
+                    index: 'NotifiedContacts',
+                    hidden: true,
+                    formatter: function (cellValue, options, rowObject) {
+                        return jqGridHelper.buildJsonValue(cellValue, '@T("Notification_Field_NotifiedContacts")');
+                    }
+                },
+                { name: 'ModuleName', index: 'ModuleName', search: false },
+                {
+                    name: 'Active',
+                    index: 'Active',
+                    align: 'center',
+                    search: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, false, "@T("Notification_Text_Sent")", "@T("Notification_Text_InQueue")");
+                    }
+                },
+                { name: 'NotificationSubject', index: 'NotificationSubject' },
+                { name: 'NotificationBody', index: 'NotificationBody', hidden: true },
+                { name: 'SendTime', index: 'SendTime', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

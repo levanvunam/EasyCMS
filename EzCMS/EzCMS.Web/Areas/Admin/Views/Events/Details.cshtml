@@ -1,0 +1,225 @@
+﻿@model EzCMS.Core.Models.Events.EventDetailModel
+
+@{
+    ViewBag.Header = T("Event_Site_Header");
+    ViewBag.Title = T("Event_Site_DetailsTitle");
+    ViewBag.Description = T("Event_Site_DetailsDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a class="btn btn-xs btn-danger" href="javascript:deleteEvent()">@T("System_Text_Delete")</a>
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new {id = Model.Id, returnUrl = Url.Action("Details", new {id = Model.Id})})">
+            @T("System_Text_Edit")
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Event.Title, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Event.Title)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.Event.EventSummary, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.Event.EventSummary, CommonEnums.EditableType.TextArea)
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+            <div class="widget-box col-sm-12 col-xs-12">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@Html.LocalizeLabelFor(m => m.Event.EventDescription, new { @class = "no-padding" })</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-6">
+                        <div class="space-4"></div>
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                @Html.Raw(Model.Event.EventDescription)
+                            </div>
+                        </div>
+                        <div class="clear space-4"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Event_Text_RegistrationInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Event.MaxAttendees, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Event.MaxAttendees, CommonEnums.EditableType.Number)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Event.RegistrationFullText, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Event.RegistrationFullText, CommonEnums.EditableType.TextArea)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.Event.RegistrationWaiver, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.EditableFor(m => m.Event.RegistrationWaiver, CommonEnums.EditableType.TextArea)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("Event_Text_RecordInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.Created)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.CreatedBy
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.LastUpdate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.LastUpdateBy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+
+            <div class="row">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+                        <li class="active">
+                            <a data-toggle="tab" href="#event-schedules">
+                                @T("Event_Text_TabEventSchedules") (<span id="tab-event-schedule" class="tab-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#event-categories">
+                                @T("Event_Text_TabEventCategories") (<span id="tab-event-category" class="tab-button"></span>)
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="event-schedules" class="tab-pane active">
+                            @Html.Partial("Details/_EventSchedules", Model.Id)
+                        </div>
+                        <div id="event-categories" class="tab-pane">
+                            @Html.Partial("Details/_EventCategories", Model.Id)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        var updateUrl = "@Url.Action("UpdateEventData")";
+        var pk = '@Model.Id';
+
+        $(function () {
+            if (siteHelper.getUrlParam("action") == "delete") {
+                deleteEvent();
+            }
+        });
+
+        // Delete event
+        function deleteEvent() {
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            var data = { id: @Model.Id };
+
+            siteHelper.confirm('@T("Event_Message_DeleteConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteEvent")",
+                        data: data,
+                        success: function (response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function () {
+                                    if (returnUrl != "")
+                                        window.location.href = returnUrl;
+                                    else
+                                        window.location.href = "@Url.Action("Index")";
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

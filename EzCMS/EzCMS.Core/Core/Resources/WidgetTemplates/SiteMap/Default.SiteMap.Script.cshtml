@@ -1,0 +1,15 @@
+﻿@if (HasNoContext("SitemapScript"))
+{
+    SetContext("SitemapScript");
+    <script type="text/javascript">
+        $(function () {
+            $(".sercureGroups").tooltip({
+                html: true
+            });
+        });
+
+        function deletePageCallback(id) {
+            $("#page-" + id).remove();
+        }
+    </script>
+}

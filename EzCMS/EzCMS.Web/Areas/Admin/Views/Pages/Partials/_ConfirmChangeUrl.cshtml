@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.Pages.PageConfirmChangeUrlModel
+
+<div class="widget-box transparent collapsed">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">
+            @TFormat("Page_Text_ReferencePageInfo", Model.ReferencedPages.Count(), Model.OldUrl)
+        </h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-down"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <ul>
+                @foreach (var referencedPage in Model.ReferencedPages)
+                {
+                    <li><a href="@referencedPage.FriendlyUrl" target="_blank">@referencedPage.Title</a></li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="space-12"></div>
+<h4>@TFormat("Page_Text_ChangeFriendlyUrlConfirm", Model.OldUrl, Model.NewUrl)</h4>

@@ -1,0 +1,54 @@
+﻿@model EzCMS.Core.Models.FormDefaultComponentFields.FormDefaultComponentFieldManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.FormDefaultComponentId, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.FormDefaultComponentId, Model.FormDefaultComponents, new { @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.FormDefaultComponentId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.FormDefaultComponentId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Attributes.label, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Attributes.label, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Attributes.label, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Attributes.label)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Attributes.type, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.Attributes.type, Model.Attributes.Types, new { @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.Attributes.type, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Attributes.type)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Attributes.ValueString, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Attributes.ValueString, new { @class = "col-xs-10", rows = 3 })
+        @Html.HelpTextFor(m => m.Attributes.ValueString, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Attributes.ValueString)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RecordOrder, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.RecordOrder, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.RecordOrder, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RecordOrder)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>

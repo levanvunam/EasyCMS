@@ -1,0 +1,163 @@
+﻿ul, ol {
+    list-style: none;
+}
+
+#embed-api-auth-container {
+    background: rgb(0, 114, 177);
+    padding: 10px 10px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.analytic-container {
+    border: 1px solid #ccc;
+    padding: 2%;
+    margin-left: 2%;
+    float: left;
+    margin-bottom: 10px;
+    min-height: 100px;
+    width: 100%;
+}
+
+#view-selector-container {
+}
+
+    #view-selector-container label, #date-range-container label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    #view-selector-container select, #date-range-container input {
+        display: block;
+        height: 30px;
+        border-radius: 5px;
+        width: 100%;
+        border: 1px solid #ccc;
+    }
+
+    #view-selector-container select {
+        height: 32px;
+    }
+
+    #view-selector-container .ViewSelector2 .ViewSelector2-item {
+        float: left;
+        width: 31%;
+        margin-right: 3%;
+    }
+
+    #view-selector-container .ViewSelector2 .FormField {
+        width: 100%;
+    }
+
+    #view-selector-container .ViewSelector2 > div:last-child {
+        margin-right: 0;
+    }
+
+#date-range-container {
+}
+
+    #date-range-container .DateRangeSelector .DateRangeSelector-item {
+        float: left;
+        width: 48%;
+        margin-left: 2%;
+    }
+
+#active-users-container {
+}
+
+    #active-users-container .ActiveUsers-value {
+        width: 100%;
+        font-weight: bold;
+        font-size: 40px;
+        display: block;
+    }
+
+
+.chartSummary {
+    font-size: 24px;
+    margin-top: 8px;
+    display: block;
+    word-wrap: break-word;
+}
+
+@media(min-width: 768px) {
+    .chart-container {
+        border: 1px solid #ccc;
+        padding: 2%;
+        width: 100%;
+    }
+
+    .charts {
+    }
+
+        .charts li {
+            float: left;
+            width: 32%;
+            padding: 10px 2%;
+            border-right: 1px solid #ccc;
+            margin: 10px 0;
+        }
+
+            .charts li:nth-child(3n) {
+                border-right: none;
+            }
+}
+
+@media(max-width: 768px) {
+
+    .charts {
+    }
+
+        .charts li {
+            float: left;
+            width: 100%;
+            padding: 10px 2%;
+            margin: 10px 0;
+        }
+}
+
+#legend-2-container, #legend-3-container {
+    padding: 10px;
+}
+
+    #legend-2-container i, #legend-3-container i {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    #legend-2-container li, #legend-3-container li {
+        list-style: none;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    #legend-3-container li {
+        margin: 0 10px 0 0;
+        border-right: 0;
+        width: auto;
+        float: none;
+    }
+
+#legend-3-container {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+#ErrorDiv {
+    background-color: rgba(255, 0, 0, 0.51);
+    height: 30px;
+    color: white;
+    margin-bottom: 8px;
+    font-size: 18px;
+    padding: 13px 0px 0px 25px;
+}
+
+.spanLabels {
+    font-size: 15px;
+    font-family: Arial;
+    font-weight: bold;
+}

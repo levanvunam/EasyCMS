@@ -1,0 +1,25 @@
+﻿@model EzCMS.Core.Models.ProductOfInterests.ProductOfInterestManageModel
+
+@{
+    ViewBag.Header = T("ProductOfInterest_Site_Header");
+    ViewBag.Title = T("ProductOfInterest_Site_EditTitle");
+    ViewBag.Description = T("ProductOfInterest_Site_EditDescription");
+}
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "ProductOfInterests", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

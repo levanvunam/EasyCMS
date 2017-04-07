@@ -1,0 +1,38 @@
+﻿@model int
+
+<div class="col-xs-12">
+    <table id="log-grid-table"></table>
+    <div id="log-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        /*
+        * Setup grid
+        */
+        var $dirty = false;
+        var logGrid = "#log-grid-table";
+        var logGridPager = "#log-grid-pager";
+        var logTab = "#logs";
+        var logGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Email Queue Log" })');
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBindingForLogs", new { emailLogId = Model })",
+                colNames: ['@LabelForTime(T("EmailLog_Log_Field_Time"))',
+                    '@T("EmailLog_Log_Field_Message")'],
+                colModel: [
+                    { name: 'Time', index: 'Time', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'Message', index: 'Message' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-log").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(logGrid, logGridPager, gridOptions, logGridSettings, logTab);
+        });
+    </script>);
+}

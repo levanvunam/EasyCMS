@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Header = T("Tool_Site_Header");
+    ViewBag.Title = T("Tool_Site_CookieManagerListingTitle");
+    ViewBag.Description = T("Tool_Site_CookieManagerListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Cookie Manager" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_CookieAjaxBinding")",
+            colNames: ['@T("CookieManager_Filed_Name")',
+                '@T("CookieManager_Filed_Value")',
+                '@T("CookieManager_Filed_ExpiredDate")'],
+            colModel: [
+                { name: 'Name', index: 'Name', key: true },
+                {
+                    name: 'Value',
+                    index: 'Value',
+                    formatter: function(cellValue, options, rowObject) {
+                        return jqGridHelper.buildJsonValue(cellValue, '@T("CookieManager_Filed_Value")');
+                    }
+                },
+                { name: 'ExpiredDate', index: 'ExpiredDate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup);
+    </script>
+}

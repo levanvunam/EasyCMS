@@ -1,0 +1,13 @@
+<div>Hi @Model.FullName,</div>
+<br />
+<div>One account had beeen created in @Model.SiteUrl for you with the login information:</div>
+<ul>
+    <li>Username: @Model.Username</li>
+    <li>Email: @Model.Email</li>
+    <li>Password: @Model.Password</li>
+</ul>
+<br />
+<div>Please click on this <a href="@Model.LoginLink" target="_blank">url</a> to login.</div>
+<div>Or if you want to change the password, please click on this <a href="@Model.ResetPasswordLink" target="_blank">url</a>.</div>
+<br />
+<div>Thank you.</div>

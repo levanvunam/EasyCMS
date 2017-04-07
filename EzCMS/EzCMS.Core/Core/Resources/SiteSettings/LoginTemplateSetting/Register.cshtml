@@ -1,0 +1,123 @@
+﻿<div class="main-container">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <div class="center">
+                        <h1>
+                            <i class="fa fa-lock blue"></i>
+                            <span class="red">Login</span>
+                            <span class="light-blue">Page</span>
+                        </h1>
+                    </div>
+
+                    <div class="space-6"></div>
+
+                    <div class="position-relative">
+                        @ShowStatusMessage()
+                        <div id="signup-box" class="signup-box visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <h4 class="header green lighter bigger">
+                                        <i class="fa fa-group blue"></i>
+                                        New User Registration
+                                    </h4>
+
+                                    <div class="space-6"></div>
+                                    <p>Enter your details to begin: </p>
+
+                                    <form>
+                                        <fieldset>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = "Username" })
+                                                    <i class="ace-icon fa fa-user"></i>
+                                                    @Html.ValidationMessageFor(m => m.Username)
+                                                </span>
+                                            </label>
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                                                    <i class="ace-icon fa fa-envelope"></i>
+                                                    @Html.ValidationMessageFor(m => m.Email)
+                                                </span>
+                                            </label>
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = "First Name" })
+                                                    <i class="ace-icon fa fa-user"></i>
+                                                    @Html.ValidationMessageFor(m => m.FirstName)
+                                                </span>
+                                            </label>
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = "Last Name" })
+                                                    <i class="ace-icon fa fa-user"></i>
+                                                    @Html.ValidationMessageFor(m => m.LastName)
+                                                </span>
+                                            </label>
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
+                                                    <i class="ace-icon fa fa-lock"></i>
+                                                    @Html.ValidationMessageFor(m => m.Password)
+                                                </span>
+                                            </label>
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = "Confirm Password" })
+                                                    <i class="ace-icon fa fa-retweet"></i>
+                                                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                                                </span>
+                                            </label>
+
+                                            <label class="block">
+                                                @Html.AceCheckBoxFor(m => m.UserAgreement)
+                                                I accept the <a href="/Privacy-Policy">User Agreement</a>
+                                            </label>
+
+                                            <div class="space-18"></div>
+
+                                            <div class="clearfix">
+                                                <button type="reset" class="width-30 pull-left btn btn-sm">
+                                                    <i class="fa fa-refresh"></i>
+                                                    Reset
+                                                </button>
+
+                                                <button type="submit" class="width-65 pull-right btn btn-sm btn-success">
+                                                    Register
+                                                    <i class="fa fa-arrow-right icon-on-right"></i>
+                                                </button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+
+                                <div class="toolbar center">
+                                    <a href="@Url.Action("Login")" class="back-to-login-link">
+                                        <i class="fa fa-arrow-left"></i>
+                                        Back to login
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function OnRegisterSuccess(response) {
+        if (response.Success) {
+            location.href = "@Url.Action("RegisterSuccess")";
+        } else {
+            siteHelper.showMessage(response);
+        }
+    }
+</script>

@@ -1,0 +1,105 @@
+﻿@model Ez.Framework.Utilities.Web.Models.WebPageInformationModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@string.Format(T("Page_Site_GoogleSearchTitle"), Model.Title)</title>
+    <meta name="description" content="@T("Page_Site_GoogleSearchDescription")" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/google.css")" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/html5shiv.js")" ></script>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/respond.min.js")" ></script>
+        <![endif]-->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-2.1.4.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
+    </script>
+    <![endif]-->
+
+    <script type="text/javascript" src="/Scripts/Plugins/Bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Shared/Helpers/siteHelper.js"></script>
+</head>
+<body>
+</body>
+</html>
+
+<div id="google">
+    <div class="header">
+        <div id="logo">
+            <a href="javascript:void(0)">
+                <img src="~/Images/Google/google.png" />
+            </a>
+        </div>
+        <div class="search-input">
+            <input type="text" value="@Model.Title" readonly="readonly" />
+            <div class="buttons">
+                <a id="voice" href="javascript:void(0)">
+                    <img src="~/Images/Google/voice.png" />
+                </a>
+                <a id="search" href="javascript:void(0)">
+                    <img src="~/Images/Google/search.png" />
+                </a>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="search-results">
+        <ul class="search-filter">
+            <li class="active">
+                <a href="javascript:void(0)">Web</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">Videos</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">Images</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">News</a>
+            </li>
+            <li>
+                <a href="javascript:void(0)">Maps</a>
+            </li>
+            <li>
+                More <i class="fa fa-caret-down"></i>
+            </li>
+            <li class="search-tools">
+                Search tools
+            </li>
+        </ul>
+        <div class="result-stats">
+            About 1 results (0.1 seconds)
+        </div>
+        <ul class="sites">
+            <li>
+                <div class="site-header">
+                    @Model.Title
+                </div>
+                <div class="site-url">
+                    @Model.Url
+                </div>
+                <div class="site-description">
+                    @(Model.Description)
+                </div>
+                <div class="site-map">
+                    
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,194 @@
+﻿@model EzCMS.Core.Models.ContactGroups.ContactGroupDetailModel
+
+@{
+    ViewBag.Header = T("ContactGroup_Site_Header");
+    ViewBag.Title = T("ContactGroup_Site_DetailsTitle");
+    ViewBag.Description = T("ContactGroup_Site_DetailsDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a class="btn btn-xs btn-danger" href="javascript:deleteContactGroup()">@T("System_Text_Delete")</a>
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new { id = Model.Id, returnUrl = Url.Action("Details", new { id = Model.Id }) })">
+            @T("System_Text_Edit")
+        </a>
+        <a id="btn-refresh" class="btn btn-xs btn-info" href="javascript:refreshContactGroup()">@Html.Raw(T("ContactGroup_Text_RefreshContactGroup"))</a>
+    </div>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label align-right" })
+                <div class="col-sm-10 control-value">
+                    @Html.EditableFor(m => m.Name)
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+
+            <div class="form-group">
+                <div class="widget-box">
+                    <div class="widget-header widget-header-flat">
+                        <h4 class="smaller">
+                            @Html.LocalizeLabelFor(m => m.Queries, new { @class = "control-label align-right" })
+                        </h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            @foreach (var queries in Model.Queries)
+                            {
+                                @Html.Partial("Partials/_SearchQueries", queries)
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("ContactGroup_Text_RecordInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.Created)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.CreatedBy
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.LastUpdate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.LastUpdateBy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-12 clear"></div>
+        <div class="row">
+            <div class="tabbable">
+                <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+                    <li class="active">
+                        <a data-toggle="tab" href="#contacts">
+                            @T("ContactGroup_Text_TabContacts") (<span id="tab-contact" class="tab-button"></span>)
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div id="contacts" class="tab-pane active">
+                        @Html.Partial("Details/_Contacts", Model.Id)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        var updateUrl = "@Url.Action("UpdateContactGroupData")";
+        var pk = '@Model.Id';
+        
+        $(function () {
+            if (siteHelper.getUrlParam("action") == "delete") {
+                deleteContactGroup();
+            }
+        });
+
+        // Delete contact group
+        function deleteContactGroup() {
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            var data = { id: @Model.Id };
+
+            siteHelper.confirm('@T("ContactGroup_Message_DeleteConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteContactGroup")",
+                        data: data,
+                        success: function (response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function () {
+                                    if (returnUrl != "")
+                                        window.location.href = returnUrl;
+                                    else
+                                        window.location.href = "@Url.Action("Index")";
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        var contactGrid = $("#contact-grid-table");
+        // Refresh contact group
+        function refreshContactGroup() {
+            var data = { id: @Model.Id };
+
+            siteHelper.httpPost({
+                url: "@Url.Action("RefreshConfirm")",
+                data: data,
+                showLoading: false,
+                success: function (message) {
+                    siteHelper.confirm(message, function (ok) {
+                        if (ok) {
+                            siteHelper.httpPost({
+                                url: "@Url.Action("RefreshContactGroup")",
+                                data: data,
+                                success: function (response) {
+                                    siteHelper.showMessage(response);
+                                    if (response.Success) {
+                                        jqGridHelper.reloadGrid(contactGrid);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

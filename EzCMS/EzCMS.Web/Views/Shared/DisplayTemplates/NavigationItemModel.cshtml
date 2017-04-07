@@ -1,0 +1,62 @@
+﻿@model EzCMS.Core.Models.Navigations.NavigationItemModel
+
+@{
+    var hierarchy = (string)ViewBag.Hierarchy;
+
+    var isSelected = !string.IsNullOrEmpty(hierarchy) && hierarchy.Equals(Model.Hierarchy);
+    var isOpen = !string.IsNullOrEmpty(hierarchy) && (hierarchy.Contains(Model.Hierarchy) || Model.Children.Any(c => c.Hierarchy.Contains(hierarchy)));
+    
+    var cClass = string.Empty;
+    if (isSelected)
+    {
+        cClass = "active";
+    }
+    else if (isOpen)
+    {
+        cClass = "open active";
+    }
+    var url = !string.IsNullOrEmpty(Model.Url) ?
+        Model.Url
+        : (string.IsNullOrEmpty(Model.Controller) || string.IsNullOrEmpty(Model.Action) ?
+            "#"
+            : Url.Action(Model.Action, Model.Controller));
+    if (!string.IsNullOrEmpty(url) && url.Equals("#") && !Model.Children.Any())
+    {
+        return;
+    }
+}
+
+<li class="@cClass menu-item highlight">
+    <a href="@url" class="@(Model.Children.Any() ? "dropdown-toggle" : "")">
+        <i class="menu-icon fa @Model.Icon"></i>        
+        @if (Model.Id != "")
+        {
+            if (string.IsNullOrEmpty(url) || url.Equals("#"))
+            {
+                @*<b class="fa fa-star gray" style="visibility: hidden"></b>*@
+            }
+            else if (Model.IsFavouriteNavigation)
+            {
+                <b data-rel="tooltip" title="Already in your favourite list. Click to remove" class="remove-from-favourite fa fa-star red" data-id="@Model.Id"></b>
+            }
+            else
+            {
+                <b data-rel="tooltip" title="Add to favourite" class="add-to-favourite fa fa-star blue favourite-icon" data-id="@Model.Id" style="visibility: hidden"></b>
+            }
+        }
+        <span class="menu-text">@Model.Name </span>
+        @if (Model.Children.Any())
+        {
+            <b class="arrow fa fa-angle-down"></b>
+        }
+    </a>
+    @if (Model.Children.Any())
+    {
+        <ul class="submenu" style="@(isOpen ? "display: block" : "")">
+            @foreach (var item in Model.Children)
+            {
+                @Html.DisplayFor(m => item)             
+            }
+        </ul>
+    }
+</li>

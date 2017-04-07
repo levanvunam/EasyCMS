@@ -1,0 +1,68 @@
+﻿@using EzCMS.Entity.Core.Enums
+@using Ez.Framework.Utilities
+@model EzCMS.Core.Models.Pages.Widgets.PageRenderModel
+
+@{
+    Layout = "~/Views/Shared/_CleanLayout.cshtml";
+}
+
+@Html.Raw(Model.Content)
+
+<script src="@Url.Content("~/Scripts/Plugins/jquery.cookie.js")"></script>
+<script type="text/javascript">
+    var enableCookie = false;
+
+    try {
+        var testCookie = 'test cookie';
+        $.cookie(testCookie, true);
+
+        // browser supports cookie
+        if ($.cookie(testCookie)) {
+
+            // delete the test cookie
+            $.cookie(testCookie, null);
+            enableCookie = true;
+        }
+    } catch(e) { } 
+</script>
+
+@if (Model.ResponseCode == PageEnums.PageResponseCode.PageDraft)
+{
+    <script type="text/javascript">
+        $(function () {
+            siteHelper.confirm("@T("Page_Message_ShowDraftConfirm")", function (ok) {
+                if (ok) {
+                    location.href = "@(HttpContext.Current.Request.RawUrl.AddQueryParam("showDraft", "true"))";
+                }
+            });
+        });
+    </script>
+}
+
+@if (Model.ResponseCode == PageEnums.PageResponseCode.PageOffline)
+{
+    <script type="text/javascript">
+        $(function () {
+            siteHelper.alert("@T("Page_Message_PageOfflineNotification")");
+        });
+    </script>
+}
+
+@if (Model.ResponseCode == PageEnums.PageResponseCode.Ok || Model.ResponseCode == PageEnums.PageResponseCode.PageDraft || Model.ResponseCode == PageEnums.PageResponseCode.PageOffline || Model.ResponseCode == PageEnums.PageResponseCode.FileTemplateRedirect || Model.ResponseCode == PageEnums.PageResponseCode.Redirect301)
+{
+    <script type="text/javascript">
+        // Track page read
+        $(function () {
+            if (enableCookie) {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("SetupPageTracking", "Pages", new { area = "" })",
+                    data: { id : @Model.Id },
+                    success: function(response) {
+                        //DO NOTHING HERE
+                    }
+                });
+            }
+        });
+    </script>
+}

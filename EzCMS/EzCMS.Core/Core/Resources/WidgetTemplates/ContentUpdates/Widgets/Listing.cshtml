@@ -1,0 +1,16 @@
+<ul class="content-updates">
+    @foreach (var item in Model.PageLogs)
+    {
+        <li class="content-update-item">
+            <div>Page: <a href="/@item.Page.FriendlyUrl">@item.Page.Title</a></div>
+            <ul class="content-logs">
+                @foreach (var log in item.Logs)
+                {
+                    <li classs="content-log-item">
+                        @log.ChangeDate.ToString() : @Raw(log.ChangeLog)
+                    </li>
+                }
+            </ul>
+        </li>
+    }
+</ul>

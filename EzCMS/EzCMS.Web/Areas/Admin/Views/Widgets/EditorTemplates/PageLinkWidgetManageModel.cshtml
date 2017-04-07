@@ -1,0 +1,58 @@
+﻿@model EzCMS.Core.Models.Pages.WidgetManageModels.PageLinkWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PageId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.PageId, Model.Pages, T("Widget_PageLink_Text_SelectPageToRender"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.PageId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PageId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RenderHtmlLink, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.AceCheckBoxFor(m => m.RenderHtmlLink, false, new { id = "RenderHtmlLink", @class = "curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.RenderHtmlLink, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RenderHtmlLink)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ClassName, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.ClassName, new { @class = "link-details col-xs-10 curly-bracket-parameter", disabled = "disabled" })
+        @Html.HelpTextFor(m => m.ClassName, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ClassName)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Title, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.Title, new { @class = "link-details col-xs-10 curly-bracket-parameter", disabled = "disabled" })
+        @Html.HelpTextFor(m => m.Title, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $("#RenderHtmlLink").change(function () {
+            if ($(this).is(":checked")) {
+                $(".link-details").removeAttr("disabled");
+            } else {
+                $(".link-details").attr("disabled", "disabled");
+            }
+        });
+
+        $(function () {
+            $(".RenderHtmlLink").trigger("change");
+        });
+    </script>);
+}

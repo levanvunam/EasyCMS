@@ -1,0 +1,111 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "EventCategory")
+</div>
+<div class="col-xs-12">
+    <table id="event-category-grid-table"></table>
+    <div id="event-category-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        // Edit event category
+        function editEventCategory(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "EventCategories")/" + id,
+                type: 'iframe',
+                width: '60%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(eventCategoryGrid);
+                }
+            });
+        }
+
+        // Delete event - event category mapping
+        function deleteEventEventCategoryMapping(id) {
+            var data = { categoryId: id, eventId: '@Model' };
+
+            siteHelper.confirm('@T("EventEventCategory_Message_DeleteMappingConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteEventEventCategoryMapping", "EventCategories")",
+                        data: data,
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                jqGridHelper.reloadGrid(eventCategoryGrid);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+        * Setup grid
+        */
+        var $dirty = false;
+        var eventCategoryGrid = "#event-category-grid-table";
+        var eventCategoryGridPager = "#event-category-grid-pager";
+        var eventCategoryTab = "#event-categories";
+        var eventCategoryGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "Event Category"})');
+        var eventCategoryExportUrl = "@Url.Action("Exports", "EventCategories", new { eventId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "EventCategories", new { eventId = Model })",
+                colNames: ['', 'Id', 'Name', 'Parent', 'Order', '@LabelForTime("Created")', 'By', '@LabelForTime("Last Update")', 'By'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 120,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:editEventCategory(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "EventCategories")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete event - event category mapping
+                            var deleteRelationshipIcon = "<a class='grid-action' href='javascript:deleteEventEventCategoryMapping(" + options.rowId + ")'><div class='ui-pg-div' title='@T("EventEventCategory_Text_Delete")'><span class='fa fa-chain-broken'></span></div></a>";
+
+                            // Delete event category icon
+                            var returnUrl = "@Url.Action("Details", new {id = Model})";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "EventCategories")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteRelationshipIcon + deleteIcon;
+                        }
+                    },
+                        { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                        { name: 'Name', index: 'Name' },
+                        {
+                            name: 'ParentName',
+                            index: 'ParentName',
+                            formatter: function (cellvalue, options, rowObject) {
+                                if (rowObject.ParentId != null) {
+                                    return jqGridHelper.formatLink('@Url.Action("Details", "EventCategories")/' + rowObject.ParentId, cellvalue, cellvalue, true);
+                                }
+                                return "";
+                            }
+                        },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Created', index: 'Created', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy' },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-event-category").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(eventCategoryGrid, eventCategoryGridPager, gridOptions, eventCategoryGridSettings, eventCategoryTab, eventCategoryExportUrl, "EventCategory");
+        });
+    </script>);
+}

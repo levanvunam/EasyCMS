@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.Notices.WidgetManageModels.NoticeBoardWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.NoticeTypeId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.NoticeTypeId, Model.NoticeTypes, T("Widget_NoticeBoard_Text_SelectNoticeType"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.NoticeTypeId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.NoticeTypeId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Number, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.TextBoxFor(m => m.Number, new { @class = "input-number curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Number, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Number)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>

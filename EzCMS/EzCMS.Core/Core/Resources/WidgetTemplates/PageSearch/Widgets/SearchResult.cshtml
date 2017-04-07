@@ -1,0 +1,23 @@
+﻿<div id="search-result">
+    <div>There are <strong>{Total}</strong> item(s) match with your keyword</div>
+    @foreach (var item in Model.SearchResults)
+    {
+        <ul>
+            <li class="search-content">
+                <a href="/@item.Url" target="_blank">@item.Title</a>
+            </li>
+            <li>
+                Points: @item.TotalPoints
+            </li>
+            <li class="search-content">
+                Keywords: @item.Keywords
+            </li>
+            <li class="search-content">
+                Abstract: @item.Abstract
+            </li>
+            <li class="search-content">
+                @Raw(item.Content)
+            </li>
+        </ul>
+    }
+</div>

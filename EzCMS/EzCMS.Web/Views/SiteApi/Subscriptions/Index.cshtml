@@ -1,0 +1,9 @@
+﻿@model Ez.Framework.Core.Entity.RepositoryBase.Models.ResponseModel
+
+@{
+    Layout = "~/Views/Shared/_CleanLayout.cshtml";
+    ViewBag.Title = T("Subscription_Site_ClientTitle");
+}
+
+<h1>@Html.Raw(Model.Message)</h1>
+<p><a href="/">Click Here</a> to return to the Homepage</p>

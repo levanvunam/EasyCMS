@@ -1,0 +1,67 @@
+﻿@model bool
+
+@Html.ReturnHiddenField()
+
+@if (ViewBag.IsPopup != null && (bool)ViewBag.IsPopup)
+{
+    <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-primary btn-responsive" type="submit" onclick="parent.$dirty = true;" value="@SubmitType.PopupSave" name="Submit">
+            <i class="fa fa-check bigger-110"></i>
+            @if (!Model)
+            {
+                @T("System_Text_SubmitButtonsCreate")
+            }
+            else
+            {
+                @T("System_Text_SubmitButtonsSave")
+            }
+        </button>
+        <button class="btn btn-info btn-responsive" type="submit" onclick="parent.$dirty = true;" value="@SubmitType.SaveAndContinueEdit" name="Submit">
+            <i class="fa fa-check bigger-110"></i>
+            @if (!Model)
+            {
+                @T("System_Text_SubmitButtonsCreateAndContinueEdit")
+            }
+            else
+            {
+                @T("System_Text_SubmitButtonsSaveAndContinueEdit")
+            }
+        </button>
+        <button class="btn btn-responsive" onclick="parent.$.fancybox.close();">
+            <i class="fa fa-times bigger-110"></i>
+            @T("System_Text_SubmitButtonsClose")
+        </button>
+    </div>
+}
+else
+{
+    <div class="col-sm-offset-3 col-sm-9">
+        @Html.BackLink(Url.Action("Index"))
+        <button class="btn btn-primary btn-responsive" type="submit" value="@SubmitType.Save" name="Submit">
+            <i class="fa fa-check bigger-110"></i>
+            @if (!Model)
+            {
+                @T("System_Text_SubmitButtonsCreate")
+            }
+            else
+            {
+                @T("System_Text_SubmitButtonsSave")
+            }
+        </button>
+        <button class="btn btn-info btn-responsive" type="submit" value="@SubmitType.SaveAndContinueEdit" name="Submit">
+            <i class="fa fa-check bigger-110"></i>
+            @if (!Model)
+            {
+                @T("System_Text_SubmitButtonsCreateAndContinueEdit")
+            }
+            else
+            {
+                @T("System_Text_SubmitButtonsSaveAndContinueEdit")
+            }
+        </button>
+        <button class="btn btn-responsive" onclick="location.href = window.location.href;" type="reset">
+            <i class="fa fa-undo bigger-110"></i>
+            @T("System_Text_SubmitButtonsReset")
+        </button>
+    </div>
+}

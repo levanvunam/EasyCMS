@@ -1,0 +1,134 @@
+﻿@model EzCMS.Core.Models.Pages.PageDeleteModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Page_Site_Header");
+    ViewBag.Title = TFormat("Page_Site_DeleteTitle", Model.Title);
+    ViewBag.Description = T("Page_Site_DeleteDescription");
+
+    var callback = HttpContext.Request["callback"];
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="clearfix"></div>
+@ShowStatusMessage()
+<div class="row">
+    <div class="col-xs-12">
+        @using (Ajax.BeginForm("Delete", "Pages", new AjaxOptions
+        {
+            OnBegin = "siteHelper.showLoading",
+            OnComplete = "siteHelper.hideLoading",
+            OnSuccess = "DeleteSuccess",
+        }, new { @class = "form-horizontal", id = "pageForm" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@Html.Raw(TFormat("Page_Text_FoundPagesReferenced", "<b>" + @Model.ReferencePages.Count + "</b>"))</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <ul>
+                            @foreach (var item in Model.ReferencePages)
+                            {
+                                <li>
+                                    <a href="@item.FriendlyUrl" target="_blank">@item.Title</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            if (Model.ReferencePages.Any())
+            {
+                <div class="space-12"></div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        @foreach (var item in Model.UrlTypes)
+                        {
+                            <label class="inline mg10r">
+                                <input name="UrlType" value="@item" type="radio" class="ace urlType" @(item == Model.UrlType ? "Checked" : "") />
+                                <span class="lbl">&nbsp; @item.GetEnumName()</span>
+                            </label>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.ReplacePageId, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.ReplacePageId, Model.Pages, T("Page_Text_SelectPage"), new { @class = "col-sm-8 col-xs-10 single-select" })
+                        @Html.HelpTextFor(m => m.ReplacePageId, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.ReplacePageId)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.ReplaceUrl, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.ReplaceUrl, new { @class = "col-sm-8 col-xs-10" })
+                        @Html.HelpTextFor(m => m.ReplaceUrl, new { @class = "help-button" })
+                        @Html.ValidationMessageFor(m => m.ReplaceUrl)
+                    </div>
+                </div>
+            }
+
+            <div class="space-12"></div>
+            <h4>@T("Page_Message_RemovePageConfirm")</h4>
+            <div class="space-12"></div>
+            <button class="btn btn-primary btn-responsive" type="submit">
+                <i class="fa fa-check bigger-110"></i>
+                @T("Page_Text_DeleteButton")
+            </button>
+            <button type="button" class="btn btn-responsive" onclick="parent.$.fancybox.close();">
+                <i class="fa fa-times bigger-110"></i>                
+                @T("Page_Text_CancelButton")
+            </button>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var callback = "@callback";
+        function DeleteSuccess(response) {
+            if (response.Success) {
+                parent.$.fancybox.close();
+                if (callback != '') {
+                    siteHelper.executeFunction(callback, parent.window, "@Model.Id");
+                }
+            } else {
+                siteHelper.alert(response.Message);
+            }
+        }
+
+        $(".urlType").change(function () {
+            $(".field-validation-error span").html("");
+            if ($(this).val() == "@CommonEnums.UrlType.Internal") {
+                $("#ReplaceUrl").attr("disabled", "disabled");
+                $("#ReplacePageId").removeAttr("disabled");
+            } else {
+                $("#ReplacePageId").attr("disabled", "disabled");
+                $("#ReplaceUrl").removeAttr("disabled");
+            }
+        });
+
+        $(function () {
+            $(".urlType:checked").trigger("change");
+        });
+    </script>
+}

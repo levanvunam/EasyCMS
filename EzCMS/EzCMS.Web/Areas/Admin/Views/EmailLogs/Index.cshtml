@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Header = T("EmailLog_Site_Header");
+    ViewBag.Title = T("EmailLog_Site_ListingTitle");
+    ViewBag.Description = T("EmailLog_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Email Queue" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("EmailLog_Field_Id")',
+                '@T("EmailLog_Field_Priority")',
+                '@T("EmailLog_Field_From")',
+                '@T("EmailLog_Field_FromName")',
+                '@T("EmailLog_Field_To")',
+                '@T("EmailLog_Field_ToName")',
+                '@T("EmailLog_Field_CC")',
+                '@T("EmailLog_Field_BCC")',
+                '@T("EmailLog_Field_Subject")',
+                '@LabelForTime(T("EmailLog_Field_SendLater"))',
+                '@T("EmailLog_Field_SentTries")',
+                '@T("EmailLog_Field_IsSent")',
+                '@LabelForTime(T("EmailLog_Field_SentOn"))',
+                '@T("EmailLog_Field_RecordOrder")',
+                '@LabelForTime(T("EmailLog_Field_Created"))',
+                '@T("EmailLog_Field_CreatedBy")',
+                '@LabelForTime(T("EmailLog_Field_LastUpdate"))',
+                '@T("EmailLog_Field_LastUpdateBy")'],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 120,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var detailIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var logIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "#email-queue-tab'><div class='ui-pg-div' title='@T("EmailLog_Text_ViewLogs")'><span class='fa fa-book'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        var resendIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=resend'><div class='ui-pg-div' title='@T("EmailLog_Text_ResendEmail")'><span class='fa fa-mail-reply'></span></div></a>";
+                        if (rowObject.IsSent) {
+                            resendIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("EmailLog_Text_EmailSent")'><span class='fa fa-mail-reply grey'></span></div></a>";
+                        }
+
+                        return detailIcon + logIcon + deleteIcon + resendIcon;
+                    }
+                },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Priority', index: 'Priority' },
+                    { name: 'From', index: 'From' },
+                    { name: 'FromName', index: 'FromName', hidden: true },
+                    { name: 'To', index: 'To' },
+                    { name: 'ToName', index: 'ToName', hidden: true },
+                    { name: 'CC', index: 'CC', hidden: true },
+                    { name: 'BCC', index: 'BCC', hidden: true },
+                    { name: 'Subject', index: 'Subject' },
+                    { name: 'SendLater', index: 'SendLater', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'SentTries', index: 'SentTries', width: 90, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    {
+                        name: 'IsSent',
+                        index: 'IsSent',
+                        hidden: true,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'SentOn', index: 'SentOn', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

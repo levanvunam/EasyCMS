@@ -1,0 +1,79 @@
+﻿@model EzCMS.Core.Models.Users.Settings.ManageSettingModel
+
+@using (Ajax.BeginForm("Settings", new AjaxOptions
+{
+    OnBegin = "siteHelper.showLoading",
+    OnComplete = "siteHelper.hideLoading",
+    OnSuccess = "OnSavingSettingSuccess"
+}))
+{
+    @Html.HiddenFor(m => m.UserId)
+    <div class="form-horizontal">
+        <div class="tabbable">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a data-toggle="tab" href="#home">
+                        <i class="pink fa fa-user bigger-110"></i>
+                        @T("Account_Text_SettingProfileIsAdminTitle")
+                    </a>
+                </li>
+
+                <li>
+                    <a data-toggle="tab" href="#others">
+                        <i class="blue fa fa-photo bigger-110"></i>
+                        @T("Account_Text_SettingProfileIsOtherUserTypesTitle")
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane in active" style="min-height: 500px">
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.AdminPageSize, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            @Html.TextBoxFor(m => m.AdminPageSize, new { @class = "input-number" })
+                            @Html.HelpTextFor(m => m.AdminPageSize, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.AdminPageSize)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.TimeZone, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(m => m.TimeZone, Model.TimeZones, new { @class = "single-select col-xs-10" })
+                            @Html.HelpTextFor(m => m.TimeZone, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.TimeZone)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Culture, new { @class = "col-sm-3 control-label" })
+                        <div class="col-sm-9">
+                            @Html.DropDownListFor(m => m.Culture, Model.Cultures, new { @class = "single-select col-xs-10" })
+                            @Html.HelpTextFor(m => m.Culture, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Culture)
+                        </div>
+                    </div>
+                </div>
+
+                <div id="others" class="tab-pane" style="min-height: 500px">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="space-10"></div>
+    <div class="clearfix">
+        <div class="col-md-offset-3 col-md-9">
+            <button class="btn btn-primary" type="submit">
+                <i class="fa fa-check bigger-110"></i>
+                @T("Account_Text_SettingMyProfileSaveButton")
+            </button>
+        </div>
+    </div>
+}
+
+@{
+    Script.Block(@<script type="text/javascript">
+        function OnSavingSettingSuccess(response) {
+            siteHelper.showMessage(response);
+        }
+    </script>);
+}

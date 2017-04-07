@@ -1,0 +1,53 @@
+﻿@model EzCMS.Core.Models.Notifications.Setup.NotificationSetup.NotificationConfirmationModel
+
+<div class="form-horizontal">
+    <h2>@T("Notification_Text_ConfirmNotificationHeader")</h2>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NotificationSubject, new { @class = "col-sm-5 control-label" })
+        <div class="col-sm-7 col-xs-12 control-value">
+            @Model.NotificationSubject
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.NotificationTemplateName, new { @class = "col-sm-5 control-label align-right" })
+        <div class="col-sm-7 col-xs-12 control-value">
+            @Html.DisplayFor(m => m.NotificationTemplateName)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.ContactGroupName, new { @class = "col-sm-5 control-label align-right" })
+        <div class="col-sm-7 col-xs-12 control-value">
+            @if (!string.IsNullOrEmpty(Model.ContactGroupName))
+            {
+                @Html.DisplayFor(m => m.ContactGroupName)
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.TotalRecipients, new { @class = "col-sm-5 control-label align-right" })
+        <div class="col-sm-7 col-xs-12 control-value">
+            @Html.DisplayFor(m => m.TotalRecipients)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-5 control-label align-right">@T("Notification_Text_DeliveryDate")</label>
+        <div class="col-sm-7 col-xs-12 control-value">
+            @ToLocalDateTime(Model.SendTime).ToDateFormat()
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-5 control-label align-right">@T("Notification_Text_DeliveryTime")</label>
+        <div class="col-sm-7 col-xs-12 control-value">
+            @if (Model.SendTime != null)
+            {
+                @ToLocalDateTime(Model.SendTime).ToTimeFormat();
+            }
+        </div>
+    </div>
+    <div class="clearfix form-actions align-right left-0">
+        <div class="no-margin align-right">
+            <button type="button" class="btn btn-default" onclick="$.fancybox.close();"><i class="fa fa-times bigger-110"></i> @T("Notification_Text_ConfirmNotificationCancel")</button>
+            <button class="btn btn-success" type="button" onclick="submitForm()">@T("Notification_Text_ConfirmNotificationNext") <i class="ace-icon fa fa-envelope-o icon-on-right"></i></button>
+        </div>
+    </div>
+</div>

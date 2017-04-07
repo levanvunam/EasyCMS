@@ -1,0 +1,1205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C864E852-11AE-4E1F-A2CE-B4E48B0AD4B1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>EzCMS.Core</RootNamespace>
+    <AssemblyName>EzCMS.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging">
+      <HintPath>..\..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.9.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RazorEngine.3.9.3\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Recaptcha.Web, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\RecaptchaNet.1.8.0\lib\net45\Recaptcha.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Simple.ImageResizer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Simple.ImageResizer.2.1.0\lib\net40\Simple.ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=2.8.3.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\SimpleInjector.2.8.3\lib\net45\SimpleInjector.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Westwind.Utilities">
+      <HintPath>..\..\packages\Westwind.Utilities.2.64\lib\net45\Westwind.Utilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\BackgroundTasks\AccountExpiresNotifications\AccountExpiresNotificationTask.cs" />
+    <Compile Include="Core\BackgroundTasks\AccountExpiresNotifications\AccountExpiresNotificationTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\DailyTask\EzCMSDailyTask.cs" />
+    <Compile Include="Core\BackgroundTasks\DailyTask\EzCMSDailyTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\DeactivationAccounts\DeactivationExpiredAccountsTask.cs" />
+    <Compile Include="Core\BackgroundTasks\DeactivationAccounts\DeactivationExpiredAccountsTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\Emails\EmailTask.cs" />
+    <Compile Include="Core\BackgroundTasks\Emails\EmailTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\CleanupLogs\CleanupLogsTask.cs" />
+    <Compile Include="Core\BackgroundTasks\CleanupLogs\CleanupLogsTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\Notifications\NotificationTask.cs" />
+    <Compile Include="Core\BackgroundTasks\Notifications\NotificationTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\SlideInHelps\SlideInHelpUpdatingTask.cs" />
+    <Compile Include="Core\BackgroundTasks\SlideInHelps\SlideInHelpUpdatingTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\Subscriptions\DirectlyTask\SubscriptionDirectlyTask.cs" />
+    <Compile Include="Core\BackgroundTasks\Subscriptions\DirectlyTask\SubscriptionDirectlyTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\Subscriptions\NightlyTask\SubscriptionNightlyTask.cs" />
+    <Compile Include="Core\BackgroundTasks\Subscriptions\NightlyTask\SubscriptionNightlyTaskSetup.cs" />
+    <Compile Include="Core\Resources\Languages\Resources1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Core\StarterKits\Blog\BlogStarterKit.cs" />
+    <Compile Include="Core\WidgetResolvers\Associates\AssociateListingResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\Common\GoogleAnalyticResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Events\EventSchedulesResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Forms\FormResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Links\LinksResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Locations\LocationResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\Locations\LocatorResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\Navigations\NavigationResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\NewsCategories\NewsCategoryDetailsResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\NewsCategories\NewsCategoryListingResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\News\NewsDetailsResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\News\NewsListingResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Notices\NoticeBoardResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Pages\BreadcrumbsResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Pages\MembersResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Pages\PageLinkResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\Pages\PageContentResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Pages\PageSearchResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Polls\PollResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\Polls\PollResultResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\ProtectedDocuments\ProtectedDocumentFilesResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\ProtectedDocuments\ProtectedDocumentsResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\RotatingImages\RotatingImageResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\RssFeeds\RssFeedResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\Services\ServicesResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\SiteMap\SiteMapResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\SiteMap\SiteMapSimpleResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\SocialMedia\SocialFeedResolver.cs" />
+    <Compile Include="Core\WidgetResolvers\Subscriptions\ContentUpdateResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Subscriptions\SubscriptionResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\WidgetResolvers\Testimonials\TestimonialsResolver.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\DataSetup\FormInitializer.cs" />
+    <Compile Include="Core\DataSetup\SocialMediaInitializer.cs" />
+    <Compile Include="Core\DataSetup\ToolbarInitializer.cs" />
+    <Compile Include="Core\DataSetup\NotificationTemplateInitializer.cs" />
+    <Compile Include="Core\DataSetup\SubscriptionTemplateInitializer.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\AccountExpiredSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\CaptchaSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\CleanupLogsSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\CompanySetupSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\DocumentTypeMappingSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\EditorSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\ErrorHandlingSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\EventConfiguration.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\EzCMSHelpConfigurationSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\FormBuilderSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\GoogleAnalyticApiSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\GoogleMapsSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\GridRowListSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\IconSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\ImageUploadSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\LoginTemplateSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\NotificationConfigurationSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\PageSearchSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\PasswordSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\RobotsSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\SEOScoringSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\SubscriptionConfigurationSetting.cs" />
+    <Compile Include="Core\SiteSettings\ComplexSettings\UserLoginSetting.cs" />
+    <Compile Include="Framework\Attributes\Validation\EzCMSPasswordComplexValidationAttribute.cs" />
+    <Compile Include="Framework\Configuration\EzCMSContants.cs" />
+    <Compile Include="Framework\Context\Helper\WorkContextHelper.cs" />
+    <Compile Include="Framework\EmbeddedResource\EmbeddedResourceHelper.cs" />
+    <Compile Include="Framework\EmbeddedResource\ResourceTypeEnums.cs" />
+    <Compile Include="Framework\Enums\EditorEnums.cs" />
+    <Compile Include="Framework\Enums\PermissionEnums.cs" />
+    <Compile Include="Framework\Mvc\ApiAssemblyResolver.cs" />
+    <Compile Include="Framework\Mvc\Controllers\BackendController.cs" />
+    <Compile Include="Framework\Navigations\AdministratorNavigationAttribute.cs" />
+    <Compile Include="Framework\Plugins\Resources\IResourceRegister.cs" />
+    <Compile Include="Framework\Plugins\Route\RoutingRegister.cs" />
+    <Compile Include="Framework\SiteSettings\ComplexSetting.cs" />
+    <Compile Include="Framework\Utilities\EzCMSUtilities.cs" />
+    <Compile Include="Framework\Utilities\RouteUtilities.cs" />
+    <Compile Include="Models\AnonymousContacts\AnonymousContactModel.cs" />
+    <Compile Include="Models\AnonymousContacts\AnonymousContactSearchModel.cs" />
+    <Compile Include="Models\BackgroundTasks\BackgroundTaskLogsDateModel.cs" />
+    <Compile Include="Models\BackgroundTasks\BackgroundTaskLogsModel.cs" />
+    <Compile Include="Models\BackgroundTasks\BackgroundTaskManageModel.cs" />
+    <Compile Include="Models\BackgroundTasks\BackgroundTaskModel.cs" />
+    <Compile Include="Models\CampaignCodes\CampaignCodeManageModel.cs" />
+    <Compile Include="Models\CampaignCodes\CampaignCodeModel.cs" />
+    <Compile Include="Models\ClientNavigations\ClientBreadCrumbModel.cs" />
+    <Compile Include="Models\ClientNavigations\ClientNavigationManageModel.cs" />
+    <Compile Include="Models\ClientNavigations\ClientNavigationModel.cs" />
+    <Compile Include="Models\ClientNavigations\ClientNavigationRenderingModel.cs" />
+    <Compile Include="Models\ClientNavigations\WidgetManageModels\NavigationWidgetManageModel.cs" />
+    <Compile Include="Models\ClientNavigations\Widgets\CacheNavigation.cs" />
+    <Compile Include="Models\ClientNavigations\Widgets\NavigationWidget.cs" />
+    <Compile Include="Models\ClientNavigations\Widgets\NavigationNodeModel.cs" />
+    <Compile Include="Models\Companies\CompanySearchModel.cs" />
+    <Compile Include="Models\Events\EventSearchModel.cs" />
+    <Compile Include="Models\FavouriteNavigations\FavouriteNavigationModel.cs" />
+    <Compile Include="Models\Links\LinkSearchModel.cs" />
+    <Compile Include="Models\Navigations\Breadcrumb.cs" />
+    <Compile Include="Models\Navigations\BreadcrumbModel.cs" />
+    <Compile Include="Models\Navigations\NavigationItemModel.cs" />
+    <Compile Include="Models\Navigations\NavigationModel.cs" />
+    <Compile Include="Models\NewsReads\NewsReadModel.cs" />
+    <Compile Include="Models\NewsReads\NewsReadSearchModel.cs" />
+    <Compile Include="Models\News\NewsSearchModel.cs" />
+    <Compile Include="Models\Notices\NoticeSearchModel.cs" />
+    <Compile Include="Models\PageReads\PageReadModel.cs" />
+    <Compile Include="Models\Associates\AssociateSearchModel.cs" />
+    <Compile Include="Models\Associates\WidgetManageModels\AssociateListingWidgetManageModel.cs" />
+    <Compile Include="Models\Associates\Widgets\AssociateWidget.cs" />
+    <Compile Include="Models\Associates\Widgets\AssociateListingWidget.cs" />
+    <Compile Include="Models\Associates\Widgets\AssociateTypeWidget.cs" />
+    <Compile Include="Models\BodyTemplates\BodyTemplateSelectModel.cs" />
+    <Compile Include="Models\BodyTemplates\ChosenBodyTemplateModel.cs" />
+    <Compile Include="Models\BodyTemplates\HelpServices\BodyTemplateDownloadModel.cs" />
+    <Compile Include="Models\BodyTemplates\HelpServices\BodyTemplateResponseModel.cs" />
+    <Compile Include="Models\Users\UserProfileModel.cs" />
+    <Compile Include="Models\Widgets\WidgetFieldParsingModel.cs" />
+    <Compile Include="Models\EmailTemplates\EmailTemplateSendTestModel.cs" />
+    <Compile Include="Models\ContactGroups\AddToGroupModel.cs" />
+    <Compile Include="Models\Contacts\ContactStatisticModel.cs" />
+    <Compile Include="Models\LinkTrackerClicks\LinkTrackerClickDetailModel.cs" />
+    <Compile Include="Models\Locations\WidgetManageModels\LocatorWidgetManageModel.cs" />
+    <Compile Include="Models\Locations\Widgets\LocationWidget.cs" />
+    <Compile Include="Models\Locations\Widgets\LocatorWidget.cs" />
+    <Compile Include="Models\LocationTypes\Widgets\LocationTypeWidget.cs" />
+    <Compile Include="Models\Notifications\NotifiedContactModel.cs" />
+    <Compile Include="Models\Notifications\NotificationDetailModel.cs" />
+    <Compile Include="Models\Notifications\Setup\ContactGroupSetupModel.cs" />
+    <Compile Include="Models\Contacts\ContactSearchDetailsModel.cs" />
+    <Compile Include="Models\Notifications\Setup\NotificationSetup\NotificationConfigurationSetupModel.cs" />
+    <Compile Include="Models\Notifications\Setup\NotificationSetup\NotificationConfirmationModel.cs" />
+    <Compile Include="Models\PageReads\PageReadSearchModel.cs" />
+    <Compile Include="Models\Pages\PageConfirmChangeUrlModel.cs" />
+    <Compile Include="Models\Pages\PageOrderSetupModel.cs" />
+    <Compile Include="Models\Pages\PageSearchModel.cs" />
+    <Compile Include="Models\Pages\SEOScoringModel.cs" />
+    <Compile Include="Models\PollAnswers\PollAnswerSearchModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\ProtectedDocumentModel.cs" />
+    <Compile Include="Models\RssFeeds\WidgetManageModels\RssFeedWidgetManageModel.cs" />
+    <Compile Include="Models\RssFeeds\Widgets\RssFeedWidget.cs" />
+    <Compile Include="Models\RssFeeds\Widgets\RssItemWidget.cs" />
+    <Compile Include="Models\RssFeeds\RssFeedDetailModel.cs" />
+    <Compile Include="Models\RssFeeds\RssFeedManageModel.cs" />
+    <Compile Include="Models\RssFeeds\RssFeedModel.cs" />
+    <Compile Include="Models\Pages\SecurityModel.cs" />
+    <Compile Include="Models\SiteSettings\SiteSettingManageModel.cs" />
+    <Compile Include="Models\SiteSettings\SiteSettingModel.cs" />
+    <Compile Include="Models\SiteSettings\SiteSettingSearchModel.cs" />
+    <Compile Include="Models\SocialMediaTokens\SocialMediaTokenDetailModel.cs" />
+    <Compile Include="Models\SocialMedia\WidgetManageModels\SocialFeedWidgetManageModel.cs" />
+    <Compile Include="Models\SocialMedia\Widget\SocialFeedWidget.cs" />
+    <Compile Include="Models\SocialMedia\Feed\SocialMediaMessageModel.cs" />
+    <Compile Include="Models\SocialMedia\SocialMediaTokenDetailModel.cs" />
+    <Compile Include="Models\WidgetTemplates\WidgetTemplateBuilder\Shortcut.cs" />
+    <Compile Include="Models\Toolbars\ToolbarManageModel.cs" />
+    <Compile Include="Models\Tools\CookieManager\CookieModel.cs" />
+    <Compile Include="Models\UserLoginHistories\UserLoginHistoryDetailModel.cs" />
+    <Compile Include="Models\UserLoginHistories\UserLoginHistoryModel.cs" />
+    <Compile Include="Models\Toolbars\ToolbarDetailModel.cs" />
+    <Compile Include="Models\Toolbars\ToolbarModel.cs" />
+    <Compile Include="Models\Locations\LocationDetailModel.cs" />
+    <Compile Include="Models\Locations\LocationManageModel.cs" />
+    <Compile Include="Models\Locations\LocationModel.cs" />
+    <Compile Include="Models\Locations\LocationSearchModel.cs" />
+    <Compile Include="Models\LocationTypes\LocationTypeDetailModel.cs" />
+    <Compile Include="Models\LocationTypes\LocationTypeManageModel.cs" />
+    <Compile Include="Models\LocationTypes\LocationTypeModel.cs" />
+    <Compile Include="Models\Banners\WidgetManageModels\BannerWidgetManageModel.cs" />
+    <Compile Include="Models\BodyTemplates\BodyTemplateDetailModel.cs" />
+    <Compile Include="Models\Companies\CompanyDetailModel.cs" />
+    <Compile Include="Models\CompanyTypes\CompanyTypeDetailModel.cs" />
+    <Compile Include="Models\Widgets\WidgetBuilders\WidgetDropdownModel.cs" />
+    <Compile Include="Models\Widgets\WidgetBuilders\WidgetPreviewModel.cs" />
+    <Compile Include="Models\Widgets\WidgetBuilders\SelectWidgetModel.cs" />
+    <Compile Include="Models\EmailAccounts\EmailAccountDetailModel.cs" />
+    <Compile Include="Models\EmailTemplates\EmailTemplateDetailModel.cs" />
+    <Compile Include="Models\AssociateTypes\AssociateTypeDetailModel.cs" />
+    <Compile Include="Models\AssociateTypes\AssociateTypeManageModel.cs" />
+    <Compile Include="Models\AssociateTypes\AssociateTypeModel.cs" />
+    <Compile Include="Models\EventCategories\EventCategoryDetailModel.cs" />
+    <Compile Include="Models\EventCategories\EventCategoryManageModel.cs" />
+    <Compile Include="Models\EventCategories\EventCategoryModel.cs" />
+    <Compile Include="Models\Associates\AssociateDetailModel.cs" />
+    <Compile Include="Models\Associates\AssociateManageModel.cs" />
+    <Compile Include="Models\Associates\AssociateModel.cs" />
+    <Compile Include="Models\EventSchedules\WidgetManageModels\EventSchedulesWidgetManageModel.cs" />
+    <Compile Include="Models\EventSchedules\Widgets\EventScheduleWidget.cs" />
+    <Compile Include="Models\EventSchedules\Widgets\EventSchedulesWidget.cs" />
+    <Compile Include="Models\EventSchedules\EventScheduleDetailModel.cs" />
+    <Compile Include="Models\EventSchedules\EventScheduleManageModel.cs" />
+    <Compile Include="Models\EventSchedules\EventScheduleModel.cs" />
+    <Compile Include="Models\Events\EventCreateModel.cs" />
+    <Compile Include="Models\Events\EventDetailModel.cs" />
+    <Compile Include="Models\Events\EventManageModel.cs" />
+    <Compile Include="Models\Events\EventModel.cs" />
+    <Compile Include="Models\FileTemplates\FileTemplateDetailModel.cs" />
+    <Compile Include="Models\FormComponentFields\FormComponentFieldDetailModel.cs" />
+    <Compile Include="Models\FormComponents\FormComponentDetailModel.cs" />
+    <Compile Include="Models\FormComponents\FormComponentSearchModel.cs" />
+    <Compile Include="Models\FormComponentTemplates\FormComponentTemplateDetailModel.cs" />
+    <Compile Include="Models\FormDefaultComponentFields\FormDefaultComponentFieldDetailModel.cs" />
+    <Compile Include="Models\FormDefaultComponents\FormDefaultComponentDetailModel.cs" />
+    <Compile Include="Models\Forms\WidgetManageModels\FormWidgetManageModel.cs" />
+    <Compile Include="Models\FormTabs\FormTabDetailModel.cs" />
+    <Compile Include="Models\Languages\LanguageManageModel.cs" />
+    <Compile Include="Models\Links\WidgetManageModels\LinksWidgetManageModel.cs" />
+    <Compile Include="Models\Links\Widgets\LinksWidget.cs" />
+    <Compile Include="Models\Links\Widgets\LinkWidget.cs" />
+    <Compile Include="Models\Links\LinkDetailModel.cs" />
+    <Compile Include="Models\LinkTrackerClicks\LinkTrackerClickModel.cs" />
+    <Compile Include="Models\LinkTrackers\LinkTrackerDetailModel.cs" />
+    <Compile Include="Models\LinkTrackers\LinkTrackerManageModel.cs" />
+    <Compile Include="Models\LinkTrackers\LinkTrackerModel.cs" />
+    <Compile Include="Models\LinkTrackers\LinkTrackerSearchModel.cs" />
+    <Compile Include="Models\LinkTrackers\MonthlyClickThrough\LinkTrackerMonthlyClickThroughModel.cs" />
+    <Compile Include="Models\LinkTrackers\MonthlyClickThrough\LinkTrackerMonthlyClickThroughSearchModel.cs" />
+    <Compile Include="Models\LinkTypes\LinkTypeDetailModel.cs" />
+    <Compile Include="Models\LinkTypes\LinkTypeManageModel.cs" />
+    <Compile Include="Models\LinkTypes\LinkTypeModel.cs" />
+    <Compile Include="Models\LocalizedResources\LocalizedResourceSearchModel.cs" />
+    <Compile Include="Models\LocalizedResources\LocalizedResourceManageModel.cs" />
+    <Compile Include="Models\NewsCategories\WidgetManageModels\NewsCategoryWidgetManageModel.cs" />
+    <Compile Include="Models\NewsCategories\NewsCategoryDetailModel.cs" />
+    <Compile Include="Models\News\WidgetManageModels\NewsListingWidgetManageModel.cs" />
+    <Compile Include="Models\News\WidgetManageModels\NewsDetailsWidgetManageModel.cs" />
+    <Compile Include="Models\News\NewsDetailModel.cs" />
+    <Compile Include="Models\Notices\WidgetManageModels\NoticeBoardWidgetManageModel.cs" />
+    <Compile Include="Models\Notices\Widgets\NoticeboardWidget.cs" />
+    <Compile Include="Models\Notices\Widgets\NoticeWidget.cs" />
+    <Compile Include="Models\Notices\NoticeDetailModel.cs" />
+    <Compile Include="Models\NoticeTypes\NoticeTypeDetailModel.cs" />
+    <Compile Include="Models\NoticeTypes\NoticeTypeManageModel.cs" />
+    <Compile Include="Models\NoticeTypes\NoticeTypeModel.cs" />
+    <Compile Include="Models\Notices\NoticeManageModel.cs" />
+    <Compile Include="Models\Notices\NoticeModel.cs" />
+    <Compile Include="Models\Pages\WidgetManageModels\PageLinkWidgetManageModel.cs" />
+    <Compile Include="Models\Pages\WidgetManageModels\PageContentWidgetManageModel.cs" />
+    <Compile Include="Models\Pages\PageDeleteModel.cs" />
+    <Compile Include="Models\Pages\PageDetailModel.cs" />
+    <Compile Include="Models\PageTemplates\PageTemplateDetailModel.cs" />
+    <Compile Include="Models\Pages\Widgets\PageLinkWidget.cs" />
+    <Compile Include="Models\PollAnswers\Widgets\PollAnswerWidget.cs" />
+    <Compile Include="Models\PollAnswers\PollAnswerDetailModel.cs" />
+    <Compile Include="Models\PollAnswers\PollAnswerManageModel.cs" />
+    <Compile Include="Models\PollAnswers\PollAnswerModel.cs" />
+    <Compile Include="Models\Polls\WidgetManageModels\PollWidgetManageModel.cs" />
+    <Compile Include="Models\Polls\WidgetManageModels\PollResultWidgetManageModel.cs" />
+    <Compile Include="Models\Polls\Widgets\PollWidget.cs" />
+    <Compile Include="Models\Polls\Widgets\PollResultWidget.cs" />
+    <Compile Include="Models\Polls\PollChartModel.cs" />
+    <Compile Include="Models\Polls\PollDetailModel.cs" />
+    <Compile Include="Models\Polls\PollManageModel.cs" />
+    <Compile Include="Models\Polls\PollModel.cs" />
+    <Compile Include="Models\ProductOfInterests\ProductOfInterestManageModel.cs" />
+    <Compile Include="Models\ProductOfInterests\ProductOfInterestModel.cs" />
+    <Compile Include="Models\FormDefaultComponentFields\FormDefaultComponentFieldManageModel.cs" />
+    <Compile Include="Models\FormDefaultComponentFields\FormDefaultComponentFieldModel.cs" />
+    <Compile Include="Models\FormDefaultComponents\FormDefaultComponentManageModel.cs" />
+    <Compile Include="Models\FormDefaultComponents\FormDefaultComponentModel.cs" />
+    <Compile Include="Models\FormComponentTemplates\FormComponentTemplateManageModel.cs" />
+    <Compile Include="Models\FormComponentTemplates\FormComponentTemplateModel.cs" />
+    <Compile Include="Models\FormComponents\FormComponentManageModel.cs" />
+    <Compile Include="Models\FormComponents\FormComponentModel.cs" />
+    <Compile Include="Models\Forms\Render\FormElementsModel.cs" />
+    <Compile Include="Models\Forms\Render\FormRenderModel.cs" />
+    <Compile Include="Models\FormTabs\FormTabManageModel.cs" />
+    <Compile Include="Models\FormTabs\FormTabModel.cs" />
+    <Compile Include="Models\FormComponentFields\FormComponentFieldManageModel.cs" />
+    <Compile Include="Models\FormComponentFields\FormComponentFieldModel.cs" />
+    <Compile Include="Models\Common\GoogleAnalyticDashboardModel.cs" />
+    <Compile Include="Models\ContactGroups\ContactGroupDetailModel.cs" />
+    <Compile Include="Models\ContactGroups\ContactGroupModel.cs" />
+    <Compile Include="Models\Links\LinkModel.cs" />
+    <Compile Include="Models\Links\LinkManageModel.cs" />
+    <Compile Include="Models\Forms\Widgets\FormWidget.cs" />
+    <Compile Include="Models\Forms\FormConfigurations\FormTabModel.cs" />
+    <Compile Include="Models\Forms\Render\FormLoaderScriptModel.cs" />
+    <Compile Include="Models\Forms\FormModel.cs" />
+    <Compile Include="Models\Forms\Render\FormIframeLoaderModel.cs" />
+    <Compile Include="Models\Forms\Setup\BuildFormSetupModel.cs" />
+    <Compile Include="Models\Forms\Setup\BuildFormSetup\FormConfigurationModel.cs" />
+    <Compile Include="Models\Forms\Setup\ConfigurationSetupModel.cs" />
+    <Compile Include="Models\Forms\Setup\EmbeddedScriptSetupModel.cs" />
+    <Compile Include="Models\Forms\Setup\FormSetupModel.cs" />
+    <Compile Include="Models\Notifications\ModuleParameters\NotificationPageParameterModel.cs" />
+    <Compile Include="Models\Notifications\NotificationModel.cs" />
+    <Compile Include="Models\Notifications\NotificationTemplates\Base\NotificationEmailModel.cs" />
+    <Compile Include="Models\Notifications\NotificationTemplates\NotificationPageEmailModel.cs" />
+    <Compile Include="Models\Notifications\Setup\NotificationInitializeModel.cs" />
+    <Compile Include="Models\Notifications\Setup\NotificationSetupModel.cs" />
+    <Compile Include="Models\Notifications\Setup\NotificationTemplateSetupModel.cs" />
+    <Compile Include="Models\NotificationTemplates\NotificationTemplateDetailModel.cs" />
+    <Compile Include="Models\NotificationTemplates\NotificationTemplateManageModel.cs" />
+    <Compile Include="Models\NotificationTemplates\NotificationTemplateModel.cs" />
+    <Compile Include="Models\NotificationTemplates\NotificationTemplateResponseModel.cs" />
+    <Compile Include="Models\ProtectedDocumentLogs\ProtectedDocumentLogModel.cs" />
+    <Compile Include="Models\CompanyTypes\CompanyTypeManageModel.cs" />
+    <Compile Include="Models\CompanyTypes\CompanyTypeModel.cs" />
+    <Compile Include="Models\Contacts\ContactCookieModel.cs" />
+    <Compile Include="Models\Contacts\Emails\ContactFormEmailModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\WidgetManageModels\ProtectedDocumentWidgetManageModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\WidgetManageModels\ProtectedDocumentFilesWidgetManageModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\Widgets\ProtectedDocumentWidget.cs" />
+    <Compile Include="Models\ProtectedDocuments\Widgets\ProtectedDocumentFilesWidget.cs" />
+    <Compile Include="Models\ProtectedDocuments\DocumentFeedbackModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\DocumentModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\DocumentPermissionManageModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\DocumentPermissionModel.cs" />
+    <Compile Include="Models\ProtectedDocuments\Emails\ProtectedDocumentEmailModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\WidgetManageModels\RotatingImagesWidgetManageModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\Widgets\RotatingImageWidget.cs" />
+    <Compile Include="Models\RotatingImageGroups\RotatingImageGroupManageModel.cs" />
+    <Compile Include="Models\Services\WidgetManageModels\ServicesWidgetManageModel.cs" />
+    <Compile Include="Models\Services\ServiceDetailModel.cs" />
+    <Compile Include="Models\Shared\ContentPreviewModel.cs" />
+    <Compile Include="Models\Shared\Forms\FormComponentFieldAttributeModel.cs" />
+    <Compile Include="Models\Shared\Maps\ShowMapModel.cs" />
+    <Compile Include="Models\SiteSetup\CompanySetupModel.cs" />
+    <Compile Include="Models\SlideInHelps\HelpServices\SlideInHelpResponseModel.cs" />
+    <Compile Include="Models\Subscriptions\WidgetManageModels\SubscriptionWidgetManageModel.cs" />
+    <Compile Include="Models\Subscriptions\Widgets\ContentUpdates\ContentUpdateWidget.cs" />
+    <Compile Include="Models\SubscriptionLogs\SubscriptionLogManageModel.cs" />
+    <Compile Include="Models\SubscriptionLogs\SubscriptionLogModel.cs" />
+    <Compile Include="Models\Subscriptions\Widgets\ContentUpdates\PageSubscriptionEmailModel.cs" />
+    <Compile Include="Models\Subscriptions\Widgets\SubscriptionWidget.cs" />
+    <Compile Include="Models\Subscriptions\ModuleParameters\SubscriptionPageParameterModel.cs" />
+    <Compile Include="Models\Subscriptions\Subscribers\SubscribeModule.cs" />
+    <Compile Include="Models\Subscriptions\Subscribers\SubscriberModel.cs" />
+    <Compile Include="Models\Subscriptions\SubscriptionTemplates\Base\SubscriptionEmailModel.cs" />
+    <Compile Include="Models\Subscriptions\SubscriptionTemplates\Base\SubscriptionLogItem.cs" />
+    <Compile Include="Models\Subscriptions\Emails\SubscribeNoticationEmailModel.cs" />
+    <Compile Include="Models\Subscriptions\SubscriptionTemplates\PageSubscriptionEmailModel.cs" />
+    <Compile Include="Models\SubscriptionTemplates\SubscriptionTemplateManageModel.cs" />
+    <Compile Include="Models\SubscriptionTemplates\SubscriptionTemplateModel.cs" />
+    <Compile Include="Models\Subscriptions\SubscriptionManageModel.cs" />
+    <Compile Include="Models\Subscriptions\SubscriptionModel.cs" />
+    <Compile Include="Models\Companies\CompanyManageModel.cs" />
+    <Compile Include="Models\Companies\CompanyModel.cs" />
+    <Compile Include="Models\ContactGroups\ContactGroupManageModel.cs" />
+    <Compile Include="Models\Countries\CountryManageModel.cs" />
+    <Compile Include="Models\Countries\CountryModel.cs" />
+    <Compile Include="Core\DataSetup\LanguageInitializer.cs" />
+    <Compile Include="Core\DataSetup\EmailTemplateInitializer.cs" />
+    <Compile Include="Models\Widgets\WidgetSearchModel.cs" />
+    <Compile Include="Models\Widgets\WidgetBuilders\WidgetManageModel.cs" />
+    <Compile Include="Models\Pages\WidgetManageModels\MemberWidgetManageModel.cs" />
+    <Compile Include="Models\EmailLogs\EmailLogDetailModel.cs" />
+    <Compile Include="Models\EmailLogs\EmailSendingLog.cs" />
+    <Compile Include="Models\EmailLogs\ResendEmailModel.cs" />
+    <Compile Include="Models\EmailLogs\SimpleEmailLog.cs" />
+    <Compile Include="Models\Plugins\PluginInformationModel.cs" />
+    <Compile Include="Models\NewsCategories\NewsCategoryManageModel.cs" />
+    <Compile Include="Models\Pages\Widgets\Member\MembersWidget.cs" />
+    <Compile Include="Models\Pages\Widgets\Member\MemberItem.cs" />
+    <Compile Include="Models\Pages\Widgets\Member\BreadcrumbsWidget.cs" />
+    <Compile Include="Models\Pages\Widgets\PageSearch\PageSearchWidget.cs" />
+    <Compile Include="Models\Pages\Widgets\PageSearch\PageSearchItem.cs" />
+    <Compile Include="Models\PageTemplates\PageTemplateRenderModel.cs" />
+    <Compile Include="Models\Shared\PagingModel.cs" />
+    <Compile Include="Models\SubscriptionTemplates\SubscriptionTemplateResponseModel.cs" />
+    <Compile Include="Models\Tags\TagDetailModel.cs" />
+    <Compile Include="Models\Tags\TagManageModel.cs" />
+    <Compile Include="Models\WidgetTemplates\WidgetTemplateSearchModel.cs" />
+    <Compile Include="Models\Testimonials\WidgetManageModels\TestimonialsWidgetManageModel.cs" />
+    <Compile Include="Models\Testimonials\TestimonialDetailModel.cs" />
+    <Compile Include="Models\Toolbars\ToolbarRenderModel.cs" />
+    <Compile Include="Models\Tools\SessionManager\SessionModel.cs" />
+    <Compile Include="Models\UserGroups\GroupItem.cs" />
+    <Compile Include="Models\RemoteAuthentications\RemoteAuthenticationManageModel.cs" />
+    <Compile Include="Models\RemoteAuthentications\RemoteAuthenticationModel.cs" />
+    <Compile Include="Models\BodyTemplates\BodyTemplateManageModel.cs" />
+    <Compile Include="Models\BodyTemplates\BodyTemplateModel.cs" />
+    <Compile Include="Models\BodyTemplates\BodyTemplateSelectorModel.cs" />
+    <Compile Include="Models\EmailTemplates\EmailTemplateManageModel.cs" />
+    <Compile Include="Models\EmailTemplates\EmailTemplateModel.cs" />
+    <Compile Include="Models\EmailTemplates\EmailTemplateResponseModel.cs" />
+    <Compile Include="Models\Shared\CloseFancyBoxViewModel.cs" />
+    <Compile Include="Models\Pages\Sitemap\GoogleSiteMap.cs" />
+    <Compile Include="Models\Pages\Sitemap\GoogleSiteMapUrl.cs" />
+    <Compile Include="Models\SlideInHelps\SlideInHelpDictionaryItem.cs" />
+    <Compile Include="Models\SlideInHelps\SlideInHelpManageModel.cs" />
+    <Compile Include="Models\SlideInHelps\SlideInHelpModel.cs" />
+    <Compile Include="Models\SocialMediaLogs\SocialMediaLogModel.cs" />
+    <Compile Include="Models\SocialMediaTokens\SocialMediaTokenManageModel.cs" />
+    <Compile Include="Models\SocialMediaTokens\SocialMediaTokenModel.cs" />
+    <Compile Include="Models\SocialMedia\SocialMediaManageModel.cs" />
+    <Compile Include="Models\SocialMedia\SocialMediaModel.cs" />
+    <Compile Include="Models\Contacts\ContactSearchModel.cs" />
+    <Compile Include="Models\EmailLogs\EmailLogModel.cs" />
+    <Compile Include="Models\Testimonials\TestimonialManageModel.cs" />
+    <Compile Include="Models\UserGroups\UserGroupDetailModel.cs" />
+    <Compile Include="Models\UserGroups\UserGroupManageModel.cs" />
+    <Compile Include="Models\UserLoginHistories\UserLoginHistorySearchModel.cs" />
+    <Compile Include="Models\Users\Emails\EmailTemplateSetupModel.cs" />
+    <Compile Include="Models\Users\Emails\NotifyAccountDeactivatedEmailModel.cs" />
+    <Compile Include="Models\Users\Emails\NotifyAccountExpiredEmailModel.cs" />
+    <Compile Include="Models\Users\Emails\UserCreatedEmailModel.cs" />
+    <Compile Include="Models\Users\Emails\RegisterEmailModel.cs" />
+    <Compile Include="Models\Users\Emails\ForgotPasswordEmailModel.cs" />
+    <Compile Include="Models\Users\ExtendExpirationDate\ExtendExpirationDateResponseModel.cs" />
+    <Compile Include="Models\Users\Logins\ChangePasswordAfterLoginModel.cs" />
+    <Compile Include="Models\Users\Logins\LoginSetupModel.cs" />
+    <Compile Include="Models\Users\Remotes\RemoteUser.cs" />
+    <Compile Include="Models\Users\Remotes\UserLoginResult.cs" />
+    <Compile Include="Models\Users\Logins\ResetPasswordModel.cs" />
+    <Compile Include="Models\Users\Settings\ManageSettingModel.cs" />
+    <Compile Include="Models\Users\Settings\UserSettingModel.cs" />
+    <Compile Include="Models\Users\ContactUserManageModel.cs" />
+    <Compile Include="Models\Users\SimpleUserManageModel.cs" />
+    <Compile Include="Models\Users\SimpleUserModel.cs" />
+    <Compile Include="Models\Users\UserDetailModel.cs" />
+    <Compile Include="Models\Users\UserSearchModel.cs" />
+    <Compile Include="Models\Users\UserSessionModel.cs" />
+    <Compile Include="Framework\Attributes\ActionFilters\EzCMSCaptchaValidatorAttribute.cs" />
+    <Compile Include="Framework\Attributes\Authorize\WebApiAuthentication.cs" />
+    <Compile Include="Framework\Widgets\Attributes\WidgetParamAttribute.cs" />
+    <Compile Include="Framework\Widgets\Attributes\UsingRaw.cs" />
+    <Compile Include="Framework\Attributes\EditorToolSettingAttribute.cs" />
+    <Compile Include="Framework\Enums\BodyTemplateEnum.cs" />
+    <Compile Include="Framework\Widgets\Widget.cs" />
+    <Compile Include="Framework\Mvc\Controllers\BaseController.cs" />
+    <Compile Include="Framework\Enums\LoginEnums.cs" />
+    <Compile Include="Framework\Enums\WidgetEnums.cs" />
+    <Compile Include="Framework\Exceptions\ProtectedDocuments\DocumentUnauthorizeException.cs" />
+    <Compile Include="Framework\Exceptions\Sites\EzCMSNotFoundException.cs" />
+    <Compile Include="Framework\Exceptions\Users\ServiceNotAvailableException.cs" />
+    <Compile Include="Framework\Exceptions\Users\AccountLockedException.cs" />
+    <Compile Include="Framework\Exceptions\Sites\EzCMSUnauthorizeException.cs" />
+    <Compile Include="Framework\Exceptions\Users\WrongUserNamePasswordException.cs" />
+    <Compile Include="Framework\Mvc\Helpers\DataInitializeHelper.cs" />
+    <Compile Include="Framework\Mvc\Helpers\EzCMSHtmlHelper.cs" />
+    <Compile Include="Framework\Mvc\Helpers\PluginHelper.cs" />
+    <Compile Include="Framework\Mvc\Helpers\RazorEngineHelper.cs" />
+    <Compile Include="Framework\Mvc\ModelBinders\TimeSpanModelBinder.cs" />
+    <Compile Include="Framework\Mvc\ModelBinders\DateTimeModelBinder.cs" />
+    <Compile Include="Models\ContactCommunications\ContactCommunicationManageModel.cs" />
+    <Compile Include="Models\ContactCommunications\ContactCommunicationModel.cs" />
+    <Compile Include="Models\Contacts\ContactDetailModel.cs" />
+    <Compile Include="Models\Contacts\ContactManageModel.cs" />
+    <Compile Include="Models\Contacts\ContactModel.cs" />
+    <Compile Include="Framework\StarterKits\Attributes\StarterKitAttribute.cs" />
+    <Compile Include="Framework\Plugins\Users\IUserLoginRegister.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\Razor\RazorEngine\Configs\RazorEngineCachingProvider.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\Razor\RazorEngine\Configs\RazorEngineReferenceResolver.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\Razor\RazorEngine\Configs\RazorEngineTemplateManager.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\Razor\WebViewPageBase.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\EzCMSRazorEngine.cs" />
+    <Compile Include="Framework\Mvc\Models\WidgetTemplateCache.cs" />
+    <Compile Include="Models\SiteSetup\DatabaseSetupModel.cs" />
+    <Compile Include="Models\SiteSetup\EmailSetupModel.cs" />
+    <Compile Include="Models\SiteSetup\SetupInformationCollection.cs" />
+    <Compile Include="Models\SiteSetup\StarterKitsModel.cs" />
+    <Compile Include="Models\SiteSetup\UserSetupModel.cs" />
+    <Compile Include="Framework\Exceptions\Users\AccountInactiveException.cs" />
+    <Compile Include="Models\WordConverters\HtmlResult.cs" />
+    <Compile Include="Framework\StarterKits\Interfaces\IStarterKit.cs" />
+    <Compile Include="Core\DataSetup\SiteSettingInitializer.cs" />
+    <Compile Include="Models\Banners\Widgets\BannerWidget.cs" />
+    <Compile Include="Models\Banners\BannerManageModel.cs" />
+    <Compile Include="Models\Banners\BannerModel.cs" />
+    <Compile Include="Models\StyleLogs\StyleLogManageModel.cs" />
+    <Compile Include="Models\Styles\Logs\StyleLogItem.cs" />
+    <Compile Include="Models\Styles\Logs\StyleLogsModel.cs" />
+    <Compile Include="Models\Styles\StyleLogListingModel.cs" />
+    <Compile Include="Models\Styles\StyleManageModel.cs" />
+    <Compile Include="Models\Styles\StyleModel.cs" />
+    <Compile Include="Models\Styles\StyleRenderModel.cs" />
+    <Compile Include="Models\ScriptLogs\ScriptLogManageModel.cs" />
+    <Compile Include="Models\Scripts\Logs\ScriptLogItem.cs" />
+    <Compile Include="Models\Scripts\Logs\ScriptLogsModel.cs" />
+    <Compile Include="Models\Scripts\ScriptLogListingModel.cs" />
+    <Compile Include="Models\Scripts\ScriptManageModel.cs" />
+    <Compile Include="Models\Scripts\ScriptModel.cs" />
+    <Compile Include="Models\Scripts\ScriptRenderModel.cs" />
+    <Compile Include="Models\EmailAccounts\EmailAccountManageModel.cs" />
+    <Compile Include="Models\EmailAccounts\EmailAccountModel.cs" />
+    <Compile Include="Models\EmailAccounts\TestEmailModel.cs" />
+    <Compile Include="Models\NewsCategories\Widgets\NewsCategoriesWidget.cs" />
+    <Compile Include="Models\NewsCategories\Widgets\NewsCategoryWidget.cs" />
+    <Compile Include="Models\News\Widgets\NewsListingWidget.cs" />
+    <Compile Include="Models\News\Widgets\NewsWidget.cs" />
+    <Compile Include="Models\Pages\PageSecurityModel.cs" />
+    <Compile Include="Models\PageTemplates\Logs\PageTemplateLogsModel.cs" />
+    <Compile Include="Models\Pages\Logs\PageLogsModel.cs" />
+    <Compile Include="Models\Services\Widgets\ServiceWidget.cs" />
+    <Compile Include="Models\Services\ServiceManageModel.cs" />
+    <Compile Include="Models\Services\ServiceModel.cs" />
+    <Compile Include="Core\SiteSettings\SettingNames.cs" />
+    <Compile Include="Models\SQLTool\SqlCommandHistoryModel.cs" />
+    <Compile Include="Models\SQLTool\DataResult.cs" />
+    <Compile Include="Models\SQLTool\DataTablesDataResult.cs" />
+    <Compile Include="Models\SQLTool\DataTablesParamModel.cs" />
+    <Compile Include="Models\SQLTool\FieldInfo.cs" />
+    <Compile Include="Models\SQLTool\SQLRequest.cs" />
+    <Compile Include="Models\SQLTool\SQLResult.cs" />
+    <Compile Include="Models\WidgetTemplates\Logs\WidgetTemplateLogItem.cs" />
+    <Compile Include="Models\WidgetTemplateLogs\WidgetTemplateLogManageModel.cs" />
+    <Compile Include="Models\WidgetTemplates\Logs\WidgetTemplateLogsModel.cs" />
+    <Compile Include="Models\PageTemplateLogs\PageTemplateLogManageModel.cs" />
+    <Compile Include="Models\PageTemplates\Logs\PageTemplateLogItem.cs" />
+    <Compile Include="Models\PageTemplateLogs\PageTemplateLogModel.cs" />
+    <Compile Include="Models\Pages\Logs\PageLogItem.cs" />
+    <Compile Include="Models\PageLogs\PageLogManageModel.cs" />
+    <Compile Include="Models\PageLogs\PageLogModel.cs" />
+    <Compile Include="Models\FileTemplates\WidgetTemplateModel.cs" />
+    <Compile Include="Models\FileTemplates\FileTemplateManageModel.cs" />
+    <Compile Include="Models\FileTemplates\FileTemplateModel.cs" />
+    <Compile Include="Models\Pages\PageLogListingModel.cs" />
+    <Compile Include="Models\PageTemplates\PageTemplateLogsModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\GroupImageSortingModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\Widgets\RotatingImagesWidget.cs" />
+    <Compile Include="Models\Tags\TagModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\GroupManageSettingModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\GroupSettingModel.cs" />
+    <Compile Include="Models\RotatingImageGroups\RotatingImageGroupModel.cs" />
+    <Compile Include="Models\RotatingImages\RotatingImageManageModel.cs" />
+    <Compile Include="Models\RotatingImages\RotatingImageModel.cs" />
+    <Compile Include="Models\News\NewsManageModel.cs" />
+    <Compile Include="Models\WidgetTemplates\WidgetTemplateLogListingModel.cs" />
+    <Compile Include="Models\WidgetTemplates\WidgetTemplateRenderModel.cs" />
+    <Compile Include="Models\WidgetTemplates\WidgetTemplateManageModel.cs" />
+    <Compile Include="Models\WidgetTemplates\WidgetTemplateModel.cs" />
+    <Compile Include="Models\NewsCategories\NewsCategoryModel.cs" />
+    <Compile Include="Models\News\NewsModel.cs" />
+    <Compile Include="Models\Testimonials\Widgets\TestimonialWidget.cs" />
+    <Compile Include="Models\Testimonials\TestimonialModel.cs" />
+    <Compile Include="Models\Widgets\WidgetSetupModel.cs" />
+    <Compile Include="Models\Pages\PageManageModel.cs" />
+    <Compile Include="Models\Users\UserManageModel.cs" />
+    <Compile Include="Framework\Attributes\ActionFilters\MasterChooserAttribute.cs" />
+    <Compile Include="Framework\Attributes\ErrorHandling\EzCMSErrorHandlingAttribute.cs" />
+    <Compile Include="Framework\Mvc\Controllers\ClientController.cs" />
+    <Compile Include="Framework\Mvc\Helpers\ImageHelper.cs" />
+    <Compile Include="Framework\Logging\Logger.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\Razor\RazorEngine\Configs\RazorEngineMvcHtmlStringFactory.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\Razor\RazorEngine\RazorEngineTemplate.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\ViewResult\MVCTransferResult.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\EzCMSVirtualPathProvider.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\EzCMSVirtualFile.cs" />
+    <Compile Include="Core\WidgetResolvers\Banners\BannerResolver.cs" />
+    <Compile Include="Framework\Mvc\Helpers\WidgetHelper.cs" />
+    <Compile Include="Models\Languages\LanguageModel.cs" />
+    <Compile Include="Models\LocalizedResources\LocalizeDictionaryItem.cs" />
+    <Compile Include="Models\Pages\PageModel.cs" />
+    <Compile Include="Models\Pages\Widgets\PageRenderModel.cs" />
+    <Compile Include="Models\PageTemplates\PageTemplateManageModel.cs" />
+    <Compile Include="Models\PageTemplates\PageTemplateModel.cs" />
+    <Compile Include="Models\UserGroups\GroupPermissionsModel.cs" />
+    <Compile Include="Models\Users\ChangePasswordModel.cs" />
+    <Compile Include="Framework\Attributes\Authorize\EzCMSAuthorizeAttribute.cs" />
+    <Compile Include="Models\LocalizedResources\LocalizedResourceModel.cs" />
+    <Compile Include="Models\UserGroups\UserGroupModel.cs" />
+    <Compile Include="Models\Users\Logins\ForgotPasswordModel.cs" />
+    <Compile Include="Models\Users\Logins\RegisterModel.cs" />
+    <Compile Include="Models\Users\Logins\LoginModel.cs" />
+    <Compile Include="Models\Users\UserModel.cs" />
+    <Compile Include="Framework\Context\WorkContext.cs" />
+    <Compile Include="Framework\Mvc\ViewEngines\Razor\WebViewPage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Framework\StarterKits\StarterKitHelper.cs" />
+    <Compile Include="Services\AnonymousContacts\AnonymousContactService.cs" />
+    <Compile Include="Services\AnonymousContacts\IAnonymousContactService.cs" />
+    <Compile Include="Services\Associates\AssociateService.cs" />
+    <Compile Include="Services\Associates\IAssociateService.cs" />
+    <Compile Include="Services\AssociateTypes\AssociateTypeService.cs" />
+    <Compile Include="Services\AssociateTypes\IAssociateTypeService.cs" />
+    <Compile Include="Services\BackgroundTasks\BackgroundTaskService.cs" />
+    <Compile Include="Services\BackgroundTasks\IBackgroundTaskService.cs" />
+    <Compile Include="Services\Banners\BannerService.cs" />
+    <Compile Include="Services\Banners\IBannerService.cs" />
+    <Compile Include="Services\BodyTemplates\BodyTemplateService.cs" />
+    <Compile Include="Services\BodyTemplates\IBodyTemplateService.cs" />
+    <Compile Include="Services\CampaignCodes\CampaignCodeService.cs" />
+    <Compile Include="Services\CampaignCodes\ICampaignCodeService.cs" />
+    <Compile Include="Services\ClientNavigations\ClientNavigationService.cs" />
+    <Compile Include="Services\ClientNavigations\IClientNavigationService.cs" />
+    <Compile Include="Services\Common\CommonService.cs" />
+    <Compile Include="Services\Common\ICommonService.cs" />
+    <Compile Include="Services\Companies\CompanyService.cs" />
+    <Compile Include="Services\Companies\ICompanyService.cs" />
+    <Compile Include="Services\CompanyTypes\CompanyTypeService.cs" />
+    <Compile Include="Services\CompanyTypes\ICompanyTypeService.cs" />
+    <Compile Include="Services\ContactCommunications\ContactCommunicationService.cs" />
+    <Compile Include="Services\ContactCommunications\IContactCommunicationService.cs" />
+    <Compile Include="Services\ContactGroups\ContactGroupService.cs" />
+    <Compile Include="Services\ContactGroups\IContactGroupService.cs" />
+    <Compile Include="Services\Contacts\ContactService.cs" />
+    <Compile Include="Services\Contacts\IContactService.cs" />
+    <Compile Include="Services\Countries\CountryService.cs" />
+    <Compile Include="Services\Countries\ICountryService.cs" />
+    <Compile Include="Services\Widgets\WidgetResolver\IWidgetResolver.cs" />
+    <Compile Include="Services\Widgets\WidgetService.cs" />
+    <Compile Include="Services\Widgets\IWidgetService.cs" />
+    <Compile Include="Services\EmailAccounts\EmailAccountService.cs" />
+    <Compile Include="Services\EmailAccounts\IEmailAccountService.cs" />
+    <Compile Include="Services\EmailLogs\EmailLogService.cs" />
+    <Compile Include="Services\EmailLogs\IEmailLogService.cs" />
+    <Compile Include="Services\EmailTemplates\EmailTemplateService.cs" />
+    <Compile Include="Services\EmailTemplates\IEmailTemplateService.cs" />
+    <Compile Include="Services\EventCategories\EventCategoryService.cs" />
+    <Compile Include="Services\EventCategories\IEventCategoryService.cs" />
+    <Compile Include="Services\EventSchedules\EventScheduleService.cs" />
+    <Compile Include="Services\EventSchedules\IEventScheduleService.cs" />
+    <Compile Include="Services\Events\EventService.cs" />
+    <Compile Include="Services\Events\IEventService.cs" />
+    <Compile Include="Services\FavouriteNavigations\FavouriteNavigationService.cs" />
+    <Compile Include="Services\FavouriteNavigations\IFavouriteNavigationService.cs" />
+    <Compile Include="Services\FileTemplates\FileTemplateService.cs" />
+    <Compile Include="Services\FileTemplates\IFileTemplateService.cs" />
+    <Compile Include="Services\FormComponentFields\FormComponentFieldService.cs" />
+    <Compile Include="Services\FormComponentFields\IFormComponentFieldService.cs" />
+    <Compile Include="Services\FormComponents\FormComponentService.cs" />
+    <Compile Include="Services\FormComponents\IFormComponentService.cs" />
+    <Compile Include="Services\FormComponentTemplates\FormComponentTemplateService.cs" />
+    <Compile Include="Services\FormComponentTemplates\IFormComponentTemplateService.cs" />
+    <Compile Include="Services\FormDefaultComponentFields\FormDefaultComponentFieldService.cs" />
+    <Compile Include="Services\FormDefaultComponentFields\IFormDefaultComponentFieldService.cs" />
+    <Compile Include="Services\FormDefaultComponents\FormDefaultComponentService.cs" />
+    <Compile Include="Services\FormDefaultComponents\IFormDefaultComponentService.cs" />
+    <Compile Include="Services\Forms\FormService.cs" />
+    <Compile Include="Services\Forms\IFormService.cs" />
+    <Compile Include="Services\FormTabs\FormTabService.cs" />
+    <Compile Include="Services\FormTabs\IFormTabService.cs" />
+    <Compile Include="Services\Languages\ILanguageService.cs" />
+    <Compile Include="Services\Languages\LanguageService.cs" />
+    <Compile Include="Services\Links\ILinkService.cs" />
+    <Compile Include="Services\Links\LinkService.cs" />
+    <Compile Include="Services\LinkTrackerClicks\ILinkTrackerClickService.cs" />
+    <Compile Include="Services\LinkTrackerClicks\LinkTrackerClickService.cs" />
+    <Compile Include="Services\LinkTrackers\ILinkTrackerService.cs" />
+    <Compile Include="Services\LinkTrackers\LinkTrackerService.cs" />
+    <Compile Include="Services\LinkTypes\ILinkTypeService.cs" />
+    <Compile Include="Services\LinkTypes\LinkTypeService.cs" />
+    <Compile Include="Services\Localizes\IEzCMSLocalizedResourceService.cs" />
+    <Compile Include="Services\Localizes\LocalizedResourceService.cs" />
+    <Compile Include="Services\Locations\ILocationService.cs" />
+    <Compile Include="Services\Locations\LocationService.cs" />
+    <Compile Include="Services\LocationTypes\ILocationTypeService.cs" />
+    <Compile Include="Services\LocationTypes\LocationTypeService.cs" />
+    <Compile Include="Services\Plugins\IPluginService.cs" />
+    <Compile Include="Services\Plugins\PluginService.cs" />
+    <Compile Include="Services\Navigations\INavigationService.cs" />
+    <Compile Include="Services\Navigations\NavigationService.cs" />
+    <Compile Include="Services\NewsCategories\INewsCategoryService.cs" />
+    <Compile Include="Services\NewsCategories\NewsCategoryService.cs" />
+    <Compile Include="Services\NewsReads\INewsReadService.cs" />
+    <Compile Include="Services\NewsReads\NewsReadService.cs" />
+    <Compile Include="Services\News\INewsService.cs" />
+    <Compile Include="Services\News\NewsService.cs" />
+    <Compile Include="Services\Notices\INoticeService.cs" />
+    <Compile Include="Services\Notices\NoticeService.cs" />
+    <Compile Include="Services\NoticeTypes\INoticeTypeService.cs" />
+    <Compile Include="Services\NoticeTypes\NoticeTypeService.cs" />
+    <Compile Include="Services\Notifications\INotificationService.cs" />
+    <Compile Include="Services\Notifications\NotificationService.cs" />
+    <Compile Include="Services\NotificationTemplates\INotificationTemplateService.cs" />
+    <Compile Include="Services\NotificationTemplates\NotificationTemplateService.cs" />
+    <Compile Include="Services\PageLogs\IPageLogService.cs" />
+    <Compile Include="Services\PageLogs\PageLogService.cs" />
+    <Compile Include="Services\PageReads\IPageReadService.cs" />
+    <Compile Include="Services\PageReads\PageReadService.cs" />
+    <Compile Include="Services\Pages\IPageService.cs" />
+    <Compile Include="Services\Pages\PageService.cs" />
+    <Compile Include="Services\PageTemplateLogs\IPageTemplateLogService.cs" />
+    <Compile Include="Services\PageTemplateLogs\PageTemplateLogService.cs" />
+    <Compile Include="Services\PageTemplates\IPageTemplateService.cs" />
+    <Compile Include="Services\PageTemplates\PageTemplateService.cs" />
+    <Compile Include="Services\PollAnswers\IPollAnswerService.cs" />
+    <Compile Include="Services\PollAnswers\PollAnswerService.cs" />
+    <Compile Include="Services\Polls\IPollService.cs" />
+    <Compile Include="Services\Polls\PollService.cs" />
+    <Compile Include="Services\ProductOfInterests\IProductOfInterestService.cs" />
+    <Compile Include="Services\ProductOfInterests\ProductOfInterestService.cs" />
+    <Compile Include="Services\ProtectedDocumentLogs\IProtectedDocumentLogService.cs" />
+    <Compile Include="Services\ProtectedDocumentLogs\ProtectedDocumentLogService.cs" />
+    <Compile Include="Services\ProtectedDocuments\DocumentService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\ProtectedDocuments\IDocumentService.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\RemoteAuthentications\IRemoteAuthenticationService.cs" />
+    <Compile Include="Services\RemoteAuthentications\RemoteAuthenticationService.cs" />
+    <Compile Include="Services\RotatingImageGroups\IRotatingImageGroupService.cs" />
+    <Compile Include="Services\RotatingImageGroups\RotatingImageGroupService.cs" />
+    <Compile Include="Services\RotatingImages\IRotatingImageService.cs" />
+    <Compile Include="Services\RotatingImages\RotatingImageService.cs" />
+    <Compile Include="Services\RssFeeds\IRssFeedService.cs" />
+    <Compile Include="Services\RssFeeds\RssFeedService.cs" />
+    <Compile Include="Services\ScriptLogs\IScriptLogService.cs" />
+    <Compile Include="Services\ScriptLogs\ScriptLogService.cs" />
+    <Compile Include="Services\Scripts\IScriptService.cs" />
+    <Compile Include="Services\Scripts\ScriptService.cs" />
+    <Compile Include="Services\Services\IServiceService.cs" />
+    <Compile Include="Services\Services\ServiceService.cs" />
+    <Compile Include="Services\SiteSettings\ISiteSettingService.cs" />
+    <Compile Include="Services\SiteSettings\SiteSettingService.cs" />
+    <Compile Include="Services\SiteSetup\ISiteSetupService.cs" />
+    <Compile Include="Services\SiteSetup\SiteSetupService.cs" />
+    <Compile Include="Services\SlideInHelps\ISlideInHelpService.cs" />
+    <Compile Include="Services\SlideInHelps\SlideInHelpService.cs" />
+    <Compile Include="Services\SocialMediaLogs\ISocialMediaLogService.cs" />
+    <Compile Include="Services\SocialMediaLogs\SocialMediaLogService.cs" />
+    <Compile Include="Services\SocialMediaTokens\ISocialMediaTokenService.cs" />
+    <Compile Include="Services\SocialMediaTokens\SocialMediaTokenService.cs" />
+    <Compile Include="Services\SocialMedia\ISocialMediaService.cs" />
+    <Compile Include="Services\SocialMedia\SocialMediaService.cs" />
+    <Compile Include="Services\SQLTool\ISQLCommandService.cs" />
+    <Compile Include="Services\SQLTool\SQLCommandService.cs" />
+    <Compile Include="Services\SQLTool\SQLExecutor.cs" />
+    <Compile Include="Services\StarterKits\IStarterKitService.cs" />
+    <Compile Include="Services\StarterKits\StarterKitService.cs" />
+    <Compile Include="Services\StyleLogs\IStyleLogService.cs" />
+    <Compile Include="Services\StyleLogs\StyleLogService.cs" />
+    <Compile Include="Services\Styles\IStyleService.cs" />
+    <Compile Include="Services\Styles\StyleService.cs" />
+    <Compile Include="Services\SubscriptionLogs\ISubscriptionLogService.cs" />
+    <Compile Include="Services\SubscriptionLogs\SubscriptionLogService.cs" />
+    <Compile Include="Services\Subscriptions\ISubscriptionService.cs" />
+    <Compile Include="Services\Subscriptions\SubscriptionService.cs" />
+    <Compile Include="Services\SubscriptionTemplates\ISubscriptionTemplateService.cs" />
+    <Compile Include="Services\SubscriptionTemplates\SubscriptionTemplateService.cs" />
+    <Compile Include="Services\Tags\ITagService.cs" />
+    <Compile Include="Services\Tags\TagService.cs" />
+    <Compile Include="Services\WidgetTemplateLogs\IWidgetTemplateLogService.cs" />
+    <Compile Include="Services\WidgetTemplateLogs\WidgetTemplateLogService.cs" />
+    <Compile Include="Services\WidgetTemplates\IWidgetTemplateService.cs" />
+    <Compile Include="Services\WidgetTemplates\WidgetTemplateService.cs" />
+    <Compile Include="Services\Testimonials\ITestimonialService.cs" />
+    <Compile Include="Services\Testimonials\TestimonialService.cs" />
+    <Compile Include="Services\Toolbars\IToolbarService.cs" />
+    <Compile Include="Services\Toolbars\ToolbarService.cs" />
+    <Compile Include="Services\Tools\IToolService.cs" />
+    <Compile Include="Services\Tools\ToolService.cs" />
+    <Compile Include="Services\Tree\HierachyTree.cs" />
+    <Compile Include="Services\Tree\ITree.cs" />
+    <Compile Include="Services\Tree\Tree.cs" />
+    <Compile Include="Services\UserGroups\IUserGroupService.cs" />
+    <Compile Include="Services\UserGroups\UserGroupService.cs" />
+    <Compile Include="Services\UserLoginHistories\IUserLoginHistoryService.cs" />
+    <Compile Include="Services\UserLoginHistories\UserLoginHistoryService.cs" />
+    <Compile Include="Services\Users\IUserService.cs" />
+    <Compile Include="Services\Users\RemoteUsers\IRemoteUserService.cs" />
+    <Compile Include="Services\Users\RemoteUsers\RemoteUserService.cs" />
+    <Compile Include="Services\Users\UserService.cs" />
+    <Compile Include="Services\WorkConverters\IWordConverter.cs" />
+    <Compile Include="Services\WorkConverters\WordConverter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <EmbeddedResource Include="Core\Resources\Languages\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsCategoryListing\Default.NewsCategoryListing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsListing\Default.NewsListing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Banner\Default.Banner.cshtml" />
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\ForgotPasswordTemplate.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Navigations\Default.Navigations.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Pages\HomePage.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Pages\PageError.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Pages\PageNotFound.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Pages\Search.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Pages\SiteMap.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\PageTemplates\Master.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Pages\ContactUs.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Pages\AboutUs.cshtml" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\WidgetTemplates\Navigations.cshtml" />
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\EditorSetting\editor.js" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\EditorSetting\editor.css" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Breadcrumbs\Default.Breadcrumbs.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsDetails\Default.NewsDetails.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsCategoryDetails\Default.NewsCategoryDetails.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Members\Default.Members.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SubscriptionTemplates\PageSubscribeNotification.cshtml" />
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\ContactFormTemplate.cshtml" />
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\SubscribeNotificationTemplate.cshtml" />
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\ProtectedDocumentFeedbackTemplate.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ContentUpdates\Default.ContentUpdates.cshtml" />
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\RegisterUserTemplate.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\ChangePasswordAfterLogin.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\ForgotPassword.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\ForgotPasswordSuccess.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\Login.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\LoginSuccess.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\Register.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\RegisterSuccess.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\ResetPassword.cshtml" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\LoginTemplateSetting\ResetPasswordSuccess.cshtml" />
+    <EmbeddedResource Include="Core\Resources\NotificationTemplates\Default.PageNotification.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\DisplayLinks\Default.DisplayLinks.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Noticeboard\Default.Noticeboard.cshtml" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\DefaultFormComponents.json" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Tabs.json" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Default.EventSchedules.cshtml" />
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\UserCreatedTemplate.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Associates\Default.Associates.cshtml" />
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\AccountExpiredNotificationTemplate.cshtml">
+      <SubType>Code</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Core\Resources\EmailTemplates\DeactiveExpiredAccountNotificationTemplate.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Navigations\Default.Navigations.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Noticeboard\Default.Noticeboard.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageContent\Default.PageContent.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageLink\Default.PageLink.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageSearch\Default.PageSearch.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageSearch\Default.PageSearch.Style.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageSearch\Default.PageSearch.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PollResult\Default.PollResult.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PollResult\Default.PollResult.Style.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PollResult\Default.PollResult.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Poll\Default.Poll.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Poll\Default.Poll.Style.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Poll\Default.Poll.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ProtectedDocumentFiles\Default.ProtectedDocumentFiles.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ProtectedDocuments\Default.ProtectedDocuments.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ProtectedDocuments\Default.ProtectedDocuments.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\RotatingImages\Default.RotatingImages.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\RssFeed\Default.RssFeed.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Services\Default.Services.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\SiteMapSimple\Default.SiteMapSimple.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\SiteMap\Default.SiteMap.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\SiteMap\Default.SiteMap.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\SocialFeed\Default.SocialFeed.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Subscription\Default.Subscription.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Subscription\Default.Subscription.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Testimonials\Default.Testimonials.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Default.EventSchedules.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Breadcrumbs\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Breadcrumbs\Widgets\CurrentBreadcrumb.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ContentUpdates\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\DisplayLinks\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Members\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Testimonials\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\RotatingImages\Widgets\Indicators.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\RotatingImages\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ProtectedDocuments\Widgets\Search.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ProtectedDocuments\Widgets\ActionTemplates.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\ProtectedDocumentFiles\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PollResult\Widgets\SinglePoll.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PollResult\Widgets\PollChart.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageSearch\Widgets\EmptyMessage.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageSearch\Widgets\SearchBox.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageSearch\Widgets\SearchResult.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsListing\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsListing\Widgets\Paging.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsDetails\Widgets\NoNews.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsDetails\Widgets\Details.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsCategoryListing\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsCategoryDetails\Widgets\NoCategory.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsCategoryDetails\Widgets\Paging.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsCategoryDetails\Widgets\NewsList.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Poll\Widgets\Votes.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Poll\Widgets\Result.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\RotatingImages\Widgets\Navigation.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Noticeboard\Widgets\AddButton.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Noticeboard\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Widgets\Listing.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Widgets\AddNewButton.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Widgets\CurrentDay.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Widgets\CurrentMonth.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Widgets\CurrentYear.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Subscription\Widgets\SelectSubscriptionType.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsDetails\Widgets\PostedDay.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsDetails\Widgets\PostedMonth.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\EventSchedules\Widgets\CreateEventLink.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Noticeboard\Widgets\CreateNoticeLink.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\PageSearch\Widgets\SearchItems.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Poll\Widgets\ShowPollResultLink.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Default.Location.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Locator\Default.Locator.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Default.Location.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Default.Location.Style.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Widgets\Address.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Locator\Default.Locator.Style.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Locator\Default.Locator.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Locator\Widgets\DefaultLatitude.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Locator\Widgets\DefaultLongitude.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Locator\Widgets\DefaultZoom.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\SiteMap\Widgets\OrderButton.cshtml">
+      <SubType>Code</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Widgets\DefaultLatitude.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Widgets\DefaultLongitude.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Widgets\DefaultZoom.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Location\Widgets\MarkerTitle.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\NewsDetails\Default.NewsDetails.Script.cshtml" />
+    <EmbeddedResource Include="Core\Resources\WidgetTemplates\Poll\Widgets\VoteLink.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Shared\Grid\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Resources\SiteSettings\ProtectedDocuments\DocumentTypeMappings.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\button.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\checkbox.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\empty.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\heading.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\hidden-input.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\image.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\multiple-checkboxes.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\multiple-radios.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\password-input.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\select-basic.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\select-communication.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\select-multiple.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\text-input.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\text.html" />
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\textarea.html" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\FormBuilder\EmbeddedTemplate.html" />
+    <EmbeddedResource Include="Core\Resources\SiteSettings\FormBuilder\RenderScriptTemplate.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Resources\SiteSettings\FormBuilder\SubmitFormBodyTemplate.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Resources\Others\FormBuilder\Components\select-communication-multiple.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\Resources\Others\Country\Countries.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Ez.Framework\Ez.Framework.csproj">
+      <Project>{e4c5a7db-dbe4-4b52-8bfb-9c5ae0fd3d9f}</Project>
+      <Name>Ez.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\EzCMS.Entity\EzCMS.Entity.csproj">
+      <Project>{887ada4e-4e67-418d-94af-303a655feb4e}</Project>
+      <Name>EzCMS.Entity</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Styles\protected-document.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Styles\template.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Scripts\contact_me.js" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Scripts\jqBootstrapValidation.js" />
+    <EmbeddedResource Include="Core\StarterKits\Blog\Resources\Scripts\main.js" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,22 @@
+﻿@model EzCMS.Core.Models.Shared.CloseFancyBoxViewModel
+@{
+    Layout = null;
+}
+@ShowStatusMessage()
+<script type="text/javascript">
+    if (parent.jQuery().fancybox) {
+        parent.$.fancybox.close();
+        @if (Model.IsReload)
+        {
+            if (string.IsNullOrEmpty(Model.ReturnUrl))
+            {
+                <text>parent.window.location.reload();</text>
+            }
+            else
+            {
+                <text>parent.window.location = "@Model.ReturnUrl"</text>
+            }
+        }
+        
+    }
+</script>

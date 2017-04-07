@@ -1,0 +1,40 @@
+﻿@model EzCMS.Core.Models.Polls.PollChartModel
+@{
+    Layout = null;
+}
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+<style>
+    .poll-chart {
+        width: 900px; 
+        height: 500px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div id=@("pollChart" + @Model.Id) class="poll-chart"></div>
+<h3>@("Total: " + Model.TotalVotes)</h3>
+<script type="text/javascript">
+    google.load("visualization", "1", { packages: ["corechart"] });
+    google.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var pollAnswers = [['Club', 'Votes']];
+        var data = @Html.Raw(Json.Encode(Model.PollAnswers));
+        
+        data.forEach(function(element) {
+            var answer = [element.AnswerText, element.Total];
+            pollAnswers.push(answer);
+        });
+
+        var pollAnswersChartData = google.visualization.arrayToDataTable(pollAnswers);
+
+        var options = {
+            title: "@Model.PollQuestion",
+            is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById("pollChart" + @Model.Id));
+        chart.draw(pollAnswersChartData, options);
+    }
+</script>

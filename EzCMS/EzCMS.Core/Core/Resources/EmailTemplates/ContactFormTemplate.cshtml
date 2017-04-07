@@ -1,0 +1,19 @@
+<div>Hi,</div>
+
+<p>You just receive a contact from @Model.FullName (@Model.Email)</p>
+
+<table>
+    @foreach (var item in Model.ContactInformation)
+    {
+        <tr>
+            <td>
+                @item.Key
+            </td>
+            <td>
+                @item.Value
+            </td>
+        </tr>
+    }
+</table>
+
+<p>Thank you.</p>

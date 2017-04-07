@@ -1,0 +1,112 @@
+﻿@{
+    ViewBag.Header = T("EmailTemplate_Site_Header");
+    ViewBag.Title = T("EmailTemplate_Site_ListingTitle");
+    ViewBag.Description = T("EmailTemplate_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Email Template" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("EmailTemplate_Field_Id")',
+                '@T("EmailTemplate_Field_Subject")',
+                '@T("EmailTemplate_Field_From")',
+                '@T("EmailTemplate_Field_FromName")',
+                '@T("EmailTemplate_Field_CC")',
+                '@T("EmailTemplate_Field_BCC")',
+                '@T("EmailTemplate_Field_Type")',
+                '@LabelForTime(T("EmailTemplate_Field_Created"))',
+                '@T("EmailTemplate_Field_CreatedBy")',
+                '@LabelForTime(T("EmailTemplate_Field_LastUpdate"))',
+                '@T("EmailTemplate_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function (cellvalue, options) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var testEmailIcon = "<a class='grid-action' href='javascript:sendTestEmail(" + options.rowId + ")'><div class='ui-pg-div' title='@T("EmailTemplate_Text_SendTestEmail")'><span class='fa fa-envelope-o'></span></div></a>";
+
+                        return editIcon + detailsIcon + testEmailIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Subject', index: 'Subject' },
+                { name: 'From', index: 'From' },
+                { name: 'FromName', index: 'FromName', hidden: true },
+                { name: 'CC', index: 'CC' },
+                { name: 'BCC', index: 'BCC' },
+                { name: 'TypeName', index: 'SettingTypeName', search: false },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+
+        function sendTestEmail(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("ConfirmSendTestEmail", "EmailTemplates")/" + id,
+                type: 'iframe',
+                width: '60%'
+            });
+        };
+    </script>
+}

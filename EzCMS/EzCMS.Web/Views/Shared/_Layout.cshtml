@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@(ViewBag.Area != null ? string.Format("{0} -", ViewBag.Area) : string.Empty) @ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- plugins -->
+    @Styles.Render("~/styles/plugins")
+
+    @Styles.Render("~/styles/mediabrowser")
+
+    <!-- page specific plugin styles -->
+    @RenderSection("styles", false)
+
+    <!-- render partial/template styles-->
+    @Html.RenderStyles()
+
+    <!-- ace styles -->
+    @Styles.Render("~/styles/ace")
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/template.css")" />
+
+    <!--[if lte IE 8]>
+          <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace-ie.min.css")" />
+    <![endif]-->
+    <!-- ace settings handler -->
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Ace/ace-extra.min.js")"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/html5shiv.js")" ></script>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/respond.min.js")" ></script>
+        <![endif]-->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-2.1.4.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
+    </script>
+    <![endif]-->
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/jqueryui/jquery-ui-1.10.3.full.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Bootstrap/bootstrap.min.js")"></script>
+</head>
+
+<body class="no-skin">
+    <div id="enableCookieMessage" class="alert alert-danger fade in center" style="display: none">
+        @T("System_Message_RequireCookie")
+    </div>
+    @RenderBody()
+    <div style="display: none" id="loading-wrapper">
+        <div class="loading">
+            <div id="spinner-preview"></div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script src='/Scripts/Plugins/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+
+    <!-- plugins -->
+    @Scripts.Render("~/js/plugins")
+
+    <!-- jquery validation -->
+    @Scripts.Render("~/js/validation")
+
+    <!-- ace scripts -->
+    @Scripts.Render("~/js/ace")
+
+    <!-- Globalize -->
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Globalize/globalize.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Globalize/cultures/globalize.culture." + CurrentCulture() + ".js")"></script>
+    
+    <!-- transfer some server variables to javascript variables -->
+    @Html.Partial("Partials/_Variables")
+
+    <!-- media browser scripts -->
+    @Scripts.Render("~/js/mediabrowser")
+
+    <!-- administrator scripts -->
+    @Scripts.Render("~/js/administrator")
+
+    <!-- page specific plugin scripts -->
+    @RenderSection("scripts", false)
+
+    <!-- render partial/template scripts -->
+    @Html.RenderScripts()
+</body>
+</html>

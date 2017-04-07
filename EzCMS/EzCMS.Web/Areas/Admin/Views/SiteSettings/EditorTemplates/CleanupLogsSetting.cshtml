@@ -1,0 +1,73 @@
+﻿@model CleanupLogsSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PageMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.PageMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.PageMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PageMaxBackupLogDays)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PageTemplateMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.PageTemplateMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.PageTemplateMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PageTemplateMaxBackupLogDays)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ProtectedDocumentMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.ProtectedDocumentMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.ProtectedDocumentMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ProtectedDocumentMaxBackupLogDays)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ScriptMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.ScriptMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.ScriptMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ScriptMaxBackupLogDays)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.SocialMediaMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.SocialMediaMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.SocialMediaMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.SocialMediaMaxBackupLogDays)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.StyleMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.StyleMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.StyleMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.StyleMaxBackupLogDays)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.SubscriptionMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.SubscriptionMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.SubscriptionMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.SubscriptionMaxBackupLogDays)
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.TemplateMaxBackupLogDays, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.TemplateMaxBackupLogDays, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.TemplateMaxBackupLogDays, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.TemplateMaxBackupLogDays)
+    </div>
+</div>

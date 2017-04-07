@@ -1,0 +1,4 @@
+- Move Resources to dynamic project
+- Move localize resource to txt file
+- Remove redundant module
+- Restructure the menu

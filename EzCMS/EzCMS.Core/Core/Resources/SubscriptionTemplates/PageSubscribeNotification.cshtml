@@ -1,0 +1,48 @@
+@foreach (var item in Model)
+{
+    <div><strong>Page: <a href="@item.ViewUrl">@item.Page.Title</a></strong> - <a href="@item.RemoveUrl">Click to unsubscribe</a></div>
+    <div><strong>Logs:</strong></div>
+    <ul>
+        @foreach (var log in item.Logs)
+        {
+            <li>@log.ChangeDate.ToString() : @Raw(log.ChangeLog)</li>
+        }
+    </ul>
+    <br />
+    <ul style="list-style:none; padding: 0">
+        <li style="display: inline-block; margin-left: 5px; margin-bottom: 5px;">
+            <a style="padding: 5px 10px;text-decoration: none;color: #fff;display: block;background: #87BBE6;"
+               href="mailto:?subject:@item.Page.Title&body=The sharing a subscription, please look at detail at @item.ViewUrl" target="_blank">
+                Tell A Friend
+            </a>
+        </li>
+        <li style="display: inline-block; margin-left: 5px; margin-bottom: 5px;">
+            <a style="padding: 5px 10px;text-decoration: none;color: #fff;display: block;background: #3B5997;"
+               href="http://www.facebook.com/share.php?u=@item.ViewUrl&title=@item.Page.Title" target="_blank">
+                Facebook
+            </a>
+        </li>
+        <li style="display: inline-block; margin-left: 5px; margin-bottom: 5px;">
+            <a style="padding: 5px 10px;text-decoration: none;color: #fff;display: block;background: #C73838;"
+               href="http://pinterest.com/pin/create/bookmarklet/?url=@item.ViewUrl&is_video=false&description=@item.Page.Title" target="_blank">
+                Pinterest
+            </a>
+        </li>
+        <li style="display: inline-block; margin-left: 5px; margin-bottom: 5px;">
+            <a style="padding: 5px 10px;text-decoration: none;color: #fff;display: block;background: #D64937;"
+               href="https://plus.google.com/share?url=@item.ViewUrl" target="_blank">Google Plus</a>
+        </li>
+        <li style="display: inline-block; margin-left: 5px; margin-bottom: 5px;">
+            <a style="padding: 5px 10px;text-decoration: none;color: #fff;display: block;background: #4498c8;"
+               href="http://www.linkedin.com/shareArticle?mini=true&url=@item.ViewUrl&title=@item.Page.Title" target="_blank">LinkedIn</a>
+        </li>
+        <li style="display: inline-block; margin-left: 5px; margin-bottom: 5px;">
+            <a style="padding: 5px 10px;text-decoration: none;color: #fff;display: block;background: #41B7D8;"
+               href="http://twitter.com/intent/tweet?status=@item.Page.Title+@item.ViewUrl" target="_blank">Twitter</a>
+        </li>
+        <li style="display: inline-block; margin-left: 5px; margin-bottom: 5px;">
+            <a style="padding: 5px 10px;text-decoration: none;color: #fff;display: block;background: #A2A0A0;"
+               href="http://www.reddit.com/submit?url=@item.ViewUrl&title=@item.Page.Title" target="_blank">Reddit</a>
+        </li>
+    </ul>
+}

@@ -1,0 +1,630 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.Pages.PageManageModel
+
+@Html.HiddenFor(m => m.Id)
+@if (Model.Id.HasValue)
+{
+    <input type="hidden" name="confirmedChangeUrl" id="confirmedChangeUrl" value="false" />
+}
+<input type="hidden" name="submitType" id="submitType" />
+@Html.ValidationSummary()
+<div class="form-group">
+    <div class="col-xs-12 col-md-4">
+        <div class="col-xs-12 no-padding">
+            @Html.LocalizeLabelFor(m => m.Title, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.Title, new { @class = "help-button" })
+            @if (Model.Id.HasValue)
+            {
+                <a href="javascript:showGoogleResult()">
+                    <i class="ace-icon fa fa-question-circle"></i>
+                    How you will display in seach results
+                </a>
+            }
+        </div>
+        @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-12", placeholder = T("Page_Text_TitlePlaceHolder") })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+    <div class="col-xs-12 col-sm-9 col-md-4">
+        <div class="space-4 hidden-lg"></div>
+        <div class="col-xs-12 no-padding">
+            @Html.LocalizeLabelFor(m => m.FriendlyUrl, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.FriendlyUrl, new { @class = "help-button" })
+        </div>
+        @Html.Hidden("OldFriendlyUrl", Model.FriendlyUrl)
+        @Html.TextBoxFor(m => m.FriendlyUrl, new { @class = "col-xs-12", id = "FriendlyUrl" })
+        @Html.ValidationMessageFor(m => m.FriendlyUrl)
+    </div>
+    <div class="col-xs-12 col-sm-3 col-md-4">
+        <div class="space-4 hidden-lg"></div>
+        <div class="col-xs-12 no-padding">
+            @Html.LocalizeLabelFor(m => m.Status, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.Status, new { @class = "help-button" })
+        </div>
+        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "single-select-no-search col-xs-12" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12 col-sm-4 col-md-4">
+        <div class="space-4 hidden-lg"></div>
+        <div class="col-xs-12 no-padding">
+            @Html.LocalizeLabelFor(m => m.ParentId, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.ParentId, new { @class = "help-button" })
+        </div>
+        @Html.DropDownListFor(m => m.ParentId, Model.Parents, T("Page_Text_SelectParentPage"), new { @class = "single-select col-xs-12", id = "ParentId" })
+        @Html.ValidationMessageFor(m => m.ParentId)
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-4">
+        <div class="space-4 hidden-lg"></div>
+        <div class="col-xs-12 no-padding">
+            @Html.LocalizeLabelFor(m => m.Position, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.Position, new { @class = "help-button" })
+        </div>
+        @Html.DropDownListFor(m => m.Position, Model.Positions, new { @class = "single-select-no-search col-xs-12" })
+        @Html.ValidationMessageFor(m => m.Position)
+    </div>
+    <div class="col-xs-12 col-sm-4 col-md-4">
+        <div class="space-4 hidden-lg"></div>
+        <div class="col-xs-12 no-padding hidden-xs">
+            <label class="no-padding label-override editable">&nbsp;</label>
+        </div>
+        @Html.DropDownListFor(m => m.RelativePageId, Model.RelativePages, new { id = "RelativePageId", @class = "single-select-no-search col-xs-12" })
+        @Html.ValidationMessageFor(m => m.RelativePageId)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12">
+        <div class="col-xs-12 no-padding">
+            @Html.LocalizeLabelFor(m => m.Description, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.Description, new { @class = "help-button" })
+            @if (Model.Id.HasValue)
+            {
+                <a href="javascript:showGoogleResult()">
+                    <i class="ace-icon fa fa-question-circle"></i>
+                    How you will display in seach results
+                </a>
+            }
+        </div>
+        @Html.TextAreaFor(m => m.Description, new { @class = "col-xs-12", placeholder = T("Page_Text_DescriptionPlaceHolder") })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12 no-padding">
+        <div class="col-xs-12">
+            @Html.LocalizeLabelFor(m => m.Abstract, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.Abstract, new { @class = "help-button" })
+            <a id="abstract-toggle" href="javascript:void(0)">
+                <i id="abstract-icon" class="fa fa-plus"></i>
+            </a>
+        </div>
+        <div class="space-4"></div>
+        <div id="abstract-box" class="col-xs-12" style="display: none">
+            @Html.TextAreaFor(m => m.Abstract, new { @class = "col-xs-12", id = "pageAbstract" })
+            @Html.ValidationMessageFor(m => m.Abstract)
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12">
+        <div class="col-sm-2 no-padding">
+            @Html.LocalizeLabelFor(m => m.Content, new { @class = "no-padding-left" })
+            @Html.HelpTextFor(m => m.Content, new { @class = "help-button" })
+        </div>
+        <div class="col-sm-10 no-padding">
+            <div class="btn-group">
+                <button id="btnBodyTemplate" class="btn btn-xs btn-primary" data-toggle="dropdown">
+                    @T("Page_Text_BodyTemplateButton")
+                </button>
+            </div>
+        </div>
+        <div class="space-4" style="clear: both"></div>
+        @Html.TextAreaFor(m => m.Content, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.Content)
+    </div>
+</div>
+<div class="row">
+    <div class="tabbable">
+        <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+            <li class="active">
+                <a data-toggle="tab" href="#tags">
+                    @T("Page_Text_TabTags")
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#advanceSetting">
+                    @T("Page_Text_TabAdvancedSettings")
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#security">
+                    @T("Page_Text_TabSecurity")
+                </a>
+            </li>
+            <li>
+                <a data-toggle="tab" href="#publishingDates">
+                    @T("Page_Text_TabPublishingDates")
+                </a>
+            </li>
+            @if (Model.Id.HasValue)
+            {
+                <li>
+                    <a data-toggle="tab" href="#wordUploadBox">
+                        @T("Page_Text_TabUploadWordContent")
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#socialMedia">
+                        @T("Page_Text_TabSocialMedia")
+                    </a>
+                </li>
+            }
+            <li>
+                <a data-toggle="tab" href="#seoScoring">
+                    @T("Page_Text_TabSEOScoring")
+                </a>
+            </li>
+
+        </ul>
+        <div class="tab-content">
+            <div id="tags" class="tab-pane in active">
+                <div class="form-group">
+                    <div class="col-sm-1">
+                        @Html.LocalizeLabelFor(m => m.Tags, new { @class = "no-padding-left" })
+                        @Html.HelpTextFor(m => m.Tags, new { @class = "help-button" })
+                    </div>
+                    <div class="space-4 visible-xs"></div>
+                    <div class="col-sm-11">
+                        @Html.TextBoxFor(m => m.Tags, new { id = "Tags", @class = "col-xs-12 no-padding" })
+                        @Html.ValidationMessageFor(m => m.Tags)
+                    </div>
+                </div>
+            </div>
+
+            <div id="advanceSetting" class="tab-pane">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="col-xs-10 col-sm-6 control-label">
+                            @Html.LocalizeLabelFor(m => m.SSL, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.SSL, new { @class = "help-button" })
+                        </div>
+                        <div class="col-xs-2 col-sm-6">
+                            @Html.AceCheckBoxFor(m => m.SSL)
+                            @Html.ValidationMessageFor(m => m.SSL)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-10 col-sm-6 control-label">
+                            @Html.LocalizeLabelFor(m => m.IncludeInSiteNavigation, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.IncludeInSiteNavigation, new { @class = "help-button" })
+                        </div>
+                        <div class="col-xs-2 col-sm-6">
+                            @Html.AceCheckBoxFor(m => m.IncludeInSiteNavigation)
+                            @Html.ValidationMessageFor(m => m.IncludeInSiteNavigation)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-10 col-sm-6 control-label">
+                            @Html.LocalizeLabelFor(m => m.DisableNavigationCascade, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.DisableNavigationCascade, new { @class = "help-button" })
+                        </div>
+                        <div class="col-xs-2 col-sm-6">
+                            @Html.AceCheckBoxFor(m => m.DisableNavigationCascade)
+                            @Html.ValidationMessageFor(m => m.DisableNavigationCascade)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6 control-label">
+                            @Html.LocalizeLabelFor(m => m.SeoTitle, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.SeoTitle, new { @class = "help-button" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.TextBoxFor(m => m.SeoTitle, new { @class = "col-xs-12" })
+                            @Html.ValidationMessageFor(m => m.SeoTitle)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <div class="col-sm-6 control-label">
+                            @Html.LocalizeLabelFor(m => m.FileTemplateId, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.FileTemplateId, new { @class = "help-button" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.FileTemplateId, Model.FileTemplates, T("Page_Text_SelectFileTemplate"), new { @class = "single-select col-xs-12", id = "FileTemplateId" })
+                            @Html.ValidationMessageFor(m => m.FileTemplateId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6 control-label">
+                            @Html.LocalizeLabelFor(m => m.PageTemplateId, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.PageTemplateId, new { @class = "help-button" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.PageTemplateId, Model.PageTemplates, T("Page_Text_SelectPageTemplate"), new { @class = "single-select col-xs-12", id = "PageTemplateId" })
+                            @Html.ValidationMessageFor(m => m.PageTemplateId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-6 control-label">
+                            @Html.LocalizeLabelFor(m => m.BodyTemplateId, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.BodyTemplateId, new { @class = "help-button" })
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.DropDownListFor(m => m.BodyTemplateId, Model.BodyTemplates, T("Page_Text_SelectBodyTemplate"), new { @class = "single-select col-xs-12", id = "BodyTemplateId" })
+                            @Html.ValidationMessageFor(m => m.BodyTemplateId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-10 col-sm-6 control-label">
+                            @MText(HtmlTag.Label, "Page_Field_SaveAsNewBodyTemplate", new { @for = "saveAsNewBodyTemplate" })
+                            @Html.HelpText(T("Page_Field_SaveAsNewBodyTemplate"), new { @class = "help-button" })
+                        </div>
+                        <div class="col-xs-2 col-sm-6">
+                            <input id="saveAsNewBodyTemplate" type="checkbox" class="ace" />
+                            <label class="lbl"></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div id="security" class="tab-pane">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered table-hover fixed-column">
+                                <thead>
+                                    <tr>
+                                        <th> <label class="control-value"> &nbsp;</label></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class="control-value">@T("Page_Text_CanView")</label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-value">@T("Page_Text_CanEdit")</label></td>
+                                    </tr>
+                            </table>
+                            <table class="table table-striped table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th> <label class="control-value"> &nbsp;</label></th>
+                                        @for (var i = 0; i < Model.PageSecurityModels.Count(); i++)
+                                        {
+                                            <th>
+                                                @Html.HiddenFor(m => m.PageSecurityModels[i].Id)
+                                                @Html.HiddenFor(m => m.PageSecurityModels[i].GroupId)
+                                                <label>@Model.PageSecurityModels[i].GroupName</label>
+                                            </th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <label class="control-value">@T("Page_Text_CanView")</label>
+                                        </td>
+                                        @for (var i = 0; i < Model.PageSecurityModels.Count(); i++)
+                                        {
+                                            <td>
+                                                @Html.AceCheckBoxFor(m => m.PageSecurityModels[i].CanView)
+                                            </td>
+                                        }
+                                    </tr>
+                                    <tr>
+                                        <td><label class="control-value">@T("Page_Text_CanEdit")</label></td>
+                                        @for (var i = 0; i < Model.PageSecurityModels.Count(); i++)
+                                        {
+                                            <td>
+                                                @Html.AceCheckBoxFor(m => m.PageSecurityModels[i].CanEdit)
+                                            </td>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="publishingDates" class="tab-pane">
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LocalizeLabelTimeFor(m => m.StartPublishingDate, new { @class = "no-padding-left" })
+                        @Html.HelpTextFor(m => m.StartPublishingDate, new { @class = "help-button" })
+                    </div>
+                    <div class="col-sm-8 no-padding">
+                        <div class="input-group col-sm-6">
+                            @Html.TextBoxFor(m => m.StartPublishingDate, new { @Value = ToLocalDateTime(Model.StartPublishingDate).ToDateFormat(), @class = "form-control col-xs-12" })
+                            <label class="input-group-addon" for="StartPublishingDate">
+                                <i class="fa fa-calendar bigger-110"></i>
+                            </label>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.StartPublishingDate)
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LocalizeLabelTimeFor(m => m.EndPublishingDate, new { @class = "no-padding-left" })
+                        @Html.HelpTextFor(m => m.EndPublishingDate, new { @class = "help-button" })
+                    </div>
+                    <div class="col-sm-8 no-padding">
+                        <div class="input-group col-sm-6">
+                            @Html.TextBoxFor(m => m.EndPublishingDate, new { @Value = ToLocalDateTime(Model.EndPublishingDate).ToDateFormat(), @class = "form-control col-xs-12" })
+                            <label class="input-group-addon" for="EndPublishingDate">
+                                <i class="fa fa-calendar bigger-110"></i>
+                            </label>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.EndPublishingDate)
+                    </div>
+                </div>
+            </div>
+            @if (Model.Id.HasValue)
+            {
+                <div id="wordUploadBox" class="tab-pane">
+                    <div class="form-group">
+                        <div class="col-sm-5">
+                            @Html.LocalizeLabelFor(m => m.IsWordContent, new { @class = "no-margin" })
+                            @Html.AceCheckBoxFor(m => m.IsWordContent, false, new { id = "IsWordContent" })
+                            @Html.HelpTextFor(m => m.IsWordContent, new { @class = "help-button" })
+                        </div>
+                        <div class="space-4 visible-xs"></div>
+                        <div class="col-xs-12 col-sm-7 no-padding">
+                            <div id="upload-file-box" class="col-xs-12" style="display: none">
+                                @Html.TextBoxFor(m => m.File, new { id = "file", name = "file", type = "file", @class = "col-xs-12" })
+                                @Html.ValidationMessageFor(m => m.File)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="socialMedia" class="tab-pane">
+                    @Html.EditorFor(m => m.SocialMessages)
+                    <div class="clearfix"></div>
+                </div>
+            }
+            <div id="seoScoring" class="tab-pane">
+                <div class="col-md-10 col-xs-12">
+                    <div class="form-group">
+                        <div class="col-sm-4 control-label">
+                            @Html.LocalizeLabelFor(m => m.Keywords, new { @class = "no-padding-left" })
+                            @Html.HelpTextFor(m => m.Keywords, new { @class = "help-button" })
+                        </div>
+                        <div class="col-sm-8">
+                            @Html.TextBoxFor(m => m.Keywords, new { @class = "col-xs-12" })
+                            @Html.ValidationMessageFor(m => m.Keywords)
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-8 col-xs-10 control-label">
+                                @Html.LocalizeLabelFor(m => m.SEOScoring.Title, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.SEOScoring.Title, new { @class = "help-button" })
+                            </div>
+                            <div id="seoTitle" class="col-sm-4 col-xs-2 control-value">
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_Title_Good")" data-id="@((int)PageEnums.SEOScore.Good)" style="display: @(Model.SEOScoring.Title == PageEnums.SEOScore.Good ? "" : "none")" class="label label-success">
+                                    <i class="fa fa-check-circle"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_Title_Medium")" data-id="@((int)PageEnums.SEOScore.Medium)" style="display: @(Model.SEOScoring.Title == PageEnums.SEOScore.Medium ? "" : "none")" class="label label-warning">
+                                    <i class="fa fa-warning"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_Title_Bad")" data-id="@((int)PageEnums.SEOScore.Bad)" style="display: @(Model.SEOScoring.Title == PageEnums.SEOScore.Bad ? "" : "none")" class="label label-danger">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-xs-10 control-label">
+                                @Html.LocalizeLabelFor(m => m.SEOScoring.Description, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.SEOScoring.Description, new { @class = "help-button" })
+                            </div>
+                            <div id="seoDescription" class="col-sm-4 col-xs-2 control-value">
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_Description_Good")" data-id="@((int)PageEnums.SEOScore.Good)" style="display: @(Model.SEOScoring.Description == PageEnums.SEOScore.Good ? "" : "none")" class="label label-success">
+                                    <i class="fa fa-check-circle"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_Description_Medium")" data-id="@((int)PageEnums.SEOScore.Medium)" style="display: @(Model.SEOScoring.Description == PageEnums.SEOScore.Medium ? "" : "none")" class="label label-warning">
+                                    <i class="fa fa-warning"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_Description_Bad")" data-id="@((int)PageEnums.SEOScore.Bad)" style="display: @(Model.SEOScoring.Description == PageEnums.SEOScore.Bad ? "" : "none")" class="label label-danger">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-xs-10 control-label">
+                                @Html.LocalizeLabelFor(m => m.SEOScoring.HeadingTag, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.SEOScoring.HeadingTag, new { @class = "help-button" })
+                            </div>
+                            <div id="seoHeadingTag" class="col-sm-4 col-xs-2 control-value">
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_HeadingTag_Good")" data-id="@((int)PageEnums.SEOScore.Good)" style="display: @(Model.SEOScoring.HeadingTag == PageEnums.SEOScore.Good ? "" : "none")" class="label label-success">
+                                    <i class="fa fa-check-circle"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_HeadingTag_Bad")" data-id="@((int)PageEnums.SEOScore.Bad)" style="display: @(Model.SEOScoring.HeadingTag == PageEnums.SEOScore.Bad ? "" : "none")" class="label label-danger">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_HeadingTag_VeryBad")" data-id="@((int)PageEnums.SEOScore.VeryBad)" style="display: @(Model.SEOScoring.HeadingTag == PageEnums.SEOScore.VeryBad ? "" : "none")" class="label label-inverse">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-xs-10 control-label">
+                                @Html.LocalizeLabelFor(m => m.SEOScoring.AltTag, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.SEOScoring.AltTag, new { @class = "help-button" })
+                            </div>
+                            <div id="seoAltTag" class="col-sm-4 col-xs-2 control-value">
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_AltTag_Good")" data-id="@((int)PageEnums.SEOScore.Good)" style="display: @(Model.SEOScoring.AltTag == PageEnums.SEOScore.Good ? "" : "none")" class="label label-success">
+                                    <i class="fa fa-check-circle"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_AltTag_Medium")" data-id="@((int)PageEnums.SEOScore.Medium)" style="display: @(Model.SEOScoring.AltTag == PageEnums.SEOScore.Medium ? "" : "none")" class="label label-warning">
+                                    <i class="fa fa-warning"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_AltTag_Bad")" data-id="@((int)PageEnums.SEOScore.Bad)" style="display: @(Model.SEOScoring.AltTag == PageEnums.SEOScore.Bad ? "" : "none")" class="label label-danger">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="col-sm-8 col-xs-10 control-label">
+                                @Html.LocalizeLabelFor(m => m.SEOScoring.KeywordCount, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.SEOScoring.KeywordCount, new { @class = "help-button" })
+                            </div>
+                            <div id="seoKeywordCount" class="col-sm-4 col-xs-2 control-value">
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordCount_Good")" data-id="@((int)PageEnums.SEOScore.Good)" style="display: @(Model.SEOScoring.KeywordCount == PageEnums.SEOScore.Good ? "" : "none")" class="label label-success">
+                                    <i class="fa fa-check-circle"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordCount_Medium")" data-id="@((int)PageEnums.SEOScore.Medium)" style="display: @(Model.SEOScoring.KeywordCount == PageEnums.SEOScore.Medium ? "" : "none")" class="label label-warning">
+                                    <i class="fa fa-warning"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordCount_Bad")" data-id="@((int)PageEnums.SEOScore.Bad)" style="display: @(Model.SEOScoring.KeywordCount == PageEnums.SEOScore.Bad ? "" : "none")" class="label label-danger">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-xs-10 control-label">
+                                @Html.LocalizeLabelFor(m => m.SEOScoring.KeywordWeight, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.SEOScoring.KeywordWeight, new { @class = "help-button" })
+                            </div>
+                            <div id="seoKeywordWeight" class="col-sm-4 col-xs-2 control-value">
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordWeight_Good")" data-id="@((int)PageEnums.SEOScore.Good)" style="display: @(Model.SEOScoring.KeywordWeight == PageEnums.SEOScore.Good ? "" : "none")" class="label label-success">
+                                    <i class="fa fa-check-circle"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordWeight_Medium")" data-id="@((int)PageEnums.SEOScore.Medium)" style="display: @(Model.SEOScoring.KeywordWeight == PageEnums.SEOScore.Medium ? "" : "none")" class="label label-warning">
+                                    <i class="fa fa-warning"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordWeight_Bad")" data-id="@((int)PageEnums.SEOScore.Bad)" style="display: @(Model.SEOScoring.KeywordWeight == PageEnums.SEOScore.Bad ? "" : "none")" class="label label-danger">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-8 col-xs-10 control-label">
+                                @Html.LocalizeLabelFor(m => m.SEOScoring.KeywordBolded, new { @class = "no-padding-left" })
+                                @Html.HelpTextFor(m => m.SEOScoring.KeywordBolded, new { @class = "help-button" })
+                            </div>
+                            <div id="seoKeywordBolded" class="col-sm-4 col-xs-2 control-value">
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordBolded_Good")" data-id="@((int)PageEnums.SEOScore.Good)" style="display: @(Model.SEOScoring.KeywordBolded == PageEnums.SEOScore.Good ? "" : "none")" class="label label-success">
+                                    <i class="fa fa-check-circle"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordBolded_Medium")" data-id="@((int)PageEnums.SEOScore.Medium)" style="display: @(Model.SEOScoring.KeywordBolded == PageEnums.SEOScore.Medium ? "" : "none")" class="label label-warning">
+                                    <i class="fa fa-warning"></i>
+                                </label>
+                                <label data-rel="tooltip" title="@T("Page_SEOScoring_Text_KeywordBolded_Bad")" data-id="@((int)PageEnums.SEOScore.Bad)" style="display: @(Model.SEOScoring.KeywordBolded == PageEnums.SEOScore.Bad ? "" : "none")" class="label label-danger">
+                                    <i class="fa fa-times"></i>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="body-template-form" style="display: none">
+    <p>
+        @T("Page_Text_MakeBodyTemplateForAllChildPage")
+        <br />
+        <small>@T("Page_Text_MakeBodyTemplateForAllChildPageMessage")</small>
+    </p>
+    <fieldset>
+        <label for="BodyTemplateName">
+            @T("Page_Text_BodyTemplateName")
+        </label>
+        <input type="text" id="BodyTemplateName" />
+    </fieldset>
+</div>
+
+<div id="confirm-edit-url-dialog" style="display: none">
+</div>
+@Html.ReturnHiddenField()
+@if (ViewBag.IsPopup != null && (bool)ViewBag.IsPopup)
+{
+    <div class="space-32"></div>
+    <div class="space-32"></div>
+    <div class="space-32"></div>
+    <div class="space-32 visible-sm"></div>
+    <div class="space-32 visible-xs visible-sm"></div>
+    <div class="space-32 visible-xs visible-sm"></div>
+    <div class="space-32 visible-xs"></div>
+    <div class="space-32 visible-xs"></div>
+
+    <div class="clearfix form-actions pageButtonFix">
+        <div class="col-xs-12 no-padding page-manage-buttons align-right">
+            @Html.EditorFor(m => m.Notify)
+            @if (Model.Id.HasValue)
+            {
+                <text>@Html.EditorFor(m => m.Log)</text>
+            }
+            <div class="space-10"></div>
+            <div class="clear"></div>
+            <button class="btn btn-responsive" onclick="parent.$.fancybox.close();">
+                <i class="fa fa-times bigger-110"></i>
+                @T("Page_Text_CloseButton")
+            </button>
+            <button class="savePageBtn btn btn-info btn-responsive" type="submit" onclick=" parent.$dirty = true; " value="@SubmitType.SaveAndContinueEdit" name="Submit">
+                <i class="fa fa-check bigger-110"></i>
+                @if (!Model.Id.HasValue)
+                {
+                    @T("Page_Text_CreateAndContinueEdit")
+                }
+                else
+                {
+                    @T("Page_Text_UpdateAndContinueEdit")
+                }
+            </button>
+            <button class="savePageBtn btn btn-primary btn-responsive" type="submit" onclick=" parent.$dirty = true; " value="@SubmitType.PopupSave" name="Submit">
+                <i class="fa fa-check bigger-110"></i>
+                @if (!Model.Id.HasValue)
+                {
+                    @T("Page_Text_CreateAndClose")
+                }
+                else
+                {
+                    @T("Page_Text_UpdateAndClose")
+                }
+            </button>
+        </div>
+    </div>
+}
+else
+{
+    <div class="clearfix form-actions">
+        <div class=" col-xs-12 no-padding page-manage-buttons align-right">
+            @Html.EditorFor(m => m.Notify)
+            @if (Model.Id.HasValue)
+            {
+                <text>@Html.EditorFor(m => m.Log)</text>
+            }
+            @Html.BackLink(Url.Action("Index"))
+            <button class="savePageBtn btn btn-primary btn-responsive" type="submit" value="@SubmitType.Save" name="SubmitType">
+                <i class="fa fa-check bigger-110"></i>
+                @if (!Model.Id.HasValue)
+                {
+                    @T("Page_Text_CreateButton")
+                }
+                else
+                {
+                    @T("Page_Text_Save")
+                }
+            </button>
+            <button class="savePageBtn btn btn-info btn-responsive" type="submit" value="@SubmitType.SaveAndContinueEdit" name="SubmitType">
+                <i class="fa fa-check bigger-110"></i>
+                @if (!Model.Id.HasValue)
+                {
+                    @T("Page_Text_CreateAndContinueEdit")
+                }
+                else
+                {
+                    @T("Page_Text_SaveAndContinueEdit")
+                }
+            </button>
+        </div>
+    </div>
+}
+
+@Html.Partial("Partials/_PageManageScripts", Model)

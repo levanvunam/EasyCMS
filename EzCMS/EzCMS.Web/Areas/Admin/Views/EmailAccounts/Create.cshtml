@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.EmailAccounts.EmailAccountManageModel
+
+@{
+    ViewBag.Header = T("EmailAccount_Site_Header");
+    ViewBag.Title = T("EmailAccount_Site_CreateTitle");
+    ViewBag.Description = T("EmailAccount_Site_CreateDescription");
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-10">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Create", "EmailAccounts", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

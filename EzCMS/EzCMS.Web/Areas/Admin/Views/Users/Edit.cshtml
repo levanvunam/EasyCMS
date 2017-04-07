@@ -1,0 +1,30 @@
+﻿@model EzCMS.Core.Models.Users.UserManageModel
+
+@{
+    ViewBag.Header = T("User_Site_Header");
+    ViewBag.Title = TFormat("User_Site_EditTitle", Model.FullName);
+    ViewBag.Description = TFormat("User_Site_EditDescription", Model.FullName);
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="user-profile-3" class="user-profile row">
+        <div class="col-sm-offset-1 col-sm-10">
+            <div class="space"></div>
+            @ShowStatusMessage()
+            @using (Html.BeginForm("Edit", "Users", null, FormMethod.Post, new { @class = "form-horizontal" }))
+            {
+                @Html.EditorForModel(Model)
+            }
+        </div>
+    </div>
+</div>

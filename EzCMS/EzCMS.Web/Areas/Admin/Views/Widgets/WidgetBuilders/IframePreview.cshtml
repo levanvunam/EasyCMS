@@ -1,0 +1,53 @@
+﻿@model EzCMS.Core.Models.Widgets.WidgetBuilders.WidgetPreviewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@T("Widget_Text_ReviewShortcut")</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    @foreach (var style in Model.IncludedStyles)
+    {
+        <link rel="stylesheet" type="text/css" href="@style" />
+    }
+    <link rel="stylesheet" href="/Resources/protected-document.css" />
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/html5shiv.js")" ></script>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/respond.min.js")" ></script>
+        <![endif]-->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-2.1.4.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-1.10.2.min.js'>"+"<"+"/script>");
+    </script>
+    <![endif]-->    
+    
+    <!--[if lt IE 9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="/Scripts/Plugins/Bootstrap/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="/Scripts/Plugins/Bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Plugins/fancybox/jquery.fancybox.js"></script>
+    <script type="text/javascript" src="/Scripts/Plugins/Bootbox/bootbox.min.js"></script>
+    <script type="text/javascript" src="/Scripts/Shared/Helpers/siteHelper.js"></script>
+    <script type="text/javascript" src="/Scripts/Shared/Plugins/Tree/fuelux.tree.js"></script>
+    <script type="text/javascript" src="/Scripts/Shared/Plugins/Tree/EzCMS.tree.js"></script>
+</head>
+<body style="overflow-x: hidden">
+    @RenderWidget(Model.Widget)
+</body>
+</html>
+

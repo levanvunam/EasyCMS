@@ -1,0 +1,60 @@
+﻿@using Ez.Framework.Configurations
+@using EzCMS.Core.Framework.Configuration
+@model EzCMS.Core.Models.Services.ServiceManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Status, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "single-select-no-search col-xs-10" })
+        @Html.HelpTextFor(m => m.Status, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ImageUrl, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.MediaBrowserFor(m => m.ImageUrl, MediaEnums.MediaBrowserSelectMode.ComplexImageUpload, new { @class = "col-xs-9" }, FrameworkConstants.MediaPath, EzCMSContants.MediaServicePath)
+        @Html.HelpTextFor(m => m.ImageUrl, new { @class = "help-button" })
+        <div class="clearfix"></div>
+        @Html.ValidationMessageFor(m => m.ImageUrl)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Description, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Description, new { @class = "col-xs-10", rows = 4 })
+        @Html.HelpTextFor(m => m.Description, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-2 control-label no-padding-top">
+        @Html.LocalizeLabelFor(m => m.Content)
+        @Html.HelpTextFor(m => m.Content, new { @class = "help-button" })
+    </div>
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Content)
+        @Html.ValidationMessageFor(m => m.Content)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Bundle("~/js/ckeditor").Block(@<script type="text/javascript">
+        buildCkEditor('Content', {
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+    </script>);
+}
+

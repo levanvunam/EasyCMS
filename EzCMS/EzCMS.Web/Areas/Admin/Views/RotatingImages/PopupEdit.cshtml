@@ -1,0 +1,49 @@
+﻿@model EzCMS.Core.Models.RotatingImages.RotatingImageManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("RotatingImage_Site_Header");
+    ViewBag.Title = T("RotatingImage_Site_EditTitle");
+    ViewBag.Description = T("RotatingImage_Site_EditDescription");
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Ajax.BeginForm("PopupEdit", "RotatingImages", new AjaxOptions
+        {
+            OnBegin = "siteHelper.showLoading",
+            OnSuccess = "OnSuccess",
+            OnComplete = "siteHelper.hideLoading"
+        }, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>
+@section scripts
+{
+    <script type="text/javascript">
+        function OnSuccess(response) {
+            if (response.Success) {
+                parent.$dirty = true;
+                if (response.Data != '') {
+                    window.location.href = response.Data;
+                } else {
+                    parent.$.fancybox.close();
+                }
+            } else {
+                siteHelper.showErrorMessage(response.Message);
+            }
+        }
+    </script>
+}

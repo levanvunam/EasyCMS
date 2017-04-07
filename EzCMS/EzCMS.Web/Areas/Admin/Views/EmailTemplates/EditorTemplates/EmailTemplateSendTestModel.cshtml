@@ -1,0 +1,48 @@
+﻿@model EzCMS.Core.Models.EmailTemplates.EmailTemplateSendTestModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Subject, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.Subject, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.Subject, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Subject)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.To, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.To, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.To, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.To)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.CC, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.CC, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.CC, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.CC)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.BCC, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.BCC, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.BCC, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.BCC)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    <div class="col-sm-offset-3 col-sm-9">
+        <button class="btn btn-primary btn-responsive" type="submit" name="Submit">
+            <i class="fa fa-envelope-o bigger-110"></i>
+            @T("EmailTemplate_Text_SendTestEmail")
+        </button>
+        <button class="btn btn-responsive" onclick="parent.$.fancybox.close();">
+            <i class="fa fa-times bigger-110"></i>
+            @T("EmailTemplate_Text_CancelSendTestEmail")
+        </button>
+    </div>
+</div>
+

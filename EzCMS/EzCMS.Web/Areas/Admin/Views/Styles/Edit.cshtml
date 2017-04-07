@@ -1,0 +1,31 @@
+﻿@model EzCMS.Core.Models.Styles.StyleManageModel
+
+@{
+    ViewBag.Header = T("Style_Site_Header");
+    ViewBag.Title = T("Style_Site_EditTitle");
+    ViewBag.Description = T("Style_Site_EditDescription");
+}
+
+@section styles{
+    @Styles.Render("~/styles/codemirror")
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "Styles", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

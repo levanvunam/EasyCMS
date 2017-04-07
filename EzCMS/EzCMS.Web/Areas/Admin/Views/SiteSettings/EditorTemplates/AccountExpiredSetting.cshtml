@@ -1,0 +1,34 @@
+﻿@using EzCMS.Core.Services.UserGroups
+@using EzCMS.Library.IoC
+@model Ez.Framework.Models.SiteSettings.ComplexSettings.AccountExpiredSetting
+
+@{
+    var userGroupService = HostContainer.GetInstance<IUserGroupService>();
+    var userGroups = userGroupService.GetUserGroups();
+}
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.NumberOfDaysToKeepAccountAlive, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.NumberOfDaysToKeepAccountAlive, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.NumberOfDaysToKeepAccountAlive, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.NumberOfDaysToKeepAccountAlive)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DaysPriorToSuspensionShouldNotify, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.DaysPriorToSuspensionShouldNotify, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.DaysPriorToSuspensionShouldNotify, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DaysPriorToSuspensionShouldNotify)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ExpirableUserGroupIds, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.ListBoxFor(m => m.ExpirableUserGroupIds, userGroups, new { @class = "col-xs-10 multi-select", multiple = "multiple", placeholder = T("SiteSetting_AccountExpiredSetting_Text_SelectUserGroups") })
+
+        @Html.HelpTextFor(m => m.ExpirableUserGroupIds, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ExpirableUserGroupIds)
+    </div>
+</div>

@@ -1,0 +1,8 @@
+﻿@foreach (var item in Model.Items)
+{
+    <div class="form-group">
+        <h3><a href="@item.Link" target="_blank">@item.Title</a></h3>
+        <p>@Raw(item.Description)</p>
+    </div>
+    <div class="space-4"></div>
+}

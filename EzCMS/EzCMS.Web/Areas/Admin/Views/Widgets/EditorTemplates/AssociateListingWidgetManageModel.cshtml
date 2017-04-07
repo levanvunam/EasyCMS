@@ -1,0 +1,63 @@
+﻿@model EzCMS.Core.Models.Associates.WidgetManageModels.AssociateListingWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.AssociateTypeId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.AssociateTypeId, Model.AssociateTypes, T("Widget_AssociateListing_Text_SearchAllAssociateTypes"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.AssociateTypeId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.AssociateTypeId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.LocationId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.LocationId, Model.Locations, T("Widget_AssociateListing_Text_SearchAllLocations"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.LocationId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.LocationId)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12">
+        @Html.AceCheckBoxFor(m => m.UsingCurrentUserCompanyType, true, new { id = "UsingCurrentUserCompanyType", @class = "curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.UsingCurrentUserCompanyType, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.UsingCurrentUserCompanyType)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.CompanyTypeId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.CompanyTypeId, Model.CompanyTypes, T("Widget_AssociateListing_Text_SearchAllCompanyTypes"), new { id = "CompanySettingTypeId", @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.CompanyTypeId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.CompanyTypeId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Status, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Status, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $("#UsingCurrentUserCompanyType").change(function () {
+            if ($(this).is(":checked")) {
+                $("#CompanyTypeId").attr("disabled", "disabled");
+                $("#CompanyTypeId").select2("data", "");
+            }
+            else {
+                $("#CompanyTypeId").removeAttr("disabled");
+            }
+        });
+    </script>);
+}

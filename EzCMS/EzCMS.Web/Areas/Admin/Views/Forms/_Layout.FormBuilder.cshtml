@@ -1,0 +1,77 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>EzCMS Form Builder - @ViewBag.Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="EzCMS Formbuilder, @ViewBag.Description">
+    <meta name="author" content="">
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Bootstrap/bootstrap-editable.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Bootstrap/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace-fonts.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/FontAwesome/css/font-awesome.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/form-builder.css")" />
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    @RenderSection("styles", false)
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/html5shiv.js")" ></script>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/respond.min.js")" ></script>
+        <![endif]-->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-2.1.4.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container full-width">
+            <div class="navbar-header">
+                <span class="navbar-brand" href="javascript:void(0)">
+                    <a class="form-listing" href="@Url.Action("Index", "Forms")">Forms</a> &nbsp; <i class="fa fa-angle-double-right"></i> &nbsp;  @T("Form_FormBuilder_Text_FormBuilder")
+                </span>
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+
+    <div class="main-container">
+        <div style="display: none" id="loading-wrapper">
+            <div class="loading">
+                <div id="spinner-preview"></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/spin.min.js")"></script>
+    <script type="text/javascript">
+        //Load spinner
+        var spinnerOpts = {
+            lines: 13, // The number of lines to draw
+            length: 20, // The length of each line
+            width: 10, // The line thickness
+            radius: 30, // The radius of the inner circle
+            corners: 1, // Corner roundness (0..1)
+        };
+
+        var target = document.getElementById('spinner-preview');
+        var spinner = new Spinner(spinnerOpts).spin(target);
+    </script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Helpers/siteHelper.js")"></script>
+    @RenderSection("scripts", false)
+
+    <!-- render partial/template scripts -->
+    @Html.RenderScripts()
+</body>
+</html>

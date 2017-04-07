@@ -1,0 +1,93 @@
+﻿@model FormBuilderSetting
+
+@{
+    Style.Bundle("~/styles/codemirror");
+}
+
+<div class="clear space-8"></div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("SiteSettings_FormBuilder_Text_ScriptTemplateConfigurations")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="form-group">
+                <div class="col-md-2 control-label">
+                    @Html.LocalizeLabelFor(m => m.RenderScriptTemplate)
+                    @Html.HelpTextFor(m => m.RenderScriptTemplate, new { @class = "help-button" })
+                </div>
+                <div class="col-md-10 col-xs-12">
+                    @Html.TextAreaFor(m => m.RenderScriptTemplate, new { @class = "col-xs-12" })
+                    @Html.ValidationMessageFor(m => m.RenderScriptTemplate)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 control-label">
+                    @Html.LocalizeLabelFor(m => m.EmbeddedTemplate)
+                    @Html.HelpTextFor(m => m.EmbeddedTemplate, new { @class = "help-button" })
+                </div>
+                <div class="col-md-10 col-xs-12">
+                    @Html.TextAreaFor(m => m.EmbeddedTemplate, new { @class = "col-xs-12" })
+                    @Html.ValidationMessageFor(m => m.EmbeddedTemplate)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+<div class="widget-box transparent collapsed">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("SiteSettings_FormBuilder_Text_EmailConfigurations")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-down"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="form-group">
+                <div class="col-md-2 control-label">
+                    @Html.LocalizeLabelFor(m => m.SubmitFormSubject)
+                    @Html.HelpTextFor(m => m.SubmitFormSubject, new { @class = "help-button" })
+                </div>
+                <div class="col-md-10 col-xs-12">
+                    @Html.TextBoxFor(m => m.SubmitFormSubject, new { @class = "col-xs-12" })
+                    @Html.ValidationMessageFor(m => m.SubmitFormSubject)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 control-label">
+                    @Html.LocalizeLabelFor(m => m.SubmitFormBodyTemplate)
+                    @Html.HelpTextFor(m => m.SubmitFormBodyTemplate, new { @class = "help-button" })
+                </div>
+                <div class="col-md-10 col-xs-12">
+                    @Html.TextAreaFor(m => m.SubmitFormBodyTemplate, new { @class = "col-xs-12" })
+                    @Html.ValidationMessageFor(m => m.SubmitFormBodyTemplate)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clear space-12"></div>
+
+@{
+    Script.Bundle("~/js/codemirror").Block(@<script type="text/javascript">
+        var EmbeddedTemplateCreateor;
+        var RenderScriptTemplateCreateor;
+        var SubmitFormBodyTemplateCreateor;
+        $(function () {
+            EmbeddedTemplateCreateor = siteHelper.buildHtmlEditor("EmbeddedTemplate");
+
+            RenderScriptTemplateCreateor = siteHelper.buildHtmlEditor("RenderScriptTemplate", "javascript");
+
+            SubmitFormBodyTemplateCreateor = siteHelper.buildHtmlEditor("SubmitFormBodyTemplate");
+        });
+
+    </script>);
+}

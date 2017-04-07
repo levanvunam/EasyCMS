@@ -1,0 +1,27 @@
+﻿@model EzCMS.Core.Models.FormComponentFields.FormComponentFieldManageModel
+
+@{
+    ViewBag.Header = T("FormComponentField_Site_Header");
+    ViewBag.Title = T("FormComponentField_Site_CreateTitle");
+    ViewBag.Description = T("FormComponentField_Site_CreateDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Create", "FormComponentFields", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

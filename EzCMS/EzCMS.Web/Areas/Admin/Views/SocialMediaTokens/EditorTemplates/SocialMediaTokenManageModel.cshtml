@@ -1,0 +1,81 @@
+﻿@using Ez.Framework.Utilities.Social.Enums
+@model EzCMS.Core.Models.SocialMediaTokens.SocialMediaTokenManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.SocialMediaId, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.SocialMediaId, Model.SocialMedia, new { id = "SocialMediaId", @class = "single-select col-xs-10" })
+        @Html.HelpTextFor(m => m.SocialMediaId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.SocialMediaId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.AppId, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.AppId, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.AppId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.AppId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.AppSecret, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.AppSecret, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.AppSecret, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.AppSecret)
+    </div>
+</div>
+<div class="twitter" style="display: none">
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.AccessToken, new { @class = "col-sm-2 control-label align-right" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.AccessToken, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.AccessToken, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.AccessToken)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LocalizeLabelFor(m => m.AccessTokenSecret, new { @class = "col-sm-2 control-label align-right" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.AccessTokenSecret, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.AccessTokenSecret, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.AccessTokenSecret)
+        </div>
+    </div>
+</div>
+<div class="clearfix form-actions">
+    <div class="col-sm-offset-3 col-sm-9">
+        @Html.BackLink(Url.Action("Index"))
+        <button class="btn btn-primary btn-responsive" type="submit" value="@SubmitType.Save" name="Submit">
+            <i class="fa fa-check bigger-110"></i>
+            @if (string.IsNullOrEmpty(Model.AccessToken))
+            {
+                <text>Configure</text>
+            }
+            else
+            {
+                <text>Renew Token</text>
+            }
+        </button>
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        $("#SocialMediaId").change(function () {
+            var value = $(this).val();
+
+            if (value == parseInt("@((int)SocialMediaEnums.SocialNetwork.Twitter)")) {
+                $(".twitter").show();
+            } else {
+                $(".twitter").hide();
+            }
+        });
+
+        $(function () {
+            $("#SocialMediaId").trigger("change");
+        });
+    </script>);
+}

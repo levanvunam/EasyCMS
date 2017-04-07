@@ -1,0 +1,46 @@
+﻿@model EzCMS.Core.Models.UserGroups.UserGroupManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.Description, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Description, new { @class = "col-xs-10", rows = 4 })
+        @Html.HelpTextFor(m => m.Description, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.RedirectUrl, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.RedirectUrl, new { id = "redirectUrl", @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.RedirectUrl, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RedirectUrl)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.ToolbarId, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.ToolbarId, Model.Toolbars, T("UserGroup_Text_SelectToolbar"), new { @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.ToolbarId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ToolbarId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LabelFor(m => m.RecordOrder, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.RecordOrder, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.RecordOrder, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RecordOrder)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>

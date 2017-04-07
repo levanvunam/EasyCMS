@@ -1,0 +1,180 @@
+﻿@using Ez.Framework.Configurations
+@model GoogleMapsSetting
+
+@{
+    Style.Block(
+        @<style type="text/css">
+             #mapCanvas {
+                 height: 400px;
+                 margin-top: 15px;
+             }
+        </style>);
+}
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Address, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        <div>
+            @Html.TextBoxFor(m => m.Address, new { @class = "col-xs-10", placeholder = T("SiteSettings_GoogleMaps_AddPlaceholder") })
+            @Html.HelpTextFor(m => m.Address, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Address)
+        </div>
+        <div class="space-4"></div>
+        <div class="col-xs-10" id="mapCanvas"></div>
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Zoom, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Zoom, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.Zoom, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Zoom)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Latitude, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Latitude, new { @class = "col-xs-10", @readonly = "readonly" })
+        @Html.HelpTextFor(m => m.Latitude, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Latitude)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Longitude, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Longitude, new { @class = "col-xs-10", @readonly = "readonly" })
+        @Html.HelpTextFor(m => m.Longitude, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Longitude)
+    </div>
+</div>
+
+@{
+    Script.Include(@Html.GoogleMapFile(WorkContext.CurrentCulture, "places")).Block(@<script type="text/javascript">
+        var map, marker;
+        var defaultZoomFrom = Globalize.parseInt("@EzCMSContants.GoogleMapDefaultZoomFrom");
+        var defaultZoomTo = Globalize.parseInt("@EzCMSContants.GoogleMapDefaultZoomTo");
+        var defaultLatitude = defaultLatitude || Globalize.parseFloat("@EzCMSContants.GoogleMapDefaultLatitude");
+        var defaultLongitude = defaultLongitude || Globalize.parseFloat("@EzCMSContants.GoogleMapDefaultLongitude");
+        var defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
+
+        // Zoom level changed
+        $('#Zoom').change(function () {
+            var zoomNumber = ($('#Zoom').val() != '') ? parseInt($('#Zoom').val()) : defaultZoomFrom;
+            if (zoomNumber <= defaultZoomTo && zoomNumber >= defaultZoomFrom) {
+                map.setZoom(zoomNumber);
+            } else {
+                if (zoomNumber > defaultZoomTo) {
+                    $('#Zoom').val(defaultZoomTo);
+                } else {
+                    $('#Zoom').val(defaultZoomFrom);
+                }
+            }
+        });
+
+        // Search location
+        function searchLocation() {
+            var address = document.getElementById("Address").value;
+            var selectedLat, selectedLong;
+
+            var geo = new google.maps.Geocoder;
+            if (address == '') {
+                address = defaultAddress;
+            }
+
+            // Get lat-long with current address
+            geo.geocode({ 'address': address }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    selectedLat = results[0].geometry.location.lat();
+                    selectedLong = results[0].geometry.location.lng();
+
+                    var position = new google.maps.LatLng(selectedLat, selectedLong);
+                    setupMap(position);
+                } else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+        }
+
+        // Update zoom when map zoom has changed
+        function zoomChanged() {
+            var getZoom = map.getZoom();
+            if (getZoom <= defaultZoomTo && getZoom >= defaultZoomFrom) {
+                $('#Zoom').val(getZoom);
+            } else {
+                if (getZoom > defaultZoomTo) {
+                    getZoom = defaultZoomTo;
+                } else if (getZoom < defaultZoomFrom) {
+                    getZoom = defaultZoomFrom;
+                }
+                $('#Zoom').val(getZoom);
+                map.setZoom(getZoom);
+            }
+        }
+
+        // Init map
+
+        function initialize() {
+            var input = document.getElementById('Address');
+            var searchBox = new google.maps.places.SearchBox(input);
+
+            searchBox.addListener('places_changed', searchLocation);
+
+            var latitude = Globalize.parseFloat("@Model.Latitude");
+            var longitude = Globalize.parseFloat("@Model.Longitude");
+            var position = defaultPosition;
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                position = new google.maps.LatLng(latitude, longitude);
+                setupMap(position);
+            } else {
+                var geo = new google.maps.Geocoder;
+                var address = defaultAddress;
+                geo.geocode({ 'address': address }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        position = results[0].geometry.location;
+                    } else {
+                        //alert("Geocode was not successful for the following reason: " + status);
+                    }
+                    setupMap(position);
+                });
+            }
+        }
+
+        // Setup maps
+        function setupMap(latLng) {
+            map = new google.maps.Map(document.getElementById('mapCanvas'), {
+                zoom: parseInt('@Model.Zoom'),
+                center: latLng,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            marker = new google.maps.Marker({
+                position: latLng,
+                title: '@Model.Address',
+                map: map,
+                draggable: true
+            });
+
+            updateMarkerPosition(marker.getPosition());
+
+            google.maps.event.addListener(marker, 'drag', function () {
+                updateMarkerPosition(marker.getPosition());
+            });
+
+            map.addListener('zoom_changed', zoomChanged);
+        }
+
+        //Update marker position
+        function updateMarkerPosition(latLng) {
+
+            //Parsing lat long data to culture format
+            var latitude = siteHelper.formatFloat(latLng.lat());
+            var longitude = siteHelper.formatFloat(latLng.lng());
+
+            $("#Latitude").val(latitude);
+            $("#Longitude").val(longitude);
+        }
+
+        // Onload handler to fire off the app.
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>);
+}

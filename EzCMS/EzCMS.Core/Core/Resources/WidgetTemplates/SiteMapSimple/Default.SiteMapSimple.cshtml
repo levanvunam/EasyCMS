@@ -1,0 +1,29 @@
+﻿@if (Model.Any())
+{
+    <ul>
+        @foreach (var node in Model)
+        {
+            if (node.Data.PageId.HasValue)
+            {
+                <li id="page-@node.Data.Id">
+                    <a href="@node.Data.Url">
+                        @node.Data.Title
+                    </a>
+
+                    @if (node.Children.Count > 0)
+                    {
+                        @RenderTemplate("Default.SiteMapSimple", node.Children)
+                    }
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@node.Data.Url">
+                        @node.Data.Title
+                    </a>
+                </li>
+            }
+        }
+    </ul>
+}

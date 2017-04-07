@@ -1,0 +1,2441 @@
+[
+    {
+        "title": "Marketing Details",
+        "data": [
+            {
+                "title": "First Name",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "FirstName"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "First Name"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "First Name"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Last Name",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "LastName"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Last Name"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Last Name"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Email Address",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "Email"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Email Address"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Email Address"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": true
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Address Line 1 - textbox",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "AddressLine1"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Address Line 1 - textbox"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Address Line 1 - textbox"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Address Line 1 - textarea",
+                "template": "textarea",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "AddressLine1"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Address Line 1 - textarea"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Address Line 1 - textarea"
+                    },
+                    "textarea": {
+                        "label": "Starting Text",
+                        "type": "textarea",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Address Line 2 - textbox",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "AddressLine2"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Address Line 2 - textbox"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Address Line 2 - textbox"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Address Line 2 - textarea",
+                "template": "textarea",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "AddressLine2"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Address Line 2 - textarea"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Address Line 2 - textarea"
+                    },
+                    "textarea": {
+                        "label": "Starting Text",
+                        "type": "textarea",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "State Dropdown",
+                "template": "select-basic",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "State"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "State Dropdown"
+                    },
+                    "options": {
+                        "label": "Options",
+                        "type": "textarea-split",
+                        "value": [
+                            "NSW",
+                            "QLD",
+                            "VIC",
+                            "TAS",
+                            "ACT",
+                            "NT",
+                            "SA",
+                            "WA"
+                        ]
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Postcode",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "Postcode"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Postcode"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Postcode"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Suburb",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "Suburb"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Suburb"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Suburb"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Preferred Phone Number",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "PreferredPhoneNumber"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Preferred Phone Number"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Preferred Phone Number"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Prefered Contact Type",
+                "template": "select-basic",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "PhoneType"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Prefered Contact Type"
+                    },
+                    "options": {
+                        "label": "Options",
+                        "type": "textarea-split",
+                        "value": [
+                            "Home",
+                            "Work",
+                            "Mobile"
+                        ]
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Feedback",
+                "template": "textarea",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "Feedback"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Please provide your feedback"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Please provide your feedback"
+                    },
+                    "textarea": {
+                        "label": "Starting Text",
+                        "type": "textarea",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Submit Button",
+                "template": "button",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "btnSubmit"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "buttonlabel": {
+                        "label": "Button Label",
+                        "type": "input",
+                        "value": "Submit"
+                    },
+                    "buttontype": {
+                        "label": "Button Type",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "btn-default",
+                                "label": "Default",
+                                "selected": false
+                            },
+                            {
+                                "value": "btn-primary",
+                                "label": "Primary",
+                                "selected": true
+                            },
+                            {
+                                "value": "btn-info",
+                                "label": "Info",
+                                "selected": false
+                            },
+                            {
+                                "value": "btn-success",
+                                "label": "Success",
+                                "selected": false
+                            },
+                            {
+                                "value": "btn-warning",
+                                "label": "Warning",
+                                "selected": false
+                            },
+                            {
+                                "value": "btn-danger",
+                                "label": "Danger",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "title": "Communication",
+        "data": [
+            {
+                "title": "Referred By",
+                "template": "hidden-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "ReferredBy"
+                    },
+                    "label": {
+                        "label": "Value",
+                        "type": "hidden",
+                        "value": "Referred By"
+                    },
+                    "value": {
+                        "label": "Value",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            },
+            {
+                "title": "Campaign Code",
+                "template": "select-communication",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "CampaignCode"
+                    },
+                    "token": {
+                        "label": "Token",
+                        "type": "hidden",
+                        "value": "{CampaignCode}"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Campaign Code"
+                    },
+                    "option": {
+                        "label": "Default Option",
+                        "type": "input",
+                        "value": "-- Select Campaign Code --"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Campaign Code",
+                "template": "hidden-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "CampaignCode"
+                    },
+                    "label": {
+                        "label": "Value",
+                        "type": "hidden",
+                        "value": "Campaign Code"
+                    },
+                    "value": {
+                        "label": "Value",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            },
+            {
+                "title": "Product Of Interest",
+                "template": "select-communication-multiple",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "ProductOfInterest"
+                    },
+                    "token": {
+                        "label": "Token",
+                        "type": "hidden",
+                        "value": "{ProductOfInterest}"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Product Of Interest"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Product Of Interest",
+                "template": "select-communication",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "ProductOfInterest"
+                    },
+                    "token": {
+                        "label": "Token",
+                        "type": "hidden",
+                        "value": "{ProductOfInterest}"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Product Of Interest"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "option": {
+                        "label": "Default Option",
+                        "type": "input",
+                        "value": "-- Select Product Of Interest --"
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Product of Interest",
+                "template": "hidden-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "ProductOfInterest"
+                    },
+                    "label": {
+                        "label": "Value",
+                        "type": "hidden",
+                        "value": "Product of Interest"
+                    },
+                    "value": {
+                        "label": "Value",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            },
+            {
+                "title": "Timeframe To Own",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "TimeframeToOwn"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Timeframe To Own"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Timeframe To Own"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Comments",
+                "template": "textarea",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "Comments"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Comments"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "Comments"
+                    },
+                    "textarea": {
+                        "label": "Starting Text",
+                        "type": "textarea",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Subscriber Type",
+                "template": "select-communication",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "SubscriberType"
+                    },
+                    "token": {
+                        "label": "Token",
+                        "type": "hidden",
+                        "value": "{SubscriberType}"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Subscriber Type"
+                    },
+                    "option": {
+                        "label": "Default Option",
+                        "type": "input",
+                        "value": "-- Select Subscriber Type --"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Subscriber Type",
+                "template": "hidden-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "SubscriberType"
+                    },
+                    "label": {
+                        "label": "Value",
+                        "type": "hidden",
+                        "value": "Subscriber Type"
+                    },
+                    "value": {
+                        "label": "Value",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            }
+        ]
+    },
+    {
+        "title": "Form Elements",
+        "data": [
+            {
+                "title": "Yes/No Radio Buttons",
+                "template": "multiple-radios",
+                "fields": {
+                    "name": {
+                        "label": "Group Name",
+                        "type": "input",
+                        "value": "YesNo"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Yes/No"
+                    },
+                    "radios": {
+                        "label": "Radios",
+                        "type": "textarea-split",
+                        "value": [
+                            "Yes",
+                            "No"
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Multiple Checkboxes",
+                "template": "multiple-checkboxes",
+                "fields": {
+                    "name": {
+                        "label": "Group Name",
+                        "type": "input",
+                        "value": "checkboxes"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Multiple Checkboxes"
+                    },
+                    "checkboxes": {
+                        "label": "Checkboxes",
+                        "type": "textarea-split",
+                        "value": [
+                            "Option one",
+                            "Option two"
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Heading",
+                "template": "heading",
+                "fields": {
+                    "content": {
+                        "label": "Content",
+                        "type": "textarea",
+                        "value": "Heading"
+                    },
+                    "style": {
+                        "label": "Style",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "classname": {
+                        "label": "Class",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            },
+            {
+                "title": "text",
+                "template": "text",
+                "fields": {
+                    "content": {
+                        "label": "Content",
+                        "type": "textarea",
+                        "value": "text"
+                    },
+                    "style": {
+                        "label": "Style",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "classname": {
+                        "label": "Class",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            },
+            {
+                "title": "Hidden Field",
+                "template": "hidden-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "hidden"
+                    },
+                    "label": {
+                        "label": "Value",
+                        "type": "hidden",
+                        "value": "Hidden Field"
+                    },
+                    "value": {
+                        "label": "Value",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            },
+            {
+                "title": "TextBox",
+                "template": "text-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "TextBox"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "TextBox"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "TextBox"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "isemail": {
+                        "label": "Is Email",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Password Input",
+                "template": "password-input",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "passwordinput"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Password Input"
+                    },
+                    "placeholder": {
+                        "label": "Placeholder",
+                        "type": "input",
+                        "value": "placeholder"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": "help"
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Dropdown",
+                "template": "select-basic",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "dropdown"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Dropdown"
+                    },
+                    "options": {
+                        "label": "Options",
+                        "type": "textarea-split",
+                        "value": [
+                        ]
+                    },
+                    "required": {
+                        "label": "Required",
+                        "type": "checkbox",
+                        "value": false
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Listbox",
+                "template": "select-multiple",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "listbox"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Listbox"
+                    },
+                    "options": {
+                        "label": "Options",
+                        "type": "textarea-split",
+                        "value": [
+                            "Option one",
+                            "Option two"
+                        ]
+                    },
+                    "inputheight": {
+                        "label": "Input Height",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "input-sm",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": null,
+                                "label": "Default",
+                                "selected": true
+                            },
+                            {
+                                "value": "input-lg",
+                                "label": "Large",
+                                "selected": false
+                            }
+                        ]
+                    },
+                    "inputsize": {
+                        "label": "Input Size",
+                        "type": "select",
+                        "value": [
+                            {
+                                "value": "col-md-2",
+                                "label": "Mini",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-3",
+                                "label": "Small",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-4",
+                                "label": "Medium",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-5",
+                                "label": "Large",
+                                "selected": false
+                            },
+                            {
+                                "value": "col-md-6",
+                                "label": "Xlarge",
+                                "selected": true
+                            },
+                            {
+                                "value": "col-md-8",
+                                "label": "Xxlarge",
+                                "selected": false
+                            }
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Checkbox",
+                "template": "checkbox",
+                "fields": {
+                    "id": {
+                        "label": "ID / Name",
+                        "type": "input",
+                        "value": "Checkbox"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Checkbox"
+                    },
+                    "helptext": {
+                        "label": "Help Text",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "checked": {
+                        "label": "Checked",
+                        "type": "checkbox",
+                        "value": false
+                    }
+                }
+            },
+            {
+                "title": "Radio buttons",
+                "template": "multiple-radios",
+                "fields": {
+                    "name": {
+                        "label": "Group Name",
+                        "type": "input",
+                        "value": "radios"
+                    },
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Multiple Radios"
+                    },
+                    "radios": {
+                        "label": "Radios",
+                        "type": "textarea-split",
+                        "value": [
+                            "Option one",
+                            "Option two"
+                        ]
+                    }
+                }
+            },
+            {
+                "title": "Image",
+                "template": "image",
+                "fields": {
+                    "label": {
+                        "label": "Label Text",
+                        "type": "input",
+                        "value": "Image"
+                    },
+                    "location": {
+                        "label": "Location",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "style": {
+                        "label": "Style",
+                        "type": "input",
+                        "value": ""
+                    },
+                    "classname": {
+                        "label": "Class",
+                        "type": "input",
+                        "value": ""
+                    }
+                }
+            }
+        ]
+    }
+]

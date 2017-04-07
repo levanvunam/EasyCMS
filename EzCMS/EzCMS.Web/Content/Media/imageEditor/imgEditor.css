@@ -1,0 +1,163 @@
+﻿.image-editor-wrapper {
+    position: relative;
+}
+
+.image-editor {
+}
+
+.img-toolbar {
+    margin-left: 0 !important;
+}
+
+#zoomRatio {
+    width: 50px;
+    height: 24px;
+}
+
+.form-actions {
+    margin-bottom: 0 !important;
+    padding: 5px !important;
+}
+.source-image {
+    overflow: auto;
+    width: 90%;
+    height: 350px;
+    position: relative;
+    border: 1px solid #008b8b;
+    margin-top: 10px;
+    padding: 15px !important;
+    background: url(img/imgbackground.gif);
+}
+
+#original-image {
+    display: none;
+}
+
+#output-canvas {
+    display: none;
+}
+
+.tool-box {
+    position: absolute;
+    top: 40px;
+    right: 10px;
+}
+
+.ui-resizable-w, .ui-resizable-e, .ui-resizable-n, .ui-resizable-s {
+    background: #ffffff url("Jcrop.gif");
+    font-size: 0;
+}
+
+.ui-resizable-e, .ui-resizable-w {
+    width: 6px !important;
+}
+
+.ui-resizable-s, .ui-resizable-n {
+    height: 6px !important;
+}
+
+.ui-resizable-nw, .ui-resizable-sw, .ui-resizable-ne, .ui-resizable-se {
+    border: 1px solid #0480be;
+}
+
+.ui-resizable-se {
+    background: none;
+    width: auto !important;
+    height: auto !important;
+}
+
+.ui-slider-horizontal {
+    height: 5px !important;
+}
+
+.ui-slider .ui-slider-range {
+    background-color: #0e90d2;
+    background-image: -moz-linear-gradient(top, #149bdf, #0480be);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#149bdf), to(#0480be));
+    background-image: -webkit-linear-gradient(top, #149bdf, #0480be);
+    background-image: -o-linear-gradient(top, #149bdf, #0480be);
+    background-image: linear-gradient(to bottom, #149bdf, #0480be);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
+}
+
+.tool-box-group {
+    z-index: 1050;
+    width: 300px;
+    background-color: #ffffff;
+    border: 1px solid #999;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+    outline: none;
+    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    -webkit-background-clip: padding-box;
+    -moz-background-clip: padding-box;
+    background-clip: padding-box;
+}
+
+.tool-box-group .modal-body {
+    overflow: hidden;
+}
+
+#brightness-slider, #contrast-slider {
+    width: 200px;
+    float: left;
+    margin-top: 12px;
+}
+
+#brightnessValue,#contrastValue {
+    width: 40px;
+    margin-left: 5px;
+}
+
+#result-image {
+    max-width: none !important;
+}
+
+.imgEdit-crop {
+    background: url(img/crop.png);
+}
+
+.imgEdit-resize {
+    background: url(img/resize.png);
+}
+
+.imgEdit-flipv {
+    background: url(img/flip-v.png);
+}
+
+.imgEdit-fliph {
+    background: url(img/flip-h.png);
+}
+
+.imgEdit-rotate-clockwise {
+    background: url(img/rotate-clockwise.png);
+}
+
+.imgEdit-rotate-anticlockwise {
+    background: url(img/rotate-anticlockwise.png);
+}
+
+.imgEdit-brightness-contrast {
+    background: url(img/brightness_contrast.png);
+}
+
+[class^="imgEdit-"], [class*=" imgEdit-"], [class^="fa"] {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    margin-top: 1px;
+    margin-right: 5px;
+    line-height: 14px;
+    vertical-align: text-top;
+    -ms-background-size: 14px 14px;
+    -moz-background-size: 14px 14px;
+    -o-background-size: 14px 14px;
+    -webkit-background-size: 14px 14px;
+    background-size: 14px 14px;
+    background-repeat: no-repeat;
+}

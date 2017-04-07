@@ -1,0 +1,76 @@
+﻿@model EzCMS.Core.Models.SiteSetup.UserSetupModel
+
+<div class="col-xs-12">
+    <h1>Create User</h1>
+    <div>
+        <p>
+            You can now setup a new admin user to log into EzCMS, we recommend using a strong Password for this (a password which is more than 4 characters and contains a mix of letters, numbers and symbols).
+            Please make a note of the chosen password.
+        </p>
+        <p>The password can be changed once you have completed the installation and logged into the admin interface.</p>
+    </div>
+</div>
+<div class="col-xs-12">
+    @using (Ajax.BeginForm("UserSetup", "Setup", null, new AjaxOptions
+{
+    OnBegin = "siteHelper.showLoading",
+    OnSuccess = "UserSetupSuccess",
+    OnComplete = "siteHelper.hideLoading"
+}))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, "First Name", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.FirstName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, "Last Name", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.LastName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Phone, new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Phone, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Phone)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ConfirmPassword, "Confirm Password", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </div>
+        </div>
+        <div class="clearfix form-actions">
+            <input class="btn btn-info" type="submit" value="Save" />
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    function UserSetupSuccess(response) {
+        if (response.Success) {
+            $('#siteSetup').easyWizard('nextStep');
+        } else {
+            siteHelper.alert(response.Message);
+        }
+    }
+</script>

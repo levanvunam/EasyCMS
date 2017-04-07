@@ -1,0 +1,185 @@
+﻿@model EzCMS.Core.Models.Widgets.WidgetSearchModel
+
+@{
+    ViewBag.Header = T("Widget_Site_Header");
+    ViewBag.Title = T("Widget_Site_ListingTitle");
+    ViewBag.Description = T("Widget_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "Widget"})');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("Widget_Field_Shortcut")',
+                '@T("Widget_Field_Name")',
+                '@T("Widget_Field_FullWidget")',
+                '@T("Widget_Field_DefaultTemplate")',
+                '@T("Widget_Field_Description")',
+                '@T("Widget_Field_Favourite")',
+                '@T("Widget_Field_Image")',
+                '@T("Widget_Field_CanGenerate")'],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var widget = rowObject.Widget;
+                        var createTemplateText = "@T("Widget_Text_CreateTemplate")";
+                        var createIcon = "<a class='grid-action' href='@Url.Action("Create", "WidgetTemplates")?widget=" + widget + "'><div class='ui-pg-div' title='" + createTemplateText.format("{" + widget + "}") + "'><span class='fa fa-plus'></span></div></a>";
+                        if (rowObject.DefaultTemplate == null || rowObject.DefaultTemplate == '') {
+                            createIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("Widget_Text_WidgetHasNoTemplate")'><span class='fa fa-plus'></span></div></a>";
+                        }
+
+                        return createIcon;
+                    }
+                },
+                { name: 'Widget', index: 'Shortcut', hidden: true, key: true },
+                { name: 'Name', index: 'Name' },
+                { name: 'FullWidget', index: 'FullShortcut', hidden: true },
+                {
+                    name: 'DefaultTemplate',
+                    index: 'DefaultTemplate',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (cellvalue == null) {
+                            return "";
+                        }
+                        var editDefaulTemplateText = "@T("Widget_Text_EditDefaultTemplate")";
+                        var editIcon = "<a class='grid-action' href='@Url.Action("EditTemplateByName", "WidgetTemplates")?templateName=" + cellvalue + "'><div class='ui-pg-div' title='" + editDefaulTemplateText.format(cellvalue) + "'> " + cellvalue + "</div></a>";
+                        return editIcon;
+                    }
+                },
+                { name: 'Description', index: 'Description' },
+                { name: 'Favourite', index: 'Favourite', hidden: true },
+                { name: 'Image', index: 'Image', hidden: true },
+                {
+                    name: 'CanGenerate',
+                    index: 'CanGenerate',
+                    align: "center",
+                    hidden: true,
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                }
+            ],
+            subGrid: true,
+            subGridRowExpanded: function(subgridId, rowId) {
+                var subgridTableId = subgridId + "_t";
+                jQuery("#" + subgridId).html("<div class='sub-grid-box'><table id='" + subgridTableId + "' class='sub-grid'></table></div>");
+                jQuery("#" + subgridTableId).jqGrid({
+                    datatype: "json",
+                    caption: "Available Parameters",
+                    height: 'auto',
+                    url: "@Url.Action("_AjaxWidgetParameters", "Widgets")?widget=" + rowId,
+                    colNames: ['@T("Widget_Parameter_Field_Position")',
+                        '@T("Widget_Parameter_Field_Name")',
+                        '@T("Widget_Parameter_Field_Type")',
+                        '@T("Widget_Parameter_Field_Description")'],
+                    colModel: [
+                        { name: "Order", index: "Order", width: 90, fixed: true, align: "center" },
+                        { name: "Name", index: "Name", key: true },
+                        { name: "Type", index: "SettingType" },
+                        { name: "Description", index: "Description" }
+                    ],
+                    rowNum: "20",
+                    pager: null,
+                    loadComplete: function(response) {
+                        setTimeout(function() {
+                            $(window).trigger('resize.jqGrid');
+                        }, 100);
+                    }
+                });
+            }
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+
+    <script type="text/javascript">
+
+        //Search widget click
+        $("#btnSearch").click(function() {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function(e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function() {
+            $("#Keyword").val('');
+
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid() {
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

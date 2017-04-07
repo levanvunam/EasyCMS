@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+    <div class="panel-heading">{PollQuestion}</div>
+    @if (Model.PollAnswers.Count == 1)
+    {
+        {SinglePoll}
+    }
+    else if (Model.PollAnswers.Count > 1)
+    {
+        {PollChart}
+    }
+</div>

@@ -1,0 +1,26 @@
+﻿@using EzCMS.Core.Core.SiteSettings
+@using EzCMS.Core.Framework.Configuration
+
+<script type="text/javascript">
+
+    //Init current culture
+    var currentCulture = "@(CurrentCulture())";
+    Globalize.culture(currentCulture);
+
+    var defaultAddress = "@(SValue<GoogleMapsSetting>().Address)";
+    var defaultLatitude = Globalize.parseFloat("@(SValue<GoogleMapsSetting>().Latitude)");
+    var defaultLongitude = Globalize.parseFloat("@(SValue<GoogleMapsSetting>().Longitude)");
+    var defaultZoom = Globalize.parseInt("@(SValue<GoogleMapsSetting>().Zoom)");
+    var phoneFormat = "@(SValue<string>(SettingNames.PhoneFormat))";
+    var timezoneOffSet = Globalize.parseInt("@(WorkContext.TimezoneOffset)");
+    var keepAliveInterval = Globalize.parseInt("@(@SValue<int>(SettingNames.KeepAliveInterval)*1000)");
+    var currentTimezoneCookieKey = "@EzCMSContants.CurrentTimezone";
+    var currentTimezoneCookie = "@WorkContext.CurrentTimezoneCookie";
+    var pageSize = Globalize.parseInt("@(CurrentUser != null && CurrentUser.UserSettingModel.AdminPageSize > 0 ? CurrentUser.UserSettingModel.AdminPageSize : 50)");
+    var gridRowList = "@(SValue<GridRowListSetting>().RowList)";
+    var moreText = "@T("System_Text_GridMoreText")";
+    var lessText = "@T("System_Text_GridLessText")";
+    var detailsTextFormat = "@T("System_Text_ViewDetailsFormat")";
+
+    window.CKEDITOR_BASEPATH = "@Url.Content("~/Scripts/Plugins/CkEditor/")";
+</script>

@@ -1,0 +1,32 @@
+﻿@model EzCMS.Core.Models.ProtectedDocuments.DocumentPermissionManageModel
+
+@Html.HiddenFor(m => m.EncryptedPath)
+@Html.HiddenFor(m => m.RelativePath)
+@Html.ValidationSummary()
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.GroupIds, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.ListBoxFor(m => m.GroupIds, Model.Groups, new { @class = "col-xs-10 multi-select no-padding", multiple = "multiple", placeholder = T("ProtectedDocument_Text_SelectUserGroups") })
+        @Html.HelpTextFor(m => m.GroupIds, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.GroupIds)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.CompanyIds, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.ListBoxFor(m => m.CompanyIds, Model.Companies, new { @class = "col-xs-10 multi-select no-padding", multiple = "multiple", placeholder = T("ProtectedDocument_Text_SelectCompanies") })
+        @Html.HelpTextFor(m => m.CompanyIds, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.CompanyIds)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.CompanyTypeIds, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.ListBoxFor(m => m.CompanyTypeIds, Model.CompanyTypes, new { @class = "col-xs-10 multi-select no-padding", multiple = "multiple", placeholder = T("ProtectedDocument_Text_SelectCompanyTypes") })
+        @Html.HelpTextFor(m => m.CompanyTypeIds, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.CompanyTypeIds)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", true)
+</div>

@@ -1,0 +1,14 @@
+<div class="form-group">
+    <label class="col-md-5 control-label" for="Module">How do you want to receive update notification?</label>
+    <div id="module-radio" class="col-md-6">
+        @foreach (var type in Model.Types)
+        {
+        <div class="radio">
+            <label for="@type.Text">
+                <input type="radio" name="SubscriptionType" id="@type.Text" value="@type.Text" required>
+                @type.Text
+            </label>
+        </div>
+        }
+    </div>
+</div>

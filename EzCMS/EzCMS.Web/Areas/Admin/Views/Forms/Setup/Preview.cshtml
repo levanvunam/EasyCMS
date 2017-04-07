@@ -1,0 +1,69 @@
+﻿@model EzCMS.Core.Models.Forms.Render.FormIframeLoaderModel
+@{
+    Layout = "~/Areas/Admin/Views/Forms/_Layout.FormBuilder.cshtml";
+    ViewBag.Title = T("Form_Site_PreviewTitle");
+    ViewBag.Description = T("Form_Site_PreviewDescription");
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/FormBuilder/css/Select2/select2.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/FormBuilder/css/form.css")" />
+    @if (!string.IsNullOrEmpty(Model.Style))
+    {
+        <link rel="stylesheet" href="@Model.Style" />
+    }
+}
+
+<div class="row">
+    <div class="container">
+        <h1>@ViewBag.Title</h1>
+        <hr />
+        @if (Model.Id > 0)
+        {
+            <a href="@Url.Action("BuildForm", new { id = Model.Id })" class="btn btn-success">@T("Form_Preview_Text_EditButton") <i class="ace-icon fa fa-edit icon-on-right"></i></a>
+            <a href="@Url.Action("Configure", new { id = Model.Id })" class="btn">@T("Form_Preview_Text_ConfigureFormButton") <i class="ace-icon fa fa-cogs icon-on-right"></i></a>
+            <a href="@Url.Action("EmbeddedScript", new { id = Model.Id })" class="btn btn-warning">@T("Form_Preview_Text_EmbedScriptButton") <i class="ace-icon fa fa-code icon-on-right"></i></a>
+            <a href="@Url.Action("Index")" class="btn btn-primary">@T("Form_Preview_Text_BackToListButton") <i class="ace-icon fa fa-list icon-on-right"></i></a>
+            <hr />
+        }
+        <div class="space-4 clear"></div>
+        <form id="preview-form" class="form-horizontal" novalidate>
+            @Html.Raw(Model.Content)
+        </form>
+    </div>
+</div>
+
+@section scripts
+{
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/FormBuilder/html5shiv.js")" ></script>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/FormBuilder/respond.min.js")" ></script>
+        <![endif]-->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/FormBuilder/jquery.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/FormBuilder/jquery.ie.js'>"+"<"+"/script>");
+    </script>
+    <![endif]-->
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/FormBuilder/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/FormBuilder/select2.min.js")"></script>
+
+    <script type="text/javascript">
+        $(function () {
+            $("[multiple=multiple]").select2();
+            $("select").select2();
+
+            $("#preview-form").submit(function (e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+}

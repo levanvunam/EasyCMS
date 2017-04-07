@@ -1,0 +1,38 @@
+﻿@model EzCMS.Core.Models.FormComponents.FormComponentManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.FormTabId, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.FormTabId, Model.FormTabs, new { @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.FormTabId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.FormTabId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.FormComponentTemplateId, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.FormComponentTemplateId, Model.Templates, new { @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.FormComponentTemplateId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.FormComponentTemplateId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RecordOrder, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.RecordOrder, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.RecordOrder, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RecordOrder)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>

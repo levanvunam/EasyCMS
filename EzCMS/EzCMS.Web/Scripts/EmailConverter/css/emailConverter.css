@@ -1,0 +1,65 @@
+﻿.CodeMirror {
+    height: 500px;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.CodeMirror-matchingtag {
+    background: #ff9600;
+}
+
+.CodeMirror {
+    border: 1px solid silver;
+}
+
+.CodeMirror-empty.CodeMirror-focused {
+    outline: none;
+}
+
+.CodeMirror pre.CodeMirror-placeholder {
+    color: #999;
+}
+
+.option-group .list-group-item {
+    position: relative;
+}
+
+    .option-group .list-group-item input[type=text] {
+        position: absolute;
+        left: 6px;
+        right: 6px;
+        top: 4px;
+        bottom: 4px;
+        opacity: 0;
+        padding-left: 8px;
+        max-width: 155px;
+        -webkit-transition: opacity 0.15s linear 0s;
+        -moz-transition: -moz-transform 0.15s linear 0s;
+        -o-transition: -o-transform 0.15s linear 0s;
+        transition: transform 0.15s linear 0s;
+    }
+
+        .option-group .list-group-item:hover input[type=text], .option-group .list-group-item input[type=text].active {
+            opacity: 1;
+        }
+
+ul.spaced > li {
+    margin-bottom: 10px;
+    line-height: 20px;
+}
+
+.modal.in .modal-dialog {
+    height: 85%;
+}
+
+.modal-content {
+    position: absolute;
+    top: 30px;
+    bottom: 10px;
+    left: 20px;
+    right: 10px;
+}
+
+.modal-body {
+    height: 90%;
+}

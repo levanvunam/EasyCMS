@@ -1,0 +1,666 @@
+﻿@using EzCMS.Core.Framework.SiteSettings
+@model EzCMS.Core.Models.Media.MediaBrowserSetupModel
+
+@{
+    Script.Block(@<script type="text/javascript">
+        var emptyText = "@T("Media_Message_EmptyFolder")";
+        var $filePickerPreview = $("#file-picker-preview");
+        var $filePickerLoading = $("#file-picker-loading");
+
+        // Save file
+        function SaveThis() {
+            var path = $(fileBrowser).jstree('get_selected').attr("path");
+
+            siteHelper.httpPost({
+                url: "@Url.Action("CheckPathValid")",
+                data: {
+                    mode: "@Model.Mode",
+                    path: path
+                },
+                success: function (response) {
+                    if (response.Success) {
+                        path = response.Data;
+
+                        console.log(response);
+                        // Excute target control action
+                        if (parent.$TargetControl != "undefined" && typeof (parent.$TargetControl) === "function") {
+                            parent.$TargetControl(path);
+                        } else {
+                            console.log(parent.$TargetControl);
+                            parent.$TargetControl.val(path);
+                        }
+
+                        // Check if there are any select image function in parent window
+                        // If any then excute
+                        if (parent.window["selectMedia"] != undefined && parent.window["selectMedia"].length > 0) {
+                            siteHelper.executeFunction("selectMedia", parent.window, path);
+                        }
+
+                        parent.$.fancybox.close();
+
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        }
+
+        // CkEditor callback
+        function SelectThis() {
+            var funcNum = siteHelper.getUrlParam('CKEditorFuncNum');
+            var path = $(fileBrowser).jstree('get_selected').attr("path");
+
+            siteHelper.httpPost({
+                url: "@Url.Action("CheckPathValid")",
+                data: {
+                    mode: "@Model.Mode",
+                    path: path
+                },
+                success: function (response) {
+                    if (response.Success) {
+                        path = response.Data;
+
+                        window.opener.CKEDITOR.tools.callFunction(funcNum, path);
+                        window.close();
+
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        }
+
+        var fileBrowser = "#file-browser";
+        var oldSelectedNode;
+
+        // Get list of hierarchy folder from path
+        function getFolderLocations(id, path) {
+            if (path == null || path == '')
+                path = "@Model.RootFolder";
+            var folders = [];
+            var index = 0;
+            //console.log(path);
+            var lastIndex;
+            do {
+                lastIndex = index;
+                index = path.indexOf('/', index + 1);
+                if (index >= 0) {
+                    var nodeId = siteHelper.toIdString(path.substring(0, index));
+                    var isFolder = $("#" + nodeId).attr("rel") == "folder" || $("#" + nodeId).attr("rel") == "home";
+                    //console.log(path.substring(0, index));
+                    //console.log(nodeId);
+                    //console.log($("#" + nodeId).attr("rel"));
+                    folders.push({
+                        id: nodeId,
+                        path: path.substring(0, index),
+                        name: path.substring(lastIndex + 1, index),
+                        isFolder: isFolder
+                    });
+                }
+            } while (index >= 0)
+
+            folders.push({
+                id: id,
+                path: path,
+                name: path.substring(lastIndex + 1, path.length),
+                isFolder: path.substring(1, path.length - 1).indexOf(".") == -1
+            });
+
+            return folders;
+        }
+
+        // Refresh the location bar with new url
+        function refreshLocationBar(id, path) {
+            var folderLocations = getFolderLocations(id, path);
+            var html = '';
+            for (var i = 0; i < folderLocations.length; i++) {
+                if (!folderLocations[i].isFolder || i == folderLocations.length - 1) {
+                    html += "<li><a style='cursor: default' href=\"javascript:void(0)\">" + folderLocations[i].name + "</a></li>";
+                }
+                else {
+                    html += "<li><a href=\"javascript:openFolder('" + folderLocations[i].id + "', '" + folderLocations[i].path + "')\">" + folderLocations[i].name + "</a></li>";
+                }
+            }
+            $("#location-bar").html(html);
+        }
+
+        // Get selected node
+        function getSelectedNode() {
+            return $(fileBrowser).jstree('get_selected');
+        }
+
+        function showPreviewBox(isShowed) {
+            if (isShowed) {
+                $(".file-preview").show();
+                $('#file-list').hide();
+            } else {
+                $(".file-preview").hide();
+                $('#file-list').show();
+            }
+        }
+
+        function showPreviewImage(isShowed) {
+            if (isShowed) {
+                $filePickerPreview.show();
+                $filePickerLoading.hide();
+            } else {
+                $filePickerPreview.hide();
+                $filePickerLoading.show();
+            }
+        }
+
+        // Open the image
+        function openFile(id, path) {
+            showPreviewImage(false);
+
+            // Refresh the location bar
+            refreshLocationBar(id, path);
+
+            $(fileBrowser).jstree("select_node", $(document.getElementById(id)), true);
+            var selectedNode = getSelectedNode();
+            var rel = $(selectedNode).attr("rel");
+            var data = { path: path };
+
+            siteHelper.httpPost({
+                showLoading: false,
+                url: '@Url.Action("GetFileInfo")',
+                data: data,
+                success: function (response) {
+                    if (response.Success) {
+                        switch (rel) {
+                            case 'image':
+                                $filePickerPreview.attr("src", path + "?" + new Date().getTime());
+                                break;
+                            case 'file':
+                                $filePickerPreview.attr("src", "/Content/Media/file.png");
+                                break;
+                            default:
+                                return;
+                                // Folder select
+                        }
+                        var items = [];
+                        items.push("<li class='form-group col-xs-12'><span class='title col-sm-12 col-md-5'> File Name</span><span class='col-sm-12 col-md-7'>" + response.Data.FileName + "</span></li>");
+                        items.push("<li class='form-group col-xs-12'><span class='title col-sm-12 col-md-5'> File Size</span><span class='col-sm-12 col-md-7'>" + response.Data.FileSize + "</span></li>");
+                        items.push("<li class='form-group col-xs-12'><span class='title col-sm-12 col-md-5'> Created</span><span class='col-sm-12 col-md-7'>" + response.Data.Created + "</span></li>");
+                        items.push("<li class='form-group col-xs-12'><span class='title col-sm-12 col-md-5'> Last Modified</span><span class='col-sm-12 col-md-7'>" + response.Data.LastUpdate + "</span></li>");
+                        $("#file-info").html(items.join(''));
+                        showPreviewBox(true);
+                    }
+                    else {
+                        siteHelper.showErrorMessage(response.Message);
+                    }
+                }
+            });
+        }
+
+        // Open the node
+        function openFolder(id, path) {
+            refreshLocationBar(id, path);
+            var nodeToOpen = $(document.getElementById(id));
+            $(fileBrowser).jstree("select_node", nodeToOpen, true);
+
+            // After node has loaded, if folder is empty, node will never can trigger open node again
+            // Handle trigger open node here to show thumbnails
+            if (nodeToOpen.hasClass('jstree-leaf')) {
+                $("#file-list").html(emptyText);
+            }
+                // Work normal
+            else {
+                if (nodeToOpen.hasClass("jstree-open")) {
+                    $(fileBrowser).jstree("close_node", nodeToOpen);
+                }
+                $(fileBrowser).jstree("open_node", nodeToOpen);
+            }
+        }
+
+        function refreshThumbnailsOfFolder(data) {
+            siteHelper.showLoading();
+            var node = $(data.rslt.obj);
+            refreshLocationBar(node.attr("id"), node.attr("path"));
+            var items = [];
+            $('>ul>li', data.rslt.obj).each(function (idx, listItem) {
+                var child = $(listItem);
+                var rel = $(child).attr("rel");
+                var id = $(child).attr("id");
+                var path = $(child).attr("path");
+                var name = path.substring(path.lastIndexOf("/") + 1, path.length);
+                switch (rel) {
+                    case 'image':
+                        items.push("<li onclick=\"openFile('" + id + "','" + path + "')\"><img src='" + path + "' /><span class='label label-info'>" + name + "</span></li>");
+                        break;
+                    case 'file':
+                        items.push("<li onclick=\"openFile('" + id + "','" + path + "')\"><img src='/Content/Media/file.png'/><span class='label label-info'>" + name + "</span></li>");
+                        break;
+                    case 'folder':
+                        items.push("<li onclick=\"openFolder('" + id + "','" + path + "')\"><img src='/Content/Media/folder.png' /><span class='label label-info'>" + name + "</span></li>");
+                        break;
+                    default:
+                }
+            });
+            if (items.length > 0) {
+                $('#file-list').html(items.join(''));
+            } else {
+                $('#file-list').html(emptyText);
+            }
+            siteHelper.hideLoading();
+            showPreviewBox(false);
+        }
+
+        $(function () {
+            $filePickerPreview.on("load", function () {
+                showPreviewImage(true);
+            });
+
+            $(fileBrowser)
+                .jstree({
+                    // List of active plugins
+                    "plugins": [
+                        "themes", "json_data", "ui", "crrm", "dnd", "search", "types", "hotkeys", "contextmenu"
+                    ],
+                    "themes": {
+                        "theme": "default",
+                        "dots": true,
+                        "icons": true,
+                        "url": "/Content/Media/themes/default/style.css"
+                    },
+                    "ui": {
+                        "select_limit": 1,
+                    },
+                    // I usually configure the plugin that handles the data first
+                    // This example uses JSON as it is most common
+                    "json_data": {
+                        // This tree is ajax enabled - as this is most common, and maybe a bit more complex
+                        // All the options are almost the same as jQuery's AJAX (read the docs)
+                        "ajax": {
+                            "url": "@Url.Action("GetTreeData", new { rootFolder = Model.RootFolder})",
+                            "type": "POST",
+                            "dataType": "json",
+                            "data": function (n) {
+                                // The result is fed to the AJAX request `data` option
+                                return {
+                                    "dir": n.attr ? n.attr("path") : ""
+                                };
+                            },
+                            "success": function (data) {
+                                // Check if folder is empty, remove thumbnails if existed
+                                if (data.length == 0) {
+                                    $('#file-list').html(emptyText);
+                                }
+                            }
+                        }
+                    },
+                    // Configuring the search plugin
+                    "search": {
+                        // As this has been a common question - async search
+                        // Same as above - the `ajax` config option is actually jQuery's AJAX object
+                        "ajax": {
+                            "url": "./server.php",
+                            // You get the search string as a parameter
+                            "data": function (str) {
+                                return {
+                                    "operation": "search",
+                                    "search_str": str
+                                };
+                            }
+                        }
+                    },
+                    // Using types - most of the time this is an overkill
+                    // read the docs carefully to decide whether you need types
+                    "types": {
+                        // I set both options to -2, as I do not need depth and children count checking
+                        // Those two checks may slow jstree a lot, so use only when needed
+                        "max_depth": -2,
+                        "max_children": -2,
+                        // I want only `home` nodes to be root nodes
+                        // This will prevent moving or creating any other type as a root node
+                        "valid_children": ["home"],
+                        "types": {
+                            // The default type
+                            "default": {
+                                "icon": {
+                                    "image": "/Content/Media/themes/default/file.png"
+                                }
+                            },
+                            "file": {
+                                "icon": {
+                                    "image": "/Content/Media/themes/default/file.png"
+                                }
+                            },
+                            // The `folder` type
+                            "folder": {
+                                // can have files and other folders inside of it, but NOT `home` nodes
+                                "valid_children": ["file", "folder", "image", ".dll"],
+                                "icon": {
+                                    "image": "/Content/Media/themes/default/folder.png"
+                                }
+                            },
+                            // The `home` nodes
+                            "home": {
+                                // can have files and folders inside, but NOT other `home` nodes
+                                "valid_children": ["default", "folder", "file", "folder", ".dll", "image"],
+                                "icon": {
+                                    "image": "/Content/Media/themes/default/home.png"
+                                },
+                                // those prevent the functions with the same name to be used on `home` nodes
+                                // internally the `before` event is used
+                                "start_drag": true,
+                                "move_node": true,
+                                "delete_node": false,
+                                "remove": false
+                            },
+                            ".dll": {
+                                "icon": {
+                                    "image": "/Content/Media/themes/default/dll.png"
+                                }
+                            },
+                            "image": {
+                                "icon": {
+                                    "image": "/Content/Media/themes/default/image.png"
+                                }
+                            },
+                        }
+                    }
+                })
+                .bind('loaded.jstree', function (e, data) {
+                    // invoked after jstree has loaded
+                    // select item in parent textbox
+                    var path = '';
+                    var id = '';
+                    var folderLocations = getFolderLocations("@Model.FileTreeAttribute.Id", "@Model.FileTreeAttribute.Path");
+
+                    // Loop all the item to open the latest file
+                    if (folderLocations.length > 1) {
+                        //console.log(folderLocations);
+                        $(fileBrowser).jstree("deselect_all");
+                        var lastItem = folderLocations[folderLocations.length - 1].id;
+                        var deffereds = $.Deferred(function (def) { def.resolve(); });
+
+                        for (var j = 0; j < folderLocations.length - 1; j++) {
+                            deffereds = (function (folder, deferreds) {
+                                return deferreds.pipe(function () {
+                                    return $.Deferred(function (def) {
+                                        $(fileBrowser).jstree("open_node", $(document.getElementById(folder.id)), function () {
+                                            def.resolve();
+                                            var selectItem = $(document.getElementById(lastItem));
+                                            if (selectItem.length > 0) {
+                                                var rel = $(selectItem).attr("rel");
+                                                path = $(selectItem).attr("path");
+                                                id = $(selectItem).attr("id");
+                                                switch (rel) {
+                                                    case 'image':
+                                                        openFile(id, path);
+                                                        break;
+                                                    case 'file':
+                                                        openFile(id, path);
+                                                        break;
+                                                    case 'folder':
+                                                        openFolder(id, path);
+                                                        break;
+                                                    default:
+                                                }
+                                                refreshLocationBar(id, path);
+                                            }
+                                        });
+                                    });
+                                });
+                            })(folderLocations[j], deffereds);
+                        }
+                    }
+                    else {
+                        path = "@Model.RootFolder";
+                        id = siteHelper.toIdString(path);
+                        openFolder(id, path);
+                        refreshLocationBar(path, path);
+                    }
+                })
+                .bind("open_node.jstree", function (event, data) {
+                    $(fileBrowser).jstree("select_node", data.rslt.obj, true);
+                    var selectedNode = getSelectedNode();
+                    var rel = $(selectedNode).attr("rel");
+                    var id = selectedNode.attr("id");
+                    var path = selectedNode.attr("path");
+                    if (rel == 'folder' || rel == 'home') {
+                        //openFolder(id, path);
+                    }
+                    else {
+                        openFile(id, path);
+                    }
+                    refreshThumbnailsOfFolder(data);
+                })
+                .bind("close_node.jstree", function (event, data) {
+                    $(fileBrowser).jstree("select_node", data.rslt.obj, true);
+                    var selectedNode = getSelectedNode();
+                    var rel = $(selectedNode).attr("rel");
+                    var id = selectedNode.attr("id");
+                    var path = selectedNode.attr("path");
+                    if (rel == 'folder' || rel == 'home') {
+                        refreshThumbnailsOfFolder(data);
+                    }
+                    else {
+                        openFile(id, path);
+                    }
+                })
+                .bind("create.jstree", function (e, data) {
+                    siteHelper.showLoading();
+                    $.post(
+                        "@Url.Action("CreateFolder")",
+                        {
+                            "path": data.rslt.parent.attr("path"),
+                            "folder": data.rslt.name
+                        },
+                        function (response) {
+                            siteHelper.hideLoading();
+                            if (response.Success) {
+                                $(data.rslt.obj).attr("id", response.Data.Id);
+                                $(data.rslt.obj).attr("path", response.Data.Path);
+                                $(data.rslt.obj).attr("rel", "folder");
+                                siteHelper.showSuccessMessage(response.Message);
+                            } else {
+                                siteHelper.showErrorMessage(response.Message);
+                                $.jstree.rollback(data.rlbk);
+                            }
+                        }
+                    );
+                })
+                .bind("remove.jstree", function (e, data) {
+                    data.rslt.obj.each(function () {
+                        siteHelper.httpPost({
+                            async: false,
+                            url: "@Url.Action("Delete")",
+                            data: {
+                                "path": $(this).attr("path")
+                            },
+                            success: function (response) {
+                                if (!response.Success) {
+                                    data.inst.refresh();
+                                }
+                                siteHelper.showMessage(response);
+                            }
+                        });
+                    });
+                })
+                .bind("rename.jstree", function (e, data) {
+                    $.post(
+                        "@Url.Action("Rename")",
+                        {
+                            "path": data.rslt.obj.attr("path"),
+                            "name": data.rslt.new_name
+                        },
+                        function (response) {
+                            siteHelper.showMessage(response);
+                            if (!response.Success) {
+                                $.jstree.rollback(data.rlbk);
+                            } else {
+                                var currentNode = data.args[0];
+                                currentNode.attr("path", response.Data);
+                                currentNode.attr("id", siteHelper.toIdString(response.Data));
+                                if (currentNode.attr("rel") == "folder") {
+                                    currentNode.children("a").addClass("jstree-loading");
+                                    data.inst.refresh(data.rslt.obj);
+                                }
+                            }
+                        }
+                    );
+                })
+                .bind("move_node.jstree", function (e, data) {
+                    data.rslt.o.each(function (i) {
+                        var node = $(this);
+                        siteHelper.httpPost({
+                            async: false,
+                            url: "@Url.Action("MoveData")",
+                            data: {
+                                "path": node.attr("path"),
+                                "destination": data.rslt.np.attr("path"),
+                                "copy": data.rslt.cy ? true : false
+                            },
+                            success: function (response) {
+                                if (!response.Success) {
+                                    $.jstree.rollback(data.rlbk);
+                                } else {
+                                    node.attr("id", response.Data.Id);
+                                    node.attr("path", response.Data.Path);
+                                    data.inst.refresh(data.inst._get_parent(data.rslt.oc));
+                                }
+                                siteHelper.showMessage(response);
+                            }
+                        });
+                    });
+                })
+                .bind("before.jstree", function (e, data) {
+                    if (data.func === "remove" && !confirm("@T("Media_Message_DeleteItem")")) {
+                        showPreviewBox(false);
+                        e.stopImmediatePropagation();
+                        return false;
+                    }
+                    if (data.func === "select_node") {
+                        var rel = $($(data.args[0]).parent()).attr("rel");
+                        if (data.inst.is_leaf(data.args[0]) && rel == 'folder') {
+                            $('#file-list').html(emptyText);
+                            showPreviewBox(false);
+                        }
+                        oldSelectedNode = getSelectedNode();
+                    }
+                })
+                .delegate(".jstree-open>a", "click.jstree", function (event) {
+                    var rel = getSelectedNode().attr("rel");
+                    if (oldSelectedNode.attr("path") == getSelectedNode().attr("path") || (rel != 'home' && rel != 'folder')) {
+                        $(fileBrowser).jstree("close_node", this);
+                    }
+                    else {
+                        if ($(this).parent().hasClass("jstree-open")) {
+                            $(fileBrowser).jstree("close_node", this);
+                        }
+                        $(fileBrowser).jstree("open_node", this);
+                    }
+                })
+                .delegate(".jstree-closed>a", "click.jstree", function (event) {
+                    var rel = getSelectedNode().attr("rel");
+                    var id = getSelectedNode().attr("id");
+                    var path = getSelectedNode().attr("path");
+                    if ((rel != 'home' && rel != 'folder')) {
+                        openFile(id, path);
+                    }
+                    else {
+                        $(fileBrowser).jstree("open_node", this);
+                    }
+                });
+        });
+
+        $(function () {
+            createUploader();
+            if (siteHelper.getUrlParam("CKEditor") != '') {
+                $("#select-for-ckeditor").show();
+                $("#select").hide();
+            }
+            else {
+                $("#select").show();
+                $("#select-for-ckeditor").hide();
+            }
+        });
+
+        function EditThis() {
+            if ($(fileBrowser).jstree('get_selected').attr("isimage") == "true") {
+                siteHelper.showPopup({
+                    href: "@Url.Action("ImageEditor", "Media", new { area = "Admin" })?virtualPath=" + $(fileBrowser).jstree('get_selected').attr("path"),
+                    type: 'iframe',
+                    width: '100%'
+                }, function () {
+                    $(fileBrowser).find('.jstree-clicked').trigger("click");
+                    var toRefreshNode = $.jstree._reference($(fileBrowser))
+                        ._get_parent($(fileBrowser).jstree('get_selected'));
+                    $.jstree._reference($(fileBrowser)).refresh(toRefreshNode);
+                    showPreviewBox(true);
+                    return true;
+                });
+            } else {
+                siteHelper.alert("@T("Media_Message_CannotEditFileFolder")");
+            }
+        }
+
+        var uploader;
+        function createUploader() {
+            uploader = new qq.FileUploader({
+                element: document.getElementById("fileUploader"),
+                action: '@Url.Action("FileUpload")',
+                debug: false,
+                dragText: '<i class="fa fa-upload orange"></i>  Drag files here to upload',
+                checkLeavingDocument: function (e) {
+                    var width = siteHelper.getVisibleWidth($("#media-browser"));
+                    var height = siteHelper.getVisibleHeight($("#media-browser"));
+
+                    return ((qq.chrome() || (qq.safari() && qq.windows())) && (e.clientX <= 0 || e.clientY <= 0 || e.clientX >= width || e.clientY >= height)) // null coords for Chrome and Safari Windows
+                         || (qq.firefox() && !e.relatedTarget); // null e.relatedTarget for Firefox
+                },
+                sizeLimit: parseInt('@(SValue<int>(SettingNames.MaxSizeUploaded))'),
+                onSubmit: function () {
+                    var currentNode = $(fileBrowser).jstree('get_selected');
+                    var type = currentNode.attr("rel");
+                    if (type == "folder" || type == "home") {
+                        uploader.setParams({
+                            dir: $(fileBrowser).jstree('get_selected').attr('path')
+                        });
+                    }
+                    else {
+                        var parentNode = $.jstree._reference(fileBrowser)._get_parent(currentNode);
+                        if (parentNode.length > 0) {
+                            uploader.setParams({
+                                dir: parentNode.attr("path")
+                            });
+                        } else {
+                            siteHelper.showErrorMessage("@T("Media_Message_Upload")");
+                            return false;
+                        }
+                    }
+                    return true;
+                },
+                onComplete: function (id, filename, response) {
+                    if (response.Success) {
+                        var fileBrowser = "#file-browser";
+                        if (response.isImage) {
+                            $filePickerPreview.attr("src", response.fileLocation);
+                        } else {
+                            $filePickerPreview.attr("src", "/Content/Media/file.png");
+                        }
+                        var currentNode = $(fileBrowser).jstree('get_selected');
+                        var type = currentNode.attr("rel");
+                        $.jstree._reference(fileBrowser).deselect_node(currentNode);
+                        if (type == "folder" || type == "home") {
+                            $.jstree._reference(fileBrowser).refresh(currentNode);
+                        } else {
+                            var parentNode = $.jstree._reference(fileBrowser)._get_parent(currentNode);
+                            $.jstree._reference(fileBrowser).refresh(parentNode);
+                        }
+
+                        $.jstree._reference(fileBrowser).data.ui.to_select = ['#' + response.id];
+
+                        showPreviewBox(true);
+                    }
+                    siteHelper.showMessage(response);
+                    $(".qq-upload-fail").remove();
+                    $(".qq-upload-success").remove();
+                }
+            });
+            $(".qq-upload-button").addClass("btn btn-primary");
+        }
+    </script>);
+}

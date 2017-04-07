@@ -1,0 +1,50 @@
+﻿@model EzCMS.Core.Models.SiteSettings.SiteSettingManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("SiteSetting_Site_Header");
+    ViewBag.Title = T("SiteSetting_Site_EditTitle");
+    ViewBag.Description = T("SiteSetting_Site_EditDescription");
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("PopupEdit", "SiteSettings", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.SettingName)
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.SettingType, new { @class = "col-md-4 control-label" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.SettingType, new { @class = "col-xs-12" })
+                    @Html.HelpTextFor(m => m.SettingType, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.SettingType)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
+                <div class="col-md-5">
+                    <div class="col-xs-10 no-padding">
+                        @Html.TextAreaFor(m => m.Description, new { @class = "col-xs-12", rows = 4 })
+                    </div>
+                    @Html.HelpTextFor(m => m.Description, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.Description)
+                </div>
+            </div>
+            @Html.EditorFor(m => m.Setting, "", "")
+            <div class="clearfix form-actions">
+                @Html.Partial("Partials/_SubmitButtons", true)
+            </div>
+        }
+    </div>
+</div>

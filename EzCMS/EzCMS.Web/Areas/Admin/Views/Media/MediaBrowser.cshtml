@@ -1,0 +1,62 @@
+﻿@model Ez.Framework.Models.Media.MediaBrowserSetupModel
+
+@{
+    ViewBag.Title = T("Media_Site_MediaBrowserTitle");
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="media-browser" class="page-content">
+    <div class="row">
+        <div class="widget-box">
+            <div class="widget-header">
+                <h4 class="lighter smaller">@T("Media_Text_FileBrowser")</h4>
+            </div>
+            <div class="widget-body">
+                <div class="">
+                    <div class="col-xs-3" style="padding: 0;">
+                        <div id="file-browser">
+                        </div>
+                    </div>
+                    <div class="col-xs-9">
+                        <ul id="location-bar"></ul>
+                        <div class="clearfix"></div>
+                        <div class="space-4"></div>
+                        <div class="table-bordered preview-box">
+                            <div class="file-preview" style="display: none">
+                                <div class="file-preview-inner">
+                                    <img id="file-picker-loading" src="/Images/loading.gif" style="display: none;" />
+                                    <img id="file-picker-preview" />
+                                </div>
+                                <ul id="file-info" class="row"></ul>
+                            </div>
+                            <ul id="file-list"></ul>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="space-4"></div>
+                    <div id="fileUploader" class="col-xs-3">
+                        <noscript>
+                            <p>
+                                @T("Media_Text_EnableScriptMessage")
+                            </p>
+                            <!-- or put a simple form for upload here -->
+                        </noscript>
+                    </div>
+                    <div class="col-xs-9">
+                        <div class="center">
+                            <input type="button" class="btn btn-primary" value="@T("Media_Text_EditButton")" onclick="EditThis()" />
+                            <input id="select" type="button" class="btn btn-primary" value="@T("Media_Text_SelectButton")" onclick="SaveThis()" />
+                            <input id="select-for-ckeditor" type="button" class="btn btn-primary" value="@T("Media_Text_SelectCkEditor")" onclick="SelectThis()" />
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Html.Partial("Partials/_MediaBrowserScripts", Model)
+}

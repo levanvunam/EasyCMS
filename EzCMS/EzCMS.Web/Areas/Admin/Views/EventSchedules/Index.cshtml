@@ -1,0 +1,121 @@
+﻿@{
+    ViewBag.Header = T("EventSchedule_Site_Header");
+    ViewBag.Title = T("EventSchedule_Site_ListingTitle");
+    ViewBag.Description = T("EventSchedule_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("EventSchedule_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Event Schedule" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("EventSchedule_Field_Id")',
+                '@T("EventSchedule_Field_EventTitle")',
+                '@T("EventSchedule_Field_Location")',
+                '@LabelForTime(T("EventSchedule_Field_TimeStart"))',
+                '@LabelForTime(T("EventSchedule_Field_TimeEnd"))',
+                '@T("EventSchedule_Field_MaxAttendees")',
+                '@LabelForTime(T("EventSchedule_Field_Created"))',
+                '@T("EventSchedule_Field_CreatedBy")',
+                '@LabelForTime(T("EventSchedule_Field_LastUpdate"))',
+                '@T("EventSchedule_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        return editIcon + detailsIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                {
+                    name: 'EventTitle',
+                    index: 'EventTitle',
+                    formatter: function(cellvalue, options, rowObject) {
+                        var detailUrl = "<a href='@Url.Action("Details", "Events")/" + rowObject.EventId + "'>" + cellvalue + "</a>";
+                        return detailUrl;
+                    }
+                },
+                { name: 'Location', index: 'Location' },
+                {
+                    name: 'TimeStart',
+                    index: 'TimeStart',
+                    sorttype: "datetime",
+                    search: false,
+                    formatter: function(cellValue, options, rowObject) {
+                        return jqGridHelper.printLocalDateTimeFormat(cellValue);
+                    }
+                },
+                { name: 'TimeEnd', index: 'TimeEnd', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'MaxAttendees', index: 'MaxAttendees', hidden: true },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

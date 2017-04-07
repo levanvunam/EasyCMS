@@ -1,0 +1,147 @@
+﻿@model EzCMS.Core.Models.Common.GoogleAnalyticDashboardModel
+
+<div id="config-box" class="col-xs-12" style="display: @(Model.IsSetup && Model.IsSetupInformationValid ? "none" : "")">
+    @if (!Model.IsSetup || (Model.IsSetup && !Model.IsSetupInformationValid))
+    {
+        if (!Model.IsSetup)
+        {
+            <div class="col-xs-12">
+                <h4>
+                    @T("Home_GoogleAnalytic_Text_IntroductionMessage")
+                </h4>
+            </div>
+        }
+        else
+        {
+            <div class="col-xs-12">
+                <h4>
+                    @T("Home_GoogleAnalytic_Text_WrongConfigureMessage")
+                </h4>
+            </div>
+        }
+        <div class="space-8 clear"></div>
+        <div class="col-xs-12">
+            <a href="#setup-instruction" class="fancybox">
+                <i class="ace-icon fa fa-question-circle"></i>
+                @T("Home_GoogleAnalytic_Text_GoogleGuidMessage")
+            </a>
+        </div>
+    }
+
+    <div class="space-24"></div>
+    @{
+        Html.RenderAction("GoogleAnalyticApiSetup");
+    }
+</div>
+
+<div id="setup-instruction" style="display: none">
+    <div class="widget-box">
+        <div class="widget-header widget-header-flat">
+            <h4 class="widget-title smaller">@T("Home_GoogleAnalytic_Text_StepsSetupGoogleHeaderTitle")</h4>
+        </div>
+        <div class="widget-body">
+            <div class="widget-main">
+
+                <h3>@T("Home_GoogleAnalytic_Text_RegisterClientIdHeaderTitle")</h3>
+                <ol>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_BrowseGoogleUrl")
+                        <a href="https://console.developers.google.com" target="_blank">https://console.developers.google.com</a>
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SignInToGoogleAccount")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_CreateNewProjectInGoogle")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_EnterProjectName")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SelectOptions")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SelectAPIs")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SearchAnalyticsAPI")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_EnableAnalyticsAPI")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_CredentialsClientId")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SelectWebApplication")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_ProviceInformation")
+                    </li>
+                    <li>
+                        @Html.Raw(T("Home_GoogleAnalytic_Text_GeneralClientIdAndSecretId"))
+                    </li>
+                    <li>
+                        <b>
+                            @T("Home_GoogleAnalytic_Text_StoreClientInformation")
+                        </b>
+                    </li>
+                </ol>
+                <h3>@T("Home_GoogleAnalytic_Text_SetupAuthorisationHeaderTitle")</h3>
+                <ol>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SetupAuthorisationUrl")
+                        <a href="https://developers.google.com/oauthplayground/" target="_blank">https://developers.google.com/oauthplayground/</a>.
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SettingOAuthCredentials")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_EnterClientId")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SaveAndRefresh")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_SelectGoogleAnalyticsAPIV3Options")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_AcceptGooglePermissions")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_ExchangeAuthorizationTokens")
+                    </li>
+                    <li>
+                        @T("Home_GoogleAnalytic_Text_CopyRefreshTokens")
+                    </li>
+                </ol>
+                <h3>@T("Home_GoogleAnalytic_Text_SetupAuthorisationHeaderTitle")</h3>
+                <p>
+                    @T("Home_GoogleAnalytic_Text_PasteGoogleInformationToWebsite")
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@if (Model.IsSetup && Model.IsSetupInformationValid)
+{
+    Html.RenderPartial("Analytics/Partials/_AnalyticBoard", Model);
+}
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $("#btn-config").click(function () {
+            $("#config-box").toggle();
+        });
+
+        $(function () {
+            $(".fancybox").fancybox({
+                fitToView: true,
+                width: '70%',
+                autoSize: true,
+            });
+        });
+    </script>);
+}

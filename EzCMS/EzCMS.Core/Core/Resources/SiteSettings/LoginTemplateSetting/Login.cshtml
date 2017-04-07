@@ -1,0 +1,115 @@
+﻿<div class="main-container">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="login-container">
+                    <div class="center">
+                        <h1>
+                            <i class="fa fa-lock blue"></i>
+                            <span class="red">Login</span>
+                            <span class="light-blue">Page</span>
+                        </h1>
+                    </div>
+
+                    <div class="space-6"></div>
+
+                    <div class="position-relative">
+                        @ShowStatusMessage()
+                        <div id="login-box" class="login-box visible widget-box no-border">
+                            <div class="widget-body">
+                                <div class="widget-main">
+                                    <h4 class="header blue lighter bigger">
+                                        <i class="fa fa-coffee green"></i>
+                                        Please Enter Your Information
+                                    </h4>
+
+                                    <div class="space-6"></div>
+
+                                    <form>
+                                        <fieldset>
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                                                    <i class="ace-icon fa fa-user"></i>
+                                                    @Html.ValidationMessageFor(m => m.Username)
+                                                </span>
+                                            </label>
+
+                                            <label class="block clearfix">
+                                                <span class="block input-icon input-icon-right">
+                                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                    <i class="ace-icon fa fa-lock"></i>
+                                                    @Html.ValidationMessageFor(m => m.Password)
+                                                </span>
+                                            </label>
+
+                                            <div class="space"></div>
+
+                                            <div class="clearfix">
+                                                @Html.AceCheckBox("RememberMe", Model.RememberMe, "Remember Me")
+
+
+                                                <button type="submit" class="width-35 pull-right btn btn-sm btn-primary">
+                                                    <i class="fa fa-key"></i>
+                                                    Login
+                                                </button>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+
+                                    <div class="social-or-login center">
+                                        <span class="bigger-110">Or Login Using</span>
+                                    </div>
+
+                                    <div class="social-login center">
+                                        <a class="btn btn-primary">
+                                            <i class="fa fa-facebook"></i>
+                                        </a>
+
+                                        <a class="btn btn-info">
+                                            <i class="fa fa-twitter"></i>
+                                        </a>
+
+                                        <a class="btn btn-danger">
+                                            <i class="fa fa-google-plus"></i>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="toolbar clearfix">
+                                    <div>
+                                        <a href="@Url.Action("ForgotPassword")" class="forgot-password-link">
+                                            <i class="fa fa-arrow-left"></i>
+                                            I forgot my password
+                                        </a>
+                                    </div>
+
+                                    <div>
+                                        <a href="@Url.Action("Register")" class="user-signup-link">
+                                            I want to register
+                                            <i class="fa fa-arrow-right"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function OnLoginSuccess(response) {
+        if (response.Success) {
+            if (response.Data.IsRedirectPermanent && parent.jQuery().fancybox) {
+                parent.location.href = response.Data.ReturnUrl;
+            } else {
+                location.href = response.Data.ReturnUrl;
+            }
+        } else {
+            siteHelper.showMessage(response);
+        }
+    }
+</script>

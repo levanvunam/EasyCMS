@@ -1,0 +1,31 @@
+<!-- Page Header -->
+<!-- Set your background image for this header on the line below. -->
+<header class="intro-header" style="background-image: url('Images/StarterKits/Blog/about-bg.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="page-heading">
+                    <h1>Page Not Found</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">Apologies, we do not seem to have a page with that name right now.</div>
+        <div class="col-xs-12">Please enter a search term to see if we can help you find what you are looking for</div>
+
+        <div class="search-container col-xs-12">
+            <input type="search" id="page-not-found-search" placeholder="Search Sites">
+            <button onclick="javascript: void (window.location.href = '/Search?keyword=' + $('#page-not-found-search').val());" class="icon"><i class="fa fa-search"></i></button>
+        </div>
+
+        <div class="col-xs-12">Or select a link from our site map below:</div>
+        <div class="clearfix"></div>
+        <div class="col-xs-12">
+            <widget>{SiteMapSimple}</widget>
+        </div>
+    </div>
+</div>

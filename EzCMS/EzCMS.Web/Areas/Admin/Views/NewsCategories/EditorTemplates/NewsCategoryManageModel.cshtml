@@ -1,0 +1,38 @@
+﻿@model EzCMS.Core.Models.NewsCategories.NewsCategoryManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Abstract, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Abstract, new { @class = "col-xs-10", rows = 4 })
+        @Html.HelpTextFor(m => m.Abstract, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Abstract)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ParentId, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.ParentId, Model.PossibleParents, T("NewsCategory_Text_SelectParent"), new { @class = "single-select-no-search col-xs-10" })
+        @Html.HelpTextFor(m => m.ParentId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ParentId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RecordOrder, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.RecordOrder, new { @class = "input-number" })
+        @Html.HelpTextFor(m => m.RecordOrder, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RecordOrder)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>

@@ -1,0 +1,71 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "NewsRead")
+</div>
+<div class="col-xs-12">
+    <table id="news-read-grid-table"></table>
+    <div id="news-read-grid-newsr"></div>
+</div>
+<div class="clear"></div>
+
+<script type="text/javascript">
+    /*
+     * Setup grid
+     */
+    var $dirty = false;
+    var newsReadGrid = "#news-read-grid-table";
+    var newsReadGridNewsr = "#news-read-grid-newsr";
+    var newsReadTab = "#news-reads";
+    var newsReadGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "News Read" })');
+    var newsReadExportUrl = "@Url.Action("Exports", "NewsReads", new { newsId = Model })";
+
+    $(function () {
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding", "NewsReads", new { newsId = Model })",
+            colNames: ['@T("NewsRead_Field_Id")',
+                '@T("NewsRead_Field_NewsId")',
+                '@T("AnonymousContact_Field_ContactId")',
+                '@T("AnonymousContact_Field_CookieKey")',
+                '@T("AnonymousContact_Field_FirstName")',
+                '@T("AnonymousContact_Field_LastName")',
+                '@T("AnonymousContact_Field_Email")',
+                '@T("AnonymousContact_Field_Phone")',
+                '@T("AnonymousContact_Field_Address")',
+                '@LabelForTime(T("NewsRead_Field_Created"))'],
+            colModel: [
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                {
+                    name: 'NewsId',
+                    index: 'NewsId',
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.formatLink('@Url.EmtpyRouteUrl("Details", "News")/' + cellvalue, rowObject.Title, rowObject.Title, true);
+                    }
+                },
+                {
+                    name: 'ContactId',
+                    index: 'ContactId',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (cellvalue != null) {
+                            var fullName = rowObject.FirstName + " " + rowObject.LastName;
+                            return jqGridHelper.formatLink('@Url.EmtpyRouteUrl("Details", "Contacts")/' + cellvalue, fullName, fullName, true);
+                        }
+                        return "";
+                    }
+                },
+                { name: 'CookieKey', index: 'CookieKey' },
+                { name: 'FirstName', index: 'FirstName' },
+                { name: 'LastName', index: 'LastName' },
+                { name: 'Email', index: 'Email' },
+                { name: 'Phone', index: 'Phone' },
+                { name: 'Address', index: 'Address', hidden: true },
+                { name: 'Created', index: 'Created', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } }
+            ],
+            loadComplete: function(response) {
+                $("#tab-news-read").data("total", response.records).html(response.records);
+            }
+        };
+
+        jqGridHelper.setupTabGrid(newsReadGrid, newsReadGridNewsr, gridOptions, newsReadGridSettings, newsReadTab, newsReadExportUrl, "NewsRead");
+    });
+</script>

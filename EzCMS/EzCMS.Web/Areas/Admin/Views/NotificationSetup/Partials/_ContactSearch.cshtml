@@ -1,0 +1,383 @@
+﻿@model EzCMS.Core.Models.Contacts.ContactSearchModel
+
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(model => model.ContactGroupId, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.DropDownListFor(m => m.ContactGroupId, Model.ContactGroups, T("Contact_Search_AllContactGroups"), new { id = "ContactGroupId", @class = "col-xs-10 single-select search-input" })
+        @Html.HelpTextFor(m => m.ContactGroupId, new { @class = "help-button" })
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.Keyword, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Keyword, new { id = "Keyword", @class = "col-xs-10 search-textfields search-input", placeholder = T("Contact_Search_Keyword") })
+        @Html.HelpTextFor(m => m.Keyword, new { @class = "help-button" })
+    </div>
+</div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.Suburb, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Suburb, new { id = "Suburb", @class = "col-xs-10 search-textfields search-input", placeholder = T("Contact_Search_SuburbPlaceHolder") })
+        @Html.HelpTextFor(m => m.Suburb, new { @class = "help-button" })
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.Companies, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @if (Model.CompanyList.Any())
+        {
+            @Html.DropDownListFor(c => c.Companies, Model.CompanyList, new { id = "Companies", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllCompanies") })
+        }
+        else
+        {
+            <label class="control-value">@T("Contact_Search_NoMatches")</label>
+        }
+        @Html.HelpTextFor(m => m.Companies, new { @class = "help-button" })
+    </div>
+</div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.State, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.State, new { id = "State", @class = "col-xs-10 search-textfields search-input", placeholder = T("Contact_Search_StatePlaceHolder") })
+        @Html.HelpTextFor(m => m.State, new { @class = "help-button" })
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.CompanyTypeIds, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @if (Model.CompanyTypes.Any())
+        {
+            @Html.ListBoxFor(c => c.CompanyTypeIds, Model.CompanyTypes, new { id = "CompanyTypeIds", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllCompanyTypes") })
+        }
+        else
+        {
+            <label class="control-value">@T("Contact_Search_NoMatches")</label>
+        }
+        @Html.HelpTextFor(m => m.CompanyTypeIds, new { @class = "help-button" })
+    </div>
+</div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.Country, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.DropDownListFor(m => m.Country, Model.CountryList, T("Contact_Search_AllCountries"), new { id = "Country", @class = "col-xs-10 single-select search-input" })
+        @Html.HelpTextFor(m => m.Country, new { @class = "help-button" })
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.SalesPerson, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @if (Model.SalesPersonList.Any())
+        {
+            @Html.DropDownListFor(c => c.SalesPerson, Model.SalesPersonList, new { id = "SalesPerson", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllSalesPeople") })
+        }
+        else
+        {
+            <label class="control-value">@T("Contact_Search_NoMatches")</label>
+        }
+        @Html.HelpTextFor(m => m.SalesPerson, new { @class = "help-button" })
+    </div>
+</div>
+<div class="col-sm-6 form-group">
+    @Html.LabelFor(m => m.MarketingMaterial, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.DropDownListFor(c => c.MarketingMaterial, Model.MarketingMaterials, new { id = "MarketingMaterial", @class = "col-xs-10 single-select search-input" })
+        @Html.HelpTextFor(m => m.MarketingMaterial, new { @class = "help-button" })
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-xs-12 form-group text-right">
+    <a href="javascript:void(0)" id="btn-advance-search" data-toggle="collapse" data-target="#advanced-search">
+        <i class="fa fa-angle-double-down"></i>&nbsp;&nbsp;
+        @T("Contact_Search_AdvancedSearch")
+    </a>
+</div>
+<div class="clearfix"></div>
+<div class="collapse" id="advanced-search">
+    <hr class="light-border" />
+    <div class="col-sm-6 form-group">
+        @Html.LabelFor(m => m.ReferredBy, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @if (Model.ReferredByList.Any())
+            {
+                @Html.DropDownListFor(c => c.ReferredBy, Model.ReferredByList, new { id = "ReferredBy", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllReferredBy") })
+            }
+            else
+            {
+                <label class="control-value">@T("Contact_Search_NoMatches")</label>
+            }
+            @Html.HelpTextFor(m => m.ReferredBy, new { @class = "help-button" })
+        </div>
+    </div>
+    <div class="col-sm-6 form-group">
+        @Html.LabelFor(m => m.CampaignCodes, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @if (Model.CampaignCodeList.Any())
+            {
+                @Html.DropDownListFor(c => c.CampaignCodes, Model.CampaignCodeList, new { id = "CampaignCodes", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllCampaignCodes") })
+            }
+            else
+            {
+                <label class="control-value">@T("Contact_Search_NoMatches")</label>
+            }
+            @Html.HelpTextFor(m => m.CampaignCodes, new { @class = "help-button" })
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-6 form-group">
+        @Html.LabelFor(m => m.ProductOfInterests, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @if (Model.ProductOfInterestList.Any())
+            {
+                @Html.DropDownListFor(c => c.ProductOfInterests, Model.ProductOfInterestList, new { id = "ProductOfInterests", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllProductOfInterests") })
+            }
+            else
+            {
+                <label class="control-value">@T("Contact_Search_NoMatches")</label>
+            }
+            @Html.HelpTextFor(m => m.ProductOfInterests, new { @class = "help-button" })
+        </div>
+    </div>
+    <div class="col-sm-6 form-group">
+        @Html.LabelFor(m => m.Certifications, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @if (Model.CertificationList.Any())
+            {
+                @Html.DropDownListFor(c => c.Certifications, Model.CertificationList, new { id = "Certifications", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllCertifications") })
+            }
+            else
+            {
+                <label class="control-value">@T("Contact_Search_NoMatches")</label>
+            }
+            @Html.HelpTextFor(m => m.Certifications, new { @class = "help-button" })
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="col-sm-6 form-group">
+        @Html.LabelFor(m => m.SubscriberTypes, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @if (Model.SubscriberTypeList.Any())
+            {
+                @Html.DropDownListFor(c => c.SubscriberTypes, Model.SubscriberTypeList, new { id = "SubscriberTypes", @class = "col-xs-10 multi-select search-input", multiple = "multiple", data_placeholder = T("Contact_Search_AllSubscriberTypes") })
+            }
+            else
+            {
+                <label class="control-value">@T("Contact_Search_NoMatches")</label>
+            }
+            @Html.HelpTextFor(m => m.SubscriberTypes, new { @class = "help-button" })
+        </div>
+    </div>
+    <div class="col-sm-6 form-group">
+        @Html.LabelFor(m => m.InterestedInOwning, new { @class = "col-sm-4 control-label" })
+        <div class="col-sm-8">
+            @if (Model.InterestedInOwningList.Any())
+            {
+                @Html.DropDownListFor(c => c.InterestedInOwning, Model.InterestedInOwningList, new { id = "InterestedInOwning", @class = "col-xs-10 single-select search-input", data_placeholder = T("Contact_Search_AllInterestedInOwnings") })
+            }
+            else
+            {
+                <label class="control-value">@T("Contact_Search_NoMatches")</label>
+            }
+            @Html.HelpTextFor(m => m.InterestedInOwning, new { @class = "help-button" })
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-xs-12 text-right">
+        <button id="btnSearch" type="button" class="btn btn-primary">@T("System_Search_Button")</button>
+        <button id="btnClear" type="button" class="btn" onclick="clearSearchFilterAndHideSearchResult()">@T("System_Search_ClearButton")</button>
+    </div>
+    <div class="space-6"></div>
+    <div class="col-xs-12 text-right" id="result-search-panel" style="display: none;">
+        <span id="result-search"></span>&nbsp;&nbsp;
+        <button id="btnAddContacts" type="submit" class="btn btn-success">@T("Contact_Search_OK")</button>
+        <button id="btnCancelFilter" type="button" class="btn btn-default">@T("Contact_Search_Cancel")</button>
+    </div>
+</div>
+
+<div class="form-group">
+    <hr class="light-border" />
+    <div id="contact-queries" style="display: none;">
+        <div class="widget-box">
+            <div class="widget-header widget-header-flat">
+                <h4 class="widget-title">
+                    @Html.Raw(TFormat("NotificationSetup_Text_SelectedContactsSoFar", "<span id='totalSelectedContacts'>0</span>"))
+                </h4>
+            </div>
+            <div class="widget-body">
+                <div class="widget-main">
+                    <div id="filter-query"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-32 visible-xs"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $('#btn-advance-search').click(function () {
+            var $advancedSearch = $('#advanced-search');
+            if ($($advancedSearch).hasClass('collapse')) {
+                $(this).find('i').removeClass('fa-angle-double-down').addClass('fa-angle-double-up');
+            } else {
+                $(this).find('i').removeClass('fa-angle-double-up').addClass('fa-angle-double-down');
+            }
+        });
+
+        $('#btnSearch').click(function () {
+            var data = {};
+            data = collectData(data);
+
+            siteHelper.httpPost({
+                type: 'POST',
+                url: '@Url.Action("CountContacts")',
+                data: data,
+                success: function (response) {
+                    if (response.Success == true) {
+                        var message = "@T("NotificationSetup_Text_SearchContactsResult")";
+                        var result = message.format(response.Data.NewContacts, response.Data.ExistedContacts);
+                        $('#result-search').html(result);
+                        $('#result-search-panel').show();
+                    } else {
+                        $('#result-search-panel').hide();
+                    }
+                }
+            });
+        });
+
+        $('#btnCancelFilter').click(function () {
+            // Clear search form
+            clearSearchFilterAndHideSearchResult();
+        });
+
+        // Hide statistic panel when user enter text into textbox
+        $(".search-textfields").keydown(function (e) {
+            hideSearchResult();
+        });
+
+        // Hide statistic panel when user change value of dropdownlist
+        $('.select2-input').change(function () {
+            hideSearchResult();
+        });
+
+        // Hide statistic panel when user change option in selectbox
+        $('select').change(function () {
+            hideSearchResult();
+        });
+
+        // Hide statistic panel when user change value of html control
+        function hideSearchResult() {
+            $('#result-search-panel').hide();
+        }
+
+        // Reset filter form
+        function clearSearchFilterAndHideSearchResult() {
+            hideSearchResult();
+
+            $("#ContactGroupId").select2("data", { id: "0", text: "@T("Contact_Search_AllContactGroups")" });
+            $("#Keyword").val("");
+            $("#Suburb").val("");
+            $("#State").val("");
+            $("#Country").select2("data", { id: "0", text: "@T("Contact_Search_AllCountries")" });
+            $("#Companies").select2("data", []);
+            $("#CompanyTypeIds").select2("data", []);
+            $("#SalesPerson").val("");
+            $("#MarketingMaterial").select2("data", { id: "0", text: "All" });
+            $("#ReferredBy").val("");
+            $("#CampaignCodes").val("");
+            $("#SubscriberTypes").val("");
+            $("#ProductOfInterests").val("");
+            $("#InterestedInOwning").select2("data", { id: "0", text: "All" });
+            $("#Certifications").val("");
+        }
+
+        // Collect data
+        function collectData(postData) {
+            var notificationId = $('#Id').val();
+            $.extend(postData, { notificationId: notificationId });
+
+            var contactGroupId = $('#ContactGroupId').val();
+            $.extend(postData, { contactGroupId: contactGroupId });
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            var suburb = $("#Suburb").val();
+            $.extend(postData, { suburb: suburb });
+
+            var state = $("#State").val();
+            $.extend(postData, { state: state });
+
+            var country = $("#Country").val();
+            $.extend(postData, { country: country });
+
+            var companies = $("#Companies").val();
+            if (companies != '' && companies != null) {
+                $.extend(postData, { companies: companies });
+            } else {
+                $.extend(postData, { companies: [] });
+            }
+
+            var companyTypeIds = $("#CompanyTypeIds").val();
+            if (companyTypeIds != '' && companyTypeIds != null) {
+                $.extend(postData, { companyTypeIds: companyTypeIds });
+            } else {
+                $.extend(postData, { companyTypeIds: [] });
+            }
+
+            var salesPerson = $("#SalesPerson").val();
+            if (salesPerson != '' && salesPerson != null) {
+                $.extend(postData, { salesPerson: salesPerson });
+            } else {
+                $.extend(postData, { salesPerson: [] });
+            }
+
+            var marketingMaterial = $("#MarketingMaterial").val();
+            $.extend(postData, { marketingMaterial: marketingMaterial });
+
+            var referredBy = $("#ReferredBy").val();
+            if (referredBy != '' && referredBy != null) {
+                $.extend(postData, { referredBy: referredBy });
+            } else {
+                $.extend(postData, { referredBy: [] });
+            }
+
+            var campaignCodes = $("#CampaignCodes").val();
+            if (campaignCodes != '' && campaignCodes != null) {
+                $.extend(postData, { campaignCodes: campaignCodes });
+            } else {
+                $.extend(postData, { campaignCodes: [] });
+            }
+
+            var subscriberTypes = $("#SubscriberTypes").val();
+            if (subscriberTypes != '' && subscriberTypes != null) {
+                $.extend(postData, { subscriberTypes: subscriberTypes });
+            } else {
+                $.extend(postData, { subscriberTypes: [] });
+            }
+
+            var productOfInterests = $("#ProductOfInterests").val();
+            if (productOfInterests != '' && productOfInterests != null) {
+                $.extend(postData, { productOfInterests: productOfInterests });
+            } else {
+                $.extend(postData, { productOfInterests: [] });
+            }
+
+            var interestedInOwning = $("#InterestedInOwning").val();
+            $.extend(postData, { interestedInOwning: interestedInOwning });
+
+            var certifications = $("#Certifications").val();
+            if (certifications != '' && certifications != null) {
+                $.extend(postData, { certifications: certifications });
+            } else {
+                $.extend(postData, { certifications: [] });
+            }
+
+            return postData;
+        }
+    </script>);
+}

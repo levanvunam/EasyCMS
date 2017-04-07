@@ -1,0 +1,50 @@
+﻿@model PageSearchSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Url, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Url, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.Url, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Url)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Title, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Title, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.Title, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Keywords, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Keywords, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.Keywords, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Keywords)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.PageDescription, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.PageDescription, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.PageDescription, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.PageDescription)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Abstract, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Abstract, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.Abstract, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Abstract)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Content, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.Content, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.Content, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Content)
+    </div>
+</div>

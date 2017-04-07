@@ -1,0 +1,18 @@
+.required-control .control-label:after {
+    content: " *";
+    color: #fc4c5e;
+}
+
+.select2-container {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+
+.select2-container .select2-choice {
+    height: 34px;
+}
+
+.select2-container .select2-choice>.select2-chosen {
+    margin-top: 3px;
+}

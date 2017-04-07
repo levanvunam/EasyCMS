@@ -1,0 +1,34 @@
+﻿@model ImageUploadSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.MinWidth, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.MinWidth, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.MinWidth, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.MinWidth)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.MinHeight, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.MinHeight, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.MinHeight, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.MinHeight)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.MaxWidth, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.MaxWidth, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.MaxWidth, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.MaxWidth)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.MaxHeight, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.MaxHeight, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.MaxHeight, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.MaxHeight)
+    </div>
+</div>

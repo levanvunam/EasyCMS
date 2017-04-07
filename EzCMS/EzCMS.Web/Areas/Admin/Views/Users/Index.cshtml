@@ -1,0 +1,275 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.Users.UserSearchModel
+
+@{
+    ViewBag.Header = T("User_Site_Header");
+    ViewBag.Title = T("User_Site_ListingTitle");
+    ViewBag.Description = T("User_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus align-top bigger-125"></i>
+            @T("User_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+    // Reset password
+    function resetPassword(username) {
+        siteHelper.confirm("@T("User_Message_ResetPasswordConfirm")", function (ok) {
+            if (ok) {
+                var data = { username : username };
+                siteHelper.httpPost({
+                    url: "@Url.Action("ForgotPassword", "Users")",
+                    data: data,
+                    success: function (response) {
+                        siteHelper.showMessage(response);
+                    }
+                });
+            }
+        });
+    }
+
+    /*
+     * Setup grid
+     */
+    var gridSelector = "#grid-table";
+    var pagerSelector = "#grid-pager";
+    var navButtonsSetup = {
+        enableEdit: false,
+        enableCreate: false,
+        enableDelete: false,
+        enableSearch: true,
+        enableRefresh: true,
+        enableView: true
+    };
+    var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "User" })');
+
+    var gridOptions = {
+        url: "@Url.Action("_AjaxBinding")",
+        colNames: ['', '@T("User_Field_Id")',
+            '@T("User_Field_Email")',
+            '@T("User_Field_Username")',
+            '@T("User_Field_FirstName")',
+            '@T("User_Field_LastName")',
+            '@T("User_Field_UserGroups")',
+            '@T("User_Field_Status")',
+            '@T("User_Field_IsSystemAdministrator")',
+            '@T("User_Field_IsRemoteAccount")',
+            '@T("User_Field_LoginTimes")',
+            '@LabelForTime(T("User_Field_LastLogin"))',
+            '@T("User_Field_Phone")',
+            '@LabelForTime(T("User_Field_DateOfBirth"))',
+            '@T("User_Field_Gender")',
+            '@T("User_Field_About")',
+            '@LabelForTime(T("User_Field_ReleaseLockDate"))',
+            '@LabelForTime(T("User_Field_LastPasswordChange"))',
+            '@T("User_Field_PasswordFailsCount")',
+            '@LabelForTime(T("User_Field_LastFailedLogin"))',
+            '@LabelForTime(T("User_Field_AccountExpiresDate"))',
+            '@T("User_Field_Address")',
+            '@T("User_Field_Facebook")',
+            '@T("User_Field_Twitter")',
+            '@T("User_Field_LinkedIn")',
+            '@T("User_Field_Active")',
+            '@T("User_Field_RecordOrder")',
+            '@LabelForTime(T("User_Field_Created"))',
+            '@T("User_Field_CreatedBy")',
+            '@LabelForTime(T("User_Field_LastUpdate"))',
+            '@T("User_Field_LastUpdateBy")'],
+        colModel: [
+            {
+                name: 'Actions',
+                hidedlg: true,
+                width: 120,
+                fixed: true,
+                sortable: false,
+                search: false,
+                align: "center",
+                formatter: function(cellvalue, options, rowObject) {
+                    var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                    var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                    var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                    var username = rowObject.Username ? rowObject.Username : rowObject.Email;
+                    var resetPasswordIcon = "<a class='grid-action' href='javascript:resetPassword(\"" + username + "\")'><div class='ui-pg-div' title='@T("User_Text_ResetPassword")'><span class='fa fa-envelope-o'></span></div></a>";
+
+                    return editIcon + detailsIcon + deleteIcon + resetPasswordIcon;
+                }
+            },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Email', index: 'Email', editrules: { email: true } },
+                { name: 'Username', index: 'Username' },
+                { name: 'FirstName', index: 'FirstName' },
+                { name: 'LastName', index: 'LastName' },
+                { name: 'UserGroups', index: 'UserGroups' },
+                {
+                    name: 'Status',
+                    index: 'Status',
+                    align: 'center',
+                    search: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, '@((int)UserEnums.UserStatus.Active)', "Active", "Disabled");
+                    }
+                },
+            {
+                name: 'IsSystemAdministrator',
+                index: 'IsSystemAdministrator',
+                align: "center",
+                editable: false,
+                hidden: @(CurrentUser.IsSystemAdministrator ? "false" : "true"),
+                formatter: function(cellvalue, options, rowObject) {
+                    return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                }
+            },
+            {
+                name: 'IsRemoteAccount',
+                index: 'IsRemoteAccount',
+                align: "center",
+                formatter: function(cellvalue, options, rowObject) {
+                    return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                }
+            },
+            {
+                name: 'LoginTimes',
+                index: 'LoginTimes',
+                width: 90,
+                fixed: true,
+                align: "center",
+                formatter: function(cellvalue, options, rowObject) {
+                    var loginHistoryUrl = "@Url.Action("Details", "Users")/" + rowObject.Id + "#user-login-histories";
+                    
+                    return jqGridHelper.formatLink(loginHistoryUrl, cellvalue);
+                }
+            },
+            {
+                name: 'LastLogin',
+                index: 'LastLogin',
+                sorttype: "datetime",
+                search: false,
+                formatter: function(cellValue, options, rowObject) {
+                    if (rowObject.LastLoginId != null) {
+                        var label = jqGridHelper.printLocalDateTimeFormat(cellValue);
+                        var loginHistoryUrl = "@Url.Action("Details", "UserLoginHistories")/" + rowObject.LastLoginId;
+                        
+                        return jqGridHelper.formatLink(loginHistoryUrl, label);
+                    }
+
+                    return "";
+                }
+            },
+            { name: 'Phone', index: 'Phone', hidden: true },
+            { name: 'DateOfBirth', index: 'DateOfBirth', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            {
+                name: 'Gender',
+                index: 'Gender',
+                align: 'center',
+                hidden: true,
+                formatter: function(cellvalue, options, rowObject) {
+                    if (cellvalue == '@((int)UserEnums.Gender.Male)') {
+                        return "<span class='label label-success'> @(UserEnums.Gender.Male) </span>";
+                    } else if (cellvalue == '@((int)UserEnums.Gender.Female)') {
+                        return "<span class='label label-inverse'> @(UserEnums.Gender.Female) </span>";
+                    } else {
+                        return "<span class='label'> @(UserEnums.Gender.None) </span>";
+                    }
+                }
+            },
+            { name: 'About', index: 'About', hidden: true },
+            { name: 'ReleaseLockDate', index: 'ReleaseLockDate', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'LastPasswordChange', index: 'LastPasswordChange', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'PasswordFailsCount', index: 'PasswordFailsCount', hidden: true },
+            { name: 'LastFailedLogin', index: 'LastFailedLogin', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'AccountExpiresDate', index: 'AccountExpiresDate', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'Address', index: 'Address', hidden: true },
+            { name: 'Facebook', index: 'Facebook', hidden: true },
+            { name: 'Twitter', index: 'Twitter', hidden: true },
+            { name: 'LinkedIn', index: 'LinkedIn', hidden: true },
+            {
+                name: 'Active',
+                index: 'Active',
+                align: "center",
+                hidden: true,
+                formatter: function(cellvalue, options, rowObject) {
+                    return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                }
+            },
+            { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+            { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+            { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+        ]
+    };
+
+    jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+</script>
+    <script type="text/javascript">
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            $("#UserGroupId").select2("data", { id: "0", text: "@T("User_Search_AllUserGroups")" });
+
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid() {
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            var userGroupId = $("#UserGroupId").val();
+            $.extend(postData, { userGroupId: userGroupId });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

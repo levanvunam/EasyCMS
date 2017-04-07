@@ -1,0 +1,28 @@
+﻿@model EzCMS.Core.Models.Events.EventCreateModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Event_Site_Header");
+    ViewBag.Title = T("Event_Site_CreateTitle");
+    ViewBag.Description = T("Event_Site_CreateDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("PopupCreate", "Events", null, FormMethod.Post, new { id = "event-form", @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

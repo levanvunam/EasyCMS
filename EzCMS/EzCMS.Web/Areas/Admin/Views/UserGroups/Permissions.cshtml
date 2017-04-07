@@ -1,0 +1,59 @@
+﻿@model EzCMS.Core.Models.UserGroups.GroupPermissionsModel
+
+@{
+    ViewBag.Header = T("UserGroup_Site_Header");
+    ViewBag.Title = T("UserGroup_Site_PermissionListingTitle");
+    ViewBag.Description = T("UserGroup_Site_PermissionListingDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @Model.Name
+        </small>
+    </h1>
+</div>
+@using (Ajax.BeginForm(new AjaxOptions
+    {
+        LoadingElementId = "loading-wrapper",
+        OnSuccess = "OnSuccess"
+    }))
+{
+    Html.HiddenFor(m => m.UserGroupId);
+    <div class="control-group col-md-offset-1">
+        @foreach (var item in Model.Permissions)
+        {
+
+            <div class="checkbox">
+                <label>
+                    <input name="@item.GroupPermissionId" type="checkbox" class="ace ace-switch ace-switch-6" @(item.HasPermission ? "checked" : string.Empty) />
+                    <span class="lbl">&nbsp; &nbsp; @item.PermissionName</span>
+                </label>
+            </div>
+        }
+    </div>
+    <div class="clearfix form-actions">
+        <div class="col-md-offset-1 col-md-9">
+            @Html.BackLink(Url.Action("Index"))
+            <button class="btn btn-primary" type="submit" name="Submit">
+                <i class="fa fa-check bigger-110"></i>
+                @T("UserGroup_Text_PermissionSave")
+            </button>
+            <button class="btn" onclick="location.href= window.location.href;" type="reset">
+                <i class="fa fa-undo bigger-110"></i>
+                @T("UserGroup_Text_PermissionReset")
+            </button>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        function OnSuccess(response) {
+            siteHelper.showMessage(response);
+        }
+    </script>
+}

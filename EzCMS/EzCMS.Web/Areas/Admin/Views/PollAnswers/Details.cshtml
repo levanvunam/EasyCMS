@@ -1,0 +1,183 @@
+﻿@model EzCMS.Core.Models.PollAnswers.PollAnswerDetailModel
+
+@{
+    ViewBag.Header = T("PollAnswer_Site_Header");
+    ViewBag.Title = T("PollAnswer_Site_DetailsTitle");
+    ViewBag.Description = T("PollAnswer_Site_DetailsDescription");
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a class="btn btn-xs btn-danger" href="javascript:deletePollAnswer()">@T("System_Text_Delete")</a>
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new {id = Model.Id, returnUrl = Url.Action("Details", new {id = Model.Id})})">
+            @T("System_Text_Edit")
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PollAnswer.AnswerText, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.PollAnswer.AnswerText)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PollAnswer.Total, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Model.PollAnswer.Total
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.PollAnswer.RecordOrder, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.PollAnswer.RecordOrder, CommonEnums.EditableType.Number)
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("PollAnswer_Text_PollInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.PollQuestion, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.PollQuestion
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.PollSummary, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.Raw(Model.PollSummary)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.IsMultiple, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @(Model.IsMultiple ? "Yes" : "No")
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.ThankyouText, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.Raw(Model.ThankyouText)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("PollAnswer_Text_RecordInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.Created)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.CreatedBy
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.LastUpdate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.LastUpdateBy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var updateUrl = "@Url.Action("UpdatePollAnswerData")";
+        var pk = '@Model.Id';
+
+        $(function () {
+            if (siteHelper.getUrlParam("action") == "delete") {
+                deletePollAnswer();
+            }
+        });
+
+        // Delete poll answer
+        function deletePollAnswer() {
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            var data = { id: @Model.Id };
+            
+            siteHelper.confirm('@T("PollAnswer_Message_DeleteConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeletePollAnswer")",
+                        data: data,
+                        success: function (response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function () {
+                                    if (returnUrl != "")
+                                        window.location.href = returnUrl;
+                                    else
+                                        window.location.href = "@Url.Action("Index")";
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

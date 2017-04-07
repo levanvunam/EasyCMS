@@ -1,0 +1,39 @@
+﻿@model EditorSetting
+
+@{
+    Style.Bundle("~/styles/codemirror");
+}
+
+<div class="form-group">
+    <div class="col-md-4 control-label">
+        @Html.LocalizeLabelFor(m => m.StyleContent)
+        @Html.HelpTextFor(m => m.StyleContent, new { @class = "help-button" })
+    </div>
+    <div class="col-md-8 col-xs-12">
+        @Html.TextAreaFor(m => m.StyleContent, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.StyleContent)
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="col-md-4 control-label">
+        @Html.LocalizeLabelFor(m => m.ScriptContent)
+        @Html.HelpTextFor(m => m.ScriptContent, new { @class = "help-button" })
+    </div>
+    <div class="col-md-8 col-xs-12">
+        @Html.TextAreaFor(m => m.ScriptContent, new { @class = "col-xs-12" })
+        @Html.ValidationMessageFor(m => m.ScriptContent)
+    </div>
+</div>
+
+@{
+    Script.Bundle("~/js/codemirror").Block(@<script type="text/javascript">
+        var StyleCreateor;
+        var ScriptCreateor;
+        $(function () {
+            StyleCreateor = siteHelper.buildHtmlEditor("StyleContent", "text/css");
+            ScriptCreateor = siteHelper.buildHtmlEditor("ScriptContent", "javascript");
+        });
+
+    </script>);
+}

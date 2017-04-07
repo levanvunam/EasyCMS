@@ -1,0 +1,25 @@
+﻿@model EzCMS.Core.Models.Common.GoogleAnalyticDashboardModel
+
+@{
+    ViewBag.Header = T("DashBoard_Site_Header");
+    ViewBag.Title = T("DashBoard_Site_DashboardTitle");
+    ViewBag.Description = T("DashBoard_Site_DashboardDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @T("Home_Text_Dashboard")
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @T("Home_Text_OverviewAndAnalytics")
+              &nbsp;&nbsp; <a id="btn-config" data-rel="tooltip" title="Show/Hide google api configuration" href="javascript:void(0)"> <i class="fa fa-cog"></i> </a>
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Analytics/_GoogleAnalytic", Model)
+    </div>
+</div>

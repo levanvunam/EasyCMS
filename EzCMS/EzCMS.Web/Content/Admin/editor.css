@@ -1,0 +1,13 @@
+﻿widget {
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    margin: 0 2px;
+    line-height: 22px;
+    vertical-align: text-bottom;
+    padding: 3px 7px;
+    color: #000;
+    cursor: pointer;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}

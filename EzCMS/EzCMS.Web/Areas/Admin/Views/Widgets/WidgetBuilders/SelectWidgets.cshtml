@@ -1,0 +1,132 @@
+﻿@model EzCMS.Core.Models.Widgets.WidgetBuilders.SelectWidgetModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Widget_Site_Header");
+    ViewBag.Title = T("Widget_Site_CreateTitle");
+    ViewBag.Description = T("Widget_Site_CreateDescription");
+
+    var isCkEditor = Request["isCkEditor"].ToBool();
+    var callback = Request["callback"];
+}
+
+<div class="widget-box">
+    <div class="widget-header widget-header-large">
+        <h4 class="widget-title">Select Widget</h4>
+
+        <div class="widget-toolbar">
+            <input id="curly-bracket-keywords" class="input-large form-control curly-bracket-keyword" type="text" placeholder="@T("Widget_Text_SearchShortcut")" />
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-0">
+            <div class="row form-horizontal">
+                <div id="left-box" class="col-xs-4">
+                    <ul>
+                        <li id="all-filter" class="filter active" data-filter="">@T("Widget_Text_AllWidgets")</li>
+                        @foreach (var type in Model.Types)
+                        {
+                            <li class="filter" data-filter="@type">@type.GetEnumName()</li>
+                        }
+                    </ul>
+                </div>
+                <div id="right-box" class="col-xs-8">
+                    <div class="space-4"></div>
+                    @ShowStatusMessage()
+                    @foreach (var widget in Model.Widgets)
+                    {
+                        var url = Url.Action("GenerateWidget", "Widgets", new { id = widget.Widget, callback, isCkEditor });
+                        if (!widget.CanGenerate)
+                        {
+                            url = string.Format("javascript:printWidget('{0}')", widget.FullWidget);
+                        }
+                        <div class="curly-bracket col-sm-6" data-filter="@widget.WidgetType" data-name="@widget.Name" data-widget="@widget.Widget" data-description="@widget.Description">
+                            <a href="@url">
+                                <div class="curly-bracket-image col-sm-4">
+                                    <img src="@widget.Image" class="img-responsive" alt="@widget.Name" />
+                                </div>
+                                <div class="curly-bracket-info col-sm-8">
+                                    <h4 class="curly-bracket-name">
+                                        @widget.Name
+                                    </h4>
+                                    <div class="curly-bracket-description">
+                                        @widget.Description
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="widget-toolbox padding-8 clearfix">
+            <div class="center">
+                <button class="btn btn-sm" onclick="parent.$.fancybox.close();">
+                    <i class="fa fa-times bigger-110"></i>
+                    @T("Widget_Text_CancelShortcutButton")
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        // Left menu filter
+        $(".filter").click(function () {
+            $("#curly-bracket-keywords").val("");
+            if (!$(this).hasClass("active")) {
+                $(".filter").removeClass("active");
+                $(this).addClass("active");
+                var dataFilter = $(this).data("filter");
+                if (dataFilter == "") {
+                    $(".curly-bracket").show();
+                }
+                else {
+                    $(".curly-bracket").hide();
+                    $(".curly-bracket").each(function () {
+                        var filter = $(this).data("filter");
+                        if (filter == dataFilter) {
+                            $(this).show();
+                        }
+                    });
+                }
+            }
+        });
+
+        // Search filter
+        $("#curly-bracket-keywords").on("input", function () {
+            if (!$("#all-filter").hasClass("active")) {
+                $(".filter").removeClass("active");
+                $("#all-filter").addClass("active");
+            }
+
+            var keywords = $(this).val().toLowerCase();
+            $(".curly-bracket").each(function (index, value) {
+                var name = $(this).data("name").toLowerCase();
+                var widget = $(this).data("widget").toLowerCase();
+                var description = $(this).data("description").toLowerCase();
+
+                if (name.indexOf(keywords) >= 0 || widget.indexOf(keywords) >= 0 || description.indexOf(keywords) >= 0 || keywords == '') {
+                    $(this).show();
+                } else {
+                    $(this).hide();
+                }
+            });
+        });
+
+        //Print widget to editor
+        function printWidget(widget) {
+            var isCkEditor = "@isCkEditor";
+            if (isCkEditor.toLowerCase() == 'true') {
+                parent.CKEDITOR.dialog.getCurrent().getContentElement('tab-setup', 'widget').setValue(widget);
+            } else {
+                siteHelper.executeFunction('@callback', parent.window, widget);
+            }
+
+            parent.$.fancybox.close();
+        }
+
+    </script>
+}

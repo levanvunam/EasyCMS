@@ -1,0 +1,112 @@
+﻿@model EzCMS.Entity.Entities.Models.Language
+
+@{
+    ViewBag.Header = T("SlideInHelp_Site_Header");
+    ViewBag.Title = T("SlideInHelp_Site_ListingTitle");
+    ViewBag.Description = T("SlideInHelp_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title @Model.Name
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        <div class="space-4 clearfix"></div>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Slide In Help" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding", new { languageId = Model.Id })",
+            colNames: ['', '@T("SlideInHelp_Field_Id")',
+                '@T("SlideInHelp_Field_Key")',
+                '@T("SlideInHelp_Field_Language")',
+                '@T("SlideInHelp_Field_Title")',
+                '@T("SlideInHelp_Field_MasterHelpContent")',
+                '@T("SlideInHelp_Field_LocalHelpContent")',
+                '@T("SlideInHelp_Field_Active")',
+                '@LabelForTime(T("SlideInHelp_Field_Created"))',
+                '@T("SlideInHelp_Field_CreatedBy")',
+                '@LabelForTime(T("SlideInHelp_Field_LastUpdate"))',
+                '@T("SlideInHelp_Field_LastUpdateBy")'],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "?languageId=@Model.Id&returnUrl=@Url.Action("Index")?languageId=" + @Model.Id + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+
+                        return editIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'TextKey', index: 'TextKey' },
+                { name: 'Language', index: 'Language', hidden: true },
+                { name: 'Title', index: 'Title' },
+                { name: 'MasterHelpContent', index: 'MasterHelpContent', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'LocalHelpContent', index: 'LocalHelpContent', hidden: true },
+                {
+                    name: 'Active',
+                    index: 'Active',
+                    align: "center",
+                    hidden: true,
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

@@ -1,0 +1,57 @@
+﻿@model EzCMS.Core.Models.Pages.PageSearchModel
+
+<div class="widget-box">
+    <div class="widget-header">
+        <h5>@T("Page_Search_Header")</h5>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main form-horizontal">
+            <div class="col-md-10">
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Keyword, new { id = "Keyword", @class = "col-xs-10 search-input", placeholder = T("Page_Search_Keyword") })
+                        @Html.HelpTextFor(m => m.Keyword, new { @class = "help-button" })
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.DropDownListFor(m => m.Status, Model.StatusList, T("Page_Search_AllStatus"), new { id = "Status", @class = "single-select-no-search col-xs-10 search-input" })
+                        @Html.HelpTextFor(m => m.Status, new { @class = "help-button" })
+                    </div>
+                </div>
+                <div class="clearfix visible-sm"></div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.ListBoxFor(m => m.TagIds, Model.Tags, new { id = "Tags", @class = "multi-select col-xs-10 search-input", multiple = "multiple", data_placeholder = T("Page_Search_AllTags") })
+                        @Html.HelpTextFor(m => m.TagIds, new { @class = "help-button" })
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.DropDownListFor(m => m.PageTemplateId, Model.PageTemplates, T("Page_Search_AllPageTempates"), new { id = "PageTemplateId", @class = "single-select col-xs-10 search-input" })
+                        @Html.HelpTextFor(m => m.PageTemplateId, new { @class = "help-button" })
+                    </div>
+                </div>
+                <div class="clearfix visible-sm"></div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.DropDownListFor(m => m.FileTemplateId, Model.FileTemplates, T("Page_Search_AllFileTempates"), new { id = "FileTemplateId", @class = "single-select col-xs-10 search-input" })
+                        @Html.HelpTextFor(m => m.FileTemplateId, new { @class = "help-button" })
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6">
+                    <div class="form-group">
+                        @Html.DropDownListFor(m => m.BodyTemplateId, Model.BodyTemplates, T("Page_Search_AllBodyTempates"), new { id = "BodyTemplateId", @class = "single-select col-xs-10 search-input" })
+                        @Html.HelpTextFor(m => m.BodyTemplateId, new { @class = "help-button" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button id="btnSearch" class="btn btn-sm btn-info">@T("System_Search_Button")</button>
+                <div class="space-6 hidden-lg visible-md hidden-sm hidden-xs"></div>
+                <button id="btnClearSearch" class="btn btn-sm btn-default">@T("System_Search_ClearButton")</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

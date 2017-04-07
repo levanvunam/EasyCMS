@@ -1,0 +1,12 @@
+<ul class="noticeboard">
+    @foreach (var item in Model.NoticeWidget)
+    {
+        <li style="padding-right: 5px">
+            <span class="@(item.DateStart.HasValue &&  item.DateStart.Value.Date == DateTime.Today ? "today" : "")">@(item.DateStart.HasValue ? item.DateStart.Value.ToString("MMM dd") : "")</span>@item.Message
+            @if (item.IsUrgent)
+            {
+                <i class="fa fa-flag red right" style="margin: 5px"></i>
+            }
+        </li>
+    }
+</ul>

@@ -1,0 +1,77 @@
+﻿@model EzCMS.Core.Models.Events.EventManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-horizontal">
+    <div class="col-xs-12">
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.Title, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-10 col-xs-12">
+                @Html.TextBoxFor(m => m.Title, new { @class = "col-sm-8 col-xs-10" })
+                @Html.HelpTextFor(m => m.Title, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.Title)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.EventSummary, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-10 col-xs-12">
+                @Html.TextAreaFor(m => m.EventSummary, new { @class = "col-sm-8 col-xs-10", rows = 3 })
+                @Html.HelpTextFor(m => m.EventSummary, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.EventSummary)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-2 control-label no-padding-top">
+                @Html.LocalizeLabelFor(m => m.EventDescription)
+                @Html.HelpTextFor(m => m.EventDescription, new { @class = "help-button" })
+            </div>
+            <div class="col-sm-10">
+                @Html.TextAreaFor(m => m.EventDescription, new { id = "eventDescription", @class = "col-xs-12" })
+                @Html.ValidationMessageFor(m => m.EventDescription)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.RegistrationFullText, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-10 col-xs-12">
+                @Html.TextAreaFor(m => m.RegistrationFullText, new { @class = "col-sm-8 col-xs-10", rows = 3 })
+                @Html.HelpTextFor(m => m.RegistrationFullText, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.RegistrationFullText)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.RegistrationWaiver, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-10 col-xs-12">
+                @Html.TextAreaFor(m => m.RegistrationWaiver, new { @class = "col-sm-8 col-xs-10", rows = 3 })
+                @Html.HelpTextFor(m => m.RegistrationWaiver, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.RegistrationWaiver)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.MaxAttendees, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-10 col-xs-12">
+                @Html.TextBoxFor(m => m.MaxAttendees, new { @class = "input-number" })
+                @Html.HelpTextFor(m => m.MaxAttendees, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.MaxAttendees)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.EventCategoryIds, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-8">
+                @Html.ListBoxFor(c => c.EventCategoryIds, Model.EventCategories, new { @class = "col-xs-10 multi-select", multiple = "multiple", placeholder = T("Event_Text_SelectEventCategories") })
+                @Html.HelpTextFor(m => m.EventCategoryIds, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.EventCategoryIds)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Bundle("~/js/ckeditor").Block(@<script type="text/javascript">
+        buildCkEditor('eventDescription', {
+            height: '200px',
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+    </script>);
+}

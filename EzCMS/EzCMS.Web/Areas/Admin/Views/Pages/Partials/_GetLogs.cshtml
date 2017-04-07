@@ -1,0 +1,43 @@
+﻿@using Ez.Framework.Utilities.Time
+@model EzCMS.Core.Models.Pages.PageLogListingModel
+
+@foreach (var item in Model.Logs)
+{
+    <div style="margin-top: 10px" class="panel-group accordion-style1 accordion-style2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a style="height: 60px" href="#@item.SessionId" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                    <img class="avatar pull-left" alt="@item.Creator.FullName" src="@item.Creator.AvatarPath" />
+                    <div class="pull-left" style="line-height: 35px;">
+                        <span class="user pull-left mg10l">@item.Creator.FullName </span>
+                        <span class="pull-left mg10l">@item.Total items </span>
+                        <span class="user pull-left mg10l">@ToLocalDateTime(item.From).ToDateFormat() (@ToLocalDateTime(item.From).ToTimeFormat() - @ToLocalDateTime(item.To).ToTimeFormat())</span>
+
+                    </div>
+                </a>
+            </div>
+            <div class="panel-collapse collapse" id="@item.SessionId">
+                <div class="panel-body">
+                    @foreach (var log in item.Logs)
+                    {
+                        <div class="log-item clearfix">
+                            <div class="col-xs-12">
+                                <div class="col-sm-2 no-padding">
+                                    <i class="fa fa-calendar bigger-110 mg10r"></i> @ToLocalDateTime(log.Created).ToDateTimeFormat()
+                                </div>
+                                <div class="col-sm-10">
+                                    @Nl2Br(log.ChangeLog)
+                                </div>
+                            </div>
+                            <div class="tools action-buttons">
+                                <a href="@Url.Action("Edit", new { logId = log.Id })" class="blue" data-rel="tooltip" data-placement="left" data-original-title="Revert to this version">
+                                    <i class="fa fa-rotate-left bigger-125"></i>
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

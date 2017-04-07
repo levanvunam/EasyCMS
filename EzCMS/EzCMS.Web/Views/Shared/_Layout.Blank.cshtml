@@ -1,0 +1,23 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+    @RenderSection("styles", false)
+}
+
+<div class="page-content">
+    @RenderBody()
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Initialize/editable.js")"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('[data-rel=tooltip]').tooltip({ container: 'body' });
+        });
+    </script>
+    @RenderSection("scripts", false)
+}

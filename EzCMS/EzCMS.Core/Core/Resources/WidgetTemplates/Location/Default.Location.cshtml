@@ -1,0 +1,39 @@
+<div class="col-sm-12">
+    <h3 class="location-name">{Name}</h3>
+    <div class="location-result">
+        {Address}
+
+        <ul class="categories">
+            @if (!string.IsNullOrEmpty(Model.Phone))
+            {
+                <li><i class="fa fa-phone"></i> @Model.Phone</li>
+            }
+            @foreach (var locationType in Model.LocationTypes)
+            {
+                <li><span class="label highlight" value="@locationType.Id">@locationType.Name</span></li>
+            }
+        </ul>
+        <div class="clearfix"></div>
+        <br />
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-sm-12">
+    <div class="col-sm-8">
+        <div id="mapCanvas"></div>
+        <div id="warnings-panel"></div>
+    </div>
+    <div class="col-sm-4" id="directionSearchBox">
+        <h4 class="locator-title">Get driving instructions</h4>
+        <div class="form-group">
+            <input id="locationInput" class="form-control" name="Enter your starting point" placeholder="Enter your starting point" type="text" />
+        </div>
+        <div class="form-group ">
+            <input type="button" id="btnGoback" class="btn btn-default" value="Back" />
+            <input id="getDirections" class="btn" type="button" value="Get Directions" />
+        </div>
+        <div id="instructions"></div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>

@@ -1,0 +1,32 @@
+﻿@model EzCMS.Core.Models.Users.Logins.LoginSetupModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Account/_Layout.Account.cshtml";
+    ViewBag.Header = T("Account_Site_Header");
+    ViewBag.Title = T("Account_Site_RegisterSuccessTitle");
+    ViewBag.Description = T("Account_Site_RegisterSuccessDescription");
+}
+
+@if (!Model.EnableTemplate)
+{
+    <div id="reset-box" class="visible widget-box no-border">
+        <div class="widget-body">
+            <div class="widget-main">
+                <h4 class="header red lighter bigger">
+                    <i class="fa fa-key"></i>
+                    @T("Account_Text_RegisterSuccessHeaderTitle")
+                </h4>
+
+                <div class="space-6"></div>
+                <p>
+                    @Html.Raw(TFormat("Account_Text_RegisterSuccessMessage", Url.Action("Login")))
+                </p>
+            </div>
+
+        </div>
+    </div>
+}
+else
+{
+    @RenderTemplate(Model.TemplateName, Model.Template, Model)
+}

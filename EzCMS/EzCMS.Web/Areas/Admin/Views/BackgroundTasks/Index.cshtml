@@ -1,0 +1,122 @@
+﻿@using Ez.Framework.Core.Entity.Enums
+@{
+    ViewBag.Header = T("BackgroundTask_Site_Header");
+    ViewBag.Title = T("BackgroundTask_Site_ListingTitle");
+    ViewBag.Description = T("BackgroundTask_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Background Task" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("BackgroundTask_Field_Id")',
+                '@T("BackgroundTask_Field_Name")',
+                '@LabelForTime(T("BackgroundTask_Field_LastRunningTime"))',
+                "@T("BackgroundTask_Field_ScheduleType")",
+                '@T("BackgroundTask_Field_Description")',
+                '@LabelForTime(T("BackgroundTask_Field_StartTime"))',
+                '@T("BackgroundTask_Field_Interval")',
+                '@T("BackgroundTask_Field_Status")',
+                '@LabelForTime(T("BackgroundTask_Field_Created"))',
+                '@T("BackgroundTask_Field_CreatedBy")',
+                '@LabelForTime(T("BackgroundTask_Field_LastUpdate"))',
+                '@T("BackgroundTask_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Config")/" + options.rowId + "'><div class='ui-pg-div' title='@T("BackgroundTask_Text_Config")'><span class='fa fa-cog'></span></div></a>";
+                        var logIcon = "<a class='grid-action' href='@Url.Action("Logs")/" + options.rowId + "'><div class='ui-pg-div' title='@T("BackgroundTask_Text_ViewLogs")'><span class='fa fa-book'></span></div></a>";
+
+                        return editIcon + logIcon;
+                    }
+                },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Name', index: 'Name', },
+                    { name: 'LastRunningTime', index: 'LastRunningTime', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    {
+                        name: 'ScheduleType',
+                        index: 'ScheduleType',
+                        search: false,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, '@((int)BackgroundTaskEnums.ScheduleType.Daily)', "Daily", "Interval");
+                        }
+                    },
+                { name: 'Description', index: 'Description', hidden: true },
+                { name: 'StartTime', index: 'StartTime', sorttype: "datetime", align: 'center', search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalTimeFormat(cellValue); } },
+                { name: 'Interval', index: 'Interval', width: 120, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                {
+                    name: 'Status',
+                    index: 'Status',
+                    search: false,
+                    align: 'center',
+                    formatter: function (cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, '@((int)BackgroundTaskEnums.TaskStatus.Active)', "Active", "Disabled");
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

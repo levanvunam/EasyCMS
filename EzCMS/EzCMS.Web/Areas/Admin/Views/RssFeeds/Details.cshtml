@@ -1,0 +1,141 @@
+﻿@model EzCMS.Core.Models.RssFeeds.RssFeedDetailModel
+
+@{
+    ViewBag.Header = T("RSSFeed_Site_Header");
+    ViewBag.Title = T("RSSFeed_Site_DetailsTitle");
+    ViewBag.Description = T("RSSFeed_Site_DetailsDescription");
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a class="btn btn-xs btn-danger" href="javascript:deleteRssFeed()">@T("System_Text_Delete")</a>
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new {id = Model.Id, returnUrl = Url.Action("Details", new {id = Model.Id})})">
+            @T("System_Text_Edit")
+        </a>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="col-xs-12">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.RssFeed.Name, new { @class = "col-sm-5 control-label" })
+                        <div class="col-sm-7 control-value">
+                            @Html.EditableFor(m => m.RssFeed.Name)
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.RssFeed.RssType, new { @class = "col-sm-5 control-label" })
+                        <div class="col-sm-7 control-value">
+                            @Html.EditableSelectFor(m => m.RssFeed.RssType, Url.Action("GetRssTypes", "RssFeeds"))
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.RssFeed.Url, new { @class = "col-sm-5 control-label" })
+                        <div class="col-sm-7 control-value">
+                            @Html.EditableFor(m => m.RssFeed.Url, CommonEnums.EditableType.Url)
+                        </div>
+                    </div>
+                </div>
+                <div class="clear space-12"></div>
+                <div class="widget-box transparent">
+                    <div class="widget-header">
+                        <h4 class="widget-title lighter">@T("RSSFeed_Text_RecordInformation")</h4>
+                        <div class="widget-toolbar no-border">
+                            <a href="#" data-action="collapse">
+                                <i class="ace-icon fa fa-chevron-up"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main padding-12 no-padding-left no-padding-right">
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                    <div class="col-sm-7 control-value">
+                                        @Html.DisplayTimeFor(m => m.Created)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                    <div class="col-sm-7 control-value">
+                                        @Model.CreatedBy
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                    <div class="col-sm-7 control-value">
+                                        @Html.DisplayTimeFor(m => m.LastUpdate)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                    <div class="col-sm-7 control-value">
+                                        @Model.LastUpdateBy
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var updateUrl = "@Url.Action("UpdateRssFeedData")";
+        var pk = '@Model.Id';
+        
+        $(function () {
+            if (siteHelper.getUrlParam("action") == "delete") {
+                deleteRssFeed();
+            }
+        });
+
+        function deleteRssFeed() {
+            var id = "@Model.Id";
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            var data = { id: id };
+            siteHelper.confirm('@T("RSSFeed_Message_DeleteConfirm")', function (ok) {
+                if (ok) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "@Url.Action("DeleteRssFeed")",
+                        data: data,
+                        success: function (response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function () {
+                                    if (returnUrl != "")
+                                        window.location.href = returnUrl;
+                                    else
+                                        window.location.href = "@Url.Action("Index")";
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

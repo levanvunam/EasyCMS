@@ -1,0 +1,128 @@
+﻿@model EzCMS.Core.Models.Users.Logins.RegisterModel
+
+@{
+    Layout = "~/Areas/Admin/Views/Account/_Layout.Account.cshtml";
+    ViewBag.Header = T("Account_Site_Header");
+    ViewBag.Title = T("Account_Site_RegisterTitle");
+    ViewBag.Description = T("Account_Site_RegisterDescription");
+}
+@using (Ajax.BeginForm("Register", "Account", null, new AjaxOptions
+{
+    OnBegin = "siteHelper.showLoading",
+    OnComplete = "siteHelper.hideLoading",
+    OnSuccess = "OnRegisterSuccess"
+}, new { id = "register-form" }))
+{
+    @Html.HiddenFor(m => m.ReturnUrl)
+    if (!Model.EnableTemplate)
+    {
+        <div id="signup-box" class="signup-box visible widget-box no-border">
+            <div class="widget-body">
+                <div class="widget-main">
+                    <h4 class="header green lighter bigger">
+                        <i class="fa fa-group blue"></i>
+                        @T("Account_Text_RegisterNewUserRegistration")
+                    </h4>
+
+                    <div class="space-6"></div>
+                    <p>@T("Account_Text_RegisterEnterUserInfoTitle") </p>
+
+                    <form>
+                        <fieldset>
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", placeholder = T("Account_Text_RegisterUsername") })
+                                    <i class="ace-icon fa fa-user"></i>
+                                    @Html.ValidationMessageFor(m => m.Username)
+                                </span>
+                            </label>
+
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = T("Account_Text_RegisterEmail") })
+                                    <i class="ace-icon fa fa-envelope"></i>
+                                    @Html.ValidationMessageFor(m => m.Email)
+                                </span>
+                            </label>
+
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", placeholder = T("Account_Text_RegisterFirstName") })
+                                    <i class="ace-icon fa fa-user"></i>
+                                    @Html.ValidationMessageFor(m => m.FirstName)
+                                </span>
+                            </label>
+
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", placeholder = T("Account_Text_RegisterLastName") })
+                                    <i class="ace-icon fa fa-user"></i>
+                                    @Html.ValidationMessageFor(m => m.LastName)
+                                </span>
+                            </label>
+
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = T("Account_Text_RegisterPassword") })
+                                    <i class="ace-icon fa fa-lock"></i>
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </span>
+                            </label>
+
+                            <label class="block clearfix">
+                                <span class="block input-icon input-icon-right">
+                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", placeholder = T("Account_Text_RegisterConfirmPassword") })
+                                    <i class="ace-icon fa fa-retweet"></i>
+                                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                                </span>
+                            </label>
+
+                            <label class="block">
+                                @Html.AceCheckBoxFor(m => m.UserAgreement)
+                                @Html.Raw(TFormat("Account_Text_RegisterUserAgreement", "/Privacy-Policy"))
+                            </label>
+
+                            <div class="space-18"></div>
+
+                            <div class="clearfix">
+                                <button type="reset" class="width-30 pull-left btn btn-sm">
+                                    <i class="fa fa-refresh"></i>
+                                    @T("Account_Text_RegisterResetFieldsButton")
+                                </button>
+
+                                <button type="submit" class="width-65 pull-right btn btn-sm btn-success">
+                                    @T("Account_Text_RegisterRegisterUserButton")
+                                    <i class="fa fa-arrow-right icon-on-right"></i>
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div class="toolbar center">
+                    <a href="@Url.Action("Login")" class="back-to-login-link">
+                        <i class="fa fa-arrow-left"></i>
+                        @T("Account_Text_RegisterBackToLoginButton")
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        @section scripts
+        {
+            <script type="text/javascript">
+                function OnRegisterSuccess(response) {
+                    if (response.Success) {
+                        location.href = "@Url.Action("RegisterSuccess")";
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            </script>
+        }
+    }
+    else
+    {
+        @RenderTemplate(Model.TemplateName, Model.Template, Model)
+    }
+}

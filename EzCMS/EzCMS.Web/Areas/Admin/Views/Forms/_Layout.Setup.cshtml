@@ -1,0 +1,55 @@
+﻿@model EzCMS.Core.Models.Forms.Setup.FormSetupModel
+@{
+    Layout = "~/Areas/Admin/Views/Forms/_Layout.FormBuilder.cshtml";
+}
+
+@Html.Partial("Partials/_Steps", Model.Step)
+
+@section styles
+{
+    <!-- plugins -->
+    @Styles.Render("~/styles/plugins")
+
+    @Styles.Render("~/styles/mediabrowser")
+
+    <!-- page specific plugin styles -->
+    @RenderSection("styles", false)
+
+    <!-- render partial/template styles-->
+    @Html.RenderStyles()
+
+    <!-- ace styles -->
+    @Styles.Render("~/styles/ace")
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/template.css")" />
+}
+
+<div class="main-container">
+    @RenderBody()
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/jqueryui/jquery-ui-1.10.3.full.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Bootstrap/bootstrap.min.js")"></script>
+
+    <!-- plugins -->
+    @Scripts.Render("~/js/plugins")
+
+    <!-- jquery validation -->
+    @Scripts.Render("~/js/validation")
+
+    <!-- ace scripts -->
+    @Scripts.Render("~/js/ace")
+
+    <!-- Globalize -->
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Globalize/globalize.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Globalize/cultures/globalize.culture." + CurrentCulture() + ".js")"></script>
+
+    <!-- transfer some server variables to javascript variables -->
+    @Html.Partial("Partials/_Variables")
+
+    @Scripts.Render("~/js/administrator")
+
+    @RenderSection("scripts", false)
+}

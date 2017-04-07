@@ -1,0 +1,6 @@
+<ul>
+    @foreach (var item in Model.Members)
+    {
+        <li> <a href="@item.FriendlyUrl">@item.Title</a></li>
+    }
+</ul>

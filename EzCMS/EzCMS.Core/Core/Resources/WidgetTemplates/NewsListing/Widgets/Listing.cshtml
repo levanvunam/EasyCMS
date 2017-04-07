@@ -1,0 +1,19 @@
+@foreach (var item in Model.NewsListing)
+{
+    <div class="news_content_listing">
+        <a href="/News-Details?newsId=@(item.Id)&title=@item.Title.ToUrlString()">
+            <div class="row">
+                <div class="col-sm-3 news-image"><img class="img-responsive" src="@item.ImageUrl" /> </div>
+                <div class="col-sm-9">
+                    <div class="news-abstract">
+                        <h4>@item.Title</h4>
+                        <span>
+                            @item.DatePosted.ToString("dd MMM, yyyy") | @string.Join(" , ", item.Categories.Select(c => c.Name))
+                        </span>
+                        <p>@item.Abstract</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+}

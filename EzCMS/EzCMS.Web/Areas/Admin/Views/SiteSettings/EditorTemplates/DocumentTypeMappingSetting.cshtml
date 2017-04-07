@@ -1,0 +1,90 @@
+﻿@model DocumentTypeMappingSetting
+
+<div class="form-group">
+    <div class="col-md-4 control-label">
+        @Html.LocalizeLabelFor(m => m.Mappings)
+        @Html.HelpTextFor(m => m.Mappings, new { @class = "help-button" })
+    </div>
+    <div class="clear space-8"></div>
+    <div id="value-box" class="col-xs-12 center">
+        @if (Model.Mappings != null)
+        {
+            for (int i = 0; i < Model.Mappings.Count; i++)
+            {
+                <div class='col-md-6 no-padding'>
+                    <div class='col-xs-10 no-padding row-item'>
+                        <input type='hidden' name='Mappings.Index' value='@i' />
+                        <div class='col-lg-6'>
+                            <div class='col-xs-4'><b>.</b></div>
+                            <div class='col-xs-8'><input type='text' name='Mappings[@(i)].Extension' value='@Model.Mappings[i].Extension' class='extension col-xs-12' /></div>
+                        </div>
+                        <div class='clear space-4 hidden-lg'></div>
+                        <div class='col-lg-6'>
+                            <div class='col-xs-4'><b>Css class</b></div>
+                            <div class='col-xs-8'><input type='text' name='Mappings[@(i)].ClassName' value='@Model.Mappings[i].ClassName' class='className col-xs-12' /></div>
+                        </div>
+                    </div>
+                    <div class='col-xs-2 align-left'>
+                        <a href='javascript:void(0)' class='remove-row'>
+                            <i class='fa fa-times red'></i> @T("SiteSettings_DocumentType_Text_RemoveButton")
+                        </a>
+                    </div>
+                    <div class='space-8 clear'></div>
+                    <hr />
+                </div>
+            }
+        }
+    </div>
+</div>
+<div id="template" class="hidden">
+    <div class='col-md-6 no-padding'>
+        <div class='col-xs-10 no-padding row-item'>
+            <input type='hidden' name='Mappings.Index' value=':::Index:::' disabled='disabled' />
+            <div class='col-lg-6'>
+                <div class='col-xs-4'><b>.</b></div>
+                <div class='col-xs-8'>
+                    <input type='text' name='Mappings[:::Index:::].Extension' value='' class='extension col-xs-12' disabled='disabled' />
+                </div>
+            </div>
+            <div class='clear space-4 hidden-lg'></div>
+            <div class='col-lg-6'>
+                <div class='col-xs-4'><b>Css class</b></div>
+                <div class='col-xs-8'>
+                    <input type='text' name='Mappings[:::Index:::].ClassName' value='' class='className col-xs-12' disabled='disabled' />
+                </div>
+            </div>
+        </div>
+        <div class='col-xs-2 align-left'>
+            <a href='javascript:void(0)' class='remove-row'>
+                <i class='fa fa-times red'></i> @T("SiteSettings_DocumentType_Text_RemoveButton")
+            </a>
+        </div>
+        <div class='space-8 clear'></div>
+        <hr />
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-xs-7 col-lg-offset-4">
+    <a href="javascript:addRow()" class="btn btn-primary btn-sm">
+        <i class="fa fa-plus"></i>
+        @T("SiteSettings_DocumentType_Text_AddButton")
+    </a>
+</div>
+<div class="clearfix"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        var index = @(Model.Mappings != null ? Model.Mappings.Count : 0);
+        function addRow() {
+            var template = $("#template").html();
+            template = siteHelper.replaceAll(template, ":::Index:::", index);
+            template = siteHelper.replaceAll(template, "disabled=\"disabled\"", "");
+            $("#value-box").append(template);
+            index++;
+        }
+
+        $("body").on("click", ".remove-row", function () {
+            $(this).parent().parent().remove();
+        });
+    </script>);
+}

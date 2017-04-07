@@ -1,0 +1,16 @@
+<div class="carousel-inner">
+    @foreach (var item in Model.Images)
+    {
+        <div class="item @(item.Index == 0 ? "active" : "")">
+            <img alt="" class="img-responsive" src="@item.ImageUrl" />
+            <div class="divCarouselCaptionWrapper">
+                <div>
+                    <a class="linkTextInnerCarouselCaption" target="_blank" href="@item.Url">
+                        <div class="biggerTextCarouselCaption">@item.Title</div>
+                        <div class="smallerTextCarouselCaption">@Raw(item.Text)</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

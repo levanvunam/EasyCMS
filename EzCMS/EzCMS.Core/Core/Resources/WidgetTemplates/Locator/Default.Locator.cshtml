@@ -1,0 +1,39 @@
+<div class="col-sm-12">
+    <div class="col-sm-8">
+        <form class="location-search" onsubmit="return false;">
+            <div class="form-group">
+                <input id="locationInput" class="form-control" name="Enter a Postcode or Suburb" placeholder="Enter a Postcode or Suburb" type="text" />
+                <button id="searchLocation" type="button" class="btn btn-default" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-search bigger-150" aria-hidden="true"></span>
+                </button>
+            </div>
+            <div class="form-group">
+                <select id="searchRange" class="form-control">
+                    <option selected="selected" value="10">SHOW STOCKISTS WITHIN 10 KM</option>
+                    <option value="25">SHOW STOCKISTS WITHIN 25 KM</option>
+                    <option value="100">SHOW STOCKISTS WITHIN 100 KM</option>
+                    <option value="250">SHOW STOCKISTS WITHIN 250 KM</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <ul class="categories">
+                    <li><a href="javascript:void(0);" id="allCategories" class="btn highlight">Show All</a></li>
+                    @foreach (var locationType in Model.LocationTypes)
+                    {
+                        <li><a href="javascript:void(0);" class="btn category" value="@locationType.Id">@locationType.Name</a></li>
+                    }
+                </ul>
+            </div>
+            <div class="clearfix"></div>
+        </form>
+        <div id="mapCanvas"></div>
+    </div>
+    <div class="col-sm-4" id="locationSearchBox">
+        <div id="locationResults">
+            <div id="message" class="location-results"></div>
+            <div id="results" class="location-box"></div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>

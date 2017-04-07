@@ -1,0 +1,6 @@
+packages/
+bin/
+obj/
+.vs/
+/EzCMS/EzCMS.Web/Logs/*.log
+/EzCMS/EzCMS.Web/App_Data/Site.config

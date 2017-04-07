@@ -1,0 +1,242 @@
+﻿@{
+    ViewBag.Header = T("Tool_Site_Header");
+    ViewBag.Title = T("Tool_Site_SessionManagerListingTitle");
+    ViewBag.Description = T("Tool_Site_SessionManagerListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Session Manager" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_SessionAjaxBinding")",
+            colNames: ['@T("SessionManager_Filed_Id")',
+                '@T("SessionManager_Filed_Name")',
+                '@T("SessionManager_Filed_Value")',
+                '@T("SessionManager_Filed_IsComplex")'],
+            colModel: [
+                { name: 'Id', index: 'Id', key: true, align: 'center', hidden: true },
+                { name: 'Name', index: 'Name' },
+                { name: 'Value', index: 'Value' },
+                {
+                    name: 'IsComplexType',
+                    index: 'IsComplexType',
+                    align: "center",
+                    hidden: true,
+                    search: false,
+                    formatter: function (cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                    }
+                }
+            ],
+            subGrid: true,
+            subGridRowExpanded: function (subgridId, rowId) {
+                var row = $(gridSelector).jqGrid('getRowData', rowId);
+
+                var key = row.Name;
+
+                if (row.IsComplexType) {
+                    var subgridTableId = subgridId + "_t";
+                    var subGrid = "#" + subgridTableId;
+                    jQuery("#" + subgridId).html("<div class='sub-grid-box'><table id='" + subgridTableId + "' class='sub-grid'></table></div>");
+                    jQuery(subGrid).jqGrid({
+                        datatype: "json",
+                        caption: "Session Values",
+                        height: 'auto',
+                        url: "@Url.Action("_SessionAjaxBinding", "Tools")?key=" + key,
+                        colNames: ['@T("SessionManager_Filed_Id")',
+                            '@T("SessionManager_Filed_Name")',
+                            '@T("SessionManager_Filed_Value")',
+                            '@T("SessionManager_Filed_IsComplex")'],
+                        colModel: [
+                            { name: 'Id', index: 'Id', key: true, align: 'center', hidden: true },
+                            { name: 'Name', index: 'Name' },
+                            { name: 'Value', index: 'Value' },
+                            {
+                                name: 'IsComplexType',
+                                index: 'IsComplexType',
+                                align: "center",
+                                hidden: true,
+                                search: false,
+                                formatter: function (cellvalue, options, rowObject) {
+                                    return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                                }
+                            }
+                        ],
+                        subGrid: true,
+                        subGridOptions: {
+                            plusicon: "fa fa-chevron-down center bigger-110 orange",
+                            minusicon: "fa fa-chevron-right center bigger-110 orange",
+                            openicon: "fa fa-info-circle center bigger-110 blue"
+                        },
+                        subGridRowExpanded: function (childSubgridId, childRowId) {
+                            var childRow = $(this).jqGrid('getRowData', childRowId);
+                            var childKey = key + "." + childRow.Name;
+                            if (childRow.IsComplexType) {
+                                var childSubgridTableId = childSubgridId + "_t";
+                                jQuery("#" + childSubgridId).html("<div class='sub-grid-box'><table id='" + childSubgridTableId + "' class='sub-grid'></table></div>");
+
+                                jQuery("#" + childSubgridTableId).jqGrid({
+                                    datatype: "json",
+                                    caption: "Session Values",
+                                    height: 'auto',
+                                    url: "@Url.Action("_SessionAjaxBinding", "Tools")?key=" + childKey,
+                                    colNames: ['@T("SessionManager_Filed_Id")',
+                                        '@T("SessionManager_Filed_Name")',
+                                        '@T("SessionManager_Filed_Value")',
+                                        '@T("SessionManager_Filed_IsComplex")'],
+                                    colModel: [
+                                        { name: 'Id', index: 'Id', key: true, align: 'center', hidden: true },
+                                        { name: 'Name', index: 'Name' },
+                                        { name: 'Value', index: 'Value' },
+                                        {
+                                            name: 'IsComplexType',
+                                            index: 'IsComplexType',
+                                            align: "center",
+                                            hidden: true,
+                                            search: false,
+                                            formatter: function (cellvalue, options, rowObject) {
+                                                return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                                            }
+                                        }
+                                    ],
+                                    subGrid: true,
+                                    subGridOptions: {
+                                        plusicon: "fa fa-chevron-down center bigger-110 orange",
+                                        minusicon: "fa fa-chevron-right center bigger-110 orange",
+                                        openicon: "fa fa-info-circle center bigger-110 blue"
+                                    },
+                                    subGridRowExpanded: function (grandChildSubgridId, grandChildRowId) {
+                                        console.log($(this));
+                                        var grandChildRow = $(this).jqGrid('getRowData', grandChildRowId);
+                                        var grandChildKey = childKey + "." + grandChildRow.Name;
+                                        if (grandChildRow.IsComplexType) {
+                                            var grandChildSubgridTableId = grandChildSubgridId + "_t";
+                                            jQuery("#" + grandChildSubgridId).html("<div class='sub-grid-box'><table id='" + grandChildSubgridTableId + "' class='sub-grid'></table></div>");
+                                            jQuery("#" + grandChildSubgridTableId).jqGrid({
+                                                datatype: "json",
+                                                caption: "Session Values",
+                                                height: 'auto',
+                                                url: "@Url.Action("_SessionAjaxBinding", "Tools")?key=" + grandChildKey,
+                                                colNames: ['@T("SessionManager_Filed_Id")',
+                                                    '@T("SessionManager_Filed_Name")',
+                                                    '@T("SessionManager_Filed_Value")',
+                                                    '@T("SessionManager_Filed_IsComplex")'],
+                                                colModel: [
+                                                    { name: 'Id', index: 'Id', key: true, align: 'center', hidden: true },
+                                                    { name: 'Name', index: 'Name' },
+                                                    { name: 'Value', index: 'Value' },
+                                                    {
+                                                        name: 'IsComplexType',
+                                                        index: 'IsComplexType',
+                                                        align: "center",
+                                                        hidden: true,
+                                                        search: false,
+                                                        formatter: function (cellvalue, options, rowObject) {
+                                                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                                                        }
+                                                    }
+                                                ],
+                                                subGridOptions: {
+                                                    plusicon: "fa fa-chevron-down center bigger-110 orange",
+                                                    minusicon: "fa fa-chevron-right center bigger-110 orange",
+                                                    openicon: "fa fa-info-circle center bigger-110 blue"
+                                                },
+                                                pager: null,
+                                                loadComplete: function () {
+                                                    $(window).trigger("resize");
+                                                }
+                                            });
+                                        } else {
+                                            jQuery("#" + grandChildSubgridId).html("<div class='space-24'></div>");
+                                        }
+                                    },
+                                    pager: null,
+                                    loadComplete: function (grandChildResponse) {
+                                        //Remove subgrid expand if no needed
+                                        $.each(grandChildResponse.rows, function (index, value) {
+                                            if (!value.IsComplexType) {
+                                                $("#" + value.Id + " td.sgcollapsed", $(subGrid)).unbind('click').html('');
+                                            }
+                                        });
+                                        $(window).trigger("resize");
+                                    }
+                                });
+                            } else {
+                                jQuery("#" + childSubgridId).html("<div class='space-24'></div>");
+                            }
+                        },
+                        pager: null,
+                        loadComplete: function (childResponse) {
+                            //Remove subgrid expand if no needed
+                            $.each(childResponse.rows, function (index, value) {
+                                if (!value.IsComplexType) {
+                                    $("#" + value.Id + " td.sgcollapsed", $(subGrid)).unbind('click').html('');
+                                }
+                            });
+                            $(window).trigger("resize");
+                        },
+                    });
+                } else {
+                    jQuery("#" + subgridId).html("<div class='space-24'></div>");
+                }
+            },
+            loadComplete: function (response) {
+                //Remove subgrid expand if no needed
+                $.each(response.rows, function (index, value) {
+                    if (!value.IsComplexType) {
+                        $("#" + value.Id + " td.sgcollapsed", $(gridSelector)).unbind('click').html('');
+                    }
+                });
+            }
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup);
+    </script>
+}

@@ -1,0 +1,179 @@
+﻿@model EzCMS.Core.Models.FormComponentTemplates.FormComponentTemplateDetailModel
+
+@{
+    ViewBag.Header = T("FormComponentTemplate_Site_Header");
+    ViewBag.Title = T("FormTemplate_Site_DetailsTitle");
+    ViewBag.Description = T("FormTemplate_Site_DetailsDescription");
+}
+
+@section styles{
+    @Styles.Render("~/styles/codemirror")
+
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a class="btn btn-xs btn-danger" href="javascript:deleteFormTemplate()">@T("System_Text_Delete")</a>
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new { id = Model.Id, returnUrl = Url.Action("Details", new { id = Model.Id })})">
+            @T("System_Text_Edit")
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.FormComponentTemplate.Name, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.FormComponentTemplate.Name)
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+            <div class="widget-box">
+                <div class="widget-header widget-header-flat">
+                    <h4 class="smaller">
+                        @Html.LocalizeLabelFor(m => m.FormComponentTemplate.Content, new { @class = "control-label align-right" })
+                    </h4>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main">
+                        @Html.TextAreaFor(m => m.FormComponentTemplate.Content, new { id = "Content" })
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent collapsed">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("FormTemplate_Text_RecordInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.Created)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.CreatedBy
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.LastUpdate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.LastUpdateBy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="space-12 clear"></div>
+
+            @ShowStatusMessage()
+            <div class="row">
+                <div class="tabbable">
+                    <ul class="nav nav-tabs padding-12 tab-color-blue background-grey">
+                        <li class="active">
+                            <a data-toggle="tab" href="#form-components">
+                                @T("FormTemplate_Text_TabFormComponents") (<span id="tab-form-component" class="tab-button"></span>)
+                            </a>
+                        </li>
+                        <li>
+                            <a data-toggle="tab" href="#form-default-components">
+                                @T("FormTemplate_Text_TabFormDefaultComponents") (<span id="tab-form-default-component" class="tab-button"></span>)
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="form-components" class="tab-pane active">
+                            @Html.Partial("Details/_FormComponents", Model.Id)
+                        </div>
+                        <div id="form-default-components" class="tab-pane">
+                            @Html.Partial("Details/_FormDefaultComponents", Model.Id)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @* Code Mirror *@
+    @Scripts.Render("~/js/codemirror")
+
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        var Editor;
+        var updateUrl = "@Url.Action("UpdateFormComponentTemplateData")";
+        var pk = '@Model.Id';
+
+        $(function () {
+            Editor = siteHelper.buildHtmlDisplay("Content", 300);
+
+            if (siteHelper.getUrlParam("action") == "delete") {
+                deleteFormComponentTemplate();
+            }
+        });
+
+        // Delete form component template
+        function deleteFormComponentTemplate() {
+            var returnUrl = siteHelper.getUrlParam("returnUrl");
+            var data = { id: @Model.Id };
+
+            siteHelper.confirm('@T("FormTemplate_Message_DeleteConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteFormComponentTemplate")",
+                        data: data,
+                        success: function (response) {
+                            if (response.Success) {
+                                bootbox.alert(response.Message, function () {
+                                    if (returnUrl != "")
+                                        window.location.href = returnUrl;
+                                    else
+                                        window.location.href = "@Url.Action("Index")";
+                                });
+                            } else {
+                                siteHelper.showMessage(response);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

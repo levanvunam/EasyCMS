@@ -1,0 +1,155 @@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places"></script>
+
+<script type="text/javascript">
+    var defaultLatitude = parseFloat('{DefaultLatitude}');
+    var defaultLongitude = parseFloat('{DefaultLongitude}');
+    var defaultZoom = parseInt('{DefaultZoom}');
+    var defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
+    
+    // Get position
+    var latitude = parseFloat('{Latitude}');
+    var longitude = parseFloat('{Longitude}');
+    var position;
+    
+    var currentMarker, map, route;
+    var markerArray = [];
+    var directionsService, directionsDisplay;
+
+    setBackUrl();
+
+    // Inintialize google map
+    function initialize() {
+        var input = document.getElementById('locationInput');
+        
+        // Setup map
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+            position = new google.maps.LatLng(latitude, longitude);
+            setupMap(position);
+        } else {
+            position = defaultPosition;
+            setupMap(position);
+        }
+
+        directionsDisplay = new google.maps.DirectionsRenderer({ map: map });
+        directionsDisplay.setPanel(document.getElementById('instructions'));
+
+        // Init auto complete search place
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+        autocomplete.addListener('place_changed', getDirections);
+    };
+    
+    // Setup map
+    function setupMap(latLng) {
+        // Instantiate a directions service.
+        map = new google.maps.Map(document.getElementById('mapCanvas'), {
+            zoom: defaultZoom,
+            center: latLng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        currentMarker = new google.maps.Marker({
+            position: latLng,
+            title: '{MarkerTitle}',
+            map: map,
+        });
+    }
+
+    /* Event Listeners */
+
+    // Get directions once press enter
+    $("#locationInput").keypress(function (e) {
+        if (e.which == 13) {
+            $("#getDirections").click();
+        }
+    });
+
+    // Get directions once click button
+    $("#getDirections").click(function () {
+        getDirections();
+    });
+    
+    google.maps.event.addDomListener(window, 'load', initialize);
+    
+
+    // Get directions from origin to destination
+    function getDirections() {
+        if (document.getElementById('locationInput').value != "") {
+            directionsService = new google.maps.DirectionsService;
+
+            // First, remove any existing markers from the map.
+            for (var i = 0; i < markerArray.length; i++) {
+                markerArray[i].setMap(null);
+            }
+            markerArray = [];
+
+            // Instantiate an info window to hold step text.
+            var stepDisplay = new google.maps.InfoWindow;
+
+            // Display the route between the initial start and end selections.
+            calculateAndDisplayRoute(directionsDisplay, directionsService, stepDisplay);
+        }
+    }
+
+    // Calculate and display route
+    function calculateAndDisplayRoute(directionsDisplay, directionsService, stepDisplay) {
+        // Retrieve the start and end locations and create a DirectionsRequest using DRIVING directions.
+        directionsService.route({
+            origin: document.getElementById('locationInput').value,
+            destination: position,
+            travelMode: google.maps.TravelMode.DRIVING
+        }, function (response, status) {
+            // Route the directions and pass the response to a function to create
+            // markers for each step.
+            if (status === google.maps.DirectionsStatus.OK) {
+                document.getElementById('warnings-panel').innerHTML =
+                    '<b>' + response.routes[0].warnings + '</b>';
+                directionsDisplay.setDirections(response);
+                showSteps(response, stepDisplay, map);
+
+                // Remove current marker
+                if (currentMarker !== undefined) {
+                    currentMarker.setMap(null);
+                }
+            } else {
+                window.alert('Directions request failed due to ' + status);
+            }
+        });
+    }
+
+    // Show steps on map
+    function showSteps(directionResult, stepDisplay) {
+        // For each step, place a marker, and add the text to the marker's infowindow.
+        // Also attach the marker to an array so we can keep track of it and remove it
+        // when calculating new routes.
+        route = directionResult.routes[0].legs[0];
+        for (var index = 0; index < route.steps.length; index++) {
+            var marker = markerArray[index] = markerArray[index] || new google.maps.Marker;
+            marker.setMap(map);
+            marker.setPosition(route.steps[index].start_location);
+            attachInstructionText(stepDisplay, index, route.steps[index].instructions);
+        }
+    }
+
+    // Display text when click on a step marker
+    function attachInstructionText(stepDisplay, index, text) {
+        google.maps.event.addListener(markerArray[index], 'click', function () {
+            // Open an info window when the marker is clicked on, containing the text
+            // of the step.
+            stepDisplay.setContent(text);
+            stepDisplay.open(map, markerArray[index]);
+        });
+    }
+    
+    // Set url back to previous locator page
+    function setBackUrl() {
+        if (document.referrer == "") {
+            $('#btnGoback').hide();
+        } else {
+            $('#btnGoback').show();
+            $("#btnGoback").click(function() {
+                window.location.href = document.referrer;
+            });
+        }
+    }
+</script>

@@ -1,0 +1,26 @@
+﻿@foreach (var associateType in Model.AssociateTypes)
+{
+    <div class="row contacts">
+        <div class="col-sm-12">
+            <div class="navigation">
+                <h2>@associateType.Name</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="row contacts">
+        @foreach (var item in associateType.Associates)
+        {
+            <div class="col-sm-4">
+                <div class="contact_left">
+                    <h2>@item.Positions</h2>
+
+                    <h3>@item.Title @item.FirstName @item.LastName</h3>
+                    @item.Email<br>
+                    @item.PhoneWork<br>
+                    @item.PhoneHome
+                </div>
+            </div>
+        }
+    </div>
+}

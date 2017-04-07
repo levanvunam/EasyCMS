@@ -1,0 +1,30 @@
+﻿@model List<string>
+
+@helper ViewTool(params string[] tools)
+{
+    if (Model != null)
+    {
+        var result = new List<string>();
+        foreach (var tool in tools)
+        {
+            if (Model.Contains(tool))
+            {
+                result.Add(tool);
+            }
+        }
+        <text>@Html.Raw(string.Join(",", result.Select(r => string.Format("\"{0}\"", r))))</text>
+    }
+}
+[{ "name": "document", "groups": ["mode","document","doctools"], "items": [@ViewTool("Source", "Save", "NewPage", "Preview", "Print", "Templates")] },
+{ "name": "clipboard", "groups": ["clipboard","undo"], "items": [@ViewTool("Cut", "Copy", "Paste", "PasteText", "PasteFromWord", "Undo", "Redo")] },
+{ "name": "editing",  "groups": ["find","selection","spellchecker"], "items": [@ViewTool("Find", "Replace", "SelectAll", "Scayt")] },
+{ "name": "forms", "items": [@ViewTool("Form", "Checkbox", "Radio", "TextField", "Textarea", "Select", "Button", "ImageButton", "HiddenField")] },
+"/",
+{ "name": "basicstyles", "groups": ["basicstyles","cleanup"], "items": [@ViewTool("Bold", "Italic", "Underline", "Strike", "Subscript", "Superscript", "RemoveFormat")] },
+{ "name": "paragraph", "groups": ["list","indent","blocks","align"], "items": [@ViewTool("NumberedList", "BulletedList", "Outdent", "Indent", "Blockquote", "CreateDiv", "JustifyLeft", "JustifyCenter", "JustifyRight", "JustifyBlock", "BidiLtr", "BidiRtl")] },
+{ "name": "links", "items": [@ViewTool("Link", "Unlink", "Anchor")] },
+{ "name": "insert", "items": [@ViewTool("Image", "Flash", "Table", "HorizontalRule", "Smiley", "SpecialChar", "PageBreak", "Iframe", "InsertPre", "Youtube", "FontAwesome", "EzCMSwidget")] },
+"/",
+{ "name": "styles", "items": [@ViewTool("Styles", "Format", "Font", "FontSize")] },
+{ "name": "colors", "items": [@ViewTool("TextColor", "BGColor")] },
+{ "name": "tools", "items": [@ViewTool("UIColor", "Maximize", "ShowBlocks")] }]

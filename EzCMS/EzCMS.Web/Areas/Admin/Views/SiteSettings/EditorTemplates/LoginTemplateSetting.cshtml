@@ -1,0 +1,82 @@
+﻿@model LoginTemplateSetting
+
+@{
+    Style.Bundle("~/styles/codemirror");
+}
+
+<div class="tabbable">
+    <ul id="template-tabs" class="nav nav-tabs padding-16">
+        @for (int i = 0; i < Model.Configurations.Count; i++)
+        {
+            <li class="@(i == 0 ? "active" : "")">
+                <a data-index="@i" data-toggle="tab" href="#@((int)Model.Configurations[i].LoginTemplateConfiguration)">
+                    @Model.Configurations[i].LoginTemplateConfiguration.GetEnumName()
+                </a>
+            </li>
+        }
+    </ul>
+
+    <div class="tab-content profile-edit-tab-content">
+        @for (int i = 0; i < Model.Configurations.Count; i++)
+        {
+            <div id="@((int)Model.Configurations[i].LoginTemplateConfiguration)" class="tab-pane @(i == 0 ? "in active" : "")">
+                <div class="tabbable tabs-left">
+                    @Html.HiddenFor(m => m.Configurations[i].LoginTemplateConfiguration)
+                    @if (Model.Configurations[i].LoginTemplateConfiguration == LoginEnums.LoginTemplateConfiguration.Login || Model.Configurations[i].LoginTemplateConfiguration == LoginEnums.LoginTemplateConfiguration.LoginSuccess)
+                    {
+                        @Html.HiddenFor(m => m.Configurations[i].Enable)
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            @Html.LocalizeLabelFor(m => m.Configurations[i].Enable, new { @class = "col-md-3 control-label" })
+                            <div class="col-md-9">
+                                @Html.AceCheckBoxFor(m => m.Configurations[i].Enable)
+                                @Html.HelpTextFor(m => m.Configurations[i].Enable, new { @class = "help-button" })
+                                @Html.ValidationMessageFor(m => m.Configurations[i].Enable)
+                            </div>
+                        </div>
+                    }
+                    <div class="form-group">
+                        @Html.LocalizeLabelFor(m => m.Configurations[i].EnableTemplate, new { @class = "col-md-3 control-label" })
+                        <div class="col-md-9">
+                            @Html.AceCheckBoxFor(m => m.Configurations[i].EnableTemplate)
+                            @Html.HelpTextFor(m => m.Configurations[i].EnableTemplate, new { @class = "help-button" })
+                            @Html.ValidationMessageFor(m => m.Configurations[i].EnableTemplate)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label">
+                            @Html.LocalizeLabelFor(m => m.Configurations[i].Template, new { @class = "no-padding-right" })
+                            @Html.HelpTextFor(m => m.Configurations[i].Template, new { @class = "help-button" })
+                        </div>
+                        <div class="col-md-9">
+                            @Html.TextAreaFor(m => m.Configurations[i].Template, new { @class = "col-xs-12", id = "template-" + i })
+                            @Html.ValidationMessageFor(m => m.Configurations[i].Template)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@{
+    Script.Bundle("~/js/codemirror").Block(@<script type="text/javascript">
+
+        var editors = [];
+        $('#template-tabs > li > a').on('shown.bs.tab', function (e) {
+            var index = $(this).data("index");
+            if (editors[index] && editors[index] instanceof CodeMirror) {
+                editors[index].refresh();
+            } else {
+                editors[index] = siteHelper.buildHtmlEditor("template-" + index);
+            }
+        });
+
+        $(function () {
+            editors[0] = siteHelper.buildHtmlEditor("template-" + 0);
+        });
+
+    </script>);
+}

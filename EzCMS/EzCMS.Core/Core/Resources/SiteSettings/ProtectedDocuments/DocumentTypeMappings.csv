@@ -1,0 +1,48 @@
+-- WEB DOCUMENT
+html,web
+htm,web
+
+
+-- IMAGES
+jpg,fa fa-image
+gif,fa fa-image
+png,fa fa-image
+jpeg,fa fa-image
+tif,fa fa-image
+
+
+-- WORD
+doc,fa fa-file-text
+docx,fa fa-file-text
+
+
+-- EXCEL
+xls,fa fa-file-excel-o
+xlsx,fa fa-file-excel-o
+
+
+-- POWER POINT
+ppt,fa fa-file-powerpoint-o
+pptx,fa fa-file-powerpoint-o
+
+
+-- PDF
+pdf,fa fa-file-pdf-o
+
+
+-- VIDEO
+mp4,fa fa-film
+avi,fa fa-film
+mpeg,fa fa-film
+m4v,fa fa-film
+mov,fa fa-film
+mpg,fa fa-film
+hdmov,fa fa-film
+mp4,fa fa-film
+flv,fa fa-film
+mpeg4,fa fa-film
+movie,fa fa-film
+
+
+-- DATABASE
+mdb,fa fa-database

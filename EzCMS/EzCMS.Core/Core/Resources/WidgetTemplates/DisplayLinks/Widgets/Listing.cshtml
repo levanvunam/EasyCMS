@@ -1,0 +1,6 @@
+<ul class="links">
+    @foreach (var item in Model.Links)
+    {
+        <li> <a class="active" href="@item.Url" target="@item.UrlTarget" title="@item.Description"><i class="fa fa-link"></i> @item.Name</a></li>
+    }
+</ul>

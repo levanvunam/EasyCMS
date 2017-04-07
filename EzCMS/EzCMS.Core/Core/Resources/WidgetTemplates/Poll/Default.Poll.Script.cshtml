@@ -1,0 +1,47 @@
+<script type="text/javascript">
+    var modelId = "{Id}";
+    $(function () {
+        if ("{IsVotedPoll}" == "True") {
+            $(".pollAnswers" + modelId + " input").each(function () {
+                $(this).prop('disabled', true);
+            });
+            $("#message" + modelId).css("display", "block");
+        }
+    });
+    $("#submitVote" + modelId).click(function () {
+        var data = [];
+        $('.panel-body input:checked').each(function () {
+            data.push($(this).attr("value"));
+        });
+        if ($(".pollAnswers" + modelId).has("input:checked").length > 0) {
+            $.ajax({
+                type: 'POST',
+                url: "{VoteLink}",
+                traditional: true,
+                dataType: "json",
+                data: { voteIds: data, pollId: modelId },
+                success: function (result) {
+                    $("#submitVote" + modelId).hide();
+                    var total = parseInt($("#total" + modelId).text()) + result;
+                    $("#total" + modelId).text(total);
+                    $(".pollAnswers" + modelId + " input").each(function () {
+                        $(this).prop('disabled', true);
+                    });
+                    $("#thankyou" + modelId).css("display", "block");
+                }
+            });
+        } else {
+            $("#message" + modelId).html("Please choose your option");
+            $("#message" + modelId).css("display", "block");
+        }
+    });
+
+    $("#seeResult" + modelId).click(function() {
+        siteHelper.showPopup({
+            href: "{ShowPollResultLink}",
+            type: 'iframe',
+            width: '50%',
+            height: '65%'
+        });
+    });
+</script>

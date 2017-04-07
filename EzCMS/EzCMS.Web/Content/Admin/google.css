@@ -1,0 +1,148 @@
+﻿body {
+    font-family: arial,sans-serif !important;
+    color: #777;
+    font-size: 13px;
+    margin: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+#google {
+}
+
+    #google .header {
+        padding: 9px 15px 10px 15px;
+        background: #F1F1F1;
+        border-bottom: 1px solid #dee;
+    }
+
+        #google .header #logo {
+            width: 111px;
+            float: left;
+            margin-top: 6px;
+        }
+
+            #google .header #logo img {
+                height: 30px;
+            }
+
+        #google .header .search-input {
+            float: left;
+        }
+
+            #google .header .search-input input[type=text] {
+                padding: 10px 10px;
+                line-height: 18px;
+                font-size: 16px;
+                width: 610px;
+                border: 1px solid #ccc;
+                float: left;
+            }
+
+            #google .header .search-input .buttons {
+                margin-left: -90px;
+                float: left;
+            }
+
+                #google .header .search-input .buttons a {
+                    height: 40px;
+                    width: 40px;
+                    margin-left: 5px;
+                    float: left;
+                    text-align: center;
+                }
+
+                    #google .header .search-input .buttons a#voice img {
+                        padding: 8px 2px;
+                        height: 26px;
+                    }
+
+                    #google .header .search-input .buttons a#search img {
+                        height: 40px;
+                        border-top-right-radius: 3px;
+                        border-bottom-right-radius: 3px;
+                    }
+
+    #google .search-results {
+    }
+
+        #google .search-results ul.search-filter {
+            padding: 0 0 0 128px;
+            margin: 0;
+            border-bottom: 1px solid #dee;
+            list-style: none;
+        }
+
+            #google .search-results ul.search-filter li {
+                display: inline-block;
+                padding: 0 8px;
+                height: 56px;
+                font-size: 13px;
+                line-height: 58px;
+                text-align: center;
+                margin-right: 12px;
+            }
+
+                #google .search-results ul.search-filter li a {
+                    color: #777;
+                    text-decoration: none;
+                }
+
+                #google .search-results ul.search-filter li.active {
+                    border-bottom: 3px solid #4285F4;
+                    font-weight: bold;
+                }
+
+                    #google .search-results ul.search-filter li.active a {
+                        color: #4285F4;
+                    }
+
+                #google .search-results ul.search-filter li.search-tools {
+                    width: 100px;
+                    margin-left: -7px;
+                }
+
+        #google .search-results .result-stats {
+            height: 43px;
+            line-height: 43px;
+            margin-left: 136px;
+        }
+
+        #google .search-results ul.sites {
+            list-style: none;
+            margin-left: 136px;
+            margin-top: 10px;
+        }
+
+            #google .search-results ul.sites li {
+            }
+
+                #google .search-results ul.sites li div {
+                    margin-top: 5px;
+                }
+
+                #google .search-results ul.sites li div.site-header {
+                    font-size: 18px;
+                    height: 21px;
+                    line-height: 21px;
+                    color: #1A58C7;
+                }
+
+                #google .search-results ul.sites li div.site-url {
+                    font-size: 14px;
+                    font-weight: bold;
+                    color: #2F6621;
+                }
+
+                #google .search-results ul.sites li div.site-description {
+                }
+
+                #google .search-results ul.sites li div.site-map {
+                }

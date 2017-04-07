@@ -1,0 +1,10 @@
+﻿@model SubscriptionConfigurationSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DisableNotifySubscribers, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.AceCheckBoxFor(m => m.DisableNotifySubscribers)
+        @Html.HelpTextFor(m => m.DisableNotifySubscribers, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DisableNotifySubscribers)
+    </div>
+</div>

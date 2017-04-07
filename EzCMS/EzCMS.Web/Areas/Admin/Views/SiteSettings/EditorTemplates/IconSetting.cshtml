@@ -1,0 +1,94 @@
+﻿@using Ez.Framework.Configurations
+@model IconSetting
+
+@{
+    var icons = new List<string>();
+    if (!string.IsNullOrWhiteSpace(Model.IconList))
+    {
+        icons = Model.IconList.Split(',').ToList();
+    }
+}
+
+@Html.HiddenFor(m => m.IconList, new { id = "IconList" })
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.IconList, new { @class = "col-md-4 control-label" })
+    @Html.HelpTextFor(m => m.IconList, new { @class = "help-button" })
+    <div class="space-8 clear"></div>
+    <div id="value-box" class="col-xs-12">
+        @foreach (var item in icons)
+        {
+            <div class='col-md-6 col-lg-4 no-padding'>
+                <div class='col-xs-8 no-padding'>
+                    <div class="col-xs-10">
+                        <input type='text' value='@item' class='row-item col-xs-12' />
+                    </div>
+                    <div class="col-xs-2">
+                        <i class='@item'></i>
+                    </div>
+                </div>
+                <div class='col-xs-4'>
+                    <a href='javascript:void(0)' class='remove-row'>
+                        <i class='fa fa-times red'></i> @T("SiteSettings_Icon_Text_RemoveButton")
+                    </a>
+                </div>
+                <div class='space-4 clear'></div>
+                <hr />
+            </div>
+        }
+    </div>
+</div>
+<div id="template" class="hidden">
+    <div class='col-md-6 col-lg-4 no-padding'>
+        <div class='col-xs-8 no-padding'>
+            <div class="col-xs-10">
+                <input type='text' value='' class='row-item col-xs-12' />
+            </div>
+            <div class="col-xs-2">
+                <i class=''></i>
+            </div>
+        </div>
+        <div class='col-xs-4'>
+            <a href='javascript:void(0)' class='remove-row'>
+                <i class='fa fa-times red'></i> @T("SiteSettings_Icon_Text_RemoveButton")
+            </a>
+        </div>
+        <div class='space-4 clear'></div>
+        <hr />
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-xs-7 col-lg-offset-4">
+    <a href="javascript:addRow()" class="btn btn-primary btn-sm">
+        <i class="fa fa-plus"></i>
+        @T("SiteSettings_Icon_Text_AddButton")
+    </a>
+</div>
+<div class="clearfix"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        function addRow() {
+            var template = $("#template").html();
+            $("#value-box").append(template);
+        }
+
+        $("body").on("click", ".remove-row", function () {
+            $(this).parent().parent().remove();
+        });
+
+        $("body").on("change", ".row-item", function () {
+            $(this).parent().parent().find("i").addClass($(this).val());
+        });
+
+        $("#edit-setting-form").submit(function () {
+            var arr = [];
+            $("#value-box").find(".row-item").each(function () {
+                if ($.inArray($(this).val(), arr) == -1) {
+                    arr.push($(this).val());
+                }
+            });
+            $("#IconList").val(arr.join(@EzCMSContants.Colon));
+        });
+    </script>);
+}

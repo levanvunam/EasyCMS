@@ -1,0 +1,412 @@
+﻿@model EzCMS.Core.Models.WidgetTemplates.WidgetTemplateManageModel
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.DataType)
+@Html.HiddenFor(m => m.Widget)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10">
+        @if (Model.IsDefaultTemplate)
+        {
+            @Html.HiddenFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10", @readonly = "readonly", data_rel = "tooltip", title = @T("WidgetTemplate_Message_DisableChangeDefaultTemplateName") })
+            @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        }
+        else
+        {
+            @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10" })
+            @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+
+        }
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+
+<div class="space-12 clear"></div>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="tabbable">
+            <ul id="template-tabs" class="nav nav-tabs padding-12">
+                <li>
+                    <a data-toggle="tab" href="#widgets">
+                        <i class="blue fa fa-puzzle-piece bigger-110"></i>
+                        @Html.TextFor(m => m.Widget)
+                        @Html.HelpTextFor(m => m.Widget, new { @class = "help-button" })
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#style">
+                        <i class="fa fa-css3 bigger-110"></i>
+                        @Html.TextFor(m => m.Style)
+                        @Html.HelpTextFor(m => m.Style, new { @class = "help-button" })
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#script">
+                        <i class="fa fa-file-code-o bigger-110"></i>
+                        @Html.TextFor(m => m.Script)
+                        @Html.HelpTextFor(m => m.Script, new { @class = "help-button" })
+                    </a>
+                </li>
+                <li class="active">
+                    <a data-toggle="tab" href="#content">
+                        <i class="pink fa fa-code bigger-110"></i>
+                        @Html.TextFor(m => m.Content)
+                        @Html.HelpTextFor(m => m.Content, new { @class = "help-button" })
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="tab" href="#full-content">
+                        <i class="blue fa fa-code bigger-110"></i>
+                        @Html.TextFor(m => m.FullContent)
+                        @Html.HelpTextFor(m => m.Script, new { @class = "help-button" })
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="widgets" class="tab-pane">
+                    <a class="btn btn-warning btn-minier" href="javascript:addWidget()">
+                        <i class="fa fa-plus"></i>
+                        @T("WidgetTemplate_Text_AddShortcut")
+                    </a>
+                    <div class="btn-group">
+                        <button class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                            @T("Widget_Text_AddProperty")
+                            <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                        </button>
+                        <ul id="propertyBuilder" class="dropdown-menu dropdown-info"></ul>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <td style="width: 15%">
+                                        @T("WidgetTemplate_Shortcut_Field_Name")
+                                    </td>
+                                    <td style="width: 70%">
+                                        @T("WidgetTemplate_Shortcut_Field_Content")
+                                    </td>
+                                    <td style="width: 15%">
+                                        @T("WidgetTemplate_Shortcut_Field_Action")
+                                    </td>
+                                </tr>
+                            </thead>
+                            <tbody id="widget-list">
+                                @if (Model.Shortcuts != null)
+                                {
+                                    for (int i = 0; i < Model.Shortcuts.Count; i++)
+                                    {
+                                        <tr>
+                                            <td style="vertical-align: middle">
+                                                <input type='hidden' name='Widgets.Index' value='@i' />
+                                                @Html.TextBox("Widgets[" + i + "].Name", @Model.Shortcuts[i].Name, new { @class = "col-xs-12 widget-name" })
+                                            </td>
+                                            <td>
+                                                @Html.TextArea("Widgets[" + i + "].Content", @Model.Shortcuts[i].Content, new { id = i, @class = "col-xs-12 widget-content" })
+                                            </td>
+                                            <td style="vertical-align: middle">
+                                                <a href='javascript:void(0)' class='remove-widget'>
+                                                    <i class='fa fa-times red'></i> @T("WidgetTemplate_Shortcut_Text_Remove")
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                        @Html.HtmlValidationMessageFor(m => m.Shortcuts)
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div id="style" class="tab-pane">
+                    @Html.TextAreaFor(m => m.Style)
+                    @Html.ValidationMessageFor(m => m.Style)
+                    <div class="clearfix"></div>
+                </div>
+                <div id="script" class="tab-pane">
+                    @Html.TextAreaFor(m => m.Script)
+                    @Html.ValidationMessageFor(m => m.Script)
+                    <div class="clearfix"></div>
+                </div>
+                <div id="content" class="tab-pane active">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="btn-group">
+                                <button class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                                    @T("WidgetTemplate_Text_DropdownAddShortcut")
+                                    <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                </button>
+                                <ul id="widgetBuilder" class="dropdown-menu dropdown-info"></ul>
+                            </div>
+                            <div class="clear"></div>
+                            @Html.TextAreaFor(m => m.Content, new { @class = "col-xs-10 col-sm-9" })
+                            @Html.ValidationMessageFor(m => m.Content)
+                        </div>
+                    </div>
+                </div>
+                <div id="full-content" class="tab-pane">
+                    @Html.TextAreaFor(m => m.FullContent)
+                    @Html.ValidationMessageFor(m => m.FullContent)
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+<table class="hidden">
+    <tbody id="template">
+        <tr>
+            <td style="vertical-align: middle">
+                <input type='hidden' name='Widgets.Index' value=':::Index:::' />
+                @Html.TextBox("Widgets[:::Index:::].Name", string.Empty, new { @class = "col-xs-12 widget-name", disabled = "disabled" })
+            </td>
+            <td>
+                @Html.TextArea("Widgets[:::Index:::].Content", string.Empty, new { id = ":::Index:::", @class = "col-xs-12 widget-content", disabled = "disabled" })
+            </td>
+            <td style="vertical-align: middle">
+                <a href='javascript:void(0)' class='remove-widget'>
+                    <i class='fa fa-times red'></i> @T("WidgetTemplate_Shortcut_Text_Remove")
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<ul id="property-widget-dropdown" class="hidden">
+    <li data-rel="tooltip" title="Add This Property" class="add-widget yellow" data-widget="{:::Widget:::}">
+        <a href="javascript:void(0)">{:::Widget:::}</a>
+    </li>
+</ul>
+<ul id="widget-dropdown-template" class="hidden">
+    <li data-rel="tooltip" title="Add This Widget" class="add-widget" data-widget="{:::Shortcut:::}">
+        <a href="javascript:void(0)">{:::Widget:::}</a>
+    </li>
+</ul>
+
+@{
+    Script.Bundle("~/js/codemirror").Block(@<script type="text/javascript">
+        var Editor, FullEditor, StyleEditor, ScriptEditor;
+        var properties = null;
+        var widgetEditors = [];
+        var selectedWidgetEditor = null;
+        $(function () {
+
+            //Setup content editor
+            Editor = siteHelper.buildHtmlEditor("Content");
+            Editor.on('change', function(cm) {
+                $("#Content").val(cm.getValue());
+                updateFullContent();
+            });
+
+            //Setup style editor
+            StyleEditor = siteHelper.buildHtmlEditor("Style");
+            StyleEditor.on('change', function(cm) {
+                $("#Style").val(cm.getValue());
+                updateFullContent();
+            });
+
+            //Setup script editor
+            ScriptEditor = siteHelper.buildHtmlEditor("Script");
+            ScriptEditor.on('change', function(cm) {
+                $("#Script").val(cm.getValue());
+                updateFullContent();
+            });
+
+            //Setup full content editor
+            FullEditor = siteHelper.buildHtmlDisplay("FullContent");
+
+            $.each($("#widget-list .widget-content"), function(index, value) {
+                var widgetContent = $(this);
+                var id =  widgetContent.attr("id");
+
+                var editor = siteHelper.buildHtmlEditor(id, "", 200);
+                editor.on('change', function(cm) {
+                    widgetContent.val(cm.getValue());
+                    updateFullContent();
+                });
+                editor.on("mousedown", function(cm, event) {
+                    selectedWidgetEditor = editor;
+                });
+                widgetEditors.push(editor);
+            });
+
+            siteHelper.httpPost({
+                showLoading: false,
+                type: "POST",
+                url: "@Url.Action("GeneratePropertyDropdownFromWidget", "Widgets", new { widget = Model.Widget })",
+                async: false,
+                success: function (response) {
+                    if (response.Success) {
+                        $("#propertyBuilder").html(response.Data);
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+
+            // Load property widget dropdown
+            siteHelper.httpPost({
+                showLoading: false,
+                type: "POST",
+                url: "@Url.Action("GeneratePropertyValueDropdownFromWidget", "Widgets", new { widget = Model.Widget })",
+                async: false,
+                success: function (response) {
+                    if (response.Success) {
+                        properties = response.Data;
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+
+                    //Update widget dropdown
+                    updateWidgetDropdown();
+                }
+            });
+        });
+
+        // call back function for selecting property
+        var callback = function printCurlybracket(widget) {
+            if (selectedWidgetEditor != null) {
+                selectedWidgetEditor.replaceRange(widget, selectedWidgetEditor.getCursor());
+            } else {
+                siteHelper.alert("@T("WidgetTemplate_Message_InvalidWidgetSelection")");
+            }
+        };
+
+        // Event handler to refresh hidden Code Mirror
+        $('#template-tabs > li > a').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href");
+            if (target == "#full-content") {
+                FullEditor.refresh();
+            } else if(target == "#widgets") {
+                $.each(widgetEditors, function(index, value) {
+                    value.refresh();
+                });
+            } else if (target == "#style") {
+                StyleEditor.refresh();
+            } else if (target == "#script") {
+                ScriptEditor.refresh();
+            }
+        });
+
+        /*********** Widget Builder ***********/
+
+        // Widget name change
+        $("body").on("change", ".widget-name", function() {
+            updateWidgetDropdown();
+        });
+
+        // Update widget dropdown when adding / remove / edit widget
+        function updateWidgetDropdown() {
+            siteHelper.delay(function() {
+                var propertyWidgets = "";
+                var diveder = "<li class=\"divider\"></li>";
+                var widgetsHtml = "";
+                var propertytemplate = $("#property-widget-dropdown").html();
+                var widgetTemplate = $("#widget-dropdown-template").html();
+
+                //Load property template
+                if (properties != null && properties.length > 0) {
+                    $.each(properties, function(index, value) {
+                        propertyWidgets += siteHelper.replaceAll(propertytemplate, ":::Widget:::", value);
+                    });
+                }
+
+                //Load widget template
+                $.each($("#widget-list .widget-name"), function(index, value) {
+                    var widget = $(this).val();
+                    if (widget != '') {
+                        widgetsHtml += siteHelper.replaceAll(widgetTemplate, ":::Widget:::", $(this).val());
+                    }
+                });
+
+                var widgets;
+                if (propertyWidgets != '' && widgetsHtml != '') {
+                    widgets = propertyWidgets + diveder + widgetsHtml;
+                } else {
+                    widgets = propertyWidgets + widgetsHtml;
+                }
+
+                $("#widgetBuilder").html(widgets);
+                $("#widgetBuilder li[data-rel=tooltip]").tooltip();
+            }, 200);
+        }
+        /*********** End Widget Builder ***********/
+
+        /*********** Widget Content ***********/
+
+        //Listen event for widget content updating
+        $("body").on("change", ".widget-content", function() {
+            updateFullContent();
+        });
+
+        // Update full content
+        function updateFullContent() {
+            siteHelper.delay(function() {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("LoadFullContent")",
+                    data: $("#template-form").serialize(),
+                    success: function(response) {
+                        if (response.Success) {
+                            FullEditor.setValue(response.Data);
+                        }
+                    }
+                });
+            }, 2000);
+        }
+
+        /*********** End Widget Content ***********/
+
+
+        /*********** Widget Create / Remove / Edit ***********/
+
+        $("body").on("click", ".remove-widget", function () {
+            $(this).closest("tr").remove();
+
+            //Update content after remove widget
+            updateFullContent();
+        });
+
+        //Add widget to content
+        $("body").on("click", ".add-widget", function () {
+            var widget = $(this).data("widget");
+            Editor.replaceRange(widget, Editor.getCursor());
+        });
+
+        var index = @(Model.Shortcuts != null ? Model.Shortcuts.Count : 0);
+        //Add new widget
+        function addWidget() {
+            var currentIndex = index;
+
+            //Load widget template
+            var template = $("#template").html();
+
+            //Replace template with new index
+            template = siteHelper.replaceAll(template, ":::Index:::", currentIndex);
+            template = siteHelper.replaceAll(template, "disabled=\"disabled\"", "");
+
+            //Append widget to widget list
+            var newWidget = $(template).appendTo("#widget-list");
+
+            //Build new editor
+            var editor = siteHelper.buildHtmlEditor(currentIndex, "", 200);
+            editor.on('change', function(cm) {
+                var textarea = $(newWidget).find("#" + currentIndex);
+                $(textarea).val(cm.getValue());
+                updateFullContent();
+            });
+            editor.on("mousedown", function(cm, event) {
+                selectedWidgetEditor = editor;
+            });
+
+            widgetEditors.push(editor);
+            index++;
+        }
+
+        /*********** End Widget Create / Remove / Edit ***********/
+    </script>);
+}

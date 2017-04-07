@@ -1,0 +1,101 @@
+﻿@model EzCMS.Core.Models.EmailTemplates.EmailTemplateManageModel
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.DataType)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.TypeName, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12 control-value">
+        @Model.TypeName
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Subject, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.Subject, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.Subject, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Subject)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.From, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.From, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.From, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.From)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.FromName, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.FromName, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.FromName, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.FromName)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.CC, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.CC, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.CC, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.CC)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.BCC, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.BCC, new { @class = "col-sm-8 col-xs-10" })
+        @Html.HelpTextFor(m => m.BCC, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.BCC)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-2 control-label no-padding-top">
+        @Html.LocalizeLabelFor(m => m.Body)
+        @Html.HelpTextFor(m => m.Body, new { @class = "help-button" })
+    </div>
+    <div class="col-sm-10">
+        <div class="btn-group">
+            <button class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown">
+                @T("Widget_Text_AddProperty")
+                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+            </button>
+            <ul id="propertyBuilder" class="dropdown-menu dropdown-info"></ul>
+        </div>
+        <div class="clear"></div>
+        @Html.TextAreaFor(m => m.Body, new { @class = "col-xs-10 col-sm-9" })
+        @Html.ValidationMessageFor(m => m.Body)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Bundle("~/js/ckeditor").Block(@<script type="text/javascript">
+        var ContentEditor;
+        $(function () {
+            ContentEditor = buildCkEditor('Body', {
+                toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+            });
+
+            siteHelper.httpPost({
+                showLoading: false,
+                type: "POST",
+                url: "@Url.Action("GeneratePropertyDropdownFromType", "Widgets", new { type = Model.DataType })",
+                async: false,
+                success: function (response) {
+                    if (response.Success) {
+                        $("#propertyBuilder").html(response.Data);
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        });
+
+        // call back function for selecting property
+        var callback = function (property) {
+            ContentEditor.insertText(property);
+        };
+    </script>);
+}

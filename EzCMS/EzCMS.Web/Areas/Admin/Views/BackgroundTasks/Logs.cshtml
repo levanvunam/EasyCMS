@@ -1,0 +1,111 @@
+﻿@model EzCMS.Core.Models.BackgroundTasks.BackgroundTaskLogsModel
+
+@{
+    ViewBag.Header = T("BackgroundTask_Site_Header");
+    ViewBag.Title = TFormat("BackgroundTask_Site_LogsTitle", Model.BackgroundTaskName);
+    ViewBag.Description = T("BackgroundTask_Site_LogsDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="widget-box transparent">
+            <div class="widget-body">
+                <div class="widget-main padding-8">
+                    <div id="logs">
+                        @foreach (var item in Model.LogsDates)
+                        {
+                            <div style="margin-top: 10px" class="panel-group accordion-style1 accordion-style2">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <a style="height: 60px" href="#@("logs_info_" + @item.DateLog)" onclick="getLogsInfo('@item.DateLog');" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                                            <div class="pull-left" style="line-height: 35px;">
+                                                <span class="pull-left mg10l">
+                                                    <i class="fa fa-clock-o bigger-110"></i>
+                                                    @DateTime.Parse(item.DateLog.Replace("_", "/")).ToShortDateString()
+                                                </span>
+                                                <span class="pull-left mg10l">
+                                                    @(TFormat("BackgroundTask_Text_TotalLogsItems", @item.Total))
+                                                </span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="panel-collapse collapse" id=@("logs_info_" + @item.DateLog.Replace(".", "_"))>
+                                        <div class="panel-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-6"></div>
+        <div class="center">
+            @if (!Model.LoadComplete)
+            {
+                <a id="submit" href="javascript:void(0)" class="btn btn-sm btn-primary">
+                    <i class="fa fa-rss bigger-150 middle"></i>
+                    <span class="bigger-110">@T("BackgroundTask_Text_ViewMoreLogs")</span>
+
+                    <i class="icon-on-right fa fa-arrow-right"></i>
+                </a>
+            }
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var currentDateLog = "@Model.NextDateLog";
+
+        // Get logs info of selected date
+        function getLogsInfo(selectedDate) {
+            var logsInfoId = "logs_info_" + selectedDate;
+            // Check to ensure get logs only 1 time
+            if ($("#" + logsInfoId + " .panel-body").children().length == 0) {
+                siteHelper.httpPost({
+                    url: "@Url.Action("GetLogsInfo")",
+                    data: { backgroundTaskName: "@Model.BackgroundTaskName", dateLogs: selectedDate },
+                    success: function(response) {
+                        if (response != null) {
+                            $("#" + logsInfoId + " .panel-body").append(response);
+                        }
+                    }
+                });
+            }
+        }
+        
+        $("#submit").click(function() {
+            var data = {
+                id: @Model.Id,
+                currentDateLog: currentDateLog
+            };
+            siteHelper.httpPost({
+                url: '@Url.Action("GetLogs")',
+                data: data,
+                success: function(response) {
+                    if (response.Success) {
+                        currentDateLog = response.Data.CurrentDateLog;
+                        $("#logs").append(response.Data.content);
+                        if (response.Data.LoadComplete) {
+                            $("#submit").hide();
+                        }
+                    }
+                }
+            });
+        });
+
+    </script>
+}

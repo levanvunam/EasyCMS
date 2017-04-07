@@ -1,0 +1,240 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "Contact")
+</div>
+<div class="col-xs-12">
+    <table id="contact-grid-table"></table>
+    <div id="contact-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        // Edit contact
+        function editContact(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "Contacts")/" + id,
+                type: 'iframe',
+                width: '90%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(contactGrid);
+                }
+            });
+        }
+
+        /*
+        * Setup grid
+        */
+        var $dirty = false;
+        var contactGrid = "#contact-grid-table";
+        var contactGridPager = "#contact-grid-pager";
+        var contactTab = "#contacts";
+        var contactGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Contact" })');
+        var contactExportUrl = "@Url.Action("ExportsContactsByContactGroup", "Contacts", new { contactGroupId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBindingByContactGroup", "Contacts", new { contactGroupId = Model })",
+                colNames: ['', '@T("Contact_Field_Id")',
+                    '@T("Contact_Field_UserId")',
+                    '@T("Contact_Field_FullName")',
+                    '@T("Contact_Field_Email")',
+                    '@T("Contact_Field_Title")',
+                    '@T("Contact_Field_BelongToUser")',
+                    '@T("Contact_Field_IsCompanyAdministrator")',
+                    '@T("Contact_Field_Company")',
+                    '@T("Contact_Field_FirstName")',
+                    '@T("Contact_Field_LastName")',
+                    '@T("Contact_Field_Department")',
+                    '@T("Contact_Field_AddressLine1")',
+                    '@T("Contact_Field_AddressLine2")',
+                    '@T("Contact_Field_Suburb")',
+                    '@T("Contact_Field_State")',
+                    '@T("Contact_Field_Postcode")',
+                    '@T("Contact_Field_Country")',
+                    '@T("Contact_Field_PostalAddressLine1")',
+                    '@T("Contact_Field_PostalAddressLine2")',
+                    '@T("Contact_Field_PostalSuburb")',
+                    '@T("Contact_Field_PostalState")',
+                    '@T("Contact_Field_PostalPostcode")',
+                    '@T("Contact_Field_PostalCountry")',
+                    '@T("Contact_Field_PreferredPhoneNumber")',
+                    '@T("Contact_Field_PhoneWork")',
+                    '@T("Contact_Field_PhoneHome")',
+                    '@T("Contact_Field_Fax")',
+                    '@T("Contact_Field_Occupation")',
+                    '@T("Contact_Field_Website")',
+                    '@T("Contact_Field_Sex")',
+                    '@T("Contact_Field_DateOfBirth")',
+                    '@T("Contact_Field_DontSendMarketing")',
+                    '@T("Contact_Field_Unsubscribed")',
+                    '@T("Contact_Field_UnsubscribeDateTime")',
+                    '@T("Contact_Field_SubscriptionType")',
+                    '@T("Contact_Field_Confirmed")',
+                    '@T("Contact_Field_ConfirmDateTime")',
+                    '@T("Contact_Field_FromIPAddress")',
+                    '@T("Contact_Field_ValidatedOk")',
+                    '@T("Contact_Field_ValidateLevel")',
+                    '@T("Contact_Field_CRMID")',
+                    '@T("Contact_Field_SalesPerson")',
+                    '@T("Contact_Field_UnsubscribedIssueId")',
+                    '@T("Contact_Field_Facebook")',
+                    '@T("Contact_Field_Twitter")',
+                    '@T("Contact_Field_LinkedIn")',
+                    '@T("Contact_Field_Active")',
+                    '@LabelForTime(T("Contact_Field_Created"))',
+                    '@T("Contact_Field_CreatedBy")',
+                    '@LabelForTime(T("Contact_Field_LastUpdate"))',
+                    '@T("Contact_Field_LastUpdateBy")'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:editContact(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "Contacts")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete contact icon
+                            var returnUrl = "@Url.Action("Details", new { id = Model })";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "Contacts")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'UserId', index: 'UserId', hidden: true },
+                    { name: 'FullName', index: 'FullName', search: false },
+                    { name: 'Email', index: 'Email' },
+                    { name: 'Title', index: 'Title', hidden: true },
+                    {
+                        name: 'BelongToUser',
+                        index: 'BelongToUser',
+                        search: false,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'IsCompanyAdministrator',
+                        index: 'IsCompanyAdministrator',
+                        search: false,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'Company', index: 'Company' },
+                    { name: 'FirstName', index: 'FirstName', hidden: true },
+                    { name: 'LastName', index: 'LastName', hidden: true },
+                    { name: 'Department', index: 'Department', hidden: true },
+                    { name: 'AddressLine1', index: 'AddressLine1', hidden: true },
+                    { name: 'AddressLine2', index: 'AddressLine2', hidden: true },
+                    { name: 'Suburb', index: 'Suburb', hidden: true },
+                    { name: 'State', index: 'State', hidden: true },
+                    { name: 'Postcode', index: 'Postcode', hidden: true },
+                    { name: 'Country', index: 'Country', hidden: true },
+                    { name: 'PostalAddressLine1', index: 'PostalAddressLine1', hidden: true },
+                    { name: 'PostalAddressLine2', index: 'PostalAddressLine2', hidden: true },
+                    { name: 'PostalSuburb', index: 'PostalSuburb', hidden: true },
+                    { name: 'PostalState', index: 'PostalState', hidden: true },
+                    { name: 'PostalPostcode', index: 'PostalPostcode', hidden: true },
+                    { name: 'PostalCountry', index: 'PostalCountry', hidden: true },
+                    { name: 'PreferredPhoneNumber', index: 'PreferredPhoneNumber' },
+                    { name: 'PhoneWork', index: 'PhoneWork' },
+                    { name: 'PhoneHome', index: 'PhoneHome' },
+                    { name: 'Fax', index: 'Fax', hidden: true },
+                    { name: 'Occupation', index: 'Occupation', hidden: true },
+                    { name: 'Website', index: 'Website', hidden: true },
+                    {
+                        name: 'Sex',
+                        index: 'Sex',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "Male", "Female");
+                        }
+                    },
+                    { name: 'DateOfBirth', index: 'DateOfBirth', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    {
+                        name: 'DontSendMarketing',
+                        index: 'DontSendMarketing',
+                        search: false,
+                        hidden: true,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    {
+                        name: 'Unsubscribed',
+                        index: 'Unsubscribed',
+                        search: false,
+                        hidden: true,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'UnsubscribeDateTime', index: 'UnsubscribeDateTime', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    {
+                        name: 'SubscriptionType',
+                        index: 'SubscriptionType',
+                        search: false,
+                        hidden: true,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, '1', "Midnight", "Instantly");
+                        }
+                    },
+                    {
+                        name: 'Confirmed',
+                        index: 'Confirmed',
+                        search: false,
+                        hidden: true,
+                        align: 'center',
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'ConfirmDateTime', index: 'ConfirmDateTime', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'FromIPAddress', index: 'FromIPAddress', hidden: true },
+                    { name: 'ValidatedOk', index: 'ValidatedOk', hidden: true },
+                    { name: 'ValidateLevel', index: 'ValidateLevel', hidden: true },
+                    { name: 'CRMID', index: 'CRMID', hidden: true },
+                    { name: 'SalesPerson', index: 'SalesPerson', hidden: true },
+                    { name: 'UnsubscribedIssueId', index: 'UnsubscribedIssueId', hidden: true },
+                    { name: 'Facebook', index: 'Facebook', hidden: true },
+                    { name: 'Twitter', index: 'Twitter', hidden: true },
+                    { name: 'LinkedIn', index: 'LinkedIn', hidden: true },
+                    {
+                        name: 'Active',
+                        index: 'Active',
+                        align: "center",
+                        hidden: true,
+                        formatter: function (cellvalue, options, rowObject) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-contact").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(contactGrid, contactGridPager, gridOptions, contactGridSettings, contactTab, contactExportUrl, "Contact");
+        });
+    </script>);
+}

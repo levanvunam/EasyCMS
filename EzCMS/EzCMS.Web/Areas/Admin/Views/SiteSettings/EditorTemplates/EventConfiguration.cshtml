@@ -1,0 +1,28 @@
+﻿@model EventConfiguration
+
+<div class="form-group">
+    @Html.LocalizeLabelTimeFor(m => m.DefaultStartHour, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5 no-padding">
+        <div class="input-group col-sm-5">
+            @Html.TextBoxFor(m => m.DefaultStartHour, new { @Value = ToLocalDateTime(Model.DefaultStartHour).ToTimeFormat(), id = "DefaultStartHour", @class = "form-control col-xs-12 time-picker" })
+            <label class="input-group-addon" for="DefaultStartHour">
+                <i class="fa fa-calendar bigger-110"></i>
+            </label>
+        </div>
+        @Html.HelpTextFor(m => m.DefaultStartHour, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DefaultStartHour)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelTimeFor(m => m.DefaultEndHour, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5 no-padding">
+        <div class="input-group col-sm-5">
+            @Html.TextBoxFor(m => m.DefaultEndHour, new { @Value = ToLocalDateTime(Model.DefaultEndHour).ToTimeFormat(), id = "DefaultEndHour", @class = "form-control col-xs-12 time-picker" })
+            <label class="input-group-addon" for="DefaultEndHour">
+                <i class="fa fa-calendar bigger-110"></i>
+            </label>
+        </div>
+        @Html.HelpTextFor(m => m.DefaultEndHour, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DefaultEndHour)
+    </div>
+</div>

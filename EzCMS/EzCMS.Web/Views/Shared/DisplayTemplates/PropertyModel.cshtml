@@ -1,0 +1,60 @@
+﻿@using Ez.Framework.Utilities.Reflection.Enums
+@model Ez.Framework.Utilities.Reflection.Models.PropertyModel
+
+<li class="property-item @(Model.Children.Any() ? "dropdown-hover" : "")">
+
+    @switch (Model.Kind)
+    {
+        case PropertyKind.Value:
+            <a data-rel="tooltip" title="Add Property" class="property" data-type="@Model.Type" data-kind="@Model.Kind" data-name="@Model.Value" tabindex="-1" href="javascript:void(0)">
+                <i class="fa fa-plus blue"></i>
+                &nbsp; @Model.Name
+            </a>
+            break;
+
+        case PropertyKind.Object:
+
+        <a class="clearfix property" data-type="@Model.Type" data-kind="@Model.Kind" data-name="@Model.Value" href="javascript:void(0)" tabindex="-1">
+            <span class="pull-left">
+                &nbsp; @Model.Name
+            </span>
+            @if (Model.Children != null && Model.Children.Any())
+            {
+                <i class="ace-icon fa fa-caret-right pull-right"></i>
+            }
+        </a>
+            if (Model.Children != null && Model.Children.Any())
+            {
+                <ul class="dropdown-menu dropdown-info dropdown-menu-property">
+                    @foreach (var item in Model.Children)
+                    {
+                        <text>@Html.DisplayFor(m => item)</text>
+                    }
+                </ul>
+            }
+            break;
+        case PropertyKind.List:
+        <div class="clearfix"></div>
+        <a data-rel="tooltip" title="Add Loop For This" class="clearfix property" data-type="@Model.Type" data-kind="@Model.Kind" data-name="@Model.Value" tabindex="-1" href="javascript:void(0)">
+            <span class="pull-left">
+                <i class="fa fa-plus blue"></i>
+                &nbsp; <b> @Model.Name</b>
+            </span>
+            @if (Model.Children != null && Model.Children.Any())
+            {
+                <i class="ace-icon fa fa-caret-right pull-right"></i>
+            }
+        </a>
+            if (Model.Children != null && Model.Children.Any())
+            {
+
+                <ul class="dropdown-menu dropdown-info dropdown-menu-property">
+                    @foreach (var item in Model.Children)
+                    {
+                        <text>@Html.DisplayFor(m => item)</text>
+                    }
+                </ul>
+            }
+            break;
+    }
+</li>

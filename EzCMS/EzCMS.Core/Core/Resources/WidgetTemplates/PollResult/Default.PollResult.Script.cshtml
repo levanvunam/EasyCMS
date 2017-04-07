@@ -1,0 +1,35 @@
+@if (Model.PollAnswers.Count > 1)
+{
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+        google.setOnLoadCallback(drawChart);
+        var pollResultId = {PollResultId};
+        function drawChart() {
+            var data = "@SerializeUtilities.Serialize(Model.PollAnswers)";
+            data = JSON.parse(data.replace(/&quot;/g, '"'));
+            var pollAnswers = [['Club', 'Votes']];
+            var otherTotal = @Model.TotalVotes;
+            $.each(data, function (i, val) {
+                var answer = [];
+                answer.push(val.AnswerText);
+                answer.push(val.Total);
+                pollAnswers.push(answer);
+                otherTotal -= val.Total;
+            });
+            if (otherTotal > 0)
+            {
+                var otherAnswers = ["Others", otherTotal];
+                pollAnswers.push(otherAnswers);
+            }
+            var pollAnswersChartData = google.visualization.arrayToDataTable(pollAnswers);
+
+            var options = {
+                is3D: true,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById("pollResultsChart" + pollResultId));
+            chart.draw(pollAnswersChartData, options);
+        }
+    </script>
+}

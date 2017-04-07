@@ -1,0 +1,11 @@
+<ul class="element-2">
+    @foreach (var item in Model.Documents)
+    {
+        <li data-id="@item.Data.Id" data-path="@item.Data.Path">
+            <a href="javascript:void(siteHelper.viewDocument('@item.Data.Url', '@item.Data.Mime'))">
+                <span class="icon @item.Data.DataIcon"></span>
+                <span class="text">@item.Text</span>
+            </a>
+        </li>
+    }
+</ul>

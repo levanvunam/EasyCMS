@@ -1,0 +1,58 @@
+﻿@model EzCMS.Core.Models.SiteSetup.StarterKitsModel
+<div class="col-xs-12">
+    <h1>Starter kits</h1>
+    <p>
+        To help you get started here are some basic starter kits. They have been tailored to suit common site configurations and install useful functionality such as blogs or image galleries.<br>
+        Mouse over the icons to learn more about what the starter kits will install.
+    </p>
+    <div class="row center">
+            <div class="col-xs-8 col-sm-9 pricing-span-body">
+        @foreach (var item in Model.StarterKits)
+        {
+                <div class="col-xs-3">
+                    <div class="widget-box pricing-box-small">
+                        <div class="widget-header header-color-red3">
+                            <h5 class="bigger lighter">@item.Name</h5>
+                        </div>
+
+                        <div class="widget-body">
+                            <div class="widget-main no-padding">
+                                <ul class="list-unstyled list-striped pricing-table">
+                                    <li>
+                                        <img src="@item.ImageName" class="col-xs-12"/>
+                                    </li>
+                                    <li>
+                                        @item.Description
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <a href="javascript:void(0)" data-kit="@item.Value" class="btn btn-block btn-sm btn-danger chooseKit">
+                                    <span>Choose</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        }
+            </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(".chooseKit").click(function () {
+        var url = "@Url.Action("StarterKit")";
+        var data = { kit: $(this).data("kit") };
+        siteHelper.httpPost({
+            url: url,
+            data: data,
+            success: function (response) {
+                if (response.Success) {
+                    $('#siteSetup').easyWizard('nextStep');
+                } else {
+                    siteHelper.alert(response.Message);
+                }
+            }
+        });
+    });
+</script>

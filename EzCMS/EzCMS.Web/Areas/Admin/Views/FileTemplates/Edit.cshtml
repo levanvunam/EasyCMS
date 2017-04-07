@@ -1,0 +1,31 @@
+﻿@model EzCMS.Core.Models.FileTemplates.FileTemplateManageModel
+
+@{
+    ViewBag.Header = T("FileTemplate_Site_Header");
+    ViewBag.Title = T("FileTemplate_Site_EditTitle");
+    ViewBag.Header = T("FileTemplate_Site_EditDescription");
+}
+
+@section styles{
+    @Styles.Render("~/styles/codemirror")
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "FileTemplates", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

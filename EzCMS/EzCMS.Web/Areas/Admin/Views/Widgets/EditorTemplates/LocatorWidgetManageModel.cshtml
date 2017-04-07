@@ -1,0 +1,25 @@
+﻿@using EzCMS.Core.Services.Countries
+@using EzCMS.Library.IoC
+@model EzCMS.Core.Models.Locations.WidgetManageModels.LocatorWidgetManageModel
+
+@{
+    var countryService = HostContainer.GetInstance<ICountryService>();
+    var countries = countryService.GetCountries();
+}
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Country, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Country, countries, T("Widget_Location_Field_LocatorSelectCountry"), new { @class = "col-xs-10 single-select address-information curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Country, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Country)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>

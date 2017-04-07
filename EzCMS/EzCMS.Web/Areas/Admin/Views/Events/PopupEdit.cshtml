@@ -1,0 +1,29 @@
+﻿@model EzCMS.Core.Models.Events.EventManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Header = T("Event_Site_Header");
+    ViewBag.Title = T("Event_Site_EditTitle");
+    ViewBag.Description = T("Event_Site_EditDescription");
+}
+
+<div class="page-content" style="overflow-x: hidden">
+    @using (Html.BeginForm("PopupEdit", "Events", null, FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="page-manage-header col-xs-12 no-padding-left no-padding-right">
+            <h1 class="col-xs-4">
+                @ViewBag.Header
+                <small>
+                    @ViewBag.Title
+                </small>
+            </h1>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-xs-12">
+                @ShowStatusMessage()
+                @Html.EditorForModel(Model)
+            </div>
+        </div>
+    }
+</div>

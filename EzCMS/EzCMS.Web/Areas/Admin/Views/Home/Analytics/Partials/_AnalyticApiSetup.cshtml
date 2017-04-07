@@ -1,0 +1,36 @@
+﻿@model EzCMS.Core.Core.SiteSettings.ComplexSettings.GoogleAnalyticApiSetting
+
+@{
+    Layout = null;
+}
+
+@using (Ajax.BeginForm("GoogleAnalyticApiSetup", "Home", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnBegin = "siteHelper.showLoading",
+    OnSuccess = "SaveGoogleAnalyticApiSuccess",
+    OnComplete = "siteHelper.hideLoading"
+}, new { @class = "form-horizontal" }))
+{
+    @Html.EditorForModel(Model)
+
+    <div class="space-4"></div>
+    <div class="clearfix form-actions center">
+        <button class="btn btn-info" type="submit" name="Submit">
+            <i class="fa fa-check bigger-110"></i>
+            @T("Home_AnalyticApiSetup_Text_SaveButton")
+        </button>
+    </div>
+}
+
+@{
+    Script.Block(@<script type="text/javascript">
+        function SaveGoogleAnalyticApiSuccess(response) {
+            if (response.Success) {
+                window.location.reload();
+            } else {
+                siteHelper.showMessage(response);
+            }
+        }
+    </script>);
+}

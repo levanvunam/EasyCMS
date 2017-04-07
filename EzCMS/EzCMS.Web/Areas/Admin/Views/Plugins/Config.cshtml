@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.Plugins.PluginInformationModel
+
+@{
+    ViewBag.Header = T("Plugin_Site_Header");
+    ViewBag.Title = T("Plugin_Site_ConfigTitle");
+    ViewBag.Description = T("Plugin_Site_ConfigDescription");
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Config", "Plugins", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

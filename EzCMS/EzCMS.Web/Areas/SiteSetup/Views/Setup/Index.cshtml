@@ -1,0 +1,101 @@
+﻿@{
+    ViewBag.Title = "EzCMS Setup";
+    Layout = "~/Areas/SiteSetup/Views/Shared/_Layout.cshtml";
+}
+@section styles
+{
+    <link rel="stylesheet" href="@Url.Content("~/Content/SiteSetup/sitesetup.css")"/>
+    <style type="text/css">
+        .form-group > label:after, .form-group > span > label:after, .form-group > div > label:after {
+            content: "" !important;
+        }
+    </style>
+}
+
+<h1 class="center">EzCMS Setup</h1>
+
+<div id="siteSetup" class="form-horizontal">
+    <section class="step" data-step-title="Welcome">
+        @Html.Partial("Steps/Welcome")
+    </section>
+    <section class="step" data-step-title="License">
+        @Html.Partial("Steps/License")
+    </section>
+    <section class="step" data-step-title="Database">
+        @{
+            Html.RenderAction("DatabaseSetup");
+        }
+    </section>
+    <section class="step" data-step-title="Email Account">
+        @{
+            Html.RenderAction("EmailSetup");
+        }
+    </section>
+    <section class="step" data-step-title="Create User">
+        @{
+            Html.RenderAction("UserSetup");
+        }
+    </section>
+    <section class="step" data-step-title="Configure Company Information">
+        @{
+            Html.RenderAction("CompanySetup");
+        }
+    </section>
+    <section class="step" data-step-title="Starter Kit">
+        @{
+            Html.RenderAction("StarterKit");
+        }
+    </section>
+    <section class="step" data-step-title="You’re Done">
+        <div class="col-xs-12">
+            <h1>You’re done...now what?</h1>
+            <p>
+                Excellent, you are now ready to start using EzCMS, one of the worlds most popular open
+                source .NET CMS.
+                <br>
+                If you installed a starter kit you can start by configuring your new site, just click "Preview your new website" and follow the instructions. Or to start adding content right away click "Set up your new website"
+            </p>
+        </div>
+        <div class="col-xs-12">
+            <a href="javascript:reloadApp('/')" class="btn btn-default" type="button">Preview your new website</a>
+            <a href="javascript:reloadApp('/Admin')" class="btn btn-default" type="button">Setup your new website</a>
+        </div>
+    </section>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Wizard/jquery.easyWizard.js")"></script>
+    <script type="text/javascript">
+        $('#siteSetup').easyWizard(
+        {
+            showSteps: true,
+            showButtons: false,
+            submitButton: false
+        });
+
+        $('.next').bind('click', function (e) {
+            e.preventDefault();
+            $('#siteSetup').easyWizard('nextStep');
+        });
+
+        function reloadApp(returnUrl) {
+            siteHelper.removeLeavingPrompt();
+            var url = "@Url.Action("Restart")";
+            siteHelper.httpPost({
+                url: url,
+                data: {},
+                hideLoadingWhenFinish: false,
+                success: function (response) {
+                    if (response.Success) {
+                        window.location = returnUrl;
+                    } else {
+                        siteHelper.showErrorMessage(response.Message);
+                    }
+                }
+            });
+        }
+    </script>
+
+}
+

@@ -1,0 +1,117 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "LocationType")
+</div>
+<div class="col-xs-12">
+    <table id="location-type-grid-table"></table>
+    <div id="location-type-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        // Edit location type
+        function editLocationType(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "LocationTypes")/" + id,
+                type: 'iframe',
+                width: '60%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(locationTypeGrid);
+                }
+            });
+        }
+
+        // Delete location - location type mapping
+        function deleteLocationLocationTypeMapping(id) {
+            var data = { locationTypeId: id, locationId: '@Model' };
+
+            siteHelper.confirm('@T("LocationLocationType_Message_DeleteMappingConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteLocationLocationTypeMapping", "LocationTypes")",
+                        data: data,
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                jqGridHelper.reloadGrid(locationTypeGrid);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+        */
+        var $dirty = false;
+        var locationTypeGrid = "#location-type-grid-table";
+        var locationTypeGridPager = "#location-type-grid-pager";
+        var locationTypeTab = "#location-types";
+        var locationTypeGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "Location Type"})');
+        var locationTypeExportUrl = "@Url.Action("Exports", "LocationTypes", new { locationId = Model })";
+
+        $(function() {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "LocationTypes", new { locationId = Model })",
+                colNames: ['', '@T("LocationType_Field_Id")',
+                    '@T("LocationType_Field_Name")',
+                    '@T("LocationType_Field_PinImage")',
+                    '@T("LocationType_Field_RecordOrder")',
+                    '@LabelForTime(T("LocationType_Field_Created"))',
+                    '@T("LocationType_Field_CreatedBy")',
+                    '@LabelForTime(T("LocationType_Field_LastUpdate"))',
+                    '@T("LocationType_Field_LastUpdateBy")'
+                ],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 120,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function(cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:editLocationType(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "LocationTypes")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete location - location type mapping
+                            var deleteRelationshipIcon = "<a class='grid-action' href='javascript:deleteLocationLocationTypeMapping(" + options.rowId + ")'><div class='ui-pg-div' title='@T("LocationLocationType_Text_Delete")'><span class='fa fa-chain-broken'></span></div></a>";
+
+                            // Delete location type
+                            var returnUrl = "@Url.Action("Details", new {id = Model})";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "LocationTypes")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteRelationshipIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Name', index: 'Name' },
+                    {
+                        name: 'PinImage',
+                        index: 'PinImage',
+                        search: false,
+                        formatter: function(cellvalue, options, rowObject) {
+                            return siteHelper.buildImageThumbnail(cellvalue);
+                        }
+                    },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function(response) {
+                    $("#tab-location-type").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(locationTypeGrid, locationTypeGridPager, gridOptions, locationTypeGridSettings, locationTypeTab, locationTypeExportUrl, "LocationType");
+        });
+    </script>);
+}

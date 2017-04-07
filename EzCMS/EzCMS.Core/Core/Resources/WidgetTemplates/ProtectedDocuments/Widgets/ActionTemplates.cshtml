@@ -1,0 +1,32 @@
+<div id="action-templates" style="display: none">
+    <div id="folder-options">
+        <div class="folder-box">
+            <i data-rel="tooltip" title="{TotalFiles} Files, {TotalFolders} Folders - {TotalRead} Files Read, {TotalNotRead} Not Read Yet" class=" fa fa-info-circle"></i>
+            @if (HasPermissions(Permission.ManageProtectedDocuments))
+            {
+                <a data-rel="tooltip" title="Set Permissions" class="manage-secure" href="javascript:void(0)" data-id="{Id}" data-path="{Path}">
+                    <i class="fa fa-lock" data-id="{Id}"></i>
+                </a>
+            }
+            <a data-rel="tooltip" title="Feedback" class="feedback-document" href="javascript:void(0)" data-id="{Id}" data-path="{Path}">
+                <i class="fa fa-comment"></i>
+            </a>
+        </div>
+    </div>
+    <div id="file-options">
+        <div class="file-box">
+            <span>
+                <i data-rel="tooltip" title="{LastModified}" class="fa fa-clock-o"></i>
+            </span>
+            <span class="{IsReadClass}">
+                <i data-rel="tooltip" title="Already Read Document" class="fa fa-eye"></i>
+            </span>
+            <span class="{IsNotReadClass}">
+                <i data-rel="tooltip" title="Not Read Yet" class="fa fa-eye-slash"></i>
+            </span>
+            <a data-rel="tooltip" title="Feedback" class="feedback-document" href="javascript:void(0)" data-id="{Id}" data-path="{Path}">
+                <i class="fa fa-comment"></i>
+            </a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model EzCMS.Core.Models.Shared.CloseFancyBoxViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+}
+
+@ShowStatusMessage()
+
+<div class="space-10"></div>
+<div class="col-xs-12 center">
+    <button type="button" class="btn btn-xs" onclick="CloseFancyBox();">@T("System_Text_ShowMessageAndCloseFancyBox")</button>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        function CloseFancyBox() {
+            if (parent.jQuery().fancybox) {
+                parent.$.fancybox.close();
+                @if (Model.IsReload)
+            {
+                if (string.IsNullOrEmpty(Model.ReturnUrl))
+                {
+                    <text>parent.window.location.reload();</text>
+                }
+                else
+                {
+                    <text>parent.window.location = "@Model.ReturnUrl"</text>
+                }
+            }
+            }
+        }
+    </script>);
+}

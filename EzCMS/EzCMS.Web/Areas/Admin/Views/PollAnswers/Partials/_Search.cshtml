@@ -1,0 +1,32 @@
+﻿@model EzCMS.Core.Models.PollAnswers.PollAnswerSearchModel
+
+<div class="widget-box">
+    <div class="widget-header">
+        <h5>@T("PollAnswer_Search_Header")</h5>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="col-lg-9">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Keyword, new { id = "Keyword", @class = "col-xs-10 search-input", placeholder = T("PollAnswer_Search_Keyword") })
+                        @Html.HelpTextFor(m => m.Keyword, new { @class = "help-button" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        @Html.DropDownListFor(m => m.PollId, Model.Polls, T("PollAnswer_Search_AllPolls"), new { id = "PollId", @class = "single-select col-xs-10" })
+                        @Html.HelpTextFor(m => m.PollId, new { @class = "help-button" })
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <button id="btnSearch" class="btn btn-sm btn-info">@T("System_Search_Button")</button>
+                <button id="btnClearSearch" class="btn btn-sm btn-default">@T("System_Search_ClearButton")</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

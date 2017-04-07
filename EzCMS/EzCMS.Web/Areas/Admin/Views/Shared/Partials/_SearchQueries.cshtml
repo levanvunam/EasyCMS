@@ -1,0 +1,67 @@
+﻿@model EzCMS.Core.Models.Contacts.ContactSearchDetailsModel
+
+@helper PrintItem(string title, string value, bool showLastComma = true)
+{
+    if (!string.IsNullOrEmpty(value))
+    {
+        <text>
+            <b>@title</b> = <b>@value</b>@(showLastComma ? "," : "")
+        </text>
+    }
+}
+
+@helper PrintContains(string title, string value, bool showLastComma = true)
+{
+    if (!string.IsNullOrEmpty(value))
+    {
+        <text>
+            <b>@title</b> contains <b>@value</b> @(showLastComma ? "," : "")
+        </text>
+    }
+}
+
+@helper PrintList(string title, List<string> values, bool showLastComma = true)
+{
+    if (values != null && values.Any())
+    {
+        <text>
+            <b>@title</b> = @Html.Raw(string.Join(" or ", values.Select(value => string.Format("<b>{0}</b>", value)))) @(showLastComma ? "," : "")
+        </text>
+    }
+}
+
+<ul>
+    <li>
+        @PrintItem("Group", Model.ContactGroupName)
+
+        @PrintContains("Text/Keyword", Model.Keyword)
+
+        @PrintList("Companies", Model.Companies)
+
+        @PrintList("Company Types", Model.CompanyTypes)
+
+        @PrintList("Sales Person", Model.SalesPerson)
+
+        @PrintContains("Suburb", Model.Suburb)
+
+        @PrintContains("State", Model.State)
+
+        @PrintContains("Country", Model.Country)
+
+        @PrintItem("Send Marketing", Model.MarketingMaterial.GetEnumName())
+
+        @PrintList("Referred By", Model.ReferredBy)
+
+        @PrintList("Campaign Codes", Model.CampaignCodes)
+
+        @PrintList("Product Of Interests", Model.ProductOfInterests)
+
+        @PrintList("Certifications", Model.Certifications)
+
+        @PrintList("Subscriber Types", Model.SubscriberTypes)
+
+        @PrintItem("Interested In Owning", Model.InterestedInOwning.GetEnumName(), false)
+    </li>
+</ul>
+
+<div class="space-4"></div>

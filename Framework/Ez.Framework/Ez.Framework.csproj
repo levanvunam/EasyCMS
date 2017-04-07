@@ -1,0 +1,336 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E4C5A7DB-DBE4-4B52-8BFB-9C5AE0FD3D9F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Ez.Framework</RootNamespace>
+    <AssemblyName>Ez.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+    <WebGreaseLibPath>..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="CsQuery, Version=1.3.3.249, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CsQuery.1.3.4\lib\net40\CsQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Facebook.6.1.2\lib\net45\Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\HtmlAgilityPack.1.4.9\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LinqToTwitter.AspNet, Version=3.2.0.30483, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\linqtotwitter.4.1.0\lib\net45\LinqToTwitter.AspNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LinqToTwitter.net, Version=4.0.0.0, Culture=neutral, PublicKeyToken=957107be965c25d9, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\linqtotwitter.4.1.0\lib\net45\LinqToTwitter.net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.1.3.1, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\NPOI.2.1.3.1\lib\net40\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=2.3.3.0, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Quartz.2.3.3\lib\net40\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="RazorEngine, Version=3.9.3.0, Culture=neutral, PublicKeyToken=9ee697374c7e744a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RazorEngine.3.9.3\lib\net45\RazorEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Recaptcha.Web, Version=1.8.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\RecaptchaNet.1.8.0\lib\net45\Recaptcha.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Simple.ImageResizer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Simple.ImageResizer.2.1.0\lib\net40\Simple.ImageResizer.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleInjector, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.3.3.2\lib\net45\SimpleInjector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="SimpleInjector.Integration.Web, Version=3.3.2.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SimpleInjector.Integration.Web.3.3.2\lib\net40\SimpleInjector.Integration.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=2.2.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Rx-Interfaces.2.2.5\lib\net45\System.Reactive.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Westwind.Utilities">
+      <HintPath>..\..\packages\Westwind.Utilities.2.64\lib\net45\Westwind.Utilities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Configurations\FrameworkConstants.cs" />
+    <Compile Include="Core\Entity\Entities\BackgroundTask.cs" />
+    <Compile Include="Core\Entity\Entities\SiteSetting.cs" />
+    <Compile Include="Core\Entity\Enums\BackgroundTaskEnums.cs" />
+    <Compile Include="Core\Entity\Enums\EmailEnums.cs" />
+    <Compile Include="Core\Entity\Enums\SettingEnums.cs" />
+    <Compile Include="Core\Entity\Extensions\MigrationExtensions.cs" />
+    <Compile Include="Core\Entity\Intialize\IDataInitializer.cs" />
+    <Compile Include="Core\Entity\Models\BaseHierachyModel.cs" />
+    <Compile Include="Core\Entity\Models\BaseModel.cs" />
+    <Compile Include="Core\Entity\Models\FormComponentFieldBase.cs" />
+    <Compile Include="Core\Entity\Models\LogModel.cs" />
+    <Compile Include="Core\Entity\Models\UserAgentModel.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\Extensions\EntityExtensions.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\Extensions\ObjectExtensions.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\HierarchyRepository.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\IHierarchyRepository.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\IRepository.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\Models\HierarchyDropdownModel.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\Models\ResponseModel.cs" />
+    <Compile Include="Core\Entity\RepositoryBase\Repository.cs" />
+    <Compile Include="Core\Exceptions\Common\InvalidUniqueLinkException.cs" />
+    <Compile Include="Core\IoC\Attributes\Lifetime.cs" />
+    <Compile Include="Core\IoC\Attributes\ModuleRegisterAttribute.cs" />
+    <Compile Include="Core\IoC\Attributes\RegisterAttribute.cs" />
+    <Compile Include="Core\IoC\HostContainer.cs" />
+    <Compile Include="Core\IoC\IDependencyRegisters\IDependencyRegister.cs" />
+    <Compile Include="Core\IoC\IoCRegister.cs" />
+    <Compile Include="Core\JqGrid\Enums\GridColumnType.cs" />
+    <Compile Include="Core\JqGrid\Enums\GridOperation.cs" />
+    <Compile Include="Core\JqGrid\Enums\GridSort.cs" />
+    <Compile Include="Core\JqGrid\Enums\GroupOp.cs" />
+    <Compile Include="Core\JqGrid\Enums\Operations.cs" />
+    <Compile Include="Core\Mvc\Controllers\EzAdministratorController.cs" />
+    <Compile Include="Core\Navigations\Attributes\NavigationAttribute.cs" />
+    <Compile Include="Core\Navigations\Navigation.cs" />
+    <Compile Include="Core\Services\Models\BaseGridModel.cs" />
+    <Compile Include="Core\Media\Models\FileInfoModel.cs" />
+    <Compile Include="Core\Media\Models\FileTreeAttribute.cs" />
+    <Compile Include="Core\Media\Models\FileTreeModel.cs" />
+    <Compile Include="Core\Media\Models\FolderTransferModel.cs" />
+    <Compile Include="Core\Media\Models\MediaBrowserSetupModel.cs" />
+    <Compile Include="Core\SiteSettings\Services\IEzSiteSettingService.cs" />
+    <Compile Include="Core\SiteSettings\IComplexSetting.cs" />
+    <Compile Include="Core\SiteSettings\Models\ComplexSettingSetup.cs" />
+    <Compile Include="Core\Attributes\ActionFilters\CaptchaValidatorAttribute.cs" />
+    <Compile Include="Core\Attributes\ActionFilters\NonNullableParametersAttribute.cs" />
+    <Compile Include="Core\Locale\Attributes\LocalizedDisplayNameAttribute.cs" />
+    <Compile Include="Core\Attributes\Validation\DateGreaterThanAttribute.cs" />
+    <Compile Include="Core\Attributes\Validation\UsernameValidationAttribute.cs" />
+    <Compile Include="Core\Attributes\Validation\RequiredIntegerAttribute.cs" />
+    <Compile Include="Core\Attributes\Validation\GreaterThanAttribute.cs" />
+    <Compile Include="Core\BackgroundTasks\Base\IBackgroundTask.cs" />
+    <Compile Include="Core\BackgroundTasks\Models\BackgroundTaskExecuteContext.cs" />
+    <Compile Include="Core\Mvc\Context\StyleContext.cs" />
+    <Compile Include="Core\Exceptions\Common\MissingResourceException.cs" />
+    <Compile Include="Core\Mvc\Helpers\ScriptHelper.cs" />
+    <Compile Include="Core\Mvc\Context\ScriptContext.cs" />
+    <Compile Include="Core\Mvc\Helpers\StyleHelper.cs" />
+    <Compile Include="Core\Mvc\NamespaceHttpControllerSelector.cs" />
+    <Compile Include="Core\Mvc\Controllers\EzBaseController.cs" />
+    <Compile Include="Core\Enums\CommonEnums.cs" />
+    <Compile Include="Core\Enums\MvcHelperEnums.cs" />
+    <Compile Include="Core\Extensions\FastActivator.cs" />
+    <Compile Include="Core\Mvc\Helpers\EzHtmlHelper.cs" />
+    <Compile Include="Core\Mvc\Helpers\ListModelBindingHelper.cs" />
+    <Compile Include="Core\Extensions\AutoMapperExtensions.cs" />
+    <Compile Include="Core\Mvc\Helpers\ServiceHelper.cs" />
+    <Compile Include="Core\Mvc\Helpers\EzRazorEngineHelper.cs" />
+    <Compile Include="Core\Mvc\Helpers\UniqueLinkHelper.cs" />
+    <Compile Include="Core\Mvc\Models\Select2Model.cs" />
+    <Compile Include="Core\Mvc\Models\AutoCompleteModel.cs" />
+    <Compile Include="Core\Attributes\Validation\RequiredIfAttribute.cs" />
+    <Compile Include="Core\BackgroundTasks\BackgroundTaskManager.cs" />
+    <Compile Include="Core\BackgroundTasks\Base\IBackgroundTaskSetup.cs" />
+    <Compile Include="Core\BackgroundTasks\Base\IBackgroundTaskManager.cs" />
+    <Compile Include="Core\BackgroundTasks\ProxyTaskExecuteContext.cs" />
+    <Compile Include="Core\Resources\SiteResourceManager.cs" />
+    <Compile Include="Core\Resources\ResourceScriptManager.cs" />
+    <Compile Include="Core\Resources\ResourceStyleManager.cs" />
+    <Compile Include="Core\BackgroundTasks\Base\IEzBackgroundTaskService.cs" />
+    <Compile Include="Core\Services\IBaseService.cs" />
+    <Compile Include="Core\Attributes\DefaultOrderAttribute.cs" />
+    <Compile Include="Core\Attributes\ErrorHandling\EzErrorHandlingAttribute.cs" />
+    <Compile Include="Core\JqGrid\Enums\GridExportMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Enums\MediaEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Enums\SubmitEnums.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Core\Mvc\Helpers\DictionaryHelper.cs" />
+    <Compile Include="Core\Mvc\Helpers\DropdownlistHelper.cs" />
+    <Compile Include="Core\Mvc\Helpers\ViewHelper.cs" />
+    <Compile Include="Core\Logging\ILogger.cs" />
+    <Compile Include="Core\Logging\EzLogger.cs" />
+    <Compile Include="Core\Mvc\Models\Editable\XEditableModel.cs" />
+    <Compile Include="Core\JqGrid\Models\GridManagingModel.cs" />
+    <Compile Include="Core\JqGrid\JqGrid.cs" />
+    <Compile Include="Core\JqGrid\Models\ModelOptions.cs" />
+    <Compile Include="Core\JqGrid\WhereClauseGenerator.cs" />
+    <Compile Include="Core\Mvc\MvcResults\Image\FilesystemExtensionMethods.cs" />
+    <Compile Include="Core\Mvc\MvcResults\Image\HttpResponseExtensions.cs" />
+    <Compile Include="Core\Mvc\MvcResults\Image\ImageResult.cs" />
+    <Compile Include="Core\SiteSettings\Models\EzComplexSetting.cs" />
+    <Compile Include="Core\Attributes\Validation\EmailValidationAttribute.cs" />
+    <Compile Include="Core\Attributes\Validation\PasswordComplexValidationAttribute.cs" />
+    <Compile Include="Core\Context\EzWorkContext.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\Locale\Services\ILocalizedResourceService.cs" />
+    <Compile Include="Core\Media\IMediaFileManager.cs" />
+    <Compile Include="Core\Media\IMediaService.cs" />
+    <Compile Include="Core\Media\MediaFileManager.cs" />
+    <Compile Include="Core\Media\MediaService.cs" />
+    <Compile Include="Utilities\CommonUtilities.cs" />
+    <Compile Include="Utilities\CompareUtilities.cs" />
+    <Compile Include="Utilities\ConvertUtilities.cs" />
+    <Compile Include="Utilities\DynamicQueryable.cs" />
+    <Compile Include="Utilities\EnumUtilities.cs" />
+    <Compile Include="Utilities\Excel\Attributes\ExcelExportAttribute.cs" />
+    <Compile Include="Utilities\Excel\Enums\ExportPriority.cs" />
+    <Compile Include="Utilities\Excel\ExcelUtilities.cs" />
+    <Compile Include="Utilities\Excel\Models\ExcelProperty.cs" />
+    <Compile Include="Utilities\ExceptionUtilities.cs" />
+    <Compile Include="Utilities\Files\FileUtilities.cs" />
+    <Compile Include="Utilities\Files\ImageUtilities.cs" />
+    <Compile Include="Utilities\Html\HtmlToText.cs" />
+    <Compile Include="Utilities\Html\HtmlUtilities.cs" />
+    <Compile Include="Utilities\Mails\MailUltilities.cs" />
+    <Compile Include="Utilities\Mails\Models\EmailModel.cs" />
+    <Compile Include="Utilities\Mails\Models\EmailSetting.cs" />
+    <Compile Include="Utilities\PasswordUtilities.cs" />
+    <Compile Include="Utilities\Reflection\Attributes\IgnoreInDropdownAttribute.cs" />
+    <Compile Include="Utilities\Reflection\Enums\PropertyKind.cs" />
+    <Compile Include="Utilities\Reflection\Models\PropertyModel.cs" />
+    <Compile Include="Utilities\Reflection\ReflectionUtilities.cs" />
+    <Compile Include="Utilities\SerializeUtilities.cs" />
+    <Compile Include="Utilities\Social\Enums\SocialMediaEnums.cs" />
+    <Compile Include="Utilities\Social\Helper\LinkedInHelper.cs" />
+    <Compile Include="Utilities\Social\Models\LinkedIn\Company.cs" />
+    <Compile Include="Utilities\Social\Models\LinkedIn\CompanyCollection.cs" />
+    <Compile Include="Utilities\Social\Models\LinkedIn\LinkedInAccessToken.cs" />
+    <Compile Include="Utilities\Social\Models\LinkedIn\LinkedInShareResponse.cs" />
+    <Compile Include="Utilities\Social\Models\LinkedIn\People.cs" />
+    <Compile Include="Utilities\Social\Models\LinkedIn\PeopleSearchResult.cs" />
+    <Compile Include="Utilities\Social\Models\LinkedIn\Person.cs" />
+    <Compile Include="Utilities\Social\Models\SocialFeedItemModel.cs" />
+    <Compile Include="Utilities\Social\Models\SocialMediaAuthorizeModel.cs" />
+    <Compile Include="Utilities\Social\Models\SocialMediaResponseModel.cs" />
+    <Compile Include="Utilities\Social\Models\SocialMessageModel.cs" />
+    <Compile Include="Utilities\Social\SocialUtilities.cs" />
+    <Compile Include="Utilities\StateManager.cs" />
+    <Compile Include="Utilities\StringUtilities.cs" />
+    <Compile Include="Utilities\Time\DateTimeUtilities.cs" />
+    <Compile Include="Utilities\Time\TimezoneUtilities.cs" />
+    <Compile Include="Utilities\UrlUtilities.cs" />
+    <Compile Include="Utilities\ValidationUtilities.cs" />
+    <Compile Include="Utilities\Web\Models\UserAgentModel.cs" />
+    <Compile Include="Utilities\Web\Models\WebPageInformationModel.cs" />
+    <Compile Include="Utilities\Web\WebUtilities.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="job_scheduling_data_2_0.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Utilities\Social\Models\Facebook\" />
+    <Folder Include="Utilities\Social\Models\Twitter\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

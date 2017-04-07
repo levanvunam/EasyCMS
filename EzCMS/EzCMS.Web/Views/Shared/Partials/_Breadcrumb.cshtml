@@ -1,0 +1,29 @@
+﻿@model EzCMS.Core.Models.Navigations.BreadcrumbModel
+
+<div class="breadcrumbs" id="breadcrumbs">
+    <ul class="breadcrumb">
+        <li>
+            <i class="fa fa-home home-icon"></i>
+            @Html.ActionLink("Home", "Index", "Home")
+        </li>
+        @foreach (var item in Model.Breadcrumbs)
+        {
+            <li>
+                @{
+                    var url = !string.IsNullOrEmpty(item.Url) ?
+                        item.Url
+                        : (string.IsNullOrEmpty(item.Controller) ? "" : Url.Action(item.Action, item.Controller));
+                }
+                @if (string.IsNullOrEmpty(url))
+                {
+                    @item.Name
+                }
+                else
+                {
+                    <a href="@url">@item.Name</a>
+                }
+            </li>
+        }
+        <li class="active">@Model.CurrentBreadcrumb.Name</li>
+    </ul>
+</div>

@@ -1,0 +1,21 @@
+<!-- Select Commnunication -->
+<div class="form-group add-on-render <% if(required) {%> required-control<% } %>">
+    <label class="col-md-3 control-label" for="<%= id %>"><%= label %></label>
+    <div class="<%= inputsize %>">
+        <select id="<%= id %>" name="<%= id %>" class="form-control <%= inputheight %>" data-validate="<% if(required) {%>required<% } %>" <% if(required) {%>required<% } %>>
+            <% if(option.length > 0) {%> <option value=""> <%= option %> </option><% } %>
+            <%= token %>
+        </select>
+        <% if (helptext.length > 0) { %><p class="help-block"><%= helptext %></p><% } %>
+    </div>
+</div>
+
+<div class="form-group remove-on-render <% if(required) {%> required-control<% } %>">
+    <label class="col-md-3 control-label" for="<%= id %>"><%= label %></label>
+    <div class="<%= inputsize %>">
+        <select class="form-control <%= inputheight %>">
+            <% if(option.length > 0) {%> <option value=""> <%= option %> </option><% } %>
+        </select>
+        <% if (helptext.length > 0) { %><p class="help-block"><%= helptext %></p><% } %>
+    </div>
+</div>

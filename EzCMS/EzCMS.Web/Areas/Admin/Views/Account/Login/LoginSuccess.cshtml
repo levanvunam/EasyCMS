@@ -1,0 +1,76 @@
+﻿@model EzCMS.Core.Models.Users.Logins.LoginSetupModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Header = T("Account_Site_Header");
+    ViewBag.Title = T("Account_Site_LoginSuccessTitle");
+    ViewBag.Description = T("Account_Site_LoginSuccessDescription");
+}
+
+@ShowStatusMessage()
+@if (!Model.EnableTemplate)
+{
+    <div class="space-32"></div>
+    <div class="col-xs-12 center">
+        <div class="col-xs-12">
+            <a href="javascript:goToSite()" target="_self">
+                @if (CurrentUser.IsSystemAdministrator)
+                {
+                    <text>@T("Account_Text_LoginSuccessManageWebsite")</text>
+                }
+                else
+                {
+                    <text>@T("Account_Text_LoginSuccessGoWebsite")</text>
+                }
+            </a><br>
+        </div>
+        @if (CurrentUser.IsCompanyAdministrator)
+        {
+            <div class="space-20"></div>
+            <div class="col-xs-12">
+                <a href="@Url.Action("Index", "Home", new { area = "CompanyAdmin" })" target="_blank">@T("Account_Text_LoginSuccessManageCompanyUsers") </a>
+            </div>
+        }
+        @if (CurrentUser.IsSystemAdministrator)
+        {
+            <div class="space-20"></div>
+            <div class="col-xs-12">
+                <a href="@Url.Action("Index", "Home", new { area = "Admin" })" target="_blank">@T("Account_Text_LoginSuccessLaunchAdminModule") </a>
+                <br>
+                <small>@T("Account_Text_LoginSuccessAdvancedUserOnly")</small><br>
+            </div>
+        }
+        <div class="space-32"></div>
+        <div class="col-xs-12">
+            <a target="_top" href="javascript:void(0)" onclick=" Logout();">@T("Account_Text_LoginSuccessLogout")</a>
+        </div>
+    </div>
+    {
+        Script.Block(@<script>
+            function goToSite() {
+                if (parent && parent.jQuery().fancybox) {
+                    parent.$.fancybox.close();
+                    if (parent.window.location.href.indexOf("@Url.Action("LoginSuccess")") >= 0) {
+                        window.location.href = "/";
+                    } else {
+                        parent.window.location.reload();
+                    }
+                } else {
+                    window.location.href = "/";
+                }
+            }
+
+            function Logout() {
+                if (parent && parent.jQuery().fancybox) {
+                    parent.$.fancybox.close();
+                }
+                siteHelper.logout('/');
+            }
+        </script>);
+    }
+
+}
+else
+{
+    @RenderTemplate(Model.TemplateName, Model.Template, Model)
+}

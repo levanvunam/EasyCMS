@@ -1,0 +1,119 @@
+﻿@model int
+
+<div class="col-xs-12">
+    <a href="javascript:void(0)" class="create-notice btn btn-yellow btn-minier">
+        <i class="fa fa-plus bigger-125"></i>
+        @T("Notice_Text_Create")
+    </a>
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "Notice")
+</div>
+<div class="col-xs-12">
+    <table id="notice-grid-table"></table>
+    <div id="notice-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        // Create notice
+        $(".create-notice").click(function () {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupCreate", "Notices", new { noticeTypeId = Model })",
+                type: 'iframe',
+                width: '60%'
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(noticeGrid);
+                }
+            });
+        });
+
+        // Edit notice
+        function editNotice(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "Notices")/" + id,
+                type: 'iframe',
+                width: '60%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(noticeGrid);
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var noticeGrid = "#notice-grid-table";
+        var noticeGridPager = "#notice-grid-pager";
+        var noticeTab = "#notices";
+        var noticeGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Notice" })');
+        var noticeExportUrl = "@Url.Action("Exports", "Notices", new { noticeTypeId = Model })";
+
+        $(function() {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "Notices", new { noticeTypeId = Model })",
+                colNames: ['', '@T("Notice_Field_Id")',
+                    '@T("Notice_Field_Message")',
+                    '@T("Notice_Field_IsUrgent")',
+                    '@LabelForTime(T("Notice_Field_DateStart"))',
+                    '@LabelForTime(T("Notice_Field_DateEnd"))',
+                    '@T("Notice_Field_NoticeTypeId")',
+                    '@T("Notice_Field_NoticeTypeName")',
+                    '@LabelForTime(T("Notice_Field_Created"))',
+                    '@T("Notice_Field_CreatedBy")',
+                    '@LabelForTime(T("Notice_Field_LastUpdate"))',
+                    '@T("Notice_Field_LastUpdateBy")'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function(cellvalue, options) {
+                            //Edit icon
+                            var editIcon = "<a class='grid-action' href='javascript:editNotice(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+
+                            //Details icon
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details","Notices")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete notice icon
+                            var returnUrl = "@Url.Action("Details", new { id = Model })";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "Notices")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Message', index: 'Message' },
+                    {
+                        name: 'IsUrgent',
+                        index: 'IsUrgent',
+                        align: 'center',
+                        search: false,
+                        formatter: function(cellvalue) {
+                            return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                        }
+                    },
+                    { name: 'DateStart', index: 'DateStart', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'DateEnd', index: 'DateEnd', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'NoticeTypeId', index: 'NoticeSettingTypeId', hidden: true },
+                    { name: 'NoticeTypeName', index: 'NoticeSettingTypeName', hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function(response) {
+                    $(".create-notice.tab-add-button").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(noticeGrid, noticeGridPager, gridOptions, noticeGridSettings, noticeTab, noticeExportUrl, "Notice");
+        });
+    </script>);
+}

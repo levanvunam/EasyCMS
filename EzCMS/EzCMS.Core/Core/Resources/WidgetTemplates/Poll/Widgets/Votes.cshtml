@@ -1,0 +1,21 @@
+@foreach (var item in Model.PollAnswers)
+{
+    <div class="panel-body @("pollAnswers" + @Model.Id)">
+        @if (Model.IsMultiple)
+        {
+            <label><input type="checkbox" value=@item.Id>@item.AnswerText</label>
+        }
+        else
+        {
+            <label><input type="radio" name=@("PollAnswer" + @Model.Id) value=@item.Id>@item.AnswerText</label>
+        }
+    </div>
+}
+<div class="space-4"></div>
+<div class="poll-button">
+    @if (!Model.IsVotedPoll)
+    {
+        <input id=@("submitVote" + @Model.Id) type="submit" value="Vote">
+    }
+    <input id=@("seeResult" + @Model.Id) type="button" value="See Result">
+</div>

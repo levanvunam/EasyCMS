@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Tool_Site_Header");
+    ViewBag.Title = T("Tool_Site_EmailConverterResultTitle");
+    ViewBag.Description = T("Tool_Site_EmailConverterResultDescription");
+}
+
+@section styles
+{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/EmailConverter/css/emailResult.css")" />
+}
+
+@section scripts
+{
+    <script type="text/javascript" src="@Url.Content("~/Scripts/EmailConverter/email-convert.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/EmailConverter/email.js")"></script>
+    <script>
+        window.convert_email = function (content, params) {
+            return get_output(content, params);
+        }
+    </script>
+}

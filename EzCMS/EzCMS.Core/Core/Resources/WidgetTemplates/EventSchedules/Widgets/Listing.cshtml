@@ -1,0 +1,36 @@
+<ul class="col-md-9 element-4">
+    @foreach (var item in Model.EventSchedules)
+    {
+        <li class="schedule">
+            <span>
+                @item.TimeFrame<br />
+                @item.Location
+            </span>
+            @if (!string.IsNullOrEmpty(item.EventDescription))
+            {
+                <a href="#full-description-@item.Id" class="fancybox">
+                    <i class="fa fa-chevron-right"></i> @item.EventTitle
+                </a>
+                <br />
+            }
+            else
+            {
+                @item.EventTitle<br />
+            }
+            <div class="space-8 clear"></div>
+            @item.EventSummary
+            <div class="full-description" id="full-description-@item.Id" style="display: none">
+                <div class="widget-box">
+                    <div class="widget-header widget-header-flat">
+                        <h4 class="widget-title smaller"></h4>
+                    </div>
+                    <div class="widget-body">
+                        <div class="widget-main">
+                            @Raw(item.EventDescription)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    }
+</ul>

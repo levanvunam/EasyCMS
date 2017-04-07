@@ -1,0 +1,75 @@
+﻿@model ErrorHandlingSetting
+
+@{
+    var logginOptions = EnumUtilities.GenerateSelectListItems<LoggingOption>(GenerateEnumType.IntValueAndDescriptionText);
+}
+
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("SiteSetting_ErrorHandlingSetting_Text_EmailConfigurations")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.EmailFrom, new { @class = "col-md-4 control-label" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.EmailFrom, new { @class = "col-xs-10" })
+                    @Html.HelpTextFor(m => m.EmailFrom, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.EmailFrom)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.EmailTo, new { @class = "col-md-4 control-label" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.EmailTo, new { @class = "col-xs-10" })
+                    @Html.HelpTextFor(m => m.EmailTo, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.EmailTo)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="space-12"></div>
+<div class="widget-box transparent">
+    <div class="widget-header">
+        <h4 class="widget-title lighter">@T("SiteSetting_ErrorHandlingSetting_Text_FriendlyErrorPages")</h4>
+        <div class="widget-toolbar no-border">
+            <a href="#" data-action="collapse">
+                <i class="ace-icon fa fa-chevron-up"></i>
+            </a>
+        </div>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main padding-12 no-padding-left no-padding-right">
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.PageErrorUrl, new { @class = "col-md-4 control-label" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.PageErrorUrl, new { @class = "col-xs-10" })
+                    @Html.HelpTextFor(m => m.PageErrorUrl, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.PageErrorUrl)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.PageNotFoundUrl, new { @class = "col-md-4 control-label" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(m => m.PageNotFoundUrl, new { @class = "col-xs-10" })
+                    @Html.HelpTextFor(m => m.PageNotFoundUrl, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.PageNotFoundUrl)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.LoggingOption, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.DropDownListFor(m => m.LoggingOption, logginOptions, new { @class = "col-xs-10 single-select-no-search" })
+        @Html.HelpTextFor(m => m.LoggingOption, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.LoggingOption)
+    </div>
+</div>

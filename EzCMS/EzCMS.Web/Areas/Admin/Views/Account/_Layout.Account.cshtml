@@ -1,0 +1,50 @@
+﻿@model EzCMS.Core.Models.Users.Logins.LoginSetupModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+    @RenderSection("styles", false)
+}
+
+@if (!Model.EnableTemplate)
+{
+    <div class="main-container">
+        <div class="main-content">
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <div class="login-container">
+                        <div class="center">
+                            <h1>
+                                <i class="fa fa-lock blue"></i>
+                                <span class="red">@T("Account_Text_LayoutAccountLogin")</span>
+                                <span class="light-blue">@T("Account_Text_LayoutAccountPage")</span>
+                            </h1>
+                        </div>
+
+                        <div class="space-6"></div>
+
+                        <div class="position-relative">
+                            @ShowStatusMessage()
+                            @RenderBody()
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $("body").addClass("login-layout light-login");
+    </script>
+    @RenderSection("scripts", false)
+}
+
+}
+else
+{
+    @RenderBody()
+}

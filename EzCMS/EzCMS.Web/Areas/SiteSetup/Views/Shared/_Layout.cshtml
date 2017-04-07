@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Setup - @ViewBag.Title</title>
+    <meta name="description" content="@ViewBag.Description" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- basic styles -->
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Bootstrap/bootstrap.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/FontAwesome/css/font-awesome.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/jqueryui/jquery-ui.min.css")" />
+
+    <!-- page specific plugin styles -->
+    @RenderSection("styles", false)
+
+    <!-- fonts -->
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/jquery.gritter.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace-fonts.min.css")" />
+
+    <!-- ace styles -->
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace-rtl.min.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace-skins.min.css")" />
+
+    <!--[if lte IE 8]>
+          <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Ace/ace-ie.min.css")" />
+        <![endif]-->
+
+
+    <link rel="stylesheet" href="@Url.Content("~/Content/Admin/template.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/fancybox/jquery.fancybox.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/Bootstrap/bootstrap-editable.css")" />
+
+    <!-- ace settings handler -->
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Ace/ace-extra.min.js")"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/html5shiv.js")" ></script>
+        <script  type="text/javascript"  src="@Url.Content("~/Scripts/Plugins/respond.min.js")" ></script>
+        <![endif]-->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/jquery-2.1.4.min.js'>" + "<" + "/script>");
+    </script>
+    <![endif]-->
+
+    <!--[if IE]>
+    <script type="text/javascript">
+        window.jQuery || document.write("<script src='/Scripts/Plugins/jquery/jquery-1.10.2.min.js'>"+"<"+"/script>");
+    </script>
+    <![endif]-->
+</head>
+
+<body>
+    @RenderBody()
+    <div style="display: none" id="loading-wrapper">
+        <div class="loading">
+            <div id="spinner-preview"></div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        if ("ontouchend" in document) document.write("<script src='/Scripts/Plugins/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+    </script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Bootstrap/bootstrap.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/typeahead-bs2.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Bootbox/bootbox.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/moment/moment.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/jquery.maskedinput.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/fancybox/jquery.fancybox.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Datetimepicker/bootstrap-datetimepicker.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Bootstrap/bootstrap-datepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Multiselect/Select2/select2.min.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Shared/Helpers/siteHelper.js")"></script>
+    
+    <script type="text/javascript">
+        $(function () {
+            //Load spinner
+            var spinnerOpts = {
+                lines: 13, // The number of lines to draw
+                length: 20, // The length of each line
+                width: 10, // The line thickness
+                radius: 30, // The radius of the inner circle
+                corners: 1 // Corner roundness (0..1)  
+            };
+            
+            var target = document.getElementById('spinner-preview');
+            var spinner = new Spinner(spinnerOpts).spin(target);
+        });
+    </script>
+
+    <!-- page specific plugin scripts -->
+    @RenderSection("scripts", false)
+
+    <!-- ace scripts -->
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Ace/ace-elements.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/Ace/ace.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/spin.min.js")"></script>
+
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Scripts/Plugins/jquery.gritter.min.js")"></script>
+</body>
+</html>

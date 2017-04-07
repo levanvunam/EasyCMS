@@ -1,0 +1,88 @@
+﻿@model EzCMS.Core.Models.Notifications.Setup.ContactGroupSetupModel
+
+@{
+    ViewBag.Title = TFormat("Notification_Site_NotificationSetupTitle", Model.Step.GetEnumName());
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+}
+
+@section styles{
+}
+
+@Html.Partial("Partials/_Steps", Model.Step)
+
+<h3>@T("Notification_Text_ContactGroupHeader")</h3>
+<div class="space-10"></div>
+<div class="col-xs-12 no-padding">
+    <div class="form-horizontal">
+        @using (Ajax.BeginForm("ContactGroup", new AjaxOptions
+        {
+            OnBegin = "siteHelper.showLoading",
+            OnComplete = "siteHelper.hideLoading",
+            OnSuccess = "SaveContactGroupSuccess"
+        }))
+        {
+            @Html.HiddenFor(m => m.Id)
+            @Html.PartialFor(m => m.ContactSearchModel, "Partials/_ContactSearch")
+            <div id="searchQuery" class="form-group"></div>
+            <div class="clearfix pageButtonFix form-actions align-right left-0">
+                <div class="col-xs-12 no-margin">
+                    <button id="btnNext" type="button" class="btn btn-primary">
+                        <i class="ace-icon fa fa-plus icon-on-right"></i>
+                        @T("Notification_Text_ContactGroupNext")
+                    </button>
+                    <button type="button" class="btn" id="btnReset" onclick="parent.$.fancybox.close();">
+                        <i class="fa fa-times bigger-110"></i>
+                        @T("Notification_Text_ContactGroupCancel")
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            // Render search queries
+            var data = { id: "@Model.Id" };
+            siteHelper.httpPost({
+                url: "@Url.Action("RenderSearchQueries")",
+                data: data,
+                showLoading: false,
+                success: function (response) {
+                    if (response.Success) {
+                        $('#totalSelectedContacts').html(response.Message);
+                        $("#filter-query").append(response.Data);
+                        $('#contact-queries').show();
+                    }
+                }
+            });
+        });
+
+        $("#btnNext").click(function () {
+            var data = { id: "@Model.Id" };
+            siteHelper.httpPost({
+                url: "@Url.Action("IsNotificationSetupFilter")",
+                data: data,
+                success: function (response) {
+                    if (response.Success) {
+                        window.location = "@Url.Action("NotificationTemplate", new { id = Model.Id })";
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        });
+
+        function SaveContactGroupSuccess(response) {
+            siteHelper.showMessage(response);
+            if (response.Success) {
+                $('#totalSelectedContacts').html(response.Data.TotalContacts);
+                $("#filter-query").append(response.Data.ContactNotificationSearchPartial);
+                $('#contact-queries').show();
+                hideSearchResult();
+            }
+        }
+    </script>
+}

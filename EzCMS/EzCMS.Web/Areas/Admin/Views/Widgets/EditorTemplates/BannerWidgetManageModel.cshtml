@@ -1,0 +1,18 @@
+﻿@model EzCMS.Core.Models.Banners.WidgetManageModels.BannerWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.BannerId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.BannerId, Model.Banners, T("Widget_Banner_Text_SelectBanner"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.BannerId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.BannerId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>

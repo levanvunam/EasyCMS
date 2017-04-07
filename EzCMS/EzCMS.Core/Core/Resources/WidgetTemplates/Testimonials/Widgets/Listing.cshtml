@@ -1,0 +1,20 @@
+<div id="carouselTestimonial" class="owl-carousel">
+    @foreach (var item in Model)
+    {
+        <div class="item">
+            <article>
+                <div class="contentTestimonial">
+                    <p>@item.Content</p>
+                    <div class="col-sm-4">
+                        <img src="@item.AvatarPath" alt="@item.Author" title="@item.Author" class="img-responsive" />
+                    </div>
+                    <div class="clearfix visible-xs"></div>
+                    <div class="col-sm-8">
+                        <div><a href="">@item.Author</a></div>
+                        @item.AuthorDescription
+                    </div>
+                </div>
+            </article>
+        </div>
+    }
+</div>

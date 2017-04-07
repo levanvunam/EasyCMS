@@ -1,0 +1,76 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "SocialMediaLog")
+</div>
+<div class="col-xs-12">
+    <table id="social-media-log-grid-table"></table>
+    <div id="social-media-log-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var socialMediLogGrid = "#social-media-log-grid-table";
+        var socialMediLogGridPager = "#social-media-log-grid-pager";
+        var socialMediLogTab = "#social-media-logs";
+        var socialMediLogGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "Social Media Log"})');
+        var socialMediLogExportUrl = "@Url.Action("Exports", "SocialMediaLogs", new { socialMediaTokenId = Model })";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "SocialMediaLogs", new {socialMediaTokenId = @Model})",
+                colNames: ['', '@T("SocialMediaLog_Field_Id")',
+                    '@T("SocialMediaLog_Field_PageTitle")',
+                    '@T("SocialMediaLog_Field_SocialMedia")',
+                    '@T("SocialMediaLog_Field_SocialMediaToken")',
+                    '@T("SocialMediaLog_Field_PostedContent")',
+                    '@T("SocialMediaLog_Field_PostedResponse")',
+                    '@LabelForTime(T("SocialMediaLog_Field_Created"))',
+                    '@T("SocialMediaLog_Field_CreatedBy")',
+                    '@LabelForTime(T("SocialMediaLog_Field_LastUpdate"))',
+                    '@T("SocialMediaLog_Field_LastUpdateBy")'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 90,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function(cellvalue, options, rowObject) {
+                            return "";
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'PageTitle', index: 'PageTitle' },
+                    { name: 'SocialMedia', index: 'SocialMedia' },
+                    { name: 'SocialMediaToken', index: 'SocialMediaToken' },
+                    { name: 'PostedContent', index: 'PostedContent' },
+                    {
+                        name: 'PostedResponse',
+                        index: 'PostedResponse',
+                        formatter: function(cellValue, options, rowObject) {
+                            return jqGridHelper.buildJsonValue(cellValue, '@T("SocialMediaLog_Field_PostedResponse")');
+                        }
+                    },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function(response) {
+                    $("#tab-social-media-log").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(socialMediLogGrid, socialMediLogGridPager, gridOptions, socialMediLogGridSettings, socialMediLogTab, socialMediLogExportUrl, "SocialMediaLog");
+        });
+    </script>);
+}

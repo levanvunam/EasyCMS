@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.BackgroundTasks.BackgroundTaskLogsModel
+
+@foreach (var item in Model.LogsDates)
+{
+    <div style="margin-top: 10px" class="panel-group accordion-style1 accordion-style2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <a style="height: 60px" href="#@("logs_info_" + @item.DateLog)" onclick="getLogsInfo('@item.DateLog');" data-parent="#faq-list-1" data-toggle="collapse" class="accordion-toggle collapsed">
+                    <div class="pull-left" style="line-height: 35px;">
+                        <span class="pull-left mg10l">
+                            <i class="fa fa-clock-o bigger-110"></i>
+                            @DateTime.Parse(item.DateLog.Replace("_", "/")).ToShortDateString()
+                        </span>
+                        <span class="pull-left mg10l">
+                            @(TFormat("BackgroundTask_Text_TotalLogsItems", @item.Total))
+                        </span>
+                    </div>
+                </a>
+            </div>
+            <div class="panel-collapse collapse" id=@("logs_info_" + @item.DateLog.Replace(".", "_"))>
+                <div class="panel-body">
+                </div>
+            </div>
+        </div>
+    </div>
+}

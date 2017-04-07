@@ -1,0 +1,91 @@
+﻿@model EzCMS.Core.Models.Common.GoogleAnalyticDashboardModel
+
+<link rel="stylesheet" href="@Url.Content("~/Content/Admin/googleAnalyticBoard.css")" />
+
+<div class="col-xs-12">
+    <div class="col-sm-5">
+        <div id="view-selector-container" class="analytic-container"></div>
+    </div>
+    <div class="col-sm-4">
+        <div id="date-range-container" class="analytic-container"></div>
+    </div>
+    <div class="col-sm-2 center">
+        <div id="active-users-container" class="analytic-container"></div>
+    </div>
+</div>
+<div id="embed-api-auth-container" style="display: none;">
+
+</div>
+<div class="col-xs-12">
+    <div class="col-xs-12">
+        <div id="legend-2-container"></div>
+        <span id="spanUsers" class="chartSummary"></span>
+        <div id="chart-2-container"></div>
+    </div>
+    <div class="clear"></div>
+    <div class="space-10"></div>
+    <div class="col-xs-12 no-padding">
+        <div class="chart-container">
+            <ul class="charts">
+                <li>
+                    <div id="sessions">@T("Home_AnalyticBoard_Text_Sessions")</div>
+                    <span id="spanSessions" class="chartSummary"></span>
+                    <div id="legend-4-container" style="display: none;"></div>
+                    <div id="chart-4-container"></div>
+                </li>
+                <li>
+                    <div id="Pageviews">@T("Home_AnalyticBoard_Text_PageViews")</div>
+                    <span id="spanPageViews" class="chartSummary"></span>
+                    <div id="legend-6-container" style="display: none;"></div>
+                    <div id="chart-6-container"></div>
+                </li>
+                <li>
+                    <div id="PagesSession">@T("Home_AnalyticBoard_Text_PagesSession")</div>
+                    <span id="pageSessions" class="chartSummary"></span>
+                    <div id="legend-7-container" style="display: none;"></div>
+                    <div id="chart-7-container"></div>
+                </li>
+                <li>
+                    <div id="AvgSessionDuration">@T("Home_AnalyticBoard_Text_AvgSessionDuration")</div>
+                    <span id="spanAvgSessionDuration" class="chartSummary"></span>
+                    <div id="legend-8-container" style="display: none;"></div>
+                    <div id="chart-8-container"></div>
+                </li>
+                <li>
+                    <div id="BounceRate">@T("Home_AnalyticBoard_Text_BounceRate")</div>
+                    <span id="spanBounceRate" class="chartSummary"></span>
+                    <div id="legend-9-container" style="display: none;"></div>
+                    <div id="chart-9-container"></div>
+                </li>
+                <li>
+                    <div id="NewSessions">@T("Home_AnalyticBoard_Text_PercentNewSessions")</div>
+                    <span id="spannewsessions" class="chartSummary"></span>
+                    <div id="legend-10-container" style="display: none;"></div>
+                    <div id="chart-10-container"></div>
+                </li>
+                <li>
+                    <div id="legend-3-container"></div>
+                    <div id="chart-3-container"></div>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        (function (w, d, s, g, js, fs) {
+            g = w.gapi || (w.gapi = {});
+            g.analytics = { q: [], ready: function (f) { this.q.push(f); } };
+            js = d.createElement(s);
+            fs = d.getElementsByTagName(s)[0];
+            js.src = 'https://apis.google.com/js/platform.js';
+            fs.parentNode.insertBefore(js, fs);
+            js.onload = function () { g.load('analytics'); };
+        }(window, document, 'script'));
+        var accessToken = '@Model.AccessToken';
+    </script>).Include("https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js", "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js",
+             "https://ga-dev-tools.appspot.com/public/javascript/embed-api/components/view-selector2.js", "https://ga-dev-tools.appspot.com/public/javascript/embed-api/components/date-range-selector.js",
+             "https://ga-dev-tools.appspot.com/public/javascript/embed-api/components/active-users.js", "~/Scripts/Shared/Initialize/googleAnalyticBoard.js");
+}

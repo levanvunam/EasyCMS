@@ -1,0 +1,8 @@
+<table class="table table-hovered">
+    @foreach (var item in Model.Categories)
+    {
+        <tr>
+            <td><i class="fa fa-angle-right"></i><a href="/Category-Details?categoryId=@(item.Id)&title=@item.Name.ToUrlString()">@item.Name</a><span class="cateCount">(@item.Total)</span></td>
+        </tr>
+    }
+</table>

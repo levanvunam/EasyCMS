@@ -1,0 +1,110 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.ContactGroups.AddToGroupModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("ContactGroup_Site_Header");
+    ViewBag.Title = T("ContactGroup_Site_AddToGroupTitle");
+    ViewBag.Description = T("ContactGroup_Site_AddToGroupDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Ajax.BeginForm("AddToGroup", "ContactGroups", null, new AjaxOptions { OnSuccess = "AddToGroupSuccess" }, new { id = "addToGroupForm", @class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(m => m.ContactSearchModel)
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.AddToGroupType, new { @class = "col-xs-2 control-label" })
+                <div class="col-xs-10">
+                    @foreach (var item in Model.AddToGroupTypes)
+                    {
+                        <label class="inline" style="margin-right: 10px">
+                            <input name="AddToGroupType" value="@item" type="radio" class="ace add-to-group-type" @(Model.AddToGroupType == item ? "Checked" : "") />
+                            <span class="lbl">&nbsp; @item.GetEnumName()</span>
+                        </label>
+                    }
+                    @Html.HelpTextFor(m => m.AddToGroupType, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.AddToGroupType)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-xs-2 control-label" })
+                <div class="col-xs-10">
+                    @Html.TextBoxFor(m => m.Name, new { id = "name", @class = "col-xs-10" })
+                    @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LocalizeLabelFor(m => m.Id, new { @class = "col-xs-2 control-label" })
+                <div class="col-xs-10">
+                    @Html.DropDownListFor(m => m.Id, Model.Ids, T("ContactGroup_Text_SelectGroup"), new { id = "id", @class = "single-select col-xs-10" })
+                    @Html.HelpTextFor(m => m.Id, new { @class = "help-button" })
+                    @Html.ValidationMessageFor(m => m.Id)
+                </div>
+            </div>
+            <div class="clearfix form-actions">
+                <div class="col-sm-offset-3 col-sm-9">
+                    <button class="btn btn-primary btn-responsive" type="submit" name="Submit">
+                        <i class="fa fa-check bigger-110"></i>
+                        @T("ContactGroup_Text_Add")
+                    </button>
+                    <button class="btn btn-responsive" onclick="parent.$.fancybox.close();">
+                        <i class="fa fa-times bigger-110"></i>
+                        @T("ContactGroup_Text_Close")
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $(".add-to-group-type:checked").trigger("change");
+        });
+
+        $("#addToGroupForm").submit(function () {
+            if ($(this).valid()) {
+                siteHelper.showLoading();
+            }
+        });
+
+        $(".add-to-group-type").change(function () {
+            if ($(this).val() == "@ContactGroupEnums.AddToGroupType.New") {
+                $("#id").attr("disabled", "disabled");
+                $("#id-error").hide();
+                $("#name").removeAttr("disabled");
+                $("#name-error").show();
+            } else {
+                $("#id").removeAttr("disabled");
+                $("#id-error").show();
+                $("#name").attr("disabled", "disabled");
+                $("#name-error").hide();
+            }
+        });
+
+        function AddToGroupSuccess(response) {
+            if (response.Success) {
+                parent.$.fancybox.close();
+                parent.siteHelper.showMessage(response);
+            } else {
+                siteHelper.hideLoading();
+                siteHelper.showMessage(response);
+            }
+        }
+    </script>
+}

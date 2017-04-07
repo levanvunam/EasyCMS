@@ -1,0 +1,76 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.BackgroundTasks.BackgroundTaskManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Description, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Description, new { @class = "col-xs-10", rows = 4 })
+        @Html.HelpTextFor(m => m.Description, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ScheduleType, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @foreach (var item in Model.ScheduleTypes)
+        {
+            <label class="inline" style="margin-right: 10px">
+                <input name="ScheduleType" value="@item" type="radio" class="ace scheduleType" @(Model.ScheduleType == item ? "Checked" : "") />
+                <span class="lbl">&nbsp; @item.GetEnumName()</span>
+            </label>
+        }
+        @Html.HelpTextFor(m => m.ScheduleType, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ScheduleType)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelTimeFor(m => m.StartTime, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.StartTime, new { @Value = ToLocalTime(Model.StartTime).ToTimeFormat(), id = "startTime", @class = "time-picker" })
+        @Html.HelpTextFor(m => m.StartTime, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.StartTime)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Interval, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Interval, new { id = "interval", @class = "input-number" })
+        @Html.HelpTextFor(m => m.Interval, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Interval)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Status, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.Status, Model.StatusList, new { @class = "col-xs-10 single-select-no-search" })
+        @Html.HelpTextFor(m => m.Status, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        //Event listener for schedule type change
+        $(".scheduleType").change(function () {
+            if ($(this).val() == "@BackgroundTaskEnums.ScheduleType.Daily") {
+                $("#interval").attr("disabled", "disabled");
+                $("#startTime").removeAttr("disabled");
+            } else {
+                $("#startTime").attr("disabled", "disabled");
+                $("#interval").removeAttr("disabled");
+                $("#interval").spinner("option", "disabled", false);
+            }
+        });
+
+        $(function () {
+            setTimeout(function () {
+                $(".scheduleType:checked").trigger("change");
+            }, 1000);
+        });
+    </script>);
+}

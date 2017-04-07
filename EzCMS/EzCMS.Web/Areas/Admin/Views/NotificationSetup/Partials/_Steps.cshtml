@@ -1,0 +1,17 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Entity.Core.Enums.NotificationEnums.NotificationSetupStep
+
+@{ var steps = EnumUtilities.GetAllItems<NotificationEnums.NotificationSetupStep>(); }
+
+<div>
+    <ul class="steps">
+        @foreach (var step in steps)
+        {
+            <li class="@((int)Model >= (int)step ? (int)Model == (int)step ? "active" : "complete" : "")" data-step="@((int)step)">
+                <span class="step">@((int)step)</span>
+                <span class="title">@step.GetEnumName()</span>
+            </li>
+        }
+    </ul>
+</div>
+<div class="space-4"></div>

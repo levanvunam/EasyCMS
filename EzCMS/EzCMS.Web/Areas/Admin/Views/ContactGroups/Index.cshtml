@@ -1,0 +1,173 @@
+﻿@{
+    ViewBag.Header = T("ContactGroup_Site_Header");
+    ViewBag.Title = T("ContactGroup_Site_ListingTitle");
+    ViewBag.Description = T("ContactGroup_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        // Toggle active group
+        $("body").on("click", ".toggle-active", function () {
+            var selector = this;
+
+            //After go to this function, the check action had been done in html, so this is status after checked
+            var currentChecked = $(selector).is(":checked");
+            siteHelper.confirm('@T("ContactGroup_Message_ChangeStatusConfirm")', function (ok) {
+                if (ok) {
+                    var data = { id: $(selector).data('id') };
+                    siteHelper.httpPost({
+                        url: "@Url.Action("ChangeActiveState")",
+                        data: data,
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                $(selector).prop('checked', response.Data);
+                            }
+                        }
+                    });
+                } else {
+                    $(selector).prop('checked', !currentChecked);
+                }
+            });
+        });
+
+        // Refresh contact group
+        function refreshContactGroup(id) {
+            var data = { id: id };
+
+            siteHelper.httpPost({
+                url: "@Url.Action("RefreshConfirm")",
+                data: data,
+                showLoading: false,
+                success: function (message) {
+                    siteHelper.confirm(message, function (ok) {
+                        if (ok) {
+                            siteHelper.httpPost({
+                                url: "@Url.Action("RefreshContactGroup")",
+                                data: data,
+                                success: function (response) {
+                                    siteHelper.showMessage(response);
+                                    if (response.Success) {
+                                        jqGridHelper.reloadGrid(gridSelector);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "Contact Group"})');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("ContactGroup_Field_Id")',
+                '@T("ContactGroup_Field_Name")',
+                '@T("ContactGroup_Field_Queries")',
+                '@T("ContactGroup_Field_ContactCount")',
+                '@T("ContactGroup_Field_Active")',
+                '@LabelForTime(T("ContactGroup_Field_Created"))',
+                '@T("ContactGroup_Field_CreatedBy")',
+                '@LabelForTime(T("ContactGroup_Field_LastUpdate"))',
+                '@T("ContactGroup_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 120,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function (cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var refreshIcon = "<a class='grid-action' href='javascript:refreshContactGroup(" + options.rowId + ")'><div class='ui-pg-div' title='Refresh'><span class='fa fa-refresh'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        return editIcon + detailsIcon + refreshIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Name', index: 'Name' },
+                {
+                    name: 'Queries',
+                    index: 'Queries',
+                    hidden: true,
+                    formatter: function (cellValue, options, rowObject) {
+                        return jqGridHelper.buildJsonValue(cellValue, '@T("ContactGroup_Field_Queries")');
+                    }
+                },
+                { name: 'ContactCount', index: 'ContactCount', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                {
+                    name: 'Active',
+                    index: 'Active',
+                    align: 'center',
+                    search: false,
+                    formatter: function (cellVal, options, rowObject) {
+                        var chkBox = '<label>' +
+                            '<input data-id="' + rowObject.Id + '" + class="ace ace-switch ace-switch-5 toggle-active" type="checkbox"' + (cellVal == true ? 'checked' : '') + '>' +
+                            '<span class="lbl"></span>' +
+                            '</label>';
+                        return chkBox;
+                    }
+                },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

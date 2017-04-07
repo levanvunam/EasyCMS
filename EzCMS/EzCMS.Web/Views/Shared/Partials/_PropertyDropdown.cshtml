@@ -1,0 +1,45 @@
+﻿@using Ez.Framework.Utilities.Reflection.Enums
+
+@{
+    @model List<Ez.Framework.Utilities.Reflection.Models.PropertyModel>
+}
+
+@foreach (var item in Model)
+{
+    <text>@Html.DisplayFor(m => item)</text>
+}
+
+@{
+    Script.Block(@<script type="text/javascript">
+        var callback = callback || null;
+        $(function () {
+            $(document).on("click", ".property", function () {
+                var type = $(this).data("type");
+                var kind = $(this).data("kind");
+                var name = $(this).data("name");
+
+                switch (kind) {
+                    case "@PropertyKind.Value":
+                        callback(name);
+                        break;
+                    case "@PropertyKind.Object":
+                        break;
+                    case "@PropertyKind.List":
+                        siteHelper.httpPost({
+                            showLoading: false,
+                            url: '@Url.Action("GeneratePropertyTemplate", "Widgets")',
+                            data: { type: type, name: name },
+                            success: function (response) {
+                                if (response.Success) {
+                                    callback(response.Data);
+                                } else {
+                                    siteHelper.showMessage(response);
+                                }
+                            }
+                        });
+                        break;
+                }
+            });
+        });
+    </script>);
+}

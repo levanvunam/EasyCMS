@@ -1,0 +1,49 @@
+﻿@model EzCMS.Core.Models.Shared.Maps.ShowMapModel
+
+@{
+    var showByLatLong = Model.Latitude.HasValue && Model.Longitude.HasValue;
+    var address = string.IsNullOrEmpty(Model.FullAddress) ? Model.FullAddressFromAddressData : Model.FullAddress;
+}
+
+<div id="mapCanvas" class="col-xs-12"></div>
+
+@{
+    Script.Include(Html.GoogleMapFile("places")).Block(@<script type="text/javascript">
+
+        function loadMarker(position) {
+            var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+                center: position,
+                zoom: 13
+            });
+
+            var marker = new google.maps.Marker({
+                position: position,
+                map: map
+            });
+        }
+
+        function initialize() {
+            var showByLatLong = "@showByLatLong" == "True";
+
+            var position;
+            if (showByLatLong) {
+                position = new google.maps.LatLng("@Model.Latitude", "@Model.Longitude");
+                loadMarker(position);
+            } else {
+                var geo = new google.maps.Geocoder;
+                var address = "@address";
+                geo.geocode({ 'address': address }, function (results, status) {
+                    position = new google.maps.LatLng(-33.8688, 151.2195);
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        position = results[0].geometry.location;
+                    } else {
+                        //alert("Geocode was not successful for the following reason: " + status);
+                    }
+                    loadMarker(position);
+                });
+            }
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>);
+}

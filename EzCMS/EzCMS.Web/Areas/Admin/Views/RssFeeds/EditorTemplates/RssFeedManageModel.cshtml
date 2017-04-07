@@ -1,0 +1,74 @@
+﻿@using EzCMS.Entity.Core.Enums
+@using Ez.Framework.Configurations
+@model EzCMS.Core.Models.RssFeeds.RssFeedManageModel
+
+@Html.HiddenFor(m => m.Id)
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10", placeholder = T("RSSFeed_Text_NamePlaceHolder") })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RssType, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.DropDownListFor(m => m.RssType, Model.RssFeedTypes, new { @class = "col-xs-10 single-select-no-search" })
+        @Html.HelpTextFor(m => m.RssType, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RssType)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Url, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10 no-padding">
+        <div id="blog-name-box" class="col-sm-6" style="display: none">
+            @Html.TextBoxFor(m => m.BlogName, new { @class = "col-xs-12", placeholder = T("RSSFeed_Text_BlogNamePlaceHolder") })
+            @Html.HelpTextFor(m => m.BlogName, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.BlogName)
+        </div>
+        <div class="col-sm-6">
+            @Html.TextBoxFor(m => m.Url, new { @class = "col-xs-8", placeholder = T("RSSFeed_Text_UrlPlaceHolder") })
+            @Html.HelpTextFor(m => m.Url, new { @class = "help-button" })
+            @Html.ValidationMessageFor(m => m.Url)
+        </div>
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        var defaultGoogleBlogUrl = '@EzCMSContants.GoogleBlogRssUrlFormat';
+        var $rssFeedType = $("#RssType");
+        var $blogName = $("#BlogName");
+        var $url = $("#Url");
+
+        $rssFeedType.change(function () {
+            showHideBlogName($(this).val());
+        });
+
+        // Update the RSS url when change blog name
+        $blogName.keyup(function () {
+            var blogName = $(this).val();
+            $url.val(defaultGoogleBlogUrl.format(blogName));
+        });
+
+        // Show hide the blog name for Google
+        function showHideBlogName(id) {
+            if (id == '@((int)RssFeedEnums.RssType.GoogleBlogger)') {
+                $('#blog-name-box').show();
+                $url.attr("readonly", "readonly");
+            } else {
+                $('#blog-name-box').hide();
+                $url.removeAttr("readonly");
+            }
+        }
+
+        $(document).ready(function () {
+            showHideBlogName($rssFeedType.val());
+        });
+    </script>);
+}

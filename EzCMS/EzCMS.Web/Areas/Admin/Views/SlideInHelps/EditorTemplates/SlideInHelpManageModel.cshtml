@@ -1,0 +1,48 @@
+﻿@model EzCMS.Core.Models.SlideInHelps.SlideInHelpManageModel
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.LanguageId)
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.TextKey, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12 control-value">
+        @Html.DisplayFor(m => m.TextKey)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Title, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.TextBoxFor(m => m.Title, new { @class = "col-sm-10 col-xs-10" })
+        @Html.HelpTextFor(m => m.Title, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Title)
+    </div>
+</div>
+<div class="form-group">
+    <div class="col-sm-2 control-label no-padding-top">
+        @Html.LocalizeLabelFor(m => m.Content)
+        @Html.HelpTextFor(m => m.Content, new { @class = "help-button" })
+    </div>
+    <div class="col-sm-10">
+        @Html.TextAreaFor(m => m.Content, new { @class = "col-xs-12" })
+    </div>
+    @Html.ValidationMessageFor(m => m.Content)
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Active, new { @class = "col-sm-2 control-label align-right" })
+    <div class="col-sm-10 col-xs-12">
+        @Html.AceCheckBoxFor(m => m.Active)
+        @Html.HelpTextFor(m => m.Active, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Active)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Bundle("~/js/ckeditor").Block(@<script type="text/javascript">
+        buildCkEditor('Content', {
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        });
+    </script>);
+}

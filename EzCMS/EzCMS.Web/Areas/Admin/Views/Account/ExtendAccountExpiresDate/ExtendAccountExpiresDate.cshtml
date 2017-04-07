@@ -1,0 +1,99 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.Users.ExtendExpirationDate.ExtendExpirationDateResponseModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = T("User_Site_ExtendExpirationDateTitle");
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $("body").addClass("login-layout light-login");
+    </script>
+}
+
+<div class="main-container">
+    <div class="main-content">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="container">
+                    <div class="center">
+                        <h1>
+                            <span class="blue">@T("User_Site_ExtendExpirationDateTitle")</span>
+                        </h1>
+                    </div>
+
+                    <div class="space-6"></div>
+
+                    <div class="position-relative">
+                        <div class="widget-body">
+                            <div class="widget-main">
+                                <h4 class="header red lighter bigger">
+                                    <i class="fa fa-info-circle"></i>
+                                    @T("User_Site_User_Site_ExtendExpirationDateHeader")
+                                </h4>
+
+                                @if (!string.IsNullOrEmpty(@Model.UserName))
+                                {
+                                    <h4>Hi @Model.UserName</h4>
+                                }
+                                @switch (Model.ResponseCode)
+                                {
+                                    case UserEnums.ExtendExpirationDateResponseCode.InvalidUrl:
+                                        {
+                                            <h4>@T("User_Text_InvalidUrl")</h4>
+                                            break;
+                                        }
+                                    case UserEnums.ExtendExpirationDateResponseCode.NotActive:
+                                        {
+                                            <h4>@T("User_Text_AccountDeactive")</h4>
+                                            break;
+                                        }
+                                    case UserEnums.ExtendExpirationDateResponseCode.NoNeedToExtend:
+                                        if (@Model.ExpirationDate.HasValue)
+                                        {
+                                            <h4>@T("User_Text_NoNeedExtend")</h4>
+                                            <h4>@(TFormat("User_Text_ExpirationDateInfo", @Model.ExpirationDate.Value.ToString("dd/MM/yyyy")))</h4>
+                                        }
+                                        else
+                                        {
+                                            <h4>@T("User_Text_NeverExpire")</h4>
+                                        }
+                                        break;
+                                    case UserEnums.ExtendExpirationDateResponseCode.Success:
+                                        {
+                                            <h4>@TFormat("User_Text_ExtendExpirationDateSuccess", SValue<AccountExpiredSetting>().NumberOfDaysToKeepAccountAlive)</h4>
+                                            if (@Model.ExpirationDate.HasValue)
+                                            {
+                                                <h4>@(TFormat("User_Text_ExpirationDateInfo", @Model.ExpirationDate.Value.ToString("dd/MM/yyyy")))</h4>
+                                            }
+                                            break;
+                                        }
+                                    case UserEnums.ExtendExpirationDateResponseCode.Fail:
+                                        {
+                                            <h4>@T("User_Text_ExtendExpirationDateFail")</h4>
+                                            break;
+                                        }
+                                    case UserEnums.ExtendExpirationDateResponseCode.UserNotFound:
+                                        {
+                                            <h4>@T("User_Text_UserNotFound")</h4>
+                                            break;
+                                        }
+                                }
+                                <div class="pull-right">
+                                    <a href="/" class="back-to-login-link">
+                                        @T("User_Text_ExtendPageBackToHome")
+                                        <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </div>
+
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

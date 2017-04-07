@@ -1,0 +1,75 @@
+﻿@using Ez.Framework.Configurations
+@model GridRowListSetting
+
+@{
+    var rows = new List<int>();
+    if (!string.IsNullOrWhiteSpace(Model.RowList))
+    {
+        rows = Model.RowList.Split(',').Select(int.Parse).ToList();
+    }
+}
+
+@Html.HiddenFor(m => m.RowList, new { id = "RowList" })
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RowList, new { @class = "col-md-3 control-label" })
+    @Html.HelpTextFor(m => m.RowList, new { @class = "help-button" })
+    <div class="clear space-8"></div>
+    <div id="value-box" class="col-xs-12">
+        @foreach (var item in rows)
+        {
+            <div class='col-md-4'>
+                <div class="space-4"></div>
+                <input type='text' value='@item' class='input-number row-item' />
+                <a href='javascript:void(0)' class='remove-row'><i class='fa fa-times red'></i>@T("SiteSettings_GridRowListing_Text_RemoveButton")</a>
+            </div>
+        }
+    </div>
+</div>
+<div id="template" class="hidden" disabled="disabled">
+    <div class='col-md-4'>
+        <div class='space-4'></div>
+        <input type='text' value='' class='input-number row-item' />
+        <a href='javascript:void(0)' class='remove-row'><i class='fa fa-times red'></i>Remove</a>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-xs-7 col-lg-offset-4">
+    <a href="javascript:addRow()" class="btn btn-primary btn-sm">
+        <i class="fa fa-plus"></i>
+        @T("SiteSettings_GridRowListing_Text_AddButton")
+    </a>
+</div>
+<div class="clearfix"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        function addRow() {
+            var template = $("#template").html();
+            $("#value-box").append(template);
+            $(".input-number").spinner({
+                create: function (event, ui) {
+                    //add custom classes and icons
+                    $(this).next().addClass('btn btn-success').html('<i class="fa fa-plus"></i>')
+                        .next().addClass('btn btn-danger').html('<i class="fa fa-minus"></i>');
+
+                    //larger buttons on touch devices
+                    if (ace.click_event == "tap") $(this).closest('.ui-spinner').addClass('ui-spinner-touch');
+                }
+            });
+        }
+
+        $("body").on("click", ".remove-row", function () {
+            $(this).parent().remove();
+        });
+        $("#edit-setting-form").submit(function () {
+            var arr = [];
+            $("#value-box").find(".row-item").each(function () {
+                if ($.inArray($(this).val(), arr) == -1) {
+                    arr.push($(this).val());
+                }
+            });
+            $("#RowList").val(arr.join('@EzCMSContants.Colon'));
+        });
+    </script>);
+}

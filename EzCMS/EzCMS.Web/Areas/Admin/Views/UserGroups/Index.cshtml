@@ -1,0 +1,134 @@
+﻿@{
+    ViewBag.Header = T("UserGroup_Site_Header");
+    ViewBag.Title = T("UserGroup_Site_ListingTitle");
+    ViewBag.Description = T("UserGroup_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("UserGroup_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "User Group" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("UserGroup_Field_Id")',
+                '@T("UserGroup_Field_Name")',
+                '@T("UserGroup_Field_Description")',
+                '@T("UserGroup_Field_RedirectUrl")',
+                '@T("UserGroup_Field_IsValidUrl")',
+                '@T("UserGroup_Field_ToolbarId")',
+                '@T("UserGroup_Field_ToolbarName")',
+                '@T("UserGroup_Field_RecordOrder")',
+                '@LabelForTime(T("UserGroup_Field_Created"))',
+                '@T("UserGroup_Field_CreatedBy")',
+                '@LabelForTime(T("UserGroup_Field_LastUpdate"))',
+                '@T("UserGroup_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 120,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options, rowObject) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+                        var permissionIcon = "<a class='grid-action' href='@Url.Action("Permissions")/" + options.rowId + "'><div class='ui-pg-div' title='@T("UserGroup_Text_EditPermissions")'><span class='fa fa-lock'></span></div></a>";
+
+                        return editIcon + detailsIcon + deleteIcon + permissionIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Name', index: 'Name' },
+                { name: 'Description', index: 'Description', hidden: true },
+                {
+                    name: 'RedirectUrl',
+                    index: 'RedirectUrl',
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.formatLink(cellvalue);
+                    }
+                },
+                {
+                    name: 'IsValidUrl',
+                    index: 'IsValidUrl',
+                    align: 'center',
+                    search: false,
+                    formatter: function(cellvalue, options, rowObject) {
+                        return jqGridHelper.styleLabel(cellvalue, "@HttpStatusCode.OK", "Valid", cellvalue, "", "label-danger");
+                    }
+                },
+                { name: 'ToolbarId', index: 'ToolbarId', hidden: true },
+                {
+                    name: 'ToolbarName',
+                    index: 'ToolbarName',
+                    formatter: function(cellvalue, options, rowObject) {
+                        if (rowObject.ToolbarId != null) {
+                            return jqGridHelper.formatLink('@Url.Action("Details", "Toolbars")/' + rowObject.ToolbarId, cellvalue, cellvalue, true);
+                        }
+                        return "";
+                    }
+                },
+                { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

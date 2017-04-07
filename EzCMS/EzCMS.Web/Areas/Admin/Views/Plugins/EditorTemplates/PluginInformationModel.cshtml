@@ -1,0 +1,70 @@
+﻿@model EzCMS.Core.Models.Plugins.PluginInformationModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Name, new { @class = "col-xs-10", @readonly = "readonly" })
+        @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Author, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Author, new { @class = "col-xs-10", @readonly = "readonly" })
+        @Html.HelpTextFor(m => m.Author, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Author)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Version, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Version, new { @class = "col-xs-10", @readonly = "readonly" })
+        @Html.HelpTextFor(m => m.Version, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Version)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Description, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.Description, new { @class = "col-xs-10", @readonly = "readonly" })
+        @Html.HelpTextFor(m => m.Description, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Description)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.IsInstalled, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.AceCheckBoxFor(m => m.IsInstalled, false, new { id = "isInstalled" })
+        @Html.HelpTextFor(m => m.IsInstalled, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.IsInstalled)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ConnectionString, new { @class = "col-sm-2 control-label" })
+    <div class="col-sm-10">
+        @Html.TextBoxFor(m => m.ConnectionString, new { id = "connectionString", @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.ConnectionString, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ConnectionString)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", true)
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $("#isInstalled").change(function () {
+            if ($(this).is(":checked")) {
+                $("#connectionString").removeAttr("disabled");
+            }
+            else {
+                $("#connectionString").val("");
+                $("#connectionString").attr("disabled", "disabled");
+            }
+        });
+        $(function () {
+            $("#isInstalled").trigger("change");
+        });
+    </script>);
+}

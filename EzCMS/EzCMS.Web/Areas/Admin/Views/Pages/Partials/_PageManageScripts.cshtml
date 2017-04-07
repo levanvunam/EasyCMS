@@ -1,0 +1,440 @@
+﻿@model EzCMS.Core.Models.Pages.PageManageModel
+
+@{
+    Script.Bundle("~/js/ckeditor").Block(@<script type="text/javascript">
+
+        var pageToolbar = {
+            height: '600px',
+            contentsCss: [@Html.Raw(string.Join("", Model.IncludedStyles.Select(s => string.Format("'{0}' , ", s)))), "/CkEditor/editor.css", "/Content/Admin/editor.css", '/Content/Plugins/FontAwesome/css/font-awesome.min.css'],
+            stylesSet: 'editor:/CkEditor/editor.js',
+            toolbar: $.parseJSON('@Html.Action("PageToolbar", "Home")')
+        };
+        var PageContentEditor = buildCkEditor('Content', pageToolbar);
+
+        var basicToolbar = {
+            height: '200px',
+            contentsCss: [@Html.Raw(string.Join("", Model.IncludedStyles.Select(s => string.Format("'{0}' , ", s)))), "/CkEditor/editor.css"],
+            stylesSet: 'editor:/CkEditor/editor.js',
+            toolbar: $.parseJSON('@Html.Action("BasicToolbar", "Home")')
+        };
+        var PageAbstractEditor = buildCkEditor('pageAbstract', basicToolbar);
+
+        // Print content
+        var callback = function (widget) {
+            var tag = "<widget>" + widget + "</widget>";
+            var element = CKEDITOR.dom.element.createFromHtml(tag, PageContentEditor.document);
+            PageContentEditor.insertElement(element);
+        };
+
+        var $pageForm = $('#pageForm');
+
+        var $friendlyUrl = $("#FriendlyUrl");
+        var $title = $("#Title");
+        var $description = $("#Description");
+        var $content = $("#Content");
+        var $keywords = $("#Keywords");
+        var $oldFriendlyUrl = $("#OldFriendlyUrl");
+
+        var $parent = $("#ParentId");
+        var $pageTemplate = $("#PageTemplateId");
+        var $fileTemplate = $("#FileTemplateId");
+        var $bodyTemplate = $("#BodyTemplateId");
+
+        var $isWordContent = $("#IsWordContent");
+        var $file = $("#file");
+
+        var $confirmEditUrlDialog = $("#confirm-edit-url-dialog");
+
+        $(function () {
+            $file.ace_file_input({
+                no_file: 'No File ...',
+                btn_choose: 'Choose',
+                btn_change: 'Change',
+                icon_remove: 'fa fa-times',
+                droppable: false,
+                thumbnail: false,
+                allowExt: ["docx"],
+                allowMime: ["application/vnd.openxmlformats-officedocument.wordprocessingml.document"],
+            }).on('change', function () {
+                if ($('#file').val() == "") {
+                    $(".remove").click();
+                }
+            });
+
+            //Setup tags
+            siteHelper.httpPost({
+                showLoading: false,
+                url: '@Url.Action("GetTags", "Tags")',
+                data: { data: $("#Tags").val() },
+                success: function (response) {
+                    if (response.Success) {
+                        siteHelper.buildMultiSelectCanAdd("#Tags", response.Data);
+                    }
+                }
+            });
+
+            //Build date range
+            siteHelper.buildDateRange("#StartPublishingDate", "#EndPublishingDate");
+        });
+
+        /******* SEO Scoring script *******/
+
+        //Event listener for title change
+        $title.keyup(function () {
+            siteHelper.delay(function () {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("GetTitleChangedSEOScore")",
+                    data: { title: $title.val() },
+                    success: function (response) {
+                        if (response.Success) {
+                            $("#seoTitle label.label").hide();
+                            $("#seoTitle label.label[data-id=" + response.Data.title + "]").show();
+                        }
+                    }
+                });
+            }, 2000);
+        });
+
+        //Event listener for description change
+        $description.keyup(function () {
+            siteHelper.delay(function () {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("GetDescriptionChangedSEOScore")",
+                    data: { description: $description.val() },
+                    success: function (response) {
+                        if (response.Success) {
+                            $("#seoDescription label.label").hide();
+                            $("#seoDescription label.label[data-id=" + response.Data.description + "]").show();
+                        }
+                    }
+                });
+            }, 2000);
+        });
+
+        //Event listener for keywords change
+        $keywords.keyup(function () {
+            siteHelper.delay(function () {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("GetKeywordsChangedSEOScore")",
+                    data: { content: PageContentEditor.getData(), keywords: $keywords.val() },
+                    success: function (response) {
+                        if (response.Success) {
+                            $("#seoKeywordCount label.label").hide();
+                            $("#seoKeywordWeight label.label").hide();
+                            $("#seoKeywordBolded label.label").hide();
+                            $("#seoHeadingTag label.label").hide();
+                            $("#seoAltTag label.label").hide();
+
+                            $("#seoKeywordCount label.label[data-id=" + response.Data.keywordCount + "]").show();
+                            $("#seoKeywordWeight label.label[data-id=" + response.Data.keywordWeight + "]").show();
+                            $("#seoKeywordBolded label.label[data-id=" + response.Data.keywordBolded + "]").show();
+                            $("#seoHeadingTag label.label[data-id=" + response.Data.headingTag + "]").show();
+                            $("#seoAltTag label.label[data-id=" + response.Data.altTag + "]").show();
+                        }
+                    }
+                });
+            }, 2000);
+        });
+
+        //Event listener for page editor change
+        PageContentEditor.on('change', function () {
+            siteHelper.delay(function () {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("GetContentChangedSEOScore")",
+                    data: { content: PageContentEditor.getData(), keywords: $keywords.val() },
+                    success: function (response) {
+                        if (response.Success) {
+                            $("#seoKeywordWeight label.label").hide();
+                            $("#seoKeywordBolded label.label").hide();
+                            $("#seoHeadingTag label.label").hide();
+                            $("#seoAltTag label.label").hide();
+
+                            $("#seoKeywordWeight label.label[data-id=" + response.Data.keywordWeight + "]").show();
+                            $("#seoKeywordBolded label.label[data-id=" + response.Data.keywordBolded + "]").show();
+                            $("#seoHeadingTag label.label[data-id=" + response.Data.headingTag + "]").show();
+                            $("#seoAltTag label.label[data-id=" + response.Data.altTag + "]").show();
+                        }
+                    }
+                });
+            }, 2000);
+        });
+
+        // Show google search result
+        function showGoogleResult() {
+            siteHelper.showPopup({
+                href: '@Url.Action("PageInGoogleResult", new { id = Model.Id })',
+                width: '60%',
+                height: '40%'
+            });
+        }
+
+        //Print body template
+        function printBodyTemplate(id) {
+            siteHelper.httpPost({
+                url: "@Url.Action("ChooseBodyTemplate")",
+                data: { id: id },
+                success: function (response) {
+                    if (response.Success) {
+                        PageContentEditor.setData(response.Data.Content);
+
+                        var selector = "#BodyTemplate";
+
+                        siteHelper.buildSelect2(selector, response.Data.BodyTemplates, "@T("Page_Text_SelectBodyTemplate")");
+                    } else {
+                        siteHelper.showMessage(response);
+                    }
+                }
+            });
+        }
+
+        //Body template
+        $("#btnBodyTemplate").click(function () {
+            siteHelper.showPopup({
+                href: "@Url.Action("SelectBodyTemplate", new {mode = BodyTemplateEnums.Mode.Edit})",
+                type: 'iframe',
+                width: '90%'
+            });
+        });
+
+        //Toggle the abstract
+        $("#abstract-toggle").click(function () {
+            if ($("#abstract-box").is(":visible")) {
+                $("#abstract-icon").removeClass("fa-minus").addClass("fa-plus");
+                $("#abstract-box").hide();
+            } else {
+                $("#abstract-icon").removeClass("fa-plus").addClass("fa-minus");
+                $("#abstract-box").show();
+            }
+        });
+
+        //Validate Friendly Url
+        $friendlyUrl.change(function () {
+            var friendlyUrl = siteHelper.slug($(this).val());
+            if (friendlyUrl != $(this).val()) {
+                $(this).val(friendlyUrl);
+                siteHelper.alert("@T("Page_Message_InvalidFriendlyUrl")");
+            }
+        });
+
+        //Choose parent
+        $parent.change(function () {
+            var parent = $(this).val();
+            var id = '@Model.Id';
+            var data = { id: id, parentId: parent };
+            var url = "@Url.Action("GetRelativePages")";
+            var selectRelativePages = $("#RelativePageId");
+            $.post(url, data, function (response) {
+                selectRelativePages.empty();
+                $.each(response, function (index, item) {
+                    selectRelativePages.append($('<option></option>')
+                        .val(item.Value).html(item.Text));
+                });
+                selectRelativePages.select2();
+            });
+        });
+
+        //Page template
+        $pageTemplate.change(function () {
+            var pageTemplate = $(this).val();
+            if (pageTemplate != '') {
+                $fileTemplate.select2("val", "");
+            }
+        });
+
+        //File template
+        $fileTemplate.change(function () {
+            var fileTemplate = $(this).val();
+            if (fileTemplate != '') {
+                $pageTemplate.select2("val", "");
+            }
+        });
+
+        //Check word upload box visible
+        if ($isWordContent.is(":checked")) {
+            $("#upload-file-box").show();
+        } else {
+            $("#upload-file-box").hide();
+        }
+
+        //Show / hide word content
+        $isWordContent.change(function () {
+            if ($isWordContent.is(":checked")) {
+                $("#upload-file-box").show();
+            } else {
+                $("#upload-file-box").hide();
+            }
+        });
+
+        //Add submit type
+        $(".savePageBtn").click(function () {
+            $("#submitType").val($(this).val());
+        });
+
+        //Handling social post
+        $(".post-social-status").change(function () {
+            var socialMediaId = $(this).data("id");
+            if ($(this).is(":checked")) {
+                $(".social-message[data-id=" + socialMediaId + "]").show();
+            }
+            else {
+                $(".social-message[data-id=" + socialMediaId + "]").hide();
+            }
+        });
+
+        //Handle form submit
+        $pageForm.submit(function () {
+            if ($pageForm.valid()) {
+                siteHelper.showLoading();
+            }
+
+            //Create new body template
+            if ($("#saveAsNewBodyTemplate").is(":checked")) {
+                siteHelper.hideLoading();
+                $("#body-template-form").dialog({
+                    title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='icon-ok'></i> Create new body template</h4></div>",
+                    autoOpen: false,
+                    height: 250,
+                    width: 400,
+                    modal: true,
+                    buttons: [
+                        {
+                            text: "Create Template",
+                            "class": "btn btn-xs",
+                            click: function () {
+                                $('#BodyTemplateName').removeClass("ui-state-error");
+                                var bodyTemplateName = $('#BodyTemplateName').val();
+                                if (bodyTemplateName.length > 0) {
+                                    $("#saveAsNewBodyTemplate").prop("checked", false);
+                                    $("#BodyTemplateName").removeClass("input-validation-error");
+                                    siteHelper.showLoading();
+                                    var url = "@Url.Action("SaveAsNewBodyTemplate", "BodyTemplates")";
+                                    var data = { Name: bodyTemplateName, Content: $content.val() };
+
+                                    siteHelper.httpPost({
+                                        url: url,
+                                        data: data,
+                                        success: function (response) {
+                                            siteHelper.hideLoading();
+                                            if (response.Success) {
+                                                var option = new Option(bodyTemplateName, response.Data);
+                                                $(option).html(bodyTemplateName);
+                                                $("#BodyTemplateId").append(option);
+                                                $("#BodyTemplateId").val(response.Data);
+                                                $("#body-template-form").dialog("close");
+                                                $pageForm.submit();
+                                            } else {
+                                                siteHelper.showMessage(response);
+                                                $("#BodyTemplateName").addClass("input-validation-error");
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    siteHelper.showWarningMessage("Please input body template name");
+                                    $("#BodyTemplateName").addClass("input-validation-error");
+                                }
+                            }
+                        },
+                        {
+                            text: "Skip Create Body Template",
+                            "class": "btn btn-primary btn-xs",
+                            click: function () {
+                                $("#saveAsNewBodyTemplate").prop("checked", false);
+                                $("#BodyTemplateName").removeClass("input-validation-error");
+                                $("#body-template-form").dialog("close");
+                                $pageForm.submit();
+                            }
+                        }
+                    ],
+                    close: function () {
+                        $("#saveAsNewBodyTemplate").prop("checked", false);
+                        $('#BodyTemplateName').removeClass("ui-state-error");
+                    }
+                });
+                $("#body-template-form").dialog("open");
+                return false;
+            }
+
+            var editMode = "@Model.Id.HasValue" == 'True';
+
+            if (editMode) {
+                var oldFriendlyUrl = $oldFriendlyUrl.val();
+                var newFriendlyUrl = $friendlyUrl.val();
+
+                //Check if old url and current url is matched or not
+                if (newFriendlyUrl == "") {
+                    newFriendlyUrl = siteHelper.slug($title.val());
+                }
+
+                var needConfirmChange = false;
+                if (oldFriendlyUrl != newFriendlyUrl) {
+                    siteHelper.httpPost({
+                        showLoading: false,
+                        url: '@Url.Action("GetEditConfirmInformation")',
+                        data: { id: '@Model.Id', newFriendlyUrl: newFriendlyUrl },
+                        async: false,
+                        success: function (response) {
+                            if (response.Success && response.Data.needConfirm) {
+                                needConfirmChange = true;
+                                $confirmEditUrlDialog.html(response.Data.content);
+                            }
+                        }
+                    });
+                }
+
+                if (needConfirmChange) {
+                    siteHelper.hideLoading();
+                    $confirmEditUrlDialog.dialog({
+                        title: "<div class='widget-header widget-header-small'><h4 class='smaller'><i class='icon-ok'></i>" + "@T("Page_Text_ChangeFriendlyUrlConfirmTitle")" + "</h4></div>",
+                        autoOpen: false,
+                        height: 'auto',
+                        width: 'auto',
+                        maxWidth: 800,
+                        maxHeight: 500,
+                        modal: true,
+                        buttons: [
+                            {
+                                text: "Yes",
+                                "class": "btn btn-primary btn-xs",
+                                click: function () {
+                                    siteHelper.showLoading();
+                                    $confirmEditUrlDialog.dialog("close");
+                                    $("#confirmedChangeUrl").val(true);
+
+                                    //Assign new url to current url
+                                    $oldFriendlyUrl.val(newFriendlyUrl);
+
+                                    $pageForm.submit();
+                                }
+                            },
+                            {
+                                text: "No",
+                                "class": "btn btn-xs",
+                                click: function () {
+                                    $confirmEditUrlDialog.dialog("close");
+                                    $("#confirmedChangeUrl").val(false);
+
+                                    //Assign new url to current url
+                                    $oldFriendlyUrl.val(newFriendlyUrl);
+
+                                    $pageForm.submit();
+                                }
+                            }
+                        ],
+                        close: function () {
+                        }
+                    });
+                    $confirmEditUrlDialog.dialog("open");
+                    return false;
+                }
+            }
+
+            return true;
+        });
+    </script>);
+}
+
+

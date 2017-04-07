@@ -1,0 +1,182 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "Page")
+</div>
+<div class="col-xs-12">
+    <table id="page-grid-table"></table>
+    <div id="page-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        // Delete page - file template mapping
+        function deletePageFileTemplateMapping(pageId) {
+            var data = { pageId: pageId, bodyTemplateId: @Model };
+
+            siteHelper.confirm('@T("PageFileTemplate_Message_DeleteMappingConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: '@Url.Action("DeletePageFileTemplateMapping", "Pages")',
+                        data: data,
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                jqGridHelper.reloadGrid(pageGrid);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var pageGrid = "#page-grid-table";
+        var pageGridPager = "#page-grid-pager";
+        var pageTab = "#pages";
+        var pageGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Page" })');
+        var pageExportUrl = "@Url.Action("Exports", "Pages", new { fileTemplateId = Model })";
+
+        $(function() {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "Pages", new { fileTemplateId = Model })",
+                colNames: ['', '@T("Page_Field_Id")',
+                    '@T("Page_Field_Title")',
+                    '@T("Page_Field_FriendlyUrl")',
+                    '@T("Page_Field_Status")',
+                    '@T("Page_Field_ParentName")',
+                    '@T("Page_Field_PageTemplateName")',
+                    '@T("Page_Field_FileTemplateName")',
+                    '@T("Page_Field_BodyTemplateName")',
+                    '@T("Page_Field_TotalReads")',
+                    '@LabelForTime(T("Page_Field_Created"))',
+                    '@T("Page_Field_CreatedBy")',
+                    '@LabelForTime(T("Page_Field_LastUpdate"))',
+                    '@T("Page_Field_LastUpdateBy")'],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 150,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function(cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:siteHelper.editPage(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details","Pages")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete page - file template mapping
+                            var deleteRelationshipIcon = "<a class='grid-action' href='javascript:deletePageFileTemplateMapping(" + options.rowId + ")'><div class='ui-pg-div' title='@T("PageFileTemplate_Text_Delete")'><span class='fa fa-chain-broken'></span></div></a>";
+
+                            // Delete page icon
+                            var returnUrl = "@Url.Action("Details", new { id = Model })";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "Pages")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            // Preview icon
+                            var previewIcon = "<a class='grid-action' href='/" + rowObject.FriendlyUrl + "'><div class='ui-pg-div' title='@T("Page_Text_Preview")'><span class='fa fa-eye'></span></div></a>";
+
+                            // Home page icon
+                            var homePageIcon = "<div class='grid-action ui-pg-div' title='@T("Page_Text_PageIsNotHomePage")'><span class='fa fa-home blue'></span></div>";
+
+                            // If current page is Home page
+                            if (rowObject.IsHomePage) {
+                                homePageIcon = "<div class='grid-action ui-pg-div' title='@T("Page_Text_PageIsHomePage")'><span class='fa fa-home green'></span></div>";
+                                deleteIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("Page_Text_DeleteHomePageDisabled")'><span class='fa fa-times grey'></span></div></a>";
+                                previewIcon = "<a class='grid-action' href='/'><div class='ui-pg-div' title='@T("Page_Text_Preview")'><span class='fa fa-eye'></span></div></a>";
+                            }
+
+                            return editIcon + detailsIcon + deleteRelationshipIcon + deleteIcon + previewIcon + homePageIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Title', index: 'Title' },
+                    { name: 'FriendlyUrl', index: 'FriendlyUrl' },
+                    {
+                        name: 'Status',
+                        index: 'Status',
+                        align: 'center',
+                        search: false,
+                        formatter: function(cellvalue) {
+                            var icon = "<span class='label label-success'> @(PageEnums.PageStatus.Online) </span>";
+                            if (cellvalue == '@((int)PageEnums.PageStatus.Draft)') {
+                                icon = "<span class='label label-warning'> @(PageEnums.PageStatus.Draft) </span>";
+                            } else if (cellvalue == '@((int)PageEnums.PageStatus.Offline)') {
+                                icon = "<span class='label label-fail'> @(PageEnums.PageStatus.Offline) </span>";
+                            }
+                            return icon;
+                        }
+                    },
+                    {
+                        name: 'ParentName',
+                        index: 'ParentName',
+                        formatter: function(cellvalue, options, rowObject) {
+                            if (rowObject.ParentId != null) {
+                                return jqGridHelper.formatLink('@Url.Action("Details", "Pages")/' + rowObject.ParentId, cellvalue, cellvalue, true);
+                            }
+                            return "";
+                        }
+                    },
+                    {
+                        name: 'PageTemplateName',
+                        index: 'PageTemplateName',
+                        formatter: function(cellvalue, options, rowObject) {
+                            if (rowObject.PageTemplateId != null) {
+                                return jqGridHelper.formatLink('@Url.Action("Details", "PageTemplates")/' + rowObject.PageTemplateId, cellvalue, cellvalue, true);
+                            }
+                            return "";
+                        }
+                    },
+                    {
+                        name: 'FileTemplateName',
+                        index: 'FileTemplateName',
+                        formatter: function(cellvalue, options, rowObject) {
+                            if (rowObject.FileTemplateId != null) {
+                                return jqGridHelper.formatLink('@Url.Action("Details", "FileTemplates")/' + rowObject.FileTemplateId, cellvalue, cellvalue, true);
+                            }
+                            return "";
+                        }
+                    },
+                    {
+                        name: 'BodyTemplateName',
+                        index: 'BodyTemplateName',
+                        formatter: function(cellvalue, options, rowObject) {
+                            if (rowObject.BodyTemplateId != null) {
+                                return jqGridHelper.formatLink('@Url.Action("Details", "BodyTemplates")/' + rowObject.BodyTemplateId, cellvalue, cellvalue, true);
+                            }
+                            return "";
+                        }
+                    },
+                    {
+                        name: 'TotalReads',
+                        index: 'TotalReads',
+                        width: 90,
+                        fixed: true,
+                        align: 'center',
+                        sorttype: "int",
+                        searchoptions: { sopt: ['eq'] },
+                        formatter: function(cellvalue, options, rowObject) {
+                            var pageReadsUrl = "@Url.Action("Details", "Pages")/" + rowObject.Id + "#page-reads";
+                            return jqGridHelper.formatLink(pageReadsUrl, cellvalue);
+                        }
+                    },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function(response) {
+                    $("#tab-page").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(pageGrid, pageGridPager, gridOptions, pageGridSettings, pageTab, pageExportUrl, "Page");
+        });
+    </script>);
+}

@@ -1,0 +1,26 @@
+﻿@model GoogleAnalyticApiSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ClientId, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.ClientId, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.ClientId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ClientId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.ClientSecret, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.ClientSecret, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.ClientSecret, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.ClientSecret)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.RefreshToken, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.RefreshToken, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.RefreshToken, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.RefreshToken)
+    </div>
+</div>

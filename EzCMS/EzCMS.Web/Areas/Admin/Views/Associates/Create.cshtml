@@ -1,0 +1,27 @@
+﻿@model EzCMS.Core.Models.Associates.AssociateManageModel
+
+@{
+    ViewBag.Header = T("Associate_Site_Header");
+    ViewBag.Title = T("Associate_Site_CreateTitle");
+    ViewBag.Description = T("Associate_Site_CreateDescription");
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Create", "Associates", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

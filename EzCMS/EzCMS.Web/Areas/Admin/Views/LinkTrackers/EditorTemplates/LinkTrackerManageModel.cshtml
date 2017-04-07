@@ -1,0 +1,77 @@
+﻿@using EzCMS.Entity.Core.Enums
+@model EzCMS.Core.Models.LinkTrackers.LinkTrackerManageModel
+
+@Html.HiddenFor(m => m.Id)
+<div class="form-horizontal">
+    <div class="col-xs-12">
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.Name, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-10 col-xs-12">
+                @Html.TextBoxFor(m => m.Name, new { @class = "col-sm-8 col-xs-10" })
+                @Html.HelpTextFor(m => m.Name, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.LinkTrackerType, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @foreach (var item in Model.LinkTrackerTypes)
+                {
+                    <label class="inline" style="margin-right: 10px">
+                        <input name="LinkTrackerType" value="@item" type="radio" class="ace linkTrackerType" @(Model.LinkTrackerType == item ? "Checked" : "") />
+                        <span class="lbl">&nbsp; @item.GetEnumName()</span>
+                    </label>
+                }
+                @Html.HelpTextFor(m => m.LinkTrackerType, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.LinkTrackerType)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.RedirectUrl, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.RedirectUrl, new { id = "redirectUrl", @class = "col-sm-8 col-xs-10" })
+                @Html.HelpTextFor(m => m.RedirectUrl, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.RedirectUrl)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.PageId, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.DropDownListFor(m => m.PageId, Model.Pages, T("LinkTracker_Text_SelectPage"), new { id = "pageId", @class = "col-sm-8 col-xs-10 single-select" })
+                @Html.HelpTextFor(m => m.PageId, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.PageId)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LocalizeLabelFor(m => m.IsAllowMultipleClick, new { @class = "col-sm-2 control-label align-right" })
+            <div class="col-sm-10 col-xs-12">
+                @Html.AceCheckBoxFor(m => m.IsAllowMultipleClick)
+                @Html.HelpTextFor(m => m.IsAllowMultipleClick, new { @class = "help-button" })
+                @Html.ValidationMessageFor(m => m.IsAllowMultipleClick)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        $(".linkTrackerType").change(function () {
+            if ($(this).val() == "@LinkTrackerEnums.LinkTrackerType.Internal") {
+                $("#redirectUrl").attr("disabled", "disabled");
+                $("#redirectUrl-error").addClass("hidden");
+                $("#pageId").removeAttr("disabled");
+            } else {
+                $("#pageId").attr("disabled", "disabled");
+                $("#redirectUrl").removeAttr("disabled");
+                $("#redirectUrl-error").removeClass("hidden");
+            }
+        });
+
+        $(function () {
+            $(".linkTrackerType:checked").trigger("change");
+        });
+    </script>);
+}

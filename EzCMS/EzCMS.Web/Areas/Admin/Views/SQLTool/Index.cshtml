@@ -1,0 +1,330 @@
+@using EzCMS.Core.Models.SQLTool
+@model SQLResult
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Header = T("SQLTool_Site_Header");
+    ViewBag.Title = T("SQLTool_Site_ListingTitle");
+    ViewBag.Description = T("SQLTool_Site_ListingDescription");
+}
+
+<div class="widget-box ui-sortable-handle">
+    <div class="widget-header">
+        <h5> <a href="@Url.Action("Index", "Home", new { area = "Admin"})">Admin DashBoard</a> &nbsp; <i class="fa fa-angle-double-right"></i> &nbsp; SQL Tool</h5>
+    </div>
+
+    <div class="widget-body">
+        <div class="widget-main">
+            @using (Html.BeginForm("Index", "SQLTool", FormMethod.Post, new { @class = "form-horizontal", id = "queryForm" }))
+            {
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="col-xs-12">
+                            <b>@Html.DisplayFor(m => m.ConnectionString)</b>
+                        </div>
+                        <div class="space-4 clearfix"></div>
+                        <div class="form-group col-xs-offset-4 col-xs-12">
+                            @Html.LabelFor(m => m.Query, new { @class = "col-xs-12" })
+                            <div class="col-xs-12">
+                                @Html.TextAreaFor(m => m.Query, 7, 20, new { id = "query", @class = "col-xs-11" })
+                            </div>
+                        </div>
+                        <div class="space-4 clearfix"></div>
+                        <div class="form-group col-xs-offset-4 col-xs-12">
+                            <div class="col-sm-2">
+                                @Html.AceCheckBoxFor(m => m.ReadOnly, true)
+                                @Html.ValidationMessageFor(m => m.ReadOnly)
+                            </div>
+                            <div class="space-4 visible-xs"></div>
+                            <div class="col-sm-2">
+                                @Html.AceCheckBoxFor(m => m.HtmlEncode, true)
+                                @Html.ValidationMessageFor(m => m.HtmlEncode)
+                            </div>
+                            <div class="space-4 visible-xs"></div>
+                            <div class="col-sm-2">
+                                @Html.AceCheckBoxFor(m => m.SaveToHistory, true)
+                                @Html.ValidationMessageFor(m => m.SaveToHistory)
+                            </div>
+                            <div class="space-4 visible-xs"></div>
+                            <div class="col-sm-2">
+                                <div class="btn-group">
+                                    <button class="btn btn-primary" onclick="ShowHistory(); return false;">History</button>
+                                    @if (Model.Histories != null && Model.Histories.Any())
+                                    {
+                                        <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+                                            <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            @{
+                                                var count = 0;
+                                                foreach (SqlCommandHistoryModel cmd in Model.Histories)
+                                                {
+                                                    count++;
+                                                    <li><a href="javascript:void(0)" id="history_@count" onclick="SelectHistory('history_@count')">@cmd.Query</a></li>
+                                                }
+                                            }
+                                            <li class="divider"></li>
+                                            <li><a href="javascript:void(0)" onclick="ShowHistory()">More ...</a></li>
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                            <div class="space-4 visible-xs"></div>
+                            <div class="col-sm-1">
+                                <div class="btn-group">
+                                    <button class="btn btn-danger dropdown-toggle" data-toggle="dropdown">
+                                        @MText(HtmlTag.Text, "SQLTool_Text_Select")
+                                        <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (string table in Model.Tables)
+                                        {
+                                            <li><a href="javascript:void(0)" onclick="SelectCommand('@table')">@table</a></li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="space-4 visible-xs"></div>
+                            <div class="col-sm-3">
+                                @Html.AceCheckBox("chkSqlGenerators", false, "Show SQL Templates", new { onclick = "ToggleVisibility('SqlGenerators')" })
+                            </div>
+                        </div>
+                        <div class="space-4"></div>
+                        <div class="row" id="SqlGenerators" style="display: none">
+                            <div class="">
+                                <div>
+                                    <div class="col-sm-2">
+                                        <div class="btn-group">
+                                            <button class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                                                @T("SQLTool_Text_Insert")
+                                                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach (string table in Model.Tables)
+                                                {
+                                                    <li><a href="javascript:void(0)" onclick="InsertCommand('@table')">@table</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="btn-group">
+                                            <button class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                                                @T("SQLTool_Text_Update")
+                                                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach (string table in Model.Tables)
+                                                {
+                                                    <li><a href="javascript:void(0)" onclick="UpdateCommand('@table')">@table</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="btn-group">
+                                            <button class="btn dropdown-toggle btn-danger" data-toggle="dropdown" href="#">
+                                                @T("SQLTool_Text_Delete")
+                                                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach (string table in Model.Tables)
+                                                {
+                                                    <li><a href="javascript:void(0)" onclick="DeleteCommand('@table')">@table</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="btn-group">
+                                            <button class="btn dropdown-toggle btn-info" data-toggle="dropdown" href="#">
+                                                @T("SQLTool_Text_Create")
+                                                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach (string table in Model.Tables)
+                                                {
+                                                    <li><a href="javascript:void(0)" onclick="CreateCommand('@table')">@table</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="btn-group col-sm-11">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                @MText(HtmlTag.Text, "SQLTool_Text_Alter")
+                                                <span class="fa fa-angle-down icon-on-right bigger-110"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                @foreach (string table in Model.Tables)
+                                                {
+                                                    <li><a href="javascript:void(0)" onclick="AlterCommand('@table')">@table</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-12"></div>
+                        <div class="">
+                            <input type="hidden" id="exportToFile" name="exportToFile" value="false" />
+                            <input type="submit" value="@T("SQLTool_Text_RunQuery")" class="btn btn-primary" onclick="$('#exportToFile').val('false'); return true;" />
+                            <input type="submit" value="@T("SQLTool_Text_RunAndSave")" class="btn btn-primary" onclick="$('#exportToFile').val('true'); return true;" />
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.Error != null)
+            {
+                <div class="alert alert-danger">
+                    @Model.Error.Message
+                </div>
+            }
+            @if (Model.RecordsAffected > 0 && Model.ReadOnly)
+            {
+                <div class="alert alert-warning">
+                    @T("SQLTool_Text_QueryNote")
+                </div>
+            }
+            @if (Model.ReturnData != null)
+            {
+                foreach (DataResult set in Model.ReturnData)
+                {
+                    int count = 0;
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Count</th>
+                                @foreach (string col in set.ColumnNames)
+                                {
+                                    <th>@col</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (List<object> row in set.Data)
+                            {
+                                <tr>
+                                    <td>@(++count)</td>
+                                    @foreach (object item in row)
+                                    {
+                                        if (Model.HtmlEncode)
+                                        {
+                                            <td>@item</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@(new MvcHtmlString(item == null ? "" : item.ToString()))</td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    <hr />
+                }
+                <span class="label label-success">
+                    @T("SQLTool_Text_ProcessTime"): @Model.ProcessTime ms
+                </span>
+                <span class="label label-success">
+                    @T("SQLTool_Text_AffectedRecords"): @Model.RecordsAffected
+                </span>
+            }
+
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        var querySelector = "#query";
+
+        function SelectHistory(id) {
+            $(querySelector).val($("#" + id).text());
+        }
+
+        function ShowHistory() {
+            siteHelper.showPopup({
+                href: "@Url.Action("Histories")",
+                type: 'iframe',
+                width: '90%'
+            });
+        }
+
+        function ToggleVisibility(id) {
+            $("#" + id).toggle();
+        }
+
+        function ValueSelected(query) {
+            $(querySelector).val(query);
+        }
+
+        function SelectCommand(table) {
+            siteHelper.httpPost({
+                type: "POST",
+                url: "@Url.Action("GenerateSelectStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $(querySelector).val(data);
+                }
+            });
+        }
+
+        function InsertCommand(table) {
+            siteHelper.httpPost({
+                type: "POST",
+                url: "@Url.Action("GenerateInsertStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $(querySelector).val(data);
+                }
+            });
+        }
+
+        function UpdateCommand(table) {
+            siteHelper.httpPost({
+                type: "POST",
+                url: "@Url.Action("GenerateUpdateStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $(querySelector).val(data);
+                }
+            });
+        }
+
+        function DeleteCommand(table) {
+            siteHelper.httpPost({
+                type: "POST",
+                url: "@Url.Action("GenerateDeleteStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $(querySelector).val(data);
+                }
+            });
+        }
+
+        function CreateCommand(table) {
+            siteHelper.httpPost({
+                type: "POST",
+                url: "@Url.Action("GenerateCreateStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $(querySelector).val(data);
+                }
+            });
+        }
+
+        function AlterCommand(table) {
+            siteHelper.httpPost({
+                type: "POST",
+                url: "@Url.Action("GenerateAlterStatement")",
+                data: { tablename: table },
+                success: function (data) {
+                    $(querySelector).val(data);
+                }
+            });
+        }
+    </script>
+}

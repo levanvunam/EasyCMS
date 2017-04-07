@@ -1,0 +1,79 @@
+﻿@model EzCMS.Core.Models.EmailAccounts.EmailAccountManageModel
+
+@Html.HiddenFor(m => m.Id)
+@Html.HiddenFor(m => m.IsDefault)
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Email, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Email, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Email, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Email)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DisplayName, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.DisplayName, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.DisplayName, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DisplayName)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Host, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Host, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Host, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Host)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Port, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Port, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.Port, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Port)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.EnableSsl, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.AceCheckBoxFor(m => m.EnableSsl)
+        @Html.HelpTextFor(m => m.EnableSsl, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.EnableSsl)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Timeout, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Timeout, new { @class = "col-xs-10 input-number" })
+        @Html.HelpTextFor(m => m.Timeout, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Timeout)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.UseDefaultCredentials, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.AceCheckBoxFor(m => m.UseDefaultCredentials)
+        @Html.HelpTextFor(m => m.UseDefaultCredentials, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.UseDefaultCredentials)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Username, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Username, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Username, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Username)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Password, new { @class = "col-sm-4 control-label" })
+    <div class="col-sm-8">
+        @Html.TextBoxFor(m => m.Password, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.Password, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Password)
+    </div>
+</div>
+<div class="clearfix form-actions">
+    @Html.Partial("Partials/_SubmitButtons", Model.Id.HasValue)
+</div>

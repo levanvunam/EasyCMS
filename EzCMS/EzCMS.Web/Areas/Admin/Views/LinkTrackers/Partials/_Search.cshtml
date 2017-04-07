@@ -1,0 +1,48 @@
+﻿@model EzCMS.Core.Models.LinkTrackers.LinkTrackerSearchModel
+
+<div class="widget-box">
+    <div class="widget-header">
+        <h5>@T("LinkTracker_Search_Header")</h5>
+    </div>
+    <div class="widget-body">
+        <div class="widget-main">
+            <div class="form-group col-sm-3">
+                @Html.TextBoxFor(m => m.Keyword, new { id = "Keyword", @class = "col-xs-10 search-input", placeholder = T("LinkTracker_Search_Keyword") })
+                @Html.HelpTextFor(m => m.Keyword, new { @class = "help-button" })
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="col-xs-10 input-group no-padding">
+                    @Html.TextBoxFor(m => m.DateFrom, new { id = "DateFrom", placeholder = T("LinkTracker_Search_DateFrom"), @Value = ToShortDateString(Model.DateFrom), @class = "col-xs-12 search-input" })
+                    <label class="input-group-addon" for="DateFrom">
+                        <i class="fa fa-calendar bigger-110"></i>
+                    </label>
+                    @Html.HelpTextFor(m => m.DateFrom, new { @class = "help-button" })
+                </div>
+            </div>
+            <div class="form-group col-sm-3">
+                <div class="col-xs-10 input-group no-padding">
+                    @Html.TextBoxFor(m => m.DateTo, new { id = "DateTo", placeholder = T("LinkTracker_Search_DateTo"), @Value = ToShortDateString(Model.DateTo), @class = "col-xs-12 search-input" })
+                    <label class="input-group-addon" for="DateTo">
+                        <i class="fa fa-calendar bigger-110"></i>
+                    </label>
+                </div>
+                @Html.HelpTextFor(m => m.DateTo, new { @class = "help-button" })
+            </div>
+            <div class="form-group col-sm-3">
+                <button id="btnSearch" class="btn btn-sm btn-info">@T("System_Search_Button")</button>
+                <button id="btnClearSearch" class="btn btn-sm btn-default">@T("System_Search_ClearButton")</button>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        $(function () {
+            //Build date range
+            siteHelper.buildDateRange("#DateFrom", "#DateTo");
+        });
+    </script>);
+}

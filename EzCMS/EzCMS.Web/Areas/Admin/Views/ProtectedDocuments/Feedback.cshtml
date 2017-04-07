@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.ProtectedDocuments.DocumentFeedbackModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("Permission_Site_FeedbackHeader");
+    ViewBag.Title = TFormat("Permission_Site_FeedbackTitle", Model.EncryptedPath);
+    ViewBag.Description = TFormat("Permission_Site_FeedbackDescription", Model.EncryptedPath);
+}
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Feedback", "ProtectedDocuments", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

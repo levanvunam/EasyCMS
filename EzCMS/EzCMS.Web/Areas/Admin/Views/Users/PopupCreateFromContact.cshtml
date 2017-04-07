@@ -1,0 +1,28 @@
+﻿@model EzCMS.Core.Models.Users.ContactUserManageModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.Blank.cshtml";
+    ViewBag.Header = T("User_Site_Header");
+    ViewBag.Title = TFormat("User_Site_CreateFromContactTitle", Model.ContactEmail);
+    ViewBag.Description = TFormat("User_Site_CreateFromContactDescription", Model.ContactEmail);
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("PopupCreateFromContact", "Users", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.HiddenFor(m => m.ContactId)
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

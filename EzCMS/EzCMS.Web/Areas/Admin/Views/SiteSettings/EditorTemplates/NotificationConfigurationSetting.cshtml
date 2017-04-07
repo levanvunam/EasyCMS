@@ -1,0 +1,10 @@
+﻿@model NotificationConfigurationSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DisableNotifyContacts, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.AceCheckBoxFor(m => m.DisableNotifyContacts)
+        @Html.HelpTextFor(m => m.DisableNotifyContacts, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DisableNotifyContacts)
+    </div>
+</div>

@@ -1,0 +1,172 @@
+﻿@model EzCMS.Core.Models.Associates.AssociateSearchModel
+
+@{
+    ViewBag.Header = T("Associate_Site_Header");
+    ViewBag.Title = T("Associate_Site_ListingTitle");
+    ViewBag.Description = T("Associate_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("Associate_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Associate" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("Associate_Field_Id")',
+                '@T("Associate_Field_FirstName")',
+                '@T("Associate_Field_LastName")',
+                '@T("Associate_Field_Email")',
+                '@T("Associate_Field_Title")',
+                '@T("Associate_Field_JobTitle")',
+                '@T("Associate_Field_AddressLine1")',
+                '@T("Associate_Field_AddressLine2")',
+                '@T("Associate_Field_Suburb")',
+                '@T("Associate_Field_State")',
+                '@T("Associate_Field_Postcode")',
+                '@T("Associate_Field_Country")',
+                '@T("Associate_Field_PhoneWork")',
+                '@T("Associate_Field_PhoneHome")',
+                '@T("Associate_Field_MobilePhone")',
+                '@T("Associate_Field_Fax")',
+                '@LabelForTime(T("Associate_Field_Created"))',
+                '@T("Associate_Field_CreatedBy")',
+                '@LabelForTime(T("Associate_Field_LastUpdate"))',
+                '@T("Associate_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function(cellvalue, options) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+                        
+                        return editIcon + detailsIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Title', index: 'Title', hidden: true },
+                { name: 'FirstName', index: 'FirstName' },
+                { name: 'LastName', index: 'LastName' },
+                { name: 'Email', index: 'Email' },
+                { name: 'JobTitle', index: 'JobTitle' },
+                { name: 'AddressLine1', index: 'AddressLine1' },
+                { name: 'AddressLine2', index: 'AddressLine2', hidden: true },
+                { name: 'Suburb', index: 'Suburb' },
+                { name: 'State', index: 'State' },
+                { name: 'Postcode', index: 'Postcode' },
+                { name: 'Country', index: 'Country' },
+                { name: 'PhoneWork', index: 'PhoneWork', hidden: true },
+                { name: 'PhoneHome', index: 'PhoneHome', hidden: true },
+                { name: 'MobilePhone', index: 'MobilePhone', hidden: true },
+                { name: 'Fax', index: 'Fax', hidden: true },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+    <script type="text/javascript">
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            $("#AssociateTypeIds").select2("data", []);
+            $("#LocationIds").select2("data", []);
+            $("#CompanyTypeIds").select2("data", []);
+
+            searchGrid();
+        });
+        
+        //Search grid
+        function searchGrid(){
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            var associateTypeIds = $("#AssociateTypeIds").val();
+            $.extend(postData, { associateTypeIds: associateTypeIds });
+
+            var locationIds = $("#LocationIds").val();
+            $.extend(postData, { locationIds: locationIds });
+
+            var companyTypeIds = $("#CompanyTypeIds").val();
+            $.extend(postData, { companyTypeIds: companyTypeIds });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

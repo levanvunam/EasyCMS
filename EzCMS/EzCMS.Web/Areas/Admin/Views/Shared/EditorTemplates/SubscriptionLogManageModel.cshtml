@@ -1,0 +1,18 @@
+﻿@model EzCMS.Core.Models.SubscriptionLogs.SubscriptionLogManageModel
+
+@if (!Model.SubscriptionConfiguration.DisableNotifySubscribers)
+{
+    @Html.HiddenFor(m => m.Module)
+    @Html.HiddenFor(m => m.Parameters)
+
+    <div class="notifySubscribers">
+
+        @Html.TextBoxFor(m => m.ChangeLog, new { @class = "input-xxlarge inline", placeholder = T("SubscriptionLog_Text_NotifySubscribersPlaceHolder") })
+        <div class="visible-sm visible-xs hidden-md hidden-lg space-2"></div>
+
+        @Html.AceCheckBoxFor(m => m.NotifySubscribers, true, new { @class = "inline" })
+
+    </div>
+    <hr class="visible-sm visible-xs hidden-md hidden-lg clearfix" />
+}
+

@@ -1,0 +1,167 @@
+﻿@model EzCMS.Core.Models.RotatingImageGroups.Widgets.RotatingImagesWidget
+
+@{
+    ViewBag.Header = T("RotatingImageGroup_Site_Header");
+    ViewBag.Title = TFormat("RotatingImageGroup_Site_GalleryTitle", Model.GroupName);
+    ViewBag.Description = TFormat("RotatingImageGroup_Site_GalleryDescription", Model.GroupName);
+}
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Content/Plugins/colorbox.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <a id="create-image" href="javascript:void(0)" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("RotatingImageGroup_CreateNewImage")
+        </a>
+    </div>
+    <div class="col-xs-12">
+        <ul id="gallery" class="ace-thumbnails">
+            @foreach (var item in Model.Images)
+            {
+                <li data-rel="tooltip" title="Drag to change Order" id="@item.Id">
+                    <a href="@item.ImageUrl" data-rel="colorbox">
+                        <img alt="" src="@Thumbnail(item.ImageUrl, 150, 150)" />
+                    </a>
+
+                    <div class="tools tools-top">
+                        <a data-rel="tooltip" title="Edit Image" class="edit-data-icon" data-id="@item.Id" data-url="@item.Url" href="javascript:void(0)">
+                            <i class="fa fa-edit"></i>
+                        </a>
+
+                        <a data-rel="tooltip" title="Change Image information" class="edit-icon" data-url="@item.ImageUrl" href="javascript:void(0)">
+                            <i class="fa fa-file-image-o"></i>
+                        </a>
+
+                        <a data-rel="tooltip" title="Delete image" class="delete-icon" data-id="@item.Id" href="javascript:void(0)">
+                            <i class="fa fa-times red"></i>
+                        </a>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Plugins/jquery.colorbox.min.js")"></script>
+    <script type="text/javascript">
+        var $dirty = false;
+        $(function() {
+            var colorboxParams = {
+                rel: "ImageGroup",
+                reposition: true,
+                scalePhotos: true,
+                scrolling: false,
+                previous: '<i class="fa fa-arrow-left"></i>',
+                next: '<i class="fa fa-arrow-right"></i>',
+                close: '&times;',
+                current: '{current} of {total}',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                onOpen: function() {
+                    document.body.style.overflow = 'hidden';
+                },
+                onClosed: function() {
+                    document.body.style.overflow = 'auto';
+                },
+                onComplete: function() {
+                    $.colorbox.resize();
+                }
+            };
+
+            $('#gallery [data-rel="colorbox"]').colorbox(colorboxParams);
+
+            $("#gallery").sortable({
+                update: function(event, ui) {
+                    var idsInOrder = $(this).sortable("toArray");
+                    var data = JSON.stringify({ groupId: @Model.Id, Ids: idsInOrder });
+                    
+                    siteHelper.httpPost({
+                        url: '@Url.Action("SortRotatingImages")',
+                        contentType: 'application/json',
+                        data: data,
+                        success: function(response) {
+                            siteHelper.showMessage(response);
+                            if (!response.Success) {
+                                $("#gallery").sortable('cancel');
+                            }
+                        }
+                    });
+                }
+            });
+
+            $("#cboxLoadingGraphic").append("<i class='fa fa-spinner orange'></i>"); //let's add a custom loading icon
+
+            $(".edit-data-icon").click(function() {
+                var currentIcon = $(this);
+                var id = currentIcon.data("id");
+                siteHelper.showPopup({
+                        href: "@Url.Action("PopupEdit", "RotatingImages")" + "?id=" + id,
+                        type: 'iframe',
+                        width: '90%'
+                    }, function() {
+                        if ($dirty == true) {
+                            location.reload();
+                        }
+                    });
+            });
+
+            $("#create-image").click(function() {
+                siteHelper.showPopup({
+                        href: "@Url.Action("PopupCreate", "RotatingImages", new { area = "Admin", rotatingImageGroupId = Model.Id })",
+                        type: 'iframe',
+                        width: '90%'
+                    }, function() {
+                        if ($dirty == true) {
+                            location.reload();
+                        }
+                    });
+            });
+
+            $(".edit-icon").click(function() {
+                var imageUrl = $(this).data("url");
+                var image = $(this).parent().find("img");
+                siteHelper.showPopup({
+                        href: "@Url.Action("ImageEditor", "Media")?virtualPath=" + imageUrl,
+                        type: 'iframe',
+                        width: '100%'
+                    }, function() {
+                        parent.$.fancybox.close();
+                        image.attr("src", image.attr("src") + "?" + new Date().getTime());
+                        return true;
+                    });
+            });
+
+            $(".delete-icon").click(function() {
+                var data = { id: $(this).data("id") };
+                var liTag = $(this).closest("li");
+                siteHelper.confirm('@T("RotatingImage_Message_DeleteConfirm")', function(ok) {
+                    if (ok) {
+                        siteHelper.httpPost({
+                            url: "@Url.Action("DeleteImage", "RotatingImages")",
+                            data: data,
+                            success: function(response) {
+                                siteHelper.showMessage(response);
+                                if (response.Success) {
+                                    liTag.remove();
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

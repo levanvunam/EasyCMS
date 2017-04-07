@@ -1,0 +1,26 @@
+﻿@model EzCMS.Core.Models.SocialMediaTokens.SocialMediaTokenManageModel
+
+@{
+    ViewBag.Header = T("SocialMediaToken_Site_Header");
+    ViewBag.Title = T("SocialMediaToken_Site_EditTitle");
+    ViewBag.Description = T("SocialMediaToken_Site_EditDescription");
+}
+
+<div class="page-header">
+    <h1>@ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        @ShowStatusMessage()
+        @using (Html.BeginForm("Edit", "SocialMediaTokens", null, FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+            @Html.EditorForModel(Model)
+        }
+    </div>
+</div>

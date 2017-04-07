@@ -1,0 +1,34 @@
+﻿@model EzCMSHelpConfigurationSetting
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.HelpServiceUrl, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.HelpServiceUrl, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.HelpServiceUrl, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.HelpServiceUrl)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.AuthorizeCode, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.TextBoxFor(m => m.AuthorizeCode, new { @class = "col-xs-10" })
+        @Html.HelpTextFor(m => m.AuthorizeCode, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.AuthorizeCode)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DisabledSlideInHelpService, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.AceCheckBoxFor(m => m.DisabledSlideInHelpService)
+        @Html.HelpTextFor(m => m.DisabledSlideInHelpService, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DisabledSlideInHelpService)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.DisabledOnlineBodyTemplateService, new { @class = "col-md-4 control-label" })
+    <div class="col-md-5">
+        @Html.AceCheckBoxFor(m => m.DisabledOnlineBodyTemplateService)
+        @Html.HelpTextFor(m => m.DisabledOnlineBodyTemplateService, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.DisabledOnlineBodyTemplateService)
+    </div>
+</div>

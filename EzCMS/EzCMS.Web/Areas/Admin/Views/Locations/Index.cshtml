@@ -1,0 +1,179 @@
+﻿@model EzCMS.Core.Models.Locations.LocationSearchModel
+
+@{
+    ViewBag.Header = T("Location_Site_Header");
+    ViewBag.Title = T("Location_Site_ListingTitle");
+    ViewBag.Description = T("Location_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row form-horizontal">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        @Html.Partial("Partials/_Search", Model)
+        <div class="space-4 clearfix"></div>
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("Location_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+        /*
+         * Setup grid
+         */
+        var gridSelector = "#grid-table";
+        var pagerSelector = "#grid-pager";
+        var navButtonsSetup = {
+            enableEdit: false,
+            enableCreate: false,
+            enableDelete: false,
+            enableSearch: true,
+            enableRefresh: true,
+            enableView: true
+        };
+        var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Location" })');
+
+        var gridOptions = {
+            url: "@Url.Action("_AjaxBinding")",
+            colNames: ['', '@T("Location_Field_Id")',
+                '@T("Location_Field_Name")',
+                '@T("Location_Field_ContactName")',
+                '@T("Location_Field_ContactTitle")',
+                '@T("Location_Field_Types")',
+                '@T("Location_Field_AddressLine1")',
+                '@T("Location_Field_AddressLine2")',
+                '@T("Location_Field_Suburb")',
+                '@T("Location_Field_State")',
+                '@T("Location_Field_Postcode")',
+                '@T("Location_Field_Country")',
+                '@T("Location_Field_Latitude")',
+                '@T("Location_Field_Longitude")',
+                '@T("Location_Field_Phone")',
+                '@T("Location_Field_Fax")',
+                '@T("Location_Field_Email")',
+                '@T("Location_Field_TrainingAffiliation")',
+                '@T("Location_Field_PinImage")',
+                '@T("Location_Field_OpeningHoursWeekdays")',
+                '@T("Location_Field_OpeningHoursSaturday")',
+                '@T("Location_Field_OpeningHoursSunday")',
+                '@T("Location_Field_TimeZone")',
+                '@LabelForTime(T("Location_Field_Created"))',
+                '@T("Location_Field_CreatedBy")',
+                '@LabelForTime(T("Location_Field_LastUpdate"))',
+                '@T("Location_Field_LastUpdateBy")'
+            ],
+            colModel: [
+                {
+                    name: 'Actions',
+                    hidedlg: true,
+                    width: 90,
+                    fixed: true,
+                    sortable: false,
+                    search: false,
+                    align: "center",
+                    formatter: function (cellvalue, options) {
+                        var editIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                        var detailsIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                        return editIcon + detailsIcon + deleteIcon;
+                    }
+                },
+                { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                { name: 'Name', index: 'Name' },
+                { name: 'ContactName', index: 'ContactName', hidden: true },
+                { name: 'ContactTitle', index: 'ContactTitle', hidden: true },
+                { name: 'Types', index: 'SettingTypes' },
+                { name: 'AddressLine1', index: 'AddressLine1' },
+                { name: 'AddressLine2', index: 'AddressLine2' },
+                { name: 'Suburb', index: 'Suburb' },
+                { name: 'State', index: 'State' },
+                { name: 'Postcode', index: 'Postcode' },
+                { name: 'Country', index: 'Country' },
+                { name: 'Latitude', index: 'Latitude', hidden: true },
+                { name: 'Longitude', index: 'Longitude', hidden: true },
+                { name: 'Phone', index: 'Phone', hidden: true },
+                { name: 'Fax', index: 'Fax', hidden: true },
+                { name: 'Email', index: 'Email', hidden: true },
+                { name: 'TrainingAffiliation', index: 'TrainingAffiliation', hidden: true },
+                { name: 'PinImage', index: 'PinImage', hidden: true },
+                { name: 'OpeningHoursWeekdays', index: 'OpeningHoursWeekdays', hidden: true },
+                { name: 'OpeningHoursSaturday', index: 'OpeningHoursSaturday', hidden: true },
+                { name: 'OpeningHoursSunday', index: 'OpeningHoursSunday', hidden: true },
+                { name: 'TimeZone', index: 'TimeZone', hidden: true },
+                { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+            ]
+        };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+
+    <script type="text/javascript">
+
+        $("#btnSearch").click(function () {
+            searchGrid();
+        });
+
+        $(document).on("keypress", ".search-input", function (e) {
+            if (e.which == 13) {
+                searchGrid();
+            }
+        });
+
+        // Clear search
+        $('#btnClearSearch').click(function () {
+            $("#Keyword").val('');
+            $("#LocationTypeIds").select2("data", []);
+
+            searchGrid();
+        });
+
+        //Search grid
+        function searchGrid() {
+            var filters = jqGridHelper.addPostDataFilters("AND");
+
+            var postData = { filters: JSON.stringify(filters) };
+
+            var keyword = $("#Keyword").val();
+            $.extend(postData, { keyword: keyword });
+
+            var locationTypeIds = $("#LocationTypeIds").val();
+            $.extend(postData, { locationTypeIds: locationTypeIds });
+
+            jqGridHelper.manualSearch(gridSelector, filters, postData);
+        }
+    </script>
+}

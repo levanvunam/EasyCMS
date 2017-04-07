@@ -1,0 +1,116 @@
+﻿@model EzCMS.Core.Models.SiteSetup.DatabaseSetupModel
+<div class="col-xs-12">
+    <h1>Database configuration</h1>
+    <p>
+        <strong>
+            To complete this step you will either need a blank database or, if you do not have a blank database available, choose the SQL CE 4 embedded
+            database (This is the recommended approach for first time users or if you are unsure).
+        </strong>
+    </p>
+    <p>
+        If you are not using the SQL CE 4 embedded database you will need the connection details for your database, such as the
+        "connection string". You may need to contact your system administrator or web host for this information.
+    </p>
+</div>
+<div class="col-xs-12">
+    @using (Ajax.BeginForm("DatabaseSetup", "Setup", null, new AjaxOptions
+    {
+        OnBegin = "siteHelper.showLoading",
+        OnSuccess = "DatabaseSetupSuccess",
+        OnComplete = "siteHelper.hideLoading"
+    }))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.Server, new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.Server, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Server)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DatabaseName, "Database Name", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.DatabaseName, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.DatabaseName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.IntegratedSecurity, "Integrated Security", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.AceCheckBoxFor(m => m.IntegratedSecurity)
+                @Html.ValidationMessageFor(m => m.IntegratedSecurity)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UserName, "Username", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.UserName, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, "Password", new { @class = "col-sm-2" })
+            <div class="col-sm-10">
+                @Html.PasswordFor(m => m.Password, new { @class = "col-sm-6" })
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+        </div>
+        <div class="clearfix form-actions">
+            <input class="btn btn-info" type="submit" value="Install" />
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    function DatabaseSetupSuccess(response) {
+        if (response.Success) {
+            siteHelper.alert(response.Message);
+            $('#siteSetup').easyWizard('nextStep');
+
+            siteHelper.addLeavingPrompt();
+
+        } else {
+            siteHelper.alert(response.Message);
+        }
+    }
+
+    $(function () {
+        $.validator.addMethod('requiredif',
+            function (value, element, parameters) {
+                var id = '#' + parameters['dependentproperty'];
+
+                // get the target value (as a string,
+                // as that's what actual value will be)
+                var targetvalue = parameters['targetvalue'];
+                targetvalue = (targetvalue == null ? '' : targetvalue).toString();
+
+                // get the actual value of the target control
+                // note - this probably needs to cater for more
+                // control types, e.g. radios
+                var control = $(id);
+                var controltype = control.attr('type');
+                var actualvalue =
+                    controltype === 'checkbox' ?
+                        (control.is(':checked') ? 'true' : 'false') :
+                        control.val();
+
+                // if the condition is true, reuse the existing
+                // required field validator functionality
+                if ($.trim(targetvalue) === $.trim(actualvalue) || ($.trim(targetvalue) === '*' && $.trim(actualvalue) !== ''))
+                    return $.validator.methods.required.call(
+                        this, value, element, parameters);
+
+                return true;
+            });
+
+        $.validator.unobtrusive.adapters.add(
+            'requiredif',
+            ['dependentproperty', 'targetvalue'],
+            function (options) {
+                options.rules['requiredif'] = {
+                    dependentproperty: options.params['dependentproperty'],
+                    targetvalue: options.params['targetvalue']
+                };
+                options.messages['requiredif'] = options.message;
+            });
+    });
+</script>

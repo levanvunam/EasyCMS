@@ -1,0 +1,344 @@
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&amp;libraries=places,geometry"></script>
+
+<script type="text/javascript">
+    var searchBox, map, geo, infowindow;
+    var markerArray = [];
+    var $mapCanvas = document.getElementById('mapCanvas');
+
+    var defaultLatitude = parseFloat('{DefaultLatitude}');
+    var defaultLongitude = parseFloat('{DefaultLongitude}');
+    var defaultZoom = parseInt('{DefaultZoom}');
+
+    var storageLocatorInformationKey = setStorageKey("locator_information");
+    
+
+    var defaultPosition = new google.maps.LatLng(defaultLatitude, defaultLongitude);
+    
+    // Inintialize google map
+    function initialize() {
+        setPreviousSearch();
+        
+        var mapOptions = {
+            center: defaultPosition,
+            zoom: defaultZoom,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        map = new google.maps.Map($mapCanvas, mapOptions);
+
+        // Create the search box and link it to the UI element.
+        var input = document.getElementById('locationInput');
+
+        // Init auto complete search place
+        var autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', map);
+        autocomplete.addListener('place_changed', searchLocation);
+
+        // If existed address
+        if (document.getElementById("locationInput").value != "") {
+            searchLocation();
+        }
+    };
+
+    /* Event listeners*/
+    google.maps.event.addDomListener(window, 'load', initialize);
+
+    // Search location once click search button
+    $("#searchLocation").click(function () {
+        searchLocation();
+    });
+
+    // Search location once change range
+    $("#searchRange").change(function () {
+        if (document.getElementById("locationInput").value != "") {
+            searchLocation();
+        }
+    });
+
+    // Search location once press enter
+    $("#locationInput").keypress(function (e) {
+        if (e.which == 13) {
+            searchLocation();
+        }
+    });
+
+    // Search location once select a category and high light it
+    $(".category").click(function () {
+        $(this).toggleClass("highlight");
+        $("#allCategories").removeClass("highlight");
+        if (document.getElementById("locationInput").value != "") {
+            searchLocation();
+        }
+    });
+
+    // Search location once select all categories and high light it
+    $("#allCategories").click(function () {
+        $(this).toggleClass("highlight");
+        $(".category").removeClass("highlight");
+        if (document.getElementById("locationInput").value != "") {
+            searchLocation();
+        }
+    });
+
+    // Search nearby locations
+    function searchLocation() {
+        if ($("#locationInput").val() != "") {
+            updateStorage();
+            var address = siteHelper.getLocalStorage(storageLocatorInformationKey).address;
+            var selectedLat, selectedLong;
+
+            // Add country is Australia if input is post code in Australia
+            if (address.match(/^\d{4}$/)) {
+                var defaultCountry = "{Country}";
+                if (defaultCountry == "") {
+                    defaultCountry = "Australia";
+                }
+                address = address + defaultCountry;
+            }
+
+            var geo = new google.maps.Geocoder;
+            // Get geocode from input address
+            geo.geocode({ 'address': address }, function (results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    if (results.length > 0) {
+                        selectedLat = results[0].geometry.location.lat();
+                        selectedLong = results[0].geometry.location.lng();
+
+                        // Selected range in meters
+                        var range = parseInt(siteHelper.getLocalStorage(storageLocatorInformationKey).range) * 1000;
+
+                        var nearbyLocations = [];
+                        var types = siteHelper.getLocalStorage(storageLocatorInformationKey).categories;
+                        if (types == undefined || types == "") {
+                            types = [];
+                        };
+                        
+                        var selectedPosition = new google.maps.LatLng(selectedLat, selectedLong);
+
+                        // Bound arround center position with selected range
+                        fitBounds(range, selectedPosition);
+
+                        // Get list of locations have selected location types
+                        $.ajax({
+                            url: "@Url.Action("GetLocationsByTypes", "SiteApi", new { area = "" })",
+                            type: "POST",
+                            data: { types: types },
+                            success: function (locations) {
+                                if (locations != null && locations.length > 0) {
+                                    // Add locations nearby selected location
+                                    $.each(locations, function (index, value) {
+                                        if (value.Latitude != null && value.Longitude != null) {
+                                            var position = new google.maps.LatLng(value.Latitude, value.Longitude);
+                                            var distance = google.maps.geometry.spherical.computeDistanceBetween(selectedPosition, position);
+                                            if (distance < range) {
+                                                value.Distance = distance;
+                                                nearbyLocations.push(value);
+                                            }
+                                        }
+                                    });
+                                }
+
+                                // Sort locations by distance
+                                nearbyLocations = nearbyLocations.sort(function (a, b) { return a.Distance - b.Distance; });
+                                showNearbyLocations(nearbyLocations);
+                                $('#locationResults').css('padding-top', ($('form.location-search').height() - $('#locationResults #message').outerHeight()) + "px");
+                            }
+                        });
+                    }
+                }
+            });
+        } else {
+            siteHelper.alert("Please input a Postcode or Suburb");
+        }
+    }
+
+    // Show nearby locations on map and location results
+    function showNearbyLocations(locations) {
+        // Show result of nearby locations have been found
+        var locationResults = "There are " + locations.length + " reseller(s) within " + $("#searchRange option:selected").val() + " km of your location";
+        $("#locationResults #message").html(locationResults);
+        if (markerArray.length > 0) {
+            $.each(markerArray, function (index, value) {
+                value.setMap(null);
+            });
+            markerArray = [];
+        }
+
+        $("#results").empty();
+        $.each(locations, function (index, value) {
+            var pinImage = "", name = "", address = "", suburbStatePostCode = "", phone = "";
+
+            if (value.PinImage != null) {
+                pinImage = "<a href=\"javascript:void()\" ><img alt=\"\" src=\"" + value.PinImage + "\"/></a>";
+            }
+
+            if (value.Name != null) {
+                name = value.Name;
+            }
+
+            if (value.AddressLine1 != null) {
+                address = value.AddressLine1 + ", <br/>";
+            }
+
+            if (value.Suburb != null) {
+                suburbStatePostCode = suburbStatePostCode + value.Suburb + " ";
+            }
+
+            if (value.State != null) {
+                suburbStatePostCode = suburbStatePostCode + value.State + " ";
+            }
+
+            if (value.Postcode != null) {
+                suburbStatePostCode = suburbStatePostCode + value.Postcode;
+            }
+
+            if (suburbStatePostCode != "") {
+                suburbStatePostCode = suburbStatePostCode + "<br/>";
+            }
+
+            if (value.Phone != null) {
+                phone = "<i class=\"fa fa-phone\"></i> " + value.Phone;
+            }
+
+            markerArray[index] = new google.maps.Marker({
+                position: new google.maps.LatLng(parseFloat(value.Latitude), parseFloat(value.Longitude)),
+                map: map,
+                title: name,
+                content: "<div><b>" + name + "</b><br/>" + address + suburbStatePostCode + phone + "</div>"
+            });
+
+            // Add event listener once click a marker
+            markerArray[index].addListener('click', function () {
+                if (infowindow != null) {
+                    infowindow.close();
+                }
+                infowindow = new google.maps.InfoWindow({
+                    content: this.content
+                });
+                infowindow.open(map, this);
+                $(".location-box .highlight").each(function () {
+                    $(this).removeClass("highlight");
+                });
+                $("#result" + index).addClass("highlight");
+
+                // Scroll to the selected location
+                var scrollTop = $("#results").scrollTop();
+                scrollTop = scrollTop + parseInt($("#result" + index).position().top) - (parseInt($("#locationSearchBox").height()) - parseInt($("#results").height()));
+
+                $("#results").animate({
+                    scrollTop: scrollTop
+                }, 'fast');
+            });
+
+            // Mark nearby locations to map
+            if (value.LocationTypes != null && value.LocationTypes.length > 0) {
+                var icon = {
+                    url: value.LocationTypes[0].PinImage, // url
+                    scaledSize: new google.maps.Size(25, 40), // scaled size
+                };
+                pinImage = "<a href=\"javascript:goToMarker(" + index + ");\" ><img alt=\"\" src=\"" + icon.url + "\"/></a>";
+                markerArray[index].setIcon(icon);
+            }
+
+            // Display location results
+            var locationDetails = "<div id=\"result" + index + "\" class=\"location-results-list\"><div class=\"location-result\" onclick=\"goToMarker(" + index + ")\">" +
+                pinImage + "<a href=\"" + "Location?locationid=" + value.Id + "\">" +
+                name + "</a><br />" + address + suburbStatePostCode + phone + "</div>";
+            $("#results").append(locationDetails);
+        });
+    }
+
+
+    // Indicate marker on map
+    function goToMarker(index) {
+        var markerPosition = markerArray[index].position;
+        map.setCenter(markerPosition);
+        showMarkerInfo(markerArray[index]);
+        $(".location-box .highlight").each(function () {
+            $(this).removeClass("highlight");
+        });
+        $("#result" + index).addClass("highlight");
+    }
+
+    // Show content of marker on the map
+    function showMarkerInfo(marker) {
+        if (infowindow != null) {
+            infowindow.close();
+        }
+        infowindow = new google.maps.InfoWindow({
+            content: marker.content
+        });
+        infowindow.open(map, marker);
+    }
+
+    // Bound arround center position with selected range
+    function fitBounds(range, centerPosition) {
+        var circle = new google.maps.Circle({ radius: range, center: centerPosition });
+
+        map.fitBounds(circle.getBounds());
+
+        // Set zoom is 16 if zoom is too large
+        if (map.getZoom() > 16) {
+            map.setZoom(16);
+        }
+    }
+    
+    // Set selected values previous time
+    function setPreviousSearch() {
+        var storageLocatorInformation = siteHelper.getLocalStorage(storageLocatorInformationKey);
+        
+        if (storageLocatorInformation != null) {
+            var address = storageLocatorInformation.address;
+            $('#locationInput').val(address);
+
+            var range = storageLocatorInformation.range;
+            $('#searchRange').val(range);
+
+            var categories = storageLocatorInformation.categories;
+            if (categories != null) {
+                if (categories == "") {
+                    $(".category").removeClass("highlight");
+                } else {
+                    $('#allCategories').removeClass("highlight");
+                    var array = JSON.parse("[" + categories + "]");
+                    $.each(array, function (key, value) {
+                        $.each($('ul.categories li a'), function (index, element) {
+                            if ($(element).attr('value') == value) {
+                                $(element).addClass('highlight');
+                            }
+                        });
+                    });
+                }
+            }
+        }
+    }
+    
+    // Update selected values
+    function updateStorage() {
+        var address = $('#locationInput').val();
+        
+        var range = $('#searchRange').val();
+        
+        var categories = [];
+        if (!$("#allCategories").hasClass("highlight")) {
+            $(".category.highlight").each(function () {
+                categories.push($(this).attr("value"));
+            });
+        }
+
+        var locatorInformation = {            
+            address: address,
+            range: range,
+            categories: categories
+        };
+        
+        // Save selected values to storage
+        siteHelper.setLocalStorage(storageLocatorInformationKey, locatorInformation);
+    }
+
+    // Set storage key with page name
+    function setStorageKey(storageKey) {
+        var pathName = location.pathname.substring(1);
+        return (pathName == '') ? storageKey : storageKey + "_" + pathName;
+    }
+
+</script>

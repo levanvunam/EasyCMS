@@ -1,0 +1,10 @@
+﻿@model EzCMS.Core.Models.Forms.WidgetManageModels.FormWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.FormId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.FormId, Model.Forms, T("Widget_Form_Text_SelectForm"), new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.FormId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.FormId)
+    </div>
+</div>

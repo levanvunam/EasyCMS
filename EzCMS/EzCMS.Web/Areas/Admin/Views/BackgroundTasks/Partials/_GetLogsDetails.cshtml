@@ -1,0 +1,12 @@
+﻿@model List<string>
+
+@foreach (var log in Model)
+{
+    <div class="log-item clearfix">
+        <div class="col-xs-12">
+            <div class="no-padding">
+                @Html.Raw(log)
+            </div>
+        </div>
+    </div>
+}

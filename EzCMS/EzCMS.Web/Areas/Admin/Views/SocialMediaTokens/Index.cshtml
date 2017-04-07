@@ -1,0 +1,179 @@
+﻿@using Ez.Framework.Utilities.Social.Enums
+
+@{
+    ViewBag.Header = T("SocialMediaToken_Site_Header");
+    ViewBag.Title = T("SocialMediaToken_Site_ListingTitle");
+    ViewBag.Description = T("SocialMediaToken_Site_ListingDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1>
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+</div>
+
+<div class="row">
+    <div id="grid-buttons" class="col-xs-12">
+        @ShowStatusMessage()
+        <a href="@Url.Action("Create")" class="btn btn-yellow btn-minier">
+            <i class="fa fa-plus bigger-125"></i>
+            @T("SocialMediaToken_Text_Create")
+        </a>
+        @Html.EmptyPartial("Partials/_ExportButtons")
+    </div>
+    <div class="col-xs-12">
+        <!-- PAGE CONTENT BEGINS -->
+
+        <table id="grid-table"></table>
+
+        <div id="grid-pager"></div>
+
+        <!-- PAGE CONTENT ENDS -->
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+
+    // Set social media token as default
+    function setSocialMediaTokenAsDefault(id) {
+
+        siteHelper.confirm('@T("SocialMediaToken_Message_SetDefaultTokenConfirm")', function (ok) {
+            if (ok) {
+                siteHelper.httpPost({
+                    url: "@Url.Action("SetDefaultToken")",
+                    data: { id: id },
+                    success: function (response) {
+                        siteHelper.showMessage(response);
+                        if (response.Success) {
+                            jqGridHelper.reloadGrid(gridSelector);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    /*
+     * Setup grid
+     */
+    var gridSelector = "#grid-table";
+    var pagerSelector = "#grid-pager";
+    var navButtonsSetup = {
+        enableEdit: false,
+        enableCreate: false,
+        enableDelete: false,
+        enableSearch: true,
+        enableRefresh: true,
+        enableView: true
+    };
+    var gridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new { name = "Social Media Token" })');
+
+    var gridOptions = {
+        url: "@Url.Action("_AjaxBinding")",
+        colNames: ['', '@T("SocialMediaToken_Field_Id")',
+            '@T("SocialMediaToken_Field_SocialMediaId")',
+            '@T("SocialMediaToken_Field_SocialMedia")',
+            '@T("SocialMediaToken_Field_IsDefault")',
+            '@T("SocialMediaToken_Field_FullName")',
+            '@T("SocialMediaToken_Field_Email")',
+            '@T("SocialMediaToken_Field_AppId")',
+            '@T("SocialMediaToken_Field_AppSecret")',
+            '@T("SocialMediaToken_Field_Status")',
+            '@T("SocialMediaToken_Field_ExpiredDate")',
+            '@LabelForTime(T("SocialMediaToken_Field_Created"))',
+            '@T("SocialMediaToken_Field_CreatedBy")',
+            '@LabelForTime(T("SocialMediaToken_Field_LastUpdate"))',
+            '@T("SocialMediaToken_Field_LastUpdateBy")'],
+        colModel: [
+            {
+                name: 'Actions',
+                hidedlg: true,
+                width: 120,
+                fixed: true,
+                sortable: false,
+                search: false,
+                align: "center",
+                formatter: function(cellvalue, options, rowObject) {
+                    var configureIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("SocialMediaToken_Text_RefreshToken")'><span class='fa fa-refresh'></span></div></a>";
+                    if (rowObject.Status == '@((int)SocialMediaEnums.TokenStatus.Pending)') {
+                        configureIcon = "<a class='grid-action' href='@Url.Action("Edit")/" + options.rowId + "'><div class='ui-pg-div' title='@T("SocialMediaToken_Text_ConfigToken")'><span class='fa fa-cog'></span></div></a>";
+                        }
+
+                        var deleteIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "?action=delete'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                    var defaultTokenIcon = "<a class='grid-action' href='javascript:setSocialMediaTokenAsDefault(" + options.rowId + ")'><div class='ui-pg-div' title='@T("SocialMediaToken_Text_SetTokenAsDefault")'><span class='fa fa-check'></span></div></a>";
+                    if (rowObject.IsDefault) {
+                        defaultTokenIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("SocialMediaToken_Text_IsDefaultToken")'><span class='fa fa-check green'></span></div></a>";
+                    } else if (rowObject.Status != '@((int)SocialMediaEnums.TokenStatus.Active)') {
+                        defaultTokenIcon = "<a class='grid-action' href='javascript:void(0)'><div class='ui-pg-div' title='@T("SocialMediaToken_Text_PendingExpiredTokenCannotRefresh")'><span class='fa fa-check grey'></span></div></a>";
+                    }
+
+                    var logIcon = "<a class='grid-action' href='@Url.Action("Details")/" + options.rowId + "#social-media-logs'><div class='ui-pg-div' title='@T("SocialMediaToken_Text_ViewLogs")'><span class='fa fa-book'></span></div></a>";
+
+                    return configureIcon + deleteIcon + logIcon + defaultTokenIcon;
+                }
+            },
+            { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+            { name: 'SocialMediaId', index: 'SocialMediaId', hidden: true },
+            { name: 'SocialMedia', index: 'SocialMedia' },
+            {
+                name: 'IsDefault',
+                index: 'IsDefault',
+                align: 'center',
+                search: false,
+                formatter: function(cellvalue, options, rowObject) {
+                    return jqGridHelper.styleLabel(cellvalue, true, "<i class='fa fa-check'></i>", "");
+                }
+            },
+            { name: 'FullName', index: 'FullName' },
+            { name: 'Email', index: 'Email' },
+            { name: 'AppId', index: 'AppId' },
+            { name: 'AppSecret', index: 'AppSecret', hiddenr: true },
+            {
+                name: 'Status',
+                index: 'Status',
+                align: 'center',
+                formatter: function(cellvalue, options, rowObject) {
+                    if (cellvalue == '@((int)SocialMediaEnums.TokenStatus.Active)') {
+                        return "<span class='label label-success'> Online </span>";
+                    } else if (cellvalue == '@((int)SocialMediaEnums.TokenStatus.Expired)') {
+                        return "<span class='label label-inverse'> Expired </span>";
+                    } else {
+                        return "<span class='label'> Pending </span>";
+                    }
+                }
+            },
+            {
+                name: 'ExpiredDate',
+                index: 'ExpiredDate',
+                sorttype: "datetime",
+                search: false,
+                formatter: function(cellValue, options, rowObject) {
+                    if (cellValue == null) {
+                        return "N/A";
+                    }
+                    return jqGridHelper.printLocalDateTimeFormat(cellValue);
+                }
+            },
+            { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+            { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function(cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+            { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+        ]
+    };
+
+        jqGridHelper.setupGrid(gridSelector, pagerSelector, gridOptions, gridSettings, navButtonsSetup, "@Url.Action("Exports")");
+    </script>
+}

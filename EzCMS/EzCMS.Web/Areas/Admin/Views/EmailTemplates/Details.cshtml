@@ -1,0 +1,168 @@
+﻿@model EzCMS.Core.Models.EmailTemplates.EmailTemplateDetailModel
+
+@{
+    ViewBag.Header = T("EmailTemplate_Site_Header");
+    ViewBag.Title = T("EmailTemplate_Site_DetailsTitle");
+    ViewBag.Description = T("EmailTemplate_Site_DetailsDescription");
+}
+
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/Scripts/Plugins/jqGrid/css/ui.jqgrid.min.css")" />
+}
+
+<div class="page-header">
+    <h1 class="pull-left">
+        @ViewBag.Header
+        <small>
+            <i class="fa fa-angle-double-right"></i>
+            @ViewBag.Title
+        </small>
+    </h1>
+    <div class="space-8 col-xs-12 visible-xs"></div>
+    <div id="top-buttons" class="col-xs-12 align-right">
+        <a id="sendTestEmail" class="btn btn-xs btn-success" href="javascript:sendTestEmail(@Model.Id)"><i class="fa fa-envelope-o"></i> @T("EmailTemplate_Text_SendTestEmail")</a>
+        <a class="btn btn-xs btn-primary" href="@Url.Action("Edit", new {id = Model.Id, returnUrl = Url.Action("Details", new {id = Model.Id})})">
+            @Html.Raw(T("System_Text_EditButton"))
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    @ShowStatusMessage()
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.EmailTemplate.Subject, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.EmailTemplate.Subject)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.EmailTemplate.TypeName, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.DisplayTextFor(m => m.EmailTemplate.TypeName)
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.EmailTemplate.From, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.EmailTemplate.From, CommonEnums.EditableType.Email)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.EmailTemplate.FromName, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Model.EmailTemplate.FromName
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.EmailTemplate.CC, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.EmailTemplate.CC)
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <div class="form-group">
+                    @Html.LocalizeLabelFor(m => m.EmailTemplate.BCC, new { @class = "col-sm-5 control-label align-right" })
+                    <div class="col-sm-7 control-value">
+                        @Html.EditableFor(m => m.EmailTemplate.BCC)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <div class="widget-box col-sm-12 col-xs-12 @(string.IsNullOrEmpty(Model.EmailTemplate.Body) ? "collapsed" : "")">
+                        <div class="widget-header">
+                            <h4 class="widget-title lighter">@Html.LocalizeLabelFor(m => m.EmailTemplate.Body, new { @class = "no-padding" })</h4>
+                            <div class="widget-toolbar no-border">
+                                <a href="#" data-action="collapse">
+                                    <i class="ace-icon fa @(string.IsNullOrEmpty(Model.EmailTemplate.Body) ? "fa-chevron-down" : "fa-chevron-up")"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="widget-body">
+                            <div class="widget-main padding-12">
+                                <div class="space-4"></div>
+                                <div class="form-group">
+                                    <div class="col-xs-12">
+                                        @Html.Raw(Model.EmailTemplate.Body)
+                                    </div>
+                                </div>
+                                <div class="clear space-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear space-12"></div>
+
+            <div class="widget-box transparent">
+                <div class="widget-header">
+                    <h4 class="widget-title lighter">@T("EmailTemplate_Text_RecordInformation")</h4>
+                    <div class="widget-toolbar no-border">
+                        <a href="#" data-action="collapse">
+                            <i class="ace-icon fa fa-chevron-up"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="widget-body">
+                    <div class="widget-main padding-12 no-padding-left no-padding-right">
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.Created, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.Created)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.CreatedBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.CreatedBy
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                @Html.LocalizeLabelTimeFor(m => m.LastUpdate, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Html.DisplayTimeFor(m => m.LastUpdate)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LocalizeLabelFor(m => m.LastUpdateBy, new { @class = "col-sm-5 control-label align-right" })
+                                <div class="col-sm-7 control-value">
+                                    @Model.LastUpdateBy
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/js/jqgrid")
+
+    <script type="text/javascript">
+        var updateUrl = "@Url.Action("UpdateEmailTemplateData")";
+        var pk = '@Model.Id';
+
+        function sendTestEmail(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("ConfirmSendTestEmail", "EmailTemplates")/" + id,
+                type: 'iframe',
+                width: '60%'
+            });
+        };
+    </script>
+}

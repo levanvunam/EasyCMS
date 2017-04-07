@@ -1,0 +1,48 @@
+﻿@model EzCMS.Core.Models.SocialMedia.WidgetManageModels.SocialFeedWidgetManageModel
+
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.SocialMediaId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.SocialMediaId, Model.SocialMediaList, T("Widget_SocialFeed_Text_SelectSocialMedia"), new { id = "SocialMediaId", @class = "col-xs-10 single-select" })
+        @Html.HelpTextFor(m => m.SocialMediaId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.SocialMediaId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.TokenId, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(c => c.TokenId, Model.Tokens, T("Widget_SocialFeed_Text_SelectToken"), new { id = "TokenId", @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.TokenId, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.TokenId)
+    </div>
+</div>
+<div class="form-group">
+    @Html.LocalizeLabelFor(m => m.Template, new { @class = "col-xs-12" })
+    <div class="col-xs-12">
+        @Html.DropDownListFor(m => m.Template, Model.Templates, new { @class = "col-xs-10 single-select curly-bracket-parameter" })
+        @Html.HelpTextFor(m => m.Template, new { @class = "help-button" })
+        @Html.ValidationMessageFor(m => m.Template)
+    </div>
+</div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+        //Social media change listener
+        $("#SocialMediaId").change(function () {
+            var socialMediaId = $(this).val();
+
+            if (parseInt(socialMediaId) > 0) {
+                siteHelper.httpPost({
+                    showLoading: false,
+                    url: "@Url.Action("GetSocialMediaTokens", "SocialMediaTokens")",
+                    data: { socialMediaId: socialMediaId },
+                    success: function (data) {
+                        siteHelper.buildSelect2("#TokenId", data, "@T("Widget_SocialFeed_Text_SelectToken")");
+                    }
+                });
+            } else {
+                siteHelper.buildSelect2("#TokenId", null, "@T("Widget_SocialFeed_Text_SelectToken")");
+            }
+        });
+    </script>);
+}

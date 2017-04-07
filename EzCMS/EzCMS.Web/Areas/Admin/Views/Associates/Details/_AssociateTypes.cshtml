@@ -1,0 +1,109 @@
+﻿@model int
+
+<div id="grid-buttons" class="col-xs-12">
+    @Html.Partial("Partials/_ExportButtonsExcludeExportAll", "AssociateType")
+</div>
+<div class="col-xs-12">
+    <table id="associate-type-grid-table"></table>
+    <div id="associate-type-grid-pager"></div>
+</div>
+<div class="clear"></div>
+
+@{
+    Script.Block(@<script type="text/javascript">
+
+        // Edit associate type
+        function editAssociateType(id) {
+            siteHelper.showPopup({
+                href: "@Url.Action("PopupEdit", "AssociateTypes")/" + id,
+                type: 'iframe',
+                width: '90%',
+            }, function () {
+                if ($dirty == true) {
+                    jqGridHelper.reloadGrid(associateTypeGrid);
+                }
+            });
+        }
+
+        // Delete associate - associate type mapping
+        function deleteAssociateAssociateTypeMapping(id) {
+            var data = { associateTypeId: id, associateId: '@Model' };
+            siteHelper.confirm('@T("AssociateAssociateType_Message_DeleteMappingConfirm")', function (ok) {
+                if (ok) {
+                    siteHelper.httpPost({
+                        url: "@Url.Action("DeleteAssociateAssociateTypeMapping", "AssociateTypes")",
+                        data: data,
+                        success: function (response) {
+                            siteHelper.showMessage(response);
+                            if (response.Success) {
+                                jqGridHelper.reloadGrid(associateTypeGrid);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+
+        /*
+         * Setup grid
+         */
+        var $dirty = false;
+        var associateTypeGrid = "#associate-type-grid-table";
+        var associateTypeGridPager = "#associate-type-grid-pager";
+        var associateTypeTab = "#associate-types";
+        var associateTypeGridSettings = $.parseJSON('@Html.Action("GetGridSettings", "Account", new {name = "Associate Type"})');
+        var associateTypeExportUrl = "@Url.Action("Exports", "AssociateTypes", new {associateId = Model})";
+
+        $(function () {
+            var gridOptions = {
+                url: "@Url.Action("_AjaxBinding", "AssociateTypes", new {associateId = Model})",
+                colNames: ['', '@T("AssociateType_Field_Id")',
+                    '@T("AssociateType_Field_Name")',
+                    '@T("AssociateType_Field_TargetCount")',
+                    '@T("AssociateType_Field_RecordOrder")',
+                    '@LabelForTime(T("AssociateType_Field_Created"))',
+                    '@T("AssociateType_Field_CreatedBy")',
+                    '@LabelForTime(T("AssociateType_Field_LastUpdate"))',
+                    '@T("AssociateType_Field_LastUpdateBy")'
+                ],
+                colModel: [
+                    {
+                        name: 'Actions',
+                        hidedlg: true,
+                        width: 120,
+                        fixed: true,
+                        sortable: false,
+                        search: false,
+                        align: "center",
+                        formatter: function (cellvalue, options, rowObject) {
+                            var editIcon = "<a class='grid-action' href='javascript:editAssociateType(" + options.rowId + ")'><div class='ui-pg-div' title='@T("System_Text_Edit")'><span class='fa fa-edit'></span></div></a>";
+                            var detailsIcon = "<a class='grid-action' href='@Url.Action("Details", "AssociateTypes")/" + options.rowId + "'><div class='ui-pg-div' title='@T("System_Text_ViewDetails")'><span class='fa fa-search-plus'></span></div></a>";
+
+                            // Delete associate - associate type mapping
+                            var deleteRelationshipIcon = "<a class='grid-action' href='javascript:deleteAssociateAssociateTypeMapping(" + options.rowId + ")'><div class='ui-pg-div' title='@T("AssociateAssociateType_Text_Delete")'><span class='fa fa-chain-broken'></span></div></a>";
+
+                            // Delete associate type icon
+                            var returnUrl = "@Url.Action("Details", new {id = Model})";
+                            var deleteIcon = "<a class='grid-action' href='@Url.Action("Details", "AssociateTypes")/" + options.rowId + "?action=delete&returnUrl=" + returnUrl + "'><div class='ui-pg-div'title='@T("System_Text_Delete")'><span class='fa fa-times red'></span></div></a>";
+
+                            return editIcon + detailsIcon + deleteRelationshipIcon + deleteIcon;
+                        }
+                    },
+                    { name: 'Id', index: 'Id', key: true, width: 60, fixed: true, align: 'center', sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'Name', index: 'Name' },
+                    { name: 'TargetCount', index: 'TargetCount', width: 100, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] } },
+                    { name: 'RecordOrder', index: 'Order', width: 70, fixed: true, align: "center", sorttype: "int", searchoptions: { sopt: ['eq'] }, hidden: true },
+                    { name: 'Created', index: 'Created', hidden: true, sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'CreatedBy', index: 'CreatedBy', hidden: true },
+                    { name: 'LastUpdate', index: 'LastUpdate', sorttype: "datetime", search: false, formatter: function (cellValue, options, rowObject) { return jqGridHelper.printLocalDateTimeFormat(cellValue); } },
+                    { name: 'LastUpdateBy', index: 'LastUpdateBy' }
+                ],
+                loadComplete: function (response) {
+                    $("#tab-associate-type").data("total", response.records).html(response.records);
+                }
+            };
+
+            jqGridHelper.setupTabGrid(associateTypeGrid, associateTypeGridPager, gridOptions, associateTypeGridSettings, associateTypeTab, associateTypeExportUrl, "AssociateType");
+        });
+    </script>);
+}
