@@ -17,6 +17,11 @@ Easy CMS which build with latest .NET technologies
 			Ez.Framework				The framework of the project
 	
 	Test
-			Ez.Framework.Tests			The Ez framework test project
+		EzCMS
+			Plugins						Plugins test project folders
+				
+			Ez.Entity.Tests				The EzCMS entity test project
 			EzCMS.Core.Tests			The EzCMS core test project		
+		Framework
+			Ez.Framework.Tests			The Ez framework test project
 	

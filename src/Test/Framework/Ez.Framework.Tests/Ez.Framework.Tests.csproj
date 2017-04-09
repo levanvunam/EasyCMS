@@ -68,7 +68,7 @@
     <Compile Include="TestUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\Ez.Framework\Ez.Framework.csproj">
+    <ProjectReference Include="..\..\..\Framework\Ez.Framework\Ez.Framework.csproj">
       <Project>{e4c5a7db-dbe4-4b52-8bfb-9c5ae0fd3d9f}</Project>
       <Name>Ez.Framework</Name>
     </ProjectReference>
