@@ -3,6 +3,7 @@ using Ez.Framework.Utilities.Reflection.Enums;
 using Ez.Framework.Utilities.Reflection.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -115,9 +116,34 @@ namespace Ez.Framework.Utilities.Reflection
         /// <returns></returns>
         public static IEnumerable<Type> GetAllImplementTypesOf(this Type interfaceType, string prefix)
         {
-            return GetAssemblies(prefix)
-                .SelectMany(s => s.GetTypes())
-                .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
+            try
+            {
+                return GetAssemblies(prefix)
+                    .SelectMany(s => s.GetTypes())
+                    .Where(x => interfaceType.IsAssignableFrom(x) && !x.IsInterface && !x.IsAbstract);
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (Exception exSub in ex.LoaderExceptions)
+                {
+                    sb.AppendLine(exSub.Message);
+                    FileNotFoundException exFileNotFound = exSub as FileNotFoundException;
+                    if (exFileNotFound != null)
+                    {
+                        if (!string.IsNullOrEmpty(exFileNotFound.FusionLog))
+                        {
+                            sb.AppendLine("Fusion Log:");
+                            sb.AppendLine(exFileNotFound.FusionLog);
+                        }
+                    }
+                    sb.AppendLine();
+                }
+                string errorMessage = sb.ToString();
+                //Display or log the error based on your application.
+            }
+
+            return new List<Type>();
         }
 
         /// <summary>

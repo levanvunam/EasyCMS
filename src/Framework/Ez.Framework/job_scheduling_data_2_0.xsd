@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns="http://quartznet.sourceforge.net/JobSchedulingData"
@@ -39,7 +39,7 @@
     </xs:complexType>
   </xs:element>
 
-  <xs:complexType name="pre-processing-commandsSettingType">
+  <xs:complexType name="pre-processing-commandsType">
     <xs:sequence maxOccurs="unbounded">
       <xs:element name="delete-jobs-in-group" type="xs:string" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
@@ -76,7 +76,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="processing-directivesSettingType">
+  <xs:complexType name="processing-directivesType">
     <xs:sequence>
       <xs:element name="overwrite-existing-data" type="xs:boolean" minOccurs="0" default="true">
         <xs:annotation>
@@ -96,7 +96,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="job-detailSettingType">
+  <xs:complexType name="job-detailType">
     <xs:annotation>
       <xs:documentation>Define a JobDetail</xs:documentation>
     </xs:annotation>
@@ -113,7 +113,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="job-data-mapSettingType">
+  <xs:complexType name="job-data-mapType">
     <xs:annotation>
       <xs:documentation>Define a JobDataMap</xs:documentation>
     </xs:annotation>
@@ -122,7 +122,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="entrySettingType">
+  <xs:complexType name="entryType">
     <xs:annotation>
       <xs:documentation>Define a JobDataMap entry</xs:documentation>
     </xs:annotation>
@@ -132,7 +132,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="triggerSettingType">
+  <xs:complexType name="triggerType">
     <xs:annotation>
       <xs:documentation>Define a Trigger</xs:documentation>
     </xs:annotation>
@@ -143,7 +143,7 @@
     </xs:choice>
   </xs:complexType>
 
-  <xs:complexType name="abstractTriggerSettingType" abstract="true">
+  <xs:complexType name="abstractTriggerType" abstract="true">
     <xs:annotation>
       <xs:documentation>Common Trigger definitions</xs:documentation>
     </xs:annotation>
@@ -166,7 +166,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="simpleTriggerSettingType">
+  <xs:complexType name="simpleTriggerType">
     <xs:annotation>
       <xs:documentation>Define a SimpleTrigger</xs:documentation>
     </xs:annotation>
@@ -183,7 +183,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="cronTriggerSettingType">
+  <xs:complexType name="cronTriggerType">
     <xs:annotation>
       <xs:documentation>Define a CronTrigger</xs:documentation>
     </xs:annotation>
@@ -198,7 +198,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:complexType name="calendarIntervalTriggerSettingType">
+  <xs:complexType name="calendarIntervalTriggerType">
     <xs:annotation>
       <xs:documentation>Define a DateIntervalTrigger</xs:documentation>
     </xs:annotation>
@@ -213,7 +213,7 @@
     </xs:complexContent>
   </xs:complexType>
 
-  <xs:simpleType name="cron-expressionSettingType">
+  <xs:simpleType name="cron-expressionType">
     <xs:annotation>
       <xs:documentation>
         Cron expression (see JavaDoc for examples)
@@ -297,7 +297,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="repeat-countSettingType">
+  <xs:simpleType name="repeat-countType">
     <xs:annotation>
       <xs:documentation>Number of times to repeat the Trigger (-1 for indefinite)</xs:documentation>
     </xs:annotation>
@@ -307,7 +307,7 @@
   </xs:simpleType>
 
 
-  <xs:simpleType name="simple-trigger-misfire-instructionSettingType">
+  <xs:simpleType name="simple-trigger-misfire-instructionType">
     <xs:annotation>
       <xs:documentation>Simple Trigger Misfire Instructions</xs:documentation>
     </xs:annotation>
@@ -321,7 +321,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="cron-trigger-misfire-instructionSettingType">
+  <xs:simpleType name="cron-trigger-misfire-instructionType">
     <xs:annotation>
       <xs:documentation>Cron Trigger Misfire Instructions</xs:documentation>
     </xs:annotation>
@@ -332,7 +332,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="date-interval-trigger-misfire-instructionSettingType">
+  <xs:simpleType name="date-interval-trigger-misfire-instructionType">
     <xs:annotation>
       <xs:documentation>Date Interval Trigger Misfire Instructions</xs:documentation>
     </xs:annotation>
@@ -343,7 +343,7 @@
     </xs:restriction>
   </xs:simpleType>
 
-  <xs:simpleType name="interval-unitSettingType">
+  <xs:simpleType name="interval-unitType">
     <xs:annotation>
       <xs:documentation>Interval Units</xs:documentation>
     </xs:annotation>

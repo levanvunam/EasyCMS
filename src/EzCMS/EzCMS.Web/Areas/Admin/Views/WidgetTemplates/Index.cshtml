@@ -85,7 +85,7 @@
             url: "@Url.Action("_AjaxBinding")",
             colNames: ['', '@T("WidgetTemplate_Field_Id")',
                 '@T("WidgetTemplate_Field_Name")',
-                '@T("WidgetTemplate_Field_IsDefaultWidgetTemplate")',
+                '@T("WidgetTemplate_Field_IsDefaultTemplate")',
                 '@T("WidgetTemplate_Field_DataType")',
                 '@T("WidgetTemplate_Field_Widget")',
                 '@LabelForTime(T("WidgetTemplate_Field_Created"))',
@@ -119,7 +119,7 @@
                 { name: 'Name', index: 'Name' },
                 {
                     name: 'IsDefaultTemplate',
-                    index: 'Status',
+                    index: 'IsDefaultTemplate',
                     search: false,
                     align: 'center',
                     formatter: function (cellvalue, options, rowObject) {

@@ -10,11 +10,27 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace EzCMS.Entity.Entities
 {
+    /// <summary>
+    /// EzCMS db context
+    /// </summary>
     public class EzCMSEntities : DbContext
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public EzCMSEntities()
             : base(SiteInitializer.GetHttpSiteConfiguration() == null ? "Name=" + EzCMSEntityConstants.EzCMSEntities : SiteInitializer.GetHttpSiteConfiguration().ConnectionString)
         {
+        }
+
+        /// <summary>
+        /// Constructor with connection string
+        /// </summary>
+        /// <param name="connectionString"></param>
+        public EzCMSEntities(string connectionString): 
+            base(connectionString)
+        {
+            
         }
 
         #region CRM

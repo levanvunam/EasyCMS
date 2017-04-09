@@ -42,11 +42,10 @@ namespace Ez.Framework.Core.IoC
                 {
                     containter.Register(dependencyInterface, implementations.First(), lifestyle);
                 }
-                else if (implementations.Count > 1)
+                else
                 {
                     var registrations = implementations.Select(i => lifestyle.CreateRegistration(i, containter));
                     containter.RegisterCollection(dependencyInterface, registrations);
-
                 }
             }
 

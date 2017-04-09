@@ -1,9 +1,13 @@
-﻿using Ez.Framework.Core.IoC;
+﻿using System.Collections.Generic;
+using Ez.Framework.Core.IoC;
 using EzCMS.Core.Framework.EmbeddedResource;
+using EzCMS.Core.Framework.Mvc.Helpers;
 using EzCMS.Core.Framework.StarterKits;
 using EzCMS.Core.Framework.StarterKits.Attributes;
 using EzCMS.Core.Framework.StarterKits.Interfaces;
+using EzCMS.Core.Models.ClientNavigations.Widgets;
 using EzCMS.Core.Services.StarterKits;
+using EzCMS.Core.Services.Tree;
 using EzCMS.Entity.Core.Enums;
 using EzCMS.Entity.Entities.Models;
 using Style = EzCMS.Entity.Entities.Models.Style;
@@ -45,7 +49,7 @@ namespace EzCMS.Core.Core.StarterKits.Blog
                 Content = StarterKitHelper.GetEzCMSResource("HomePage.cshtml", GetTemplateFolder(), ResourceTypeEnums.Pages),
                 FriendlyUrl = "home",
                 PageTemplateId = master.Id,
-                IsHomePage = false,
+                IsHomePage = true,
                 Status = PageEnums.PageStatus.Online,
                 IncludeInSiteNavigation = true,
                 DisableNavigationCascade = false,
@@ -79,46 +83,46 @@ namespace EzCMS.Core.Core.StarterKits.Blog
                 Status = PageEnums.PageStatus.Online,
                 IncludeInSiteNavigation = true,
                 DisableNavigationCascade = false,
-                RecordOrder = 2
+                RecordOrder = 3
             };
             starterKitService.InsertPage(contactUs);
 
             #region Insert other pages
 
             //Page not found
-            homePage = new Page
+            var pageNotFound = new Page
             {
                 Title = "Page Not Found",
                 Abstract = "Page Not Found",
                 Content = StarterKitHelper.GetEzCMSResource("PageNotFound.cshtml", GetTemplateFolder(), ResourceTypeEnums.Pages),
                 FriendlyUrl = "Page-Not-Found",
-                PageTemplate = master,
+                PageTemplateId = master.Id,
                 IsHomePage = false,
                 Status = PageEnums.PageStatus.Online,
                 IncludeInSiteNavigation = false,
                 DisableNavigationCascade = true,
-                RecordOrder = 2
+                RecordOrder = 4
             };
-            starterKitService.InsertPage(homePage);
+            starterKitService.InsertPage(pageNotFound);
 
-            //Page not found
-            homePage = new Page
+            //Page error
+            var pageError = new Page
             {
                 Title = "Page Error",
                 Abstract = "Page Error",
                 Content = StarterKitHelper.GetEzCMSResource("PageError.cshtml", GetTemplateFolder(), ResourceTypeEnums.Pages),
                 FriendlyUrl = "Page-Error",
-                PageTemplate = master,
+                PageTemplateId = master.Id,
                 IsHomePage = false,
                 Status = PageEnums.PageStatus.Online,
                 IncludeInSiteNavigation = false,
                 DisableNavigationCascade = true,
                 RecordOrder = 3
             };
-            starterKitService.InsertPage(homePage);
+            starterKitService.InsertPage(pageError);
 
             //Site map
-            homePage = new Page
+            var siteMap = new Page
             {
                 Title = "Site Map",
                 Abstract = "Site Map",
@@ -129,25 +133,25 @@ namespace EzCMS.Core.Core.StarterKits.Blog
                 Status = PageEnums.PageStatus.Online,
                 IncludeInSiteNavigation = false,
                 DisableNavigationCascade = true,
-                RecordOrder = 4
+                RecordOrder = 5
             };
-            starterKitService.InsertPage(homePage);
+            starterKitService.InsertPage(siteMap);
 
             //Search page
-            homePage = new Page
+            var pageSearch = new Page
             {
                 Title = "Search",
                 Abstract = "Search",
                 Content = StarterKitHelper.GetEzCMSResource("Search.cshtml", GetTemplateFolder(), ResourceTypeEnums.Pages),
                 FriendlyUrl = "Search",
-                PageTemplate = master,
+                PageTemplateId = master.Id,
                 IsHomePage = false,
                 Status = PageEnums.PageStatus.Online,
                 IncludeInSiteNavigation = false,
                 DisableNavigationCascade = true,
-                RecordOrder = 5
+                RecordOrder = 6
             };
-            starterKitService.InsertPage(homePage);
+            starterKitService.InsertPage(pageSearch);
 
             #endregion
 
@@ -212,11 +216,18 @@ namespace EzCMS.Core.Core.StarterKits.Blog
 
             #region Widget Templates
 
-            //TODO: check here
+            string dataType = typeof(List<ITree<NavigationNodeModel>>).AssemblyQualifiedName;
+            string navigationContent = StarterKitHelper.GetEzCMSResource("Navigations.Navigations.cshtml", GetTemplateFolder(), ResourceTypeEnums.WidgetTemplates);
+            string navigationScript = StarterKitHelper.GetEzCMSResource("Navigations.Navigations.Script.cshtml",
+                GetTemplateFolder(), ResourceTypeEnums.WidgetTemplates);
             var navigations = new WidgetTemplate
             {
                 Name = "Navigations",
-                Content = StarterKitHelper.GetEzCMSResource("Navigations.cshtml", GetTemplateFolder(), ResourceTypeEnums.WidgetTemplates)
+                DataType = dataType,
+                Widget = "Navigations",
+                Content = navigationContent,
+                Script = navigationScript,
+                FullContent = WidgetHelper.GetFullTemplate(navigationContent, string.Empty, navigationScript, dataType, string.Empty)
             };
             starterKitService.InsertWidgetTemplate(navigations);
 

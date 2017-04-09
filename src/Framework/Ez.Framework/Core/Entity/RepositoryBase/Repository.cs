@@ -25,10 +25,7 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
 
         #endregion
 
-        public DbContext DbContext
-        {
-            get { return DataContext; }
-        }
+        public DbContext DbContext => DataContext;
 
         public Repository(DbContext entities)
         {
@@ -130,9 +127,9 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
             entity.RecordDeleted = false;
 
             var response = new ResponseModel();
+            var dbSet = DataContext.Set<T>();
             try
             {
-                var dbSet = DataContext.Set<T>();
                 dbSet.Add(entity);
                 DataContext.SaveChanges();
                 response.Data = entity.Id;
@@ -140,10 +137,12 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
             }
             catch (DbEntityValidationException entityValidationException)
             {
+                dbSet.Remove(entity);
                 response = new ResponseModel(entityValidationException);
             }
             catch (Exception exception)
             {
+                dbSet.Remove(entity);
                 response = new ResponseModel(exception);
             }
             return response;
@@ -158,9 +157,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
         {
             var response = new ResponseModel();
             var now = DateTime.UtcNow;
+            var updatedEntities = new List<T>();
+
+            var dbSet = DataContext.Set<T>();
             try
             {
-                var dbSet = DataContext.Set<T>();
                 foreach (var entity in entities)
                 {
                     entity.Created = now;
@@ -174,16 +175,27 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
 
                     entity.RecordDeleted = false;
                     dbSet.Add(entity);
+                    updatedEntities.Add(entity);
                 }
                 DataContext.SaveChanges();
                 response.Success = true;
             }
             catch (DbEntityValidationException entityValidationException)
             {
+                foreach (var entity in updatedEntities)
+                {
+                    dbSet.Remove(entity);
+                }
+
                 response = new ResponseModel(entityValidationException);
             }
             catch (Exception exception)
             {
+                foreach (var entity in updatedEntities)
+                {
+                    dbSet.Remove(entity);
+                }
+
                 response = new ResponseModel(exception);
             }
             return response;

@@ -1,0 +1,57 @@
+@if (HasNoContext("MasterNavigationRendering"))
+{
+    SetContext("MasterNavigationRendering");
+    <script type="text/javascript">
+
+        var currentUserGroupIds = currentUserGroupIds || [];
+
+        $(function () {
+            $(".NavigationSercureGroups").tooltip({
+                html: true,
+                placement: 'right'
+            });
+
+            $.each($(".Navigation-item"), function (index, selector) {
+                //Check if user can view group permissions or not
+                var editableGroups = $(selector).data("editablegroups");
+                if (typeof editableGroups != 'undefined' && editableGroups != null) {
+                    editableGroups = editableGroups.toString();
+                    if (editableGroups == '') return true;
+                    try {
+                        var editableGroupIds = $.map(editableGroups.split(','), function (val) {
+                            return parseInt(val, 0);
+                        });
+
+                        // Check Navigation can view by current user or not
+                        if (!siteHelper.isArrayMeetOther(editableGroupIds, currentUserGroupIds)) {
+                            $(selector).find("i").remove();
+                        }
+                    } catch (e) {
+
+                    }
+                }
+
+                //Check if user can view group or not
+                var viewableGroups = $(selector).data("viewablegroups");
+                if (typeof viewableGroups != 'undefined' && viewableGroups != null) {
+                    viewableGroups = viewableGroups.toString();
+                    if (viewableGroups == '') return true;
+                    try {
+                        var viewableGroupIds = $.map(viewableGroups.split(','), function (val) {
+                            return parseInt(val, 0);
+                        });
+
+                        // Check Navigation can view by current user or not
+                        if (!siteHelper.isArrayMeetOther(viewableGroupIds, currentUserGroupIds)) {
+                            $(selector).remove();
+                        }
+                    } catch (e) {
+
+                    }
+                }
+            });
+
+            $("#site-Navigations").show();
+        });
+    </script>
+}

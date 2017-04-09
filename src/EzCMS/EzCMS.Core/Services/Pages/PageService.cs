@@ -114,7 +114,7 @@ namespace EzCMS.Core.Services.Pages
             {
                 var logs = page.PageLogs.OrderByDescending(l => l.Created)
                     .GroupBy(l => l.SessionId)
-                    .Skip((index - 1)*pageSize)
+                    .Skip((index - 1) * pageSize)
                     .Take(pageSize)
                     .ToList()
                     .Select(l => new PageLogsModel
@@ -786,7 +786,7 @@ namespace EzCMS.Core.Services.Pages
                                 ? p.ParentId == relativePage.ParentId
                                 : p.ParentId == null)
                         .OrderBy(p => p.RecordOrder);
-                    if (model.Position == (int) PageEnums.PagePosition.Before)
+                    if (model.Position == (int)PageEnums.PagePosition.Before)
                     {
                         if (page.RecordOrder > relativePage.RecordOrder ||
                             relativePages.Any(
@@ -836,7 +836,7 @@ namespace EzCMS.Core.Services.Pages
                             clientNavigationParentId.HasValue
                                 ? string.Format("ParentId = {0}", clientNavigationParentId)
                                 : "ParentId Is NULL",
-                            page.RecordOrder*EzCMSContants.OrderMultipleTimes);
+                            page.RecordOrder * EzCMSContants.OrderMultipleTimes);
 
                     _clientNavigationRepository.ExcuteSql(clientNavigationsUpdateQuery);
                 }
@@ -892,7 +892,7 @@ namespace EzCMS.Core.Services.Pages
             relativePage = GetById(model.RelativePageId);
             if (relativePage != null)
             {
-                if (model.Position == (int) PageEnums.PagePosition.Before)
+                if (model.Position == (int)PageEnums.PagePosition.Before)
                 {
                     page.RecordOrder = relativePage.RecordOrder;
                     var query =
@@ -932,7 +932,7 @@ namespace EzCMS.Core.Services.Pages
                         clientNavigationParentId.HasValue
                             ? string.Format("ParentId = {0}", clientNavigationParentId)
                             : "ParentId Is NULL",
-                        page.RecordOrder*EzCMSContants.OrderMultipleTimes);
+                        page.RecordOrder * EzCMSContants.OrderMultipleTimes);
 
                 _clientNavigationRepository.ExcuteSql(clientNavigationsUpdateQuery);
             }
@@ -1002,17 +1002,17 @@ namespace EzCMS.Core.Services.Pages
 
                 if (model.PreviousId.HasValue)
                 {
-                    manageModel.Position = (int) PageEnums.PagePosition.After;
+                    manageModel.Position = (int)PageEnums.PagePosition.After;
                     manageModel.RelativePageId = model.PreviousId.Value;
                 }
                 else if (model.NextId.HasValue)
                 {
-                    manageModel.Position = (int) PageEnums.PagePosition.Before;
+                    manageModel.Position = (int)PageEnums.PagePosition.Before;
                     manageModel.RelativePageId = model.NextId.Value;
                 }
                 else
                 {
-                    manageModel.Position = (int) PageEnums.PagePosition.Before;
+                    manageModel.Position = (int)PageEnums.PagePosition.Before;
                     manageModel.RelativePageId = null;
                 }
 
@@ -1090,7 +1090,7 @@ namespace EzCMS.Core.Services.Pages
             var homePage = GetHomePage();
             if (page != null)
             {
-                if (page.Id != homePage.Id)
+                if (homePage != null && page.Id != homePage.Id)
                 {
                     homePage.IsHomePage = false;
                     page.IsHomePage = true;
@@ -1103,6 +1103,16 @@ namespace EzCMS.Core.Services.Pages
                                     ? "Page_Message_ChangeHomePageSuccessfully"
                                     : "Page_Message_ChangeHomePageFailure", page.Title);
                     }
+                }
+                else if (homePage == null)
+                {
+                    page.IsHomePage = true;
+                    response = Update(page);
+                    response.Message =
+                        TFormat(
+                            response.Success
+                                ? "Page_Message_ChangeHomePageSuccessfully"
+                                : "Page_Message_ChangeHomePageFailure", page.Title);
                 }
                 else
                 {
@@ -1164,7 +1174,7 @@ namespace EzCMS.Core.Services.Pages
         public IEnumerable<SelectListItem> GetRelativePages(out int position, out int relativePageId, int? pageId = null,
             int? parentId = null)
         {
-            position = (int) PageEnums.PagePosition.Before;
+            position = (int)PageEnums.PagePosition.Before;
             relativePageId = 0;
             var order = 0;
             var relativePages =
@@ -1197,7 +1207,7 @@ namespace EzCMS.Core.Services.Pages
             }
             if (!flag && relativePages.Any())
             {
-                position = (int) PageEnums.PagePosition.After;
+                position = (int)PageEnums.PagePosition.After;
                 relativePageId = relativePages.Last().Id;
             }
             var selectPageId = relativePageId;
@@ -1222,7 +1232,7 @@ namespace EzCMS.Core.Services.Pages
                 .OrderBy(p => p.RecordOrder).Select(p => new SelectListItem
                 {
                     Text = p.Title,
-                    Value = SqlFunctions.StringConvert((double) p.Id).Trim()
+                    Value = SqlFunctions.StringConvert((double)p.Id).Trim()
                 });
         }
 
@@ -1236,7 +1246,7 @@ namespace EzCMS.Core.Services.Pages
                 .Select(p => new SelectListItem
                 {
                     Text = p.Title,
-                    Value = SqlFunctions.StringConvert((double) p.Id).Trim()
+                    Value = SqlFunctions.StringConvert((double)p.Id).Trim()
                 });
         }
 
@@ -1397,7 +1407,7 @@ namespace EzCMS.Core.Services.Pages
 
                 var keywordList = string.IsNullOrEmpty(keywords)
                     ? new List<string>()
-                    : keywords.Split(new[] {FrameworkConstants.Colon}, StringSplitOptions.RemoveEmptyEntries)
+                    : keywords.Split(new[] { FrameworkConstants.Colon }, StringSplitOptions.RemoveEmptyEntries)
                         .Select(keyword => keyword.Trim())
                         .Where(keyword => !string.IsNullOrEmpty(keyword))
                         .ToList();
@@ -1412,7 +1422,7 @@ namespace EzCMS.Core.Services.Pages
                     matchs += Regex.Matches(plainTextFromContent, keyword).Count;
                 }
 
-                var keywordWeight = matchs/words*100;
+                var keywordWeight = matchs / words * 100;
 
                 if (keywordWeight < seoScoringSetting.KeywordWeightGoodRangeFrom)
                 {
@@ -1581,7 +1591,7 @@ namespace EzCMS.Core.Services.Pages
 
             var keywordList = string.IsNullOrEmpty(keywords)
                 ? new List<string>()
-                : keywords.Split(new[] {FrameworkConstants.Colon}, StringSplitOptions.RemoveEmptyEntries)
+                : keywords.Split(new[] { FrameworkConstants.Colon }, StringSplitOptions.RemoveEmptyEntries)
                     .Select(keyword => keyword.Trim())
                     .Where(keyword => !string.IsNullOrEmpty(keyword))
                     .ToList();
@@ -2344,7 +2354,7 @@ namespace EzCMS.Core.Services.Pages
             if (page != null)
             {
                 var property =
-                    ReflectionUtilities.GetAllPropertiesOfType(typeof (PageManageModel))
+                    ReflectionUtilities.GetAllPropertiesOfType(typeof(PageManageModel))
                         .FirstOrDefault(p => p.Name.Equals(model.Name, StringComparison.CurrentCultureIgnoreCase));
                 if (property != null)
                 {

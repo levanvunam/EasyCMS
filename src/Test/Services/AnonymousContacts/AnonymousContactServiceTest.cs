@@ -36,19 +36,8 @@ namespace EzCMS.Core.Tests.Services.AnonymousContacts
         [SetUp]
         public void Setup()
         {
-            var container = new Container();
-            container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
-            container.Register(() => new EzCMSEntities(), Lifestyle.Scoped);
-            container.Register<DbContext>(() => new EzCMSEntities(), Lifestyle.Scoped);
-
-            container.Register(typeof(IRepository<>), typeof(Repository<>), Lifestyle.Scoped);
-            container.Register(typeof(IHierarchyRepository<>), typeof(HierarchyRepository<>), Lifestyle.Scoped);
-            IoCRegister.RegisterDepencies(container);
-
-            // Logger using site settings
-            container.Register(typeof(ILogger), () => new Logger(MethodBase.GetCurrentMethod().DeclaringType), Lifestyle.Scoped);
-            HostContainer.SetContainer(container);
-            container.Verify();
+            //Register IOC
+            TestUtilties.RegisterIOC();
 
             _dataContext = new EzCMSEntities();
             _anonymousContactRepositoryMock = new Mock<Repository<AnonymousContact>>(_dataContext);
@@ -61,7 +50,6 @@ namespace EzCMS.Core.Tests.Services.AnonymousContacts
             IAnonymousContactService service = new AnonymousContactService(_anonymousContactRepositoryMock.Object);
 
             Assert.Equals(service.GetAll().Count(), 2);
-
         }
     }
 }
