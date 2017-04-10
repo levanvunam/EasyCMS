@@ -52,6 +52,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzCMS.Entity.Tests", "Test\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ez.Framework.Tests", "Test\Framework\Ez.Framework.Tests\Ez.Framework.Tests.csproj", "{234EB284-3565-484E-A08D-86B857CACC78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EzCMS.Web.Tests", "Test\EzCMS\EzCMS.Web.Tests\EzCMS.Web.Tests.csproj", "{D8F8CFE3-DCB1-4FAC-BC36-757B486EF33C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{234EB284-3565-484E-A08D-86B857CACC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{234EB284-3565-484E-A08D-86B857CACC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{234EB284-3565-484E-A08D-86B857CACC78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8F8CFE3-DCB1-4FAC-BC36-757B486EF33C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8F8CFE3-DCB1-4FAC-BC36-757B486EF33C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8F8CFE3-DCB1-4FAC-BC36-757B486EF33C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8F8CFE3-DCB1-4FAC-BC36-757B486EF33C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +119,7 @@ Global
 		{DB046367-EAB5-4FFA-81C8-0EA2F5503E7D} = {EF705486-716F-4610-BA93-38F557EB56D4}
 		{8EDF4429-251A-416D-BB68-93F227191BCF} = {EF705486-716F-4610-BA93-38F557EB56D4}
 		{234EB284-3565-484E-A08D-86B857CACC78} = {06CCD133-CC9F-47F9-8CB1-4A49A21FFF89}
+		{D8F8CFE3-DCB1-4FAC-BC36-757B486EF33C} = {EF705486-716F-4610-BA93-38F557EB56D4}
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

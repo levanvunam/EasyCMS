@@ -21,12 +21,22 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
     {
         #region Protected Properties
 
+        /// <summary>
+        /// Db context
+        /// </summary>
         protected DbContext DataContext { get; set; }
 
         #endregion
 
+        /// <summary>
+        /// Db context
+        /// </summary>
         public DbContext DbContext => DataContext;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="entities"></param>
         public Repository(DbContext entities)
         {
             DataContext = entities;
@@ -54,21 +64,40 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
 
         #region Get
 
+        /// <summary>
+        /// Get all entities
+        /// </summary>
+        /// <returns></returns>
         public virtual IQueryable<T> GetAll()
         {
             return DataContext.Set<T>().Where(i => !i.RecordDeleted).OrderBy(i => i.RecordOrder);
         }
 
+        /// <summary>
+        /// Fetch entities
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public virtual IQueryable<T> Fetch(Expression<Func<T, bool>> expression)
         {
             return GetAll().Where(expression).OrderBy(i => i.RecordOrder);
         }
 
+        /// <summary>
+        /// Fetch first entity
+        /// </summary>
+        /// <param name="expression"></param>
+        /// <returns></returns>
         public virtual T FetchFirst(Expression<Func<T, bool>> expression)
         {
             return GetAll().FirstOrDefault(expression);
         }
 
+        /// <summary>
+        /// Get entity by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual T GetById(object id)
         {
             var entity = DataContext.Set<T>().Find(id);
@@ -77,6 +106,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
             return entity;
         }
 
+        /// <summary>
+        /// Get entity by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual T GetById(int id)
         {
             return DataContext.Set<T>().FirstOrDefault(i => i.Id == id);
@@ -205,6 +239,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
 
         #region Delete
 
+        /// <summary>
+        /// Delete entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public virtual ResponseModel Delete(T entity)
         {
             var response = new ResponseModel();
@@ -233,6 +272,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
             return response;
         }
 
+        /// <summary>
+        /// Delete entities
+        /// </summary>
+        /// <param name="entities"></param>
+        /// <returns></returns>
         public virtual ResponseModel Delete(IEnumerable<T> entities)
         {
             var response = new ResponseModel();
@@ -261,6 +305,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
             return response;
         }
 
+        /// <summary>
+        /// Delete entities by ids
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
         public virtual ResponseModel Delete(IEnumerable<int> ids)
         {
             var response = new ResponseModel();
@@ -289,6 +338,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
             return response;
         }
 
+        /// <summary>
+        /// Delete entity by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual ResponseModel Delete(object id)
         {
             var response = new ResponseModel();
@@ -315,6 +369,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
 
         #region Update
 
+        /// <summary>
+        /// Update entity
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         public virtual ResponseModel Update(T entity)
         {
             var response = new ResponseModel();
@@ -339,6 +398,11 @@ namespace Ez.Framework.Core.Entity.RepositoryBase
             return response;
         }
 
+        /// <summary>
+        /// Set entity as deleted
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public virtual ResponseModel SetRecordDeleted(int id)
         {
             ResponseModel response;
